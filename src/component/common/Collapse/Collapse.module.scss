@@ -1,0 +1,96 @@
+.accordion__section {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 10px;
+}
+.dot {
+  margin-top: 8px;
+  height: 13px;
+  width: 13px;
+  background-color: #0e69c2;
+  border-radius: 50%;
+}
+/* Style the buttons that are used to open and close the accordion panel */
+.accordion {
+  background: #ffffff;
+  border: none;
+  box-sizing: border-box;
+  box-shadow: 0px 1px 13px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 20px;
+}
+
+/* Style the accordion content title */
+.accordion__title {
+  font-family: "Helvetica";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  color: #000000;
+  p {
+    font-family: "Helvetica" !important;
+    font-size: 16px !important;
+    color: #444444 !important;
+    margin-bottom: 0px !important;
+  }
+}
+
+/* Style the accordion chevron icon */
+.accordion__icon {
+  transition: transform 0.6s ease;
+}
+
+/* Style to rotate icon when state is active */
+.accordion__icon_rotate {
+  transform: rotate(180deg);
+  transition: transform 0.6s ease;
+
+  //   transform: 0.6s ease;
+}
+
+/* Style the accordion content panel. Note: hidden by default */
+.accordion__content {
+  background-color: #ffffff;
+  overflow: auto;
+  transition: max-height 0.6s ease;
+  overflow: hidden;
+  text-align: left;
+}
+
+/* Style the accordion content text */
+.accordion__text {
+  font-family: "Helvetica";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #000000;
+  margin-top: 20px;
+}
+@media screen and (max-width: 600px) {
+  .accordion__title {
+    font-family: "Helvetica";
+    font-size: 12px;
+    color: #000000;
+    text-align: left;
+  }
+  .circleBox {
+    img {
+      width: 25px;
+    }
+  }
+  .accordion__text {
+    margin-top: 10px;
+    font-family: "Helvetica";
+    font-size: 13px;
+    color: #000000;
+  }
+}
+@media screen and (max-width: 768px) {
+  .accordion__title {
+    font-family: "Helvetica";
+    font-size: 15px;
+    color: #000000;
+    text-align: left;
+  }
+}

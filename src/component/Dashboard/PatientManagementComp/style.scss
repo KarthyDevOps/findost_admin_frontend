@@ -1,0 +1,383 @@
+.patient-section {
+  width: 95%;
+  margin-left: 15px;
+
+  .sectionHead {
+    font-family: "Helvetica";
+    margin-bottom: 0px;
+    font-weight: 700;
+    font-size: 24px;
+    color: #1b2e6b;
+  }
+
+  .patient-action {
+    padding: 10px;
+    .MuiFormControl-root {
+      //margin-right: 20px;
+      // width: 40%;
+    }
+
+    .MuiIconButton-root {
+      padding: 6px !important;
+    }
+    .MuiInputBase-root {
+      font-size: inherit !important;
+  }
+  .MuiOutlinedInput-adornedStart {
+      padding-left: 5px;
+  }
+  
+
+    .MuiOutlinedInput-input {
+      padding: 0 !important;
+    }
+
+    align-items: center;
+    justify-content: right;
+
+    .status-drop {
+      width: 22% !important;
+      margin-right: 15px;
+
+      .css-6v6an4-control {
+        border: 1px solid #c7c7c7;
+        box-sizing: border-box;
+        border-radius: 4px;
+        height: 5%;
+      }
+    }
+
+    .btn-slot {
+      font-family: "Helvetica";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 170.5%;
+      align-items: center;
+      color: #ffffff !important;
+      background: #0e69c2;
+      border-radius: 8px;
+      width: 110px;
+      margin-left: 10px;
+    }
+
+    .upload-text {
+      border: 1px solid #0e69c2;
+      box-sizing: border-box;
+      border-radius: 8px;
+      font-family: "Helvetica";
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 21px;
+      text-align: center;
+      color: #0e69c2;
+      padding: 8px 15px;
+      background: #f2f8ff;
+    }
+
+    .upload-icon {
+      font-size: 22px !important;
+      margin-left: 20px;
+    }
+  }
+}
+
+.patient-main-container {
+  
+  background-color: white;
+}
+.overflow{
+  max-width: 120px;
+  word-break: break-word;
+}
+
+.patient-container-body {
+  width: 95% !important;
+  margin-left: 15px;
+  padding: 0 !important;
+
+  .table thead th {
+    font-family: "Helvetica";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 27px;
+    letter-spacing: 0.02em;
+    color: #4676bf;
+    border-bottom: none !important;
+  }
+
+  .table tbody td {
+    font-family: "Helvetica";
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 22px;
+    color: #545454;
+    vertical-align: middle;
+    white-space: pre-wrap !important;
+
+    .action-btn {
+      width: 41px;
+      height: 26px;
+      background: #eeeeee;
+      border-radius: 6px;
+      border: none;
+      color: #7c7c7c;
+      padding: 0px;
+    }
+
+    .action-btn:active,
+    .action-btn:focus {
+      background: #e3f2ff !important;
+      color: #4676bf !important;
+      border: none !important;
+      box-shadow: none;
+    }
+
+    .dropdown-toggle {
+      background-color: white;
+      border: none;
+      font-family: "Helvetica";
+    }
+
+    .dropdown-menu {
+      .dropdown-item {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 16px;
+        color: #444444;
+        opacity: 0.5;
+      }
+    }
+
+    .dropdown-toggle::after {
+      display: none;
+    }
+  }
+
+  .avatar-name {
+    font-family: "Helvetica";
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 118.69%;
+    color: #000000;
+    margin-bottom: 25px;
+    padding-top: 10px;
+    padding-left: 10px;
+  }
+
+  .td-avatar {
+    padding-top: 0;
+  }
+}
+
+.patient-content {
+  background-color: #ffffff;
+  padding: 30px 40px;
+  margin: 20px 40px;
+
+  .download-link {
+    color: #0e69c2 !important;
+  }
+
+  h4 {
+    font-family: "Helvetica";
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 30px;
+    display: flex;
+    align-items: center;
+    color: #2c2c2d;
+  }
+
+  .staff-input {
+    margin-left: 50px;
+  }
+
+  .gender-box {
+    margin-bottom: 30px;
+  }
+
+  .role-input {
+    padding-top: 30px;
+    padding-bottom: 20px;
+
+    p {
+      font-family: "Helvetica";
+      font-style: normal;
+      font-weight: normal;
+      font-size: 20px;
+      line-height: 24px;
+      display: flex;
+      align-items: center;
+      color: #5a5a5a;
+    }
+
+    .role-box {
+      width: 100% !important;
+      height: 44px;
+      background: #ffffff;
+      border: 1px solid #c5c5c5;
+      box-sizing: border-box;
+      border-radius: 6px;
+      font-family: "Helvetica";
+      font-style: normal;
+      font-weight: normal;
+      font-size: 15px;
+      line-height: 22px;
+      align-items: center;
+      color: #bfbfbf;
+      padding: 11px;
+    }
+
+    .staff-box {
+      // width: 300px !important;
+    }
+
+    .role-check {
+      margin-left: 20px;
+    }
+
+    .role-table {
+      background: #ffffff;
+      box-shadow: 0px 0px 14px 4px rgba(0, 0, 0, 0.04);
+      border-radius: 4px;
+
+      th {
+        font-family: "Helvetica";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 27px;
+
+        letter-spacing: 0.02em;
+
+        color: #4676bf;
+      }
+
+      td {
+        font-family: "Helvetica";
+        font-style: normal;
+        font-weight: normal;
+        font-size: 15px;
+        line-height: 22px;
+
+        color: #545454;
+      }
+
+      .td-head {
+        width: 25%;
+      }
+
+      .td-title {
+        width: 0% !important;
+      }
+    }
+  }
+
+  .btn-role-cancel {
+    background: #ffffff;
+    border: 1px solid #0e69c2;
+    box-sizing: border-box;
+    border-radius: 8px;
+    font-family: "Helvetica";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 30px;
+    color: #0e69c2;
+    width: 190px;
+    height: 45px;
+    margin-bottom: 20px;
+  }
+
+  .btn-role-save {
+    background: #0e69c2;
+    border: 1px solid #0e69c2;
+    box-sizing: border-box;
+    border-radius: 8px;
+    font-family: "Helvetica";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 30px;
+    color: #ffffff;
+    width: 190px;
+    height: 45px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+  }
+
+  .dropzone {
+    text-align: center;
+    padding: 40px 20px;
+    border: 1px dashed #958c8c;
+    box-sizing: border-box;
+    color: #bdbdbd;
+    margin-bottom: 20px;
+    width: 100%;
+    margin-top: 30px;
+  }
+
+  .upload-icon {
+    color: #0e69c2;
+    font-size: 50px;
+    margin-bottom: 20px;
+  }
+
+  .drag-text {
+    font-family: "Helvetica";
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: center;
+    color: #000000;
+  }
+
+  .upload-text {
+    font-family: "Helvetica";
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: center;
+    color: #0e69c2;
+  }
+}
+
+.pagination-align {
+  display: flex;
+  justify-content: flex-start;
+  padding: 20px;
+}
+
+.table-resp {
+  height: auto;
+  overflow: auto;
+}
+
+.loader-rel {
+  position: relative;
+}
+
+.loader-align {
+  position: absolute;
+  top: 132px;
+  left: 530px;
+}
+.patient-heading {
+  font-family: "Helvetica";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  align-items: center;
+  padding: 20px 40px;
+  color: #4284f3;
+}

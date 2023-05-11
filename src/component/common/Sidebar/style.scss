@@ -1,0 +1,41 @@
+.activeBar {
+  font-family: "Helvetica";
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  text-decoration: none !important;
+  :hover {
+    text-decoration: none !important;
+  }
+}
+.inActiveBar {
+  font-family: "Helvetica";
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  text-decoration: none !important;
+  opacity: 0.7;
+  :hover {
+    text-decoration: none !important;
+  }
+}
+// .active-div {
+//   background-color: rgba(255, 255, 255, 0.19) !important;
+// }
+.logout {
+  font-family: "Helvetica";
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  text-decoration: none !important;
+  // opacity: 0.7;
+  :hover {
+    text-decoration: none !important;
+  }
+}

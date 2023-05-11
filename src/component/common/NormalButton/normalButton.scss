@@ -1,0 +1,154 @@
+@import "../../../assets/scss/variables.scss";
+.authButton {
+  border: 1px solid #f05b5d;
+  box-sizing: border-box;
+  border-radius: 4px;
+  color: #f05b5d;
+  width: 150px;
+  height: 40px;
+  text-transform: uppercase;
+  background-color: transparent;
+}
+.loginButton {
+  background: #0e69c2;
+  border-radius: 4px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 20px;
+  // text-transform: uppercase;
+  color: #ffffff;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+  height: 50px;
+}
+.authButton1 {
+  border: 1px solid #0e69c2;
+  box-sizing: border-box;
+  border-radius: 4px;
+  color: #0e69c2;
+  width: 150px;
+  height: 40px;
+  // text-transform: uppercase;
+  background-color: transparent;
+}
+.profileCreatNext1 {
+  background: #0e69c2;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  width: 150px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 15px;
+}
+.profileCreatBack {
+  background: transparent;
+  border: 1px solid #0e69c2;
+  border-radius: 8px;
+  // border: none;
+  background: #f2f8ff;
+  box-sizing: border-box;
+  border-radius: 8px;
+  outline: none;
+  color: #0e69c2;
+  min-width: 80px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tableBtn {
+  font-family: "Helvetica";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  background: $button-color;
+  border-radius: 8px;
+  outline: none;
+  border: 0px;
+  color: #ffffff;
+  min-width: 200px;
+  min-height: 43px;
+}
+.btnSecondary {
+  font-family: "Helvetica";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  background: #ffffff;
+  border: 1px solid $button-color;
+  box-sizing: border-box;
+  border-radius: 8px;
+  min-width: 200px;
+  min-height: 43px;
+  color: $button-color;
+}
+.profileBtn {
+  background: #0e69c2;
+  border-radius: 8px;
+  outline: none;
+  border: none;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  min-width: 120px;
+  justify-content: center;
+}
+.outlineBtn {
+  // background: transparent;
+  border: 1px solid #0e69c2;
+  border-radius: 8px;
+  outline: none;
+  border: none;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  color: #0e69c2;
+  min-width: 120px;
+  justify-content: center;
+}
+.profileCreatNext {
+  background: #0e69c2;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  min-width: 80px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 15px;
+}
+.profileCreatBack {
+  background: transparent;
+  border: 1px solid #0e69c2;
+  border-radius: 8px;
+  // border: none;
+  background: #f2f8ff;
+  box-sizing: border-box;
+  border-radius: 8px;
+  outline: none;
+  color: #0e69c2;
+  min-width: 80px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.addBnt {
+  border: 2px solid #9c9c9c;
+  box-sizing: border-box;
+  border-radius: 5px;
+  background: none;
+  min-width: 90px;
+  min-height: 37px;
+  font-size: 16px;
+}

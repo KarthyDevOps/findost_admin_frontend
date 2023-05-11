@@ -1,0 +1,78 @@
+.detailsCard {
+  .benefitBox {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 30px;
+    h4 {
+      font-family: "Helvetica";
+      font-style: normal;
+      font-weight: 600;
+      font-size: 26px;
+      line-height: 20px;
+      color: #0e69c2;
+      margin-bottom: 36px;
+    }
+    .planList {
+      list-style: none;
+      padding-left: 0px;
+      li {
+        font-family: "Helvetica";
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 33px;
+        margin-bottom: 10px;
+        color: #000000;
+      }
+      .img-shadow {
+        //box-shadow: -1px 2px 4px 0px #00000040;
+        border-radius: 50%;
+        box-shadow: 0 3px 4px 0 #00000033, 0 4px 10px 0 #00000030;
+        padding: 6px;
+      }
+    }
+  }
+  .SubcriptionCard {
+    background: #f5f7fb;
+    //box-shadow: 0px 4.36847px 28.3951px rgba(0, 0, 0, 0.13);
+    box-shadow: 0px 4.368473052978516px 28.395076751708984px 0px #00000021;
+
+    border-radius: 21.8424px;
+    padding: 13px 12px;
+    margin-bottom: 30px;
+    cursor: pointer;
+    .planMonth {
+      font-family: "Helvetica";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 44px;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+      .strikeText {
+        color: white;
+      }
+      .amounts {
+        font-family: "Helvetica";
+        font-style: normal;
+        font-weight: 700;
+        font-size: 19px;
+        line-height: 44px;
+        color: #ffffff;
+      }
+    }
+    .disc-price {
+      color: #0e69c2;
+      font-weight: 600;
+    }
+    .horizontalLine {
+      border-top: 2.18424px solid rgba(255, 255, 255, 0.53);
+      padding-top: 3px;
+      font-weight: 600;
+      .label-text {
+        font-size: 12px;
+      }
+    }
+  }
+}

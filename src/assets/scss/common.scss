@@ -1,0 +1,106 @@
+.authLayout {
+  background-color: #f5f7fb;
+  min-height: 100vh;
+  object-fit: cover;
+}
+.main-container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 1312px;
+}
+.main {
+  width: 100%;
+  padding-right: 55px;
+  padding-left: 18px;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 1312px;
+}
+.mainLayout {
+  background-color: #f5f7fb;
+  min-height: 100vh;
+}
+.scroll-x {
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.ant-upload-list-none-container {
+  display: none;
+}
+
+.timerBox {
+  background: transparent;
+  border: 1px solid gray;
+  padding: 2px 10px;
+  font-size: 20px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.timeDisplayBox {
+  background: white;
+  font-size: 20px;
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.160784);
+
+  .seperateBox {
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    .seperateBox_one {
+      overflow-y: scroll;
+      height: 250px;
+      width: 35%;
+    }
+    .seperateBox_two {
+      overflow-y: scroll;
+      height: 250px;
+      width: 35%;
+    }
+    .seperateBox_three {
+      width: 30%;
+    }
+    .active_box {
+      display: flex;
+      justify-content: center;
+      background: #1890ff;
+      border-radius: 5px;
+      cursor: pointer;
+      color: white;
+      height: 40px;
+      width: 40px;
+      margin: auto;
+      align-items: center;
+    }
+    .inActive_box {
+      display: flex;
+      justify-content: center;
+      cursor: pointer;
+    }
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  .smallOk_btn {
+    width: 40px;
+    height: 30px;
+    border-radius: 5px;
+    background: #0655a3;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,55 @@
+.UserRegisterCard {
+    background: #FFFFFF;
+    border: 1px solid #E6E6E6;
+    box-sizing: border-box;
+    border-radius: 6px;
+    padding: 20px;
+
+    h3 {
+        font-family: 'Helvetica';
+        font-style: normal;
+        font-weight: 900;
+        font-size: 36px;
+        color: #243D63;
+    }
+
+    .dobDatePicker {
+        input {
+            border: none;
+        }
+
+        .react-date-picker__wrapper {
+            border: none;
+        }
+
+        background: #ffffff;
+        border: 1.5px solid #c5c5c5;
+        padding: 0px 15px;
+        box-sizing: border-box;
+        border-radius: 6px;
+        outline: none;
+        width: 100%;
+        min-height: 45px;
+    }
+
+    label {
+        font-family: "Helvetica";
+        font-style: normal;
+        font-weight: normal;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        color: #5a5a5a;
+    }
+}
+
+.backSpan {
+    font-family: 'Helvetica';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    color: #4284F3;
+}
