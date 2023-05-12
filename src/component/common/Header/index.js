@@ -23,7 +23,7 @@ const Header = () => {
         <div className="userHeader py-4">
           {/* <img src={bell} /> */}
           {/* <Avatar /> */}
-          <p>{data?.staffName ?? 'Admin'}</p>
+          {/* <p>{data?.staffName ?? 'Admin'}</p> */}
           <Dropdown className="custom-dropdown mt-1">
             <Dropdown.Toggle id="dropdown-basic">
               <img src={"DownCaret"} width={12} />

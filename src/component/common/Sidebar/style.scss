@@ -1,10 +1,13 @@
 .activeBar {
   font-family: "Helvetica";
-  font-size: 15px;
-  font-weight: 600;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
   line-height: 18px;
-  letter-spacing: 0.02em;
-  color: #ffffff;
+
+  /* secondary */
+
+  color: #292929 !important;
   text-decoration: none !important;
   :hover {
     text-decoration: none !important;
@@ -12,27 +15,32 @@
 }
 .inActiveBar {
   font-family: "Helvetica";
-  font-size: 15px;
+  font-style: normal;
   font-weight: 400;
-  line-height: 18px;
-  letter-spacing: 0.02em;
-  color: #ffffff;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+
+  color: #4b4b4b !important;
   text-decoration: none !important;
   opacity: 0.7;
   :hover {
     text-decoration: none !important;
   }
 }
-// .active-div {
-//   background-color: rgba(255, 255, 255, 0.19) !important;
-// }
+.active-div {
+  background: #fbede1 !important;
+}
+.inActive-div {
+  background: #ffffff !important;
+}
 .logout {
   font-family: "Helvetica";
   font-size: 15px;
   font-weight: 400;
   line-height: 18px;
   letter-spacing: 0.02em;
-  color: #ffffff;
+  color: #4b4b4b !important;
   text-decoration: none !important;
   // opacity: 0.7;
   :hover {
