@@ -10,19 +10,17 @@
   background-color: transparent;
 }
 .loginButton {
-  background: #0e69c2;
-  border-radius: 4px;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 20px;
-  // text-transform: uppercase;
-  color: #ffffff;
-  width: 100%;
-  box-sizing: border-box;
-  outline: none;
-  border: none;
-  height: 50px;
+  // position: absolute;
+  height: 55px;
+  width: 400px;
+  left: 172px;
+  top: 711px;
+  color: #fff;
+  /* secondary */
+  font-size: 20px;
+font-weight: 600;
+  background: #292929;
+  border-radius: 10px;
 }
 .authButton1 {
   border: 1px solid #0e69c2;

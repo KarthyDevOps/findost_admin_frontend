@@ -1,8 +1,7 @@
 import React from "react";
 
 import "./InputBox.scss";
-
-const InputBox = props => {
+const InputBox = (props) => {
   let {
     placeholder = "",
     register = {},
@@ -15,6 +14,7 @@ const InputBox = props => {
     GB = false,
     onWheel = "",
     grayedBox = false,
+    Iconic = false,
     disabled = false,
     maxLength,
   } = props;
@@ -24,13 +24,19 @@ const InputBox = props => {
         disabled={disabled}
         name={name}
         placeholder={placeholder}
-        className={grayedBox ? "inputBoxGrayed" : "inputBoxStyle"}
+        className={
+          grayedBox
+            ? "inputBoxGrayed"
+            : Iconic
+            ? "inputBoxStyle1"
+            : "inputBoxStyle"
+        }
         ref={register}
         defaultValue={value}
         type={type}
         maxLength={maxLength}
-        onWheel={event => event.currentTarget.blur()}
-        onChange={e => {
+        onWheel={(event) => event.currentTarget.blur()}
+        onChange={(e) => {
           const body = {
             target: {
               name: e.target.name,
