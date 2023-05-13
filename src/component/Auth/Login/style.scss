@@ -139,23 +139,18 @@ form {
   font-family: Helvetica;
   font-size: 30px;
   font-weight: 700;
-  // line-height: 44px;
-  letter-spacing: 0em;
-  text-align: center;
+text-align: center;
 }
-.login_logo {
-  margin-left: 90px;
-  text-align: center;
-}
+// .login_logo {
+//   margin-left: 0px;
+// }
 .login_logo img {
   margin-top: 10px;
-  // position: absolute;
   width: 150px;
-  text-align: center;
-
   height: 180px;
-  left: 351px;
-  top: 188px;
+  margin-left: auto;
+  margin-right: auto;
+
 }
 .forget {
   color: #0066b3;
@@ -168,6 +163,7 @@ form {
   font-weight: 800;
   text-align: center;
   // margin-left: 30px;
+  color: black;
   margin-top: 20px;
 
   p {
@@ -180,8 +176,6 @@ form {
   margin: 0px 35px;
 }
 .social_logo {
-  // margin-left: px;
-  margin-right: 60px;
   text-align: center;
 }
 .newPassword_box {
@@ -204,8 +198,13 @@ form {
   z-index: 10;
 }
 .login_frame {
-  background: #fbede1;
+  // background: #fbede1;
   position: relative;
   // -webkit-clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 25%, 75% 0);
-  clip-path: polygon(49% 0, 100% 0, 100% 100%, 0% 100%);
+  // clip-path: polygon(49% 0, 100% 0, 100% 100%, 0% 100%);
+}
+.page{
+  display: flex;
+  justify-content: center;
+  // margin-left: 10px;
 }

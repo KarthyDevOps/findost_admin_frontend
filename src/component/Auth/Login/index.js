@@ -61,56 +61,50 @@ const LoginComp = (props, type = "text", label) => {
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="inner-image">
+      <div className="">
         <div className="container-fluid">
           <div className="row ">
-            <div className=" col-md-5  col-lg-6 bg-image">
-              <div className="container  ml-5">
-                <div className="row  ">
-                  <div className="col-md-9 col-lg-9 ">
-                    <div className="login_logo">
-                      <img src={login_logo}></img>
+            <div className="  col-lg-5 ">
+              <div className="row page  mt-3">
+                <div className="login_logo col-lg-12 ">
+                  <img className="mx-auto d-block" src={login_logo}></img>
 
-                      <h6 className="login ">Login </h6>
-                      {/* <h6 className="login ">Forgot password</h6> */}
-                      {/* <h6 className="login ">Reset Password </h6> */}
+                  {/* <h6 className="login ">Forgot password</h6> */}
+                  {/* <h6 className="login ">Reset Password </h6> */}
+                  <h6 className="login ">Login </h6>
 
-                      {/* <p>Please provide registed email id to send reset link</p> */}
-                    </div>
-                  </div>
+                  {/* <p>Please provide registed email id to send reset link</p> */}
                 </div>
+                <>
+                  {/* user name box */}
+                  <div className="userbox">
+                    <InputBox
+                      className="login_input"
+                      type={"text"}
+                      placeholder="user name"
+                      Iconic
+                      errors={errors}
+                      name="username"
+                      register={register({
+                        required: true,
+                        pattern: /^[a-zA-Z0-9]+$/,
+                      })}
+                    />
+                    <FormErrorMessage
+                      error={errors.username}
+                      messages={{
+                        required: "User name is required",
+                        pattern: "Invalid User name ",
+                      }}
+                    />
+                    <span className="userbox_icon">
+                      <img src={username_icon}></img>
+                    </span>
+                  </div>
+                </>
+                {/* email.id */}
 
-                <div className="row  ml-5 mt-3">
-                  <>
-                    {/* user name box */}
-                    <div className="userbox">
-                      <InputBox
-                        className="login_input"
-                        type={"text"}
-                        placeholder="user name"
-                        Iconic
-                        errors={errors}
-                        name="username"
-                        register={register({
-                          required: true,
-                          pattern: /^[a-zA-Z0-9]+$/,
-                        })}
-                      />
-                      <FormErrorMessage
-                        error={errors.username}
-                        messages={{
-                          required: "User name is required",
-                          pattern: "Invalid User name ",
-                        }}
-                      />
-                      <span className="userbox_icon">
-                        <img src={username_icon}></img>
-                      </span>
-                    </div>
-                  </>
-                  {/* email.id */}
-
-                  {/* <div className="userbox">
+                {/* <div className="userbox">
                     <InputBox
                       className="login_input"
                       placeholder="Email Id"
@@ -135,33 +129,33 @@ const LoginComp = (props, type = "text", label) => {
                     </span>
                   </div> */}
 
-                  {/* password box */}
-                  <div className="passwordbox">
-                    <InputBox
-                      className="login_input"
-                      placeholder="Password"
-                      Iconic
-                      errors={errors}
-                      type={"password"}
-                      name="password"
-                      register={register({
-                        required: true,
-                      })}
-                    />
-                    <FormErrorMessage
-                      error={errors.password}
-                      messages={{
-                        required: "Password is required",
-                      }}
-                    />
-                    <span className="passwordbox_icon">
-                      <img src={password_icon}></img>
-                    </span>
-                  </div>
+                {/* password box */}
+                <div className="passwordbox">
+                  <InputBox
+                    className="login_input"
+                    placeholder="Password"
+                    Iconic
+                    errors={errors}
+                    type={"password"}
+                    name="password"
+                    register={register({
+                      required: true,
+                    })}
+                  />
+                  <FormErrorMessage
+                    error={errors.password}
+                    messages={{
+                      required: "Password is required",
+                    }}
+                  />
+                  <span className="passwordbox_icon">
+                    <img src={password_icon}></img>
+                  </span>
+                </div>
 
-                  {/* Reset password */}
-                  
-                    {/* <div className="newPassword_box">
+                {/* Reset password */}
+
+                {/* <div className="newPassword_box">
                       <InputBox
                         className="login_input"
                         placeholder="new Password"
@@ -178,9 +172,8 @@ const LoginComp = (props, type = "text", label) => {
                         <img src={password_icon}></img>
                       </span>
                     </div> */}
-                 
 
-                  {/* <div className="newPassword_box">
+                {/* <div className="newPassword_box">
                     <InputBox
                       className="login_input"
                       placeholder="confirm Password"
@@ -203,38 +196,35 @@ const LoginComp = (props, type = "text", label) => {
                       <img src={password_icon}></img>
                     </span>
                   </div> */}
-                </div>
-                <div className="forget col col-lg-10">
+                <div className="forget ">
                   <Link to="#">
                     <span className="forget">Forget Password ?</span>
                   </Link>
                   <Link to="#">
                     {/* <span className="forget">Login Instead</span> */}
                   </Link>
-                </div>
-                <div className="login_btn ml-5 mt-3">
-                  <NormalButton loginButton label="Login" />
-                  {/* <NormalButton loginButton label="Send Reset Link" /> */}
-                  {/* <NormalButton loginButton label="confirm" /> */}
-                </div>
+                  <div className="login_btn  mt-3">
+                    <NormalButton loginButton label="Login" />
+                    {/* <NormalButton loginButton label="Send Reset Link" /> */}
+                    {/* <NormalButton loginButton label="confirm" /> */}
+                  </div>
 
-                <div className="social col col-lg-9 ">
-                  <p className=" "> Follows Us On </p>
-                </div>
-                <div className="social_logo">
-                  <img src={twitter_logo}></img>
-                  <img src={instagram_logo}></img>
-                  <img src={facebook_logo}></img>
+                  <div className="social col-lg-10 ">
+                    <p className=" "> Follows Us On </p>
+                  </div>
+                  <div className="social_logo">
+                    <img src={twitter_logo}></img>
+                    <img src={instagram_logo}></img>
+                    <img src={facebook_logo}></img>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="login_frame col-md-8 col-lg-6">
-              <div className=" d-flex align-items-center">
-                <div className="container ">
-                  <div className="bg_slide">
-                    <img src={loginpage_frame}></img>
-                  </div>
+            <div className="login_frame   col-lg-7">
+              <div className="container ">
+                <div className="bg_slide ">
+                  <img className=" d-block mx-auto" src={loginpage_frame}></img>
                 </div>
               </div>
             </div>
