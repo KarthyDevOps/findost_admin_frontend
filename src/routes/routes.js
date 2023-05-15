@@ -63,6 +63,14 @@ const routers = [
         exact: true,
       },
       {
+        component: "AddStaffManagement",
+        path: "/add-staff",
+        componentPath: "pages/Dashboard/StaffManagement/AddStaffManagement",
+        name: "AddStaffManagement",
+        auth: false,
+        exact: true,
+      },
+      {
         component: "ProductManagement",
         path: "/product-management",
         componentPath: "pages/Dashboard/ProductManagement/ProductManagement",
