@@ -48,8 +48,14 @@ export const mainLayoutStyle = makeStyles((theme) => ({
     // marginTop: "65px",
     // backgroundColor: "#0655A3",
     background: "#FFFFFF",
-    width: "18%",
+    width: "18.7%",
+    overflow:"scroll",
+    '&::-webkit-scrollbar': {
+      display: 'none'
+    }
   },
+
+
   // content: {
   //   flexGrow: 1,
   //   padding: theme.spacing(3),
