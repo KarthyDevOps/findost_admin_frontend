@@ -126,7 +126,7 @@ const LoginComp = (props, type = "text", label) => {
               </div>
             </div>
 
-            <div className="login_frame  col-lg-7">
+            <div className="login_frame  col-lg-6">
               <div className="container  ">
                 <div className="bg_slide">
                   <img className=" d-block mx-auto" src={loginpage_frame}></img>

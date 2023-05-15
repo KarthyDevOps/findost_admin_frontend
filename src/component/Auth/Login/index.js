@@ -197,7 +197,7 @@ const LoginComp = (props, type = "text", label) => {
                     </span>
                   </div> */}
                 <div className="forget ">
-                  <Link to="#">
+                  <Link to="/auth/forget">
                     <span className="forget">Forget Password ?</span>
                   </Link>
                   <Link to="#">
