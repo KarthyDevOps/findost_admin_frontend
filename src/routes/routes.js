@@ -62,6 +62,22 @@ const routers = [
         auth: false,
         exact: true,
       },
+      {
+        component: "ProductManagement",
+        path: "/product-management",
+        componentPath: "pages/Dashboard/ProductManagement/ProductManagement",
+        name: "ProductManagement",
+        auth: false,
+        exact: true,
+      },
+      {
+        component: "AddProduct",
+        path: "/add-product",
+        componentPath: "pages/Dashboard/ProductManagement/AddProduct",
+        name: "AddProduct",
+        auth: false,
+        exact: true,
+      },
     ],
   },
 ];

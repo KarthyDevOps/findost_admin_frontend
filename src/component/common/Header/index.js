@@ -20,7 +20,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="top-bar">
+      <div className="top-bar col-12">
         <div className="userHeader py-4 px-5">
           <h6>Hi, Username</h6>
           <Dropdown className="custom-dropdown mt-1 d-flex align-items-center gap-3" >

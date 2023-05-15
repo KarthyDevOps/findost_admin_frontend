@@ -8,7 +8,7 @@ import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import "./style.scss";
 
-const StaffManagementComp = () => {
+const ProductManagementComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
   });
@@ -32,7 +32,7 @@ const StaffManagementComp = () => {
   return (
     <Fragment>
       <div className="staff_table px-5 pt-2">
-        <p className="staff_title m-0">Staff Management</p>
+        <p className="staff_title m-0">ProductManagement</p>
 
         <div className="row align-items-center px-3">
           <div className="col-md-10 col-12">
@@ -41,7 +41,7 @@ const StaffManagementComp = () => {
                 <InputBox
                   className="login_input"
                   type={"text"}
-                  placeholder="Search by Id, Username, Email"
+                  placeholder="Search by Id, Name"
                   errors={errors}
                   name="search"
                   Iconic
@@ -53,7 +53,7 @@ const StaffManagementComp = () => {
                   // }}
                 />
               </div>
-              <div className="col-md-3">
+              {/* <div className="col-md-3">
                 <ReactSelect
                   value={role}
                   //   onChange={(value) => setservice(value)}
@@ -61,9 +61,9 @@ const StaffManagementComp = () => {
                   isClearable
                   placeholder={"Filter by Role"}
                 />
-              </div>
-              
-              <div className="col-md-3">
+              </div> */}
+
+              {/* <div className="col-md-3">
                 <ReactSelect
                   value={status}
                   //   onChange={(value) => setservice(value)}
@@ -71,14 +71,14 @@ const StaffManagementComp = () => {
                   isClearable
                   placeholder={"Filter by Status"}
                 />
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="col-md-2 col-12 p-0 m-0">
             <NormalButton
               className="loginButton"
-              label={"Add Staff"}
-            //   onClick={DeletBulk}
+              label={"Add Product"}
+              //   onClick={DeletBulk}
             />
           </div>
         </div>
@@ -90,4 +90,4 @@ const StaffManagementComp = () => {
   );
 };
 
-export default StaffManagementComp;
+export default ProductManagementComp;
