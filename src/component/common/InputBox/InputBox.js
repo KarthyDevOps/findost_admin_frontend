@@ -1,5 +1,5 @@
 import React from "react";
-
+import {BsSearch} from "react-icons/bs"
 import "./InputBox.scss";
 const InputBox = (props) => {
   let {
@@ -17,9 +17,11 @@ const InputBox = (props) => {
     Iconic = false,
     disabled = false,
     maxLength,
+    Search = false,
   } = props;
   return (
     <>
+    <div className="input_head">
       <input
         disabled={disabled}
         name={name}
@@ -47,6 +49,8 @@ const InputBox = (props) => {
         }}
         autoComplete={"off"}
       />
+      {Iconic && Search ?  <i className="search_icon"><BsSearch size={18} style={{color : "#7E7E7E"}}/></i> : ""}
+      </div>
     </>
   );
 };

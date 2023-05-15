@@ -11,16 +11,36 @@
 }
 .loginButton {
   // position: absolute;
-  height: 55px;
-  width: 400px;
-  left: 172px;
-  top: 711px;
-  color: #fff;
+  // height: 55px;
+  // width: 400px;
+  // left: 172px;
+  // top: 711px;
+  // color: #fff;
   /* secondary */
-  font-size: 20px;
-font-weight: 600;
+  //   font-size: 20px;
+  // font-weight: 600;
+  //   background: #292929;
+  //   border-radius: 10px;
+  font-family: "Helvetica";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 21px;
+  /* identical to box height */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #ffffff;
   background: #292929;
-  border-radius: 10px;
+  border-radius: 8px;
+  min-height: 45px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
 }
 .authButton1 {
   border: 1px solid #0e69c2;

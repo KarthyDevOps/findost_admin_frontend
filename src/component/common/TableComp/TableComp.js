@@ -21,43 +21,41 @@ function TableComp(props) {
         <table>
           <thead className="table_heading">
             <tr>
-              <th className="checkBox_place">
-                <input
-                  type="checkbox"
-                  className="mt-2"
-                  //   onClick={(e) => handleSelectAll(e)}
-                  //   checked={
+              {isCheck && (
+                <th className="checkBox_place">
+                  <input
+                    type="checkbox"
+                    className="mt-2"
+                    //   onClick={(e) => handleSelectAll(e)}
+                    //   checked={
 
-                  //   }
-                />
-              </th>
+                    //   }
+                  />
+                </th>
+              )}
               {data &&
                 data.length > 0 &&
-                Object.keys(data[0]).map((key) => (
-                  <th key={key}>
-                    {key}
-                  </th>
-                ))}
+                Object.keys(data[0]).map((key) => <th key={key}>{key}</th>)}
             </tr>
           </thead>
           <tbody>
             {data.slice(startIndex, endIndex).map((obj) => {
               return (
-                <tr>
-                  <td className="checkBox_place">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                <tr className="row_box">
+                  {isCheck && (
+                    <td className="checkBox_place">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  {Object.keys(obj).map((key) => (
-                    <td key={key}>
-                      {obj[key]}
+                        //   }
+                      />
                     </td>
+                  )}
+                  {Object.keys(obj).map((key) => (
+                    <td key={key}>{obj[key]}</td>
                   ))}
                 </tr>
               );
@@ -77,7 +75,7 @@ function TableComp(props) {
         nextClassName={"pagination-next"}
         pageClassName={"pagination-item"}
         breakClassName={"pagination-item"}
-        activeClassName={"active"}
+        activeClassName={"active_page"}
         forcePage={pageNumber}
       />
     </div>
