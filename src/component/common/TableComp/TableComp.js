@@ -18,7 +18,7 @@ function TableComp(props) {
   return (
     <div>
       {data ? (
-        <table>
+        <table style={{width: "100%"}}>
           <thead className="table_heading">
             <tr>
               {isCheck && (
