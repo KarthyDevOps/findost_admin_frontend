@@ -26,7 +26,7 @@ import Privileges from "helpers/privileges";
 import { Encrypt } from "helpers";
 import InputBox from "component/common/InputBox/InputBox";
 
-const LoginComp = (props, type = "text", label) => {
+const Forgetpassword = (props, type = "text", label) => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
   });
@@ -72,7 +72,7 @@ const LoginComp = (props, type = "text", label) => {
                   {/* <h6 className="login ">Reset Password </h6> */}
                   {/* <h6 className="login ">Login </h6> */}
 
-                  <p>Please provide registed email id to send reset link</p>
+                  <p className="text-center">Please provide registed email id to send reset link</p>
                 </div>
 
                 <div className="userbox">
@@ -112,7 +112,7 @@ const LoginComp = (props, type = "text", label) => {
               </div>
             </div>
 
-            <div className="login_frame  col-lg-7">
+            <div className="login_frame  col-lg-6">
               <div className="container  ">
                 <div className="bg_slide" >
                   <img className=" d-block mx-auto" src={loginpage_frame}></img>
@@ -126,4 +126,4 @@ const LoginComp = (props, type = "text", label) => {
   );
 };
 
-export default LoginComp;
+export default Forgetpassword;

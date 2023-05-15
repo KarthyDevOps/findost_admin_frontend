@@ -19,6 +19,22 @@ const routers = [
         auth: false,
         exact: true,
       },
+      {
+        component: "ForgetPassword",
+        path: "/forget",
+        componentPath: "pages/Auth/ForgetPassword",
+        name: "ForgetPassword",
+        auth: false,
+        exact: true,
+      },
+      // {
+      //   component: "Login",
+      //   path: "/login",
+      //   componentPath: "pages/Auth/Login",
+      //   name: "Login",
+      //   auth: false,
+      //   exact: true,
+      // },
     ],
   },
   {
