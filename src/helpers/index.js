@@ -4,6 +4,17 @@ import thunk from "redux-thunk";
 import routers from "routes/routes";
 import { Toast } from "service/toast";
 import moment from "moment";
+import dashBoardImg from "assets/images/dashBoardImg.svg";
+import clientFamily from "assets/images/clientFamily.svg";
+import contentMt from "assets/images/contentMt.svg";
+import faqMt from "assets/images/faqMt.svg";
+import feedBackMt from "assets/images/feedBackMt.svg";
+import knowledgeCenter from "assets/images/knowledgeCenter.svg";
+import notificationMt from "assets/images/notificationMt.svg";
+import staffMt from "assets/images/staffMt.svg";
+import productMt from "assets/images/productMt.svg";
+import siteSettings from "assets/images/siteSettings.svg";
+import templateMt from "assets/images/templateMt.svg";
 
 import CryptoJS from "crypto-js";
 
@@ -148,7 +159,8 @@ export const timeConvert = (time) => {
   return time.join(""); // return adjusted time or original string
 };
 
-export const debounce = (func, setLoading, timeout = 500) =>
+export const debounce =
+  (func, setLoading, timeout = 500) =>
   (...args) => {
     clearTimeout(timer);
     timer = setTimeout(async () => {
@@ -219,15 +231,78 @@ export const navLink = [
   {
     to: "/admin/dashboard",
     label: "Dashboard",
-    iconName: "",
-    inactiveIcon: "",
+    iconName: dashBoardImg,
+    inactiveIcon: dashBoardImg,
     privilegesName: "dashboard",
   },
   {
-    to: "/admin/patient-management",
-    label: "Patient Management",
-    iconName: "",
-    inactiveIcon: "",
-    privilegesName: "patientManagement",
+    to: "/admin/staff-management",
+    label: "Staff Management",
+    iconName: staffMt,
+    inactiveIcon: staffMt,
+    privilegesName: "staffManagement",
+  },
+  {
+    to: "/admin/product-management",
+    label: "Product Management",
+    iconName: productMt,
+    inactiveIcon: productMt,
+    privilegesName: "productManagement",
+  },
+  {
+    to: "/admin/feedBack-management",
+    label: "Feedback Management",
+    iconName: feedBackMt,
+    inactiveIcon: feedBackMt,
+    privilegesName: "feedBackManagement",
+  },
+  {
+    to: "/admin/notification-management",
+    label: "Notification Management",
+    iconName: notificationMt,
+    inactiveIcon: notificationMt,
+    privilegesName: "notificationManagement",
+  },
+  {
+    to: "/admin/content-management",
+    label: "Content Management",
+    iconName: contentMt,
+    inactiveIcon: contentMt,
+    privilegesName: "contentManagement",
+  },
+  {
+    to: "/admin/template-management",
+    label: "Template Management",
+    iconName: templateMt,
+    inactiveIcon: templateMt,
+    privilegesName: "templateManagement",
+  },
+  {
+    to: "/admin/faq-management",
+    label: "FAQ Management",
+    iconName: faqMt,
+    inactiveIcon: faqMt,
+    privilegesName: "faqManagement",
+  },
+  {
+    to: "/admin/knowledge-center",
+    label: "Knowledge Center",
+    iconName: knowledgeCenter,
+    inactiveIcon: knowledgeCenter,
+    privilegesName: "knowledgeCenter",
+  },
+  {
+    to: "/admin/clients-family",
+    label: "Client's Family",
+    iconName: clientFamily,
+    inactiveIcon: clientFamily,
+    privilegesName: "clientsFamily",
+  },
+  {
+    to: "/admin/site-settings",
+    label: "Site Settings",
+    iconName: siteSettings,
+    inactiveIcon: siteSettings,
+    privilegesName: "siteSettings",
   },
 ];

@@ -46,7 +46,7 @@ function Sidebar({ classes, window, privilegesData }) {
     <div>
       <div className={classes.toolbar}>
         <div className="bg-white text-start p-3 pl-5">
-          <img src={findostLogo} alt="logo" style={{ width: "25%" }}></img>
+          <img src={findostLogo} alt="logo" style={{ width: "30%" }}></img>
         </div>
       </div>
       <List className={classes.nav} style={{ textDecoration: "none" }}>
@@ -86,9 +86,9 @@ function Sidebar({ classes, window, privilegesData }) {
                           <ListItemText>
                             <span className="mr-3">
                               {to?.includes(location.pathname) ? (
-                                <img src={iconName} />
+                                <img src={iconName} alt="" />
                               ) : (
-                                <img src={inactiveIcon} />
+                                <img src={inactiveIcon} alt="" />
                               )}
                             </span>
 
@@ -112,8 +112,8 @@ function Sidebar({ classes, window, privilegesData }) {
           )
         )}
       </List>
-      <hr className="mx-3 bg-white" />
-      <div>
+      {/* <hr className="mx-3 bg-white" /> */}
+      {/* <div>
         <List className={classes.nav} style={{ textDecoration: "none" }}>
           {subNavLink.map(
             ({ to, label, iconName, inactiveIcon }, index) => (
@@ -184,7 +184,7 @@ function Sidebar({ classes, window, privilegesData }) {
             )
           )}
         </List>
-      </div>
+      </div> */}
     </div>
   );
 
