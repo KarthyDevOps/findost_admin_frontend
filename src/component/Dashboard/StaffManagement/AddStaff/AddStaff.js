@@ -5,6 +5,8 @@ import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
 import FormErrorMessage from "component/common/ErrorMessage";
 import ReactSelect from "react-select";
+import NormalButton from "component/common/NormalButton/NormalButton";
+import { history } from "helpers";
 
 const AddStaff = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
@@ -17,7 +19,7 @@ const AddStaff = () => {
     <div className="AddStaff px-5">
       <div className="add-staff d-flex my-3 align-items-center ">
         <i className="pr-3">
-          <BsArrowLeft size={28} />
+          <BsArrowLeft size={28} onClick={() => history.goBack()} style={{cursor : "pointer"}} />
         </i>
         <p className="m-0">{edit ? "Edit Staff" : "Add Staff"}</p>
       </div>
@@ -27,7 +29,7 @@ const AddStaff = () => {
           <div className="col-md-4">
             <label>Name</label>
             <InputBox
-              className="login_input"
+              className="add_staff"
               type={"text"}
               placeholder="Enter Name"
               //   errors={errors}
@@ -47,7 +49,7 @@ const AddStaff = () => {
           <div className="col-md-4">
             <label>Email Id</label>
             <InputBox
-              className="login_input"
+              className="add_staff"
               type={"text"}
               placeholder="Enter Email Id"
               //   errors={errors}
@@ -68,7 +70,7 @@ const AddStaff = () => {
           <div className="col-md-4">
             <label>Password</label>
             <InputBox
-              className="login_input"
+              className="add_staff"
               type={"text"}
               placeholder="Enter Password"
               //   errors={errors}
@@ -106,8 +108,8 @@ const AddStaff = () => {
             />
           </div>
         </div>
-        <p className="m-0 pt-3">Staff Permissions</p>
-        <div className="col-12 col-md-12">
+        <p className="m-0 py-3">Staff Permissions</p>
+        <div className="col-12 col-md-12 p-0 m-0">
           <table style={{ width: "100%" }}>
             <thead className="Row_Class">
               <tr className="">
@@ -599,6 +601,22 @@ const AddStaff = () => {
               </tr>
             </tbody>
           </table>
+        </div>
+        <div className="d-flex align-items-center justify-content-end my-3">
+          <div className="col-md-2">
+            <NormalButton
+              className="authButton1"
+              label={"Cancel"}
+              //   onClick={DeletBulk}
+            />
+          </div>
+          <div className="col-md-2">
+            <NormalButton
+              className="loginButton"
+              label={edit ? "Update" : "Add Staff"}
+              //   onClick={DeletBulk}
+            />
+          </div>
         </div>
       </div>
     </div>

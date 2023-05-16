@@ -1,0 +1,11 @@
+.editorClassName {
+    border: 1px solid;
+    height: 25rem !important;
+    overflow: scroll !important;
+    background: #ffffff;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+  }
+  .editorClassName::-webkit-scrollbar {
+    display: none !important;
+  }

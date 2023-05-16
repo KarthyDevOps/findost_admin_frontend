@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import ReactPaginate from "react-paginate";
 import "./style.scss";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
+import { RiDeleteBinLine } from "react-icons/ri";
+import { VscEdit } from "react-icons/vsc";
 
 function TableComp(props) {
   const { data, itemsPerPage, isCheck } = props;
+
+  console.log("data :>> ", data);
 
   const [pageNumber, setPageNumber] = useState(0);
   const pageCount = Math.ceil(data.length / itemsPerPage);
@@ -18,10 +22,10 @@ function TableComp(props) {
   return (
     <div>
       {data ? (
-        <table style={{width: "100%"}}>
-          <thead className="table_heading">
+        <table>
+          <thead>
             <tr>
-              {isCheck && (
+              {data && isCheck ? (
                 <th className="checkBox_place">
                   <input
                     type="checkbox"
@@ -32,17 +36,25 @@ function TableComp(props) {
                     //   }
                   />
                 </th>
+              ) : (
+                ""
               )}
               {data &&
                 data.length > 0 &&
-                Object.keys(data[0]).map((key) => <th key={key}>{key}</th>)}
+                Object.keys(data[0]).map((key) => (
+                  <>
+                    <th key={key}>{key}</th>
+                  </>
+                ))}
+              <th>Actions</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             {data.slice(startIndex, endIndex).map((obj) => {
               return (
-                <tr className="row_box">
-                  {isCheck && (
+                <tr>
+                  {data && isCheck && (
                     <td className="checkBox_place">
                       <input
                         type="checkbox"
@@ -57,6 +69,12 @@ function TableComp(props) {
                   {Object.keys(obj).map((key) => (
                     <td key={key}>{obj[key]}</td>
                   ))}
+                  <td>
+                    <VscEdit size={20} />
+                  </td>
+                  <td>
+                    <RiDeleteBinLine size={20} />
+                  </td>
                 </tr>
               );
             })}
@@ -65,19 +83,21 @@ function TableComp(props) {
       ) : (
         <p>No Data Available </p>
       )}
-      <ReactPaginate
-        previousLabel={<FaCaretLeft />}
-        nextLabel={<FaCaretRight />}
-        pageCount={pageCount}
-        onPageChange={handlePageChange}
-        containerClassName={"pagination"}
-        previousClassName={"pagination-previous"}
-        nextClassName={"pagination-next"}
-        pageClassName={"pagination-item"}
-        breakClassName={"pagination-item"}
-        activeClassName={"active_page"}
-        forcePage={pageNumber}
-      />
+      {data && (
+        <ReactPaginate
+          previousLabel={<FaCaretLeft />}
+          nextLabel={<FaCaretRight />}
+          pageCount={pageCount}
+          onPageChange={handlePageChange}
+          containerClassName={"pagination"}
+          previousClassName={"pagination-previous"}
+          nextClassName={"pagination-next"}
+          pageClassName={"pagination-item"}
+          breakClassName={"pagination-item"}
+          activeClassName={"active_page"}
+          forcePage={pageNumber}
+        />
+      )}
     </div>
   );
 }
