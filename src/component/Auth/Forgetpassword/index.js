@@ -56,14 +56,14 @@ const Forgetpassword = (props, type = "text", label) => {
     // localStorage.setItem("token", data?.token);
     // await dispatch(Privileges());
     // reset({ emailId: "", password: "" });
-    history.push("/admin/dashboard");
+    history.push("/auth/resetpassword");
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="">
+      <div className="login_page">
         <div className="container-fluid">
           <div className="row ">
-            <div className="  col-lg-6 ">
+            <div className="  col-lg-5 ">
               <div className="row page  mt-3">
                 <div className="login_logo col-lg-12 ">
                   <img className="mx-auto d-block" src={login_logo}></img>
@@ -100,7 +100,7 @@ const Forgetpassword = (props, type = "text", label) => {
                 </div>
 
                 <div className="forget ">
-                  <Link to="#">
+                  <Link to="/auth/login">
                     <span className="forget">Login Instead</span>
                   </Link>
                   <div className="login_btn  mt-3">
@@ -112,11 +112,11 @@ const Forgetpassword = (props, type = "text", label) => {
               </div>
             </div>
 
-            <div className="login_frame  col-lg-6">
-              <div className="container  ">
-                <div className="bg_slide" >
-                  <img className=" d-block mx-auto" src={loginpage_frame}></img>
-                </div>
+            
+            <div className="login_frame ms-4 ps-5  col-lg-7">
+              <div className="clip"></div>
+              <div className="bg_slide">
+                <img className=" d-block mx-auto" src={loginpage_frame}></img>
               </div>
             </div>
           </div>
