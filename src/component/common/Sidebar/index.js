@@ -11,7 +11,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import { NavLink } from "react-router-dom";
 import { useTheme } from "@material-ui/core/styles";
-
+import findostLogo from "assets/images/findostLogo.svg"
 import logout from "assets/icons/logout.svg";
 import { useLocation } from "react-router-dom";
 import { Toast } from "service/toast";
@@ -45,8 +45,8 @@ function Sidebar({ classes, window, privilegesData }) {
   const drawer = (
     <div>
       <div className={classes.toolbar}>
-        <div className="bg-white p-3">
-          <img src={""} alt="logo" style={{ width: "70%" }}></img>
+        <div className="bg-white text-start p-3 pl-5">
+          <img src={findostLogo} alt="logo" style={{ width: "30%" }}></img>
         </div>
       </div>
       <List className={classes.nav} style={{ textDecoration: "none" }}>
@@ -86,9 +86,9 @@ function Sidebar({ classes, window, privilegesData }) {
                           <ListItemText>
                             <span className="mr-3">
                               {to?.includes(location.pathname) ? (
-                                <img src={iconName} />
+                                <img src={iconName} alt="" />
                               ) : (
-                                <img src={inactiveIcon} />
+                                <img src={inactiveIcon} alt="" />
                               )}
                             </span>
 
@@ -112,8 +112,8 @@ function Sidebar({ classes, window, privilegesData }) {
           )
         )}
       </List>
-      <hr className="mx-3 bg-white" />
-      <div>
+      {/* <hr className="mx-3 bg-white" /> */}
+      {/* <div>
         <List className={classes.nav} style={{ textDecoration: "none" }}>
           {subNavLink.map(
             ({ to, label, iconName, inactiveIcon }, index) => (
@@ -166,7 +166,7 @@ function Sidebar({ classes, window, privilegesData }) {
                   </div>
                 </NavLink>
                 <div
-                  className="p-3 cursor-pointer"
+                  className="cursor-pointer"
                   onClick={() => {
                     logoutService();
                     Toast({
@@ -184,7 +184,7 @@ function Sidebar({ classes, window, privilegesData }) {
             )
           )}
         </List>
-      </div>
+      </div> */}
     </div>
   );
 

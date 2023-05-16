@@ -8,6 +8,25 @@
   width: 100%;
   min-height: 45px;
 }
+.inputBoxStyle1 {
+  background: #ffffff;
+  border: 1.5px solid #c5c5c5;
+  padding: 0px 50px;
+  box-sizing: border-box;
+  border-radius: 6px;
+  outline: none;
+  width: 100%;
+  min-height: 45px;
+}
+.input_head {
+  position: relative;
+}
+.search_icon {
+  position: absolute;
+  top: 24%;
+  left: 5%;
+}
+
 .inputBoxGrayed {
   background: #f1f1f1;
   border: 1.5px solid transparent;

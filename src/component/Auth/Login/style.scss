@@ -10,6 +10,7 @@
 .inner-image {
   //background-image: url("../../../assets/images/background_circle.png");
   background-size: 70%;
+  position: relative;
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -24,19 +25,6 @@
 }
 .bg-align {
   background-color: #e5e5e5;
-}
-.login {
-  background-color: white;
-  h4 {
-    font-family: "Helvetica";
-    font-style: normal;
-    font-weight: 500;
-    font-size: 32px;
-    line-height: 48px;
-    /* identical to box height */
-
-    color: #0e69c2;
-  }
 }
 
 .signUp-link {
@@ -108,7 +96,7 @@ html {
 }
 
 body {
-  background-color: #06090f;
+  // background-color: #06090f;
 }
 
 .App {
@@ -123,47 +111,100 @@ form {
   grid-template-columns: 1fr;
   gap: 16px;
 }
-
-/* Input style */
-.input-container {
+.userbox {
   position: relative;
-  display: flex;
-  flex-direction: column;
+  height: 65px;
+  width: 400px;
+  border-radius: 10px;
 }
 
-.input-container:focus-within label {
-  transform: translate(0, 12px) scale(0.8);
-  color: #0a53e4;
-}
+.passwordbox {
+  position: relative;
+  height: 45px;
+  width: 400px;
 
-.input-container .filled {
-  transform: translate(0, 12px) scale(0.8);
+  border-radius: 10px;
 }
-
-.input-container label {
+.userbox_icon img {
   position: absolute;
-  pointer-events: none;
-  transform: translate(0, 23px) scale(1);
-  transform-origin: top left;
-  transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
-  color: #6f81a5;
-  font-size: 16px;
-  line-height: 1;
-  left: 16px;
+  top: 10px;
+  right: 90%;
 }
-
-.input-container input {
-  height: 64px;
-  border-radius: 4px;
-  border: none;
-  padding: 24px 16px 4px 16px;
-  font-size: 16px;
-  line-height: 1;
-  outline: none;
-  box-shadow: none;
-  transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+.passwordbox_icon {
+  position: absolute;
+  top: 10px;
+  right: 90%;
 }
+.login {
+  font-family: Helvetica;
+  font-size: 30px;
+  font-weight: 700;
+text-align: center;
+}
+// .login_logo {
+//   margin-left: 0px;
+// }
+.login_logo img {
+  margin-top: 10px;
+  width: 150px;
+  height: 180px;
+  margin-left: auto;
+  margin-right: auto;
 
-.input-container input:focus {
-  box-shadow: 0 0 0 2px #79b1ff;
+}
+.forget {
+  color: #0066b3;
+  text-align: end;
+  // margin-left: 85px;
+}
+.social {
+  font-family: Helvetica;
+  font-size: 25px;
+  font-weight: 800;
+  text-align: center;
+  // margin-left: 30px;
+  color: black;
+  margin-top: 20px;
+
+  p {
+    margin-left: 40px;
+  }
+}
+.social_logo img {
+  width: 45px;
+  height: 45px;
+  margin: 0px 35px;
+}
+.social_logo {
+  text-align: center;
+}
+.newPassword_box {
+  position: relative;
+  height: 45px;
+  width: 400px;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+.newpassword_icon {
+  position: absolute;
+  top: 10px;
+  right: 90%;
+}
+.bg_slide img {
+  width: 550px;
+
+  margin-top: 50px;
+  height: auto;
+  z-index: 10;
+}
+.login_frame {
+  // background: #fbede1;
+  position: relative;
+  // -webkit-clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 25%, 75% 0);
+  // clip-path: polygon(49% 0, 100% 0, 100% 100%, 0% 100%);
+}
+.page{
+  display: flex;
+  justify-content: center;
+  // margin-left: 10px;
 }

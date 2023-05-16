@@ -42,13 +42,20 @@ export const mainLayoutStyle = makeStyles((theme) => ({
   drawerPaper: {
     width: drawerWidth,
     borderRight: "0px",
-    boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.05)",
+    boxShadow: "0px 1px 6px rgba(0, 0, 0, 0.08)",
     // border: "1px solid #D2D2D2",
     // borderTopL: "none",
     // marginTop: "65px",
-    backgroundColor: "#0655A3",
-    width: "18%",
+    // backgroundColor: "#0655A3",
+    background: "#FFFFFF",
+    width: "18.7%",
+    overflow:"scroll",
+    '&::-webkit-scrollbar': {
+      display: 'none'
+    }
   },
+
+
   // content: {
   //   flexGrow: 1,
   //   padding: theme.spacing(3),
