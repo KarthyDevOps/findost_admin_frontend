@@ -2,7 +2,6 @@ import React, { useState, useEffect, Fragment } from "react";
 import TableComp from "../../common/TableComp/TableComp";
 import axios from "axios";
 import FormErrorMessage from "component/common/ErrorMessage";
-import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
 import ReactSelect from "react-select";
 import InputBox from "component/common/InputBox/InputBox";
