@@ -25,20 +25,20 @@ const NotificationManagementComp = () => {
     setActiveTab(tabValue);
   }, [tabValue]);
 
-  useEffect(() => {
-    handleTab(tabValue ?? "NotificationTemplate");
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/posts"
-        );
-        setData(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   handleTab(tabValue ?? "NotificationTemplate");
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "https://jsonplaceholder.typicode.com/posts"
+  //       );
+  //       setData(response.data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
 
   return (
     <div className="notification_container px-5">
@@ -125,11 +125,30 @@ const NotificationManagementComp = () => {
       )}
       {data && activeTab === "NotificationTemplate" ? (
         <div className="">
-          {/* <TableComp data={data} itemsPerPage={10} isCheck={false} /> */}
+          {data.length > 0 ? (
+            <TableComp
+              data={data}
+              itemsPerPage={10}
+              isCheck={false}
+              actions={false}
+            />
+          ) : (
+            <p className="text-center mt-5">No Data Available</p>
+          )}
         </div>
       ) : (
-        // <TableComp data={data} itemsPerPage={10} isCheck={false} />
-        ""
+        <div className="">
+          {data.length > 0 ? (
+            <TableComp
+              data={data}
+              itemsPerPage={10}
+              isCheck={false}
+              actions={false}
+            />
+          ) : (
+            <p className="text-center mt-5">No Data Available</p>
+          )}
+        </div>
       )}
       <div></div>
     </div>
