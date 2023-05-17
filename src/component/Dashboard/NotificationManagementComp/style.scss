@@ -1,0 +1,88 @@
+.notification_container {
+  p {
+    font-family: "Helvetica";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 125.99%;
+    color: #000000;
+  }
+}
+.Tab_design {
+  display: flex;
+  border-bottom: 2px solid #f0f0f0;
+  width: 100%;
+
+  .Tab_design_active {
+    width: 17%;
+    padding: 15px 0px;
+    text-align: start;
+    font-family: "Helvetica";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 23px;
+    color: #292929;
+    cursor: pointer;
+    border-bottom: 3px solid #292929;
+  }
+  .Tab_design_inActive {
+    width: 17%;
+    padding: 15px 0px;
+    font-family: "Helvetica";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 23px;
+    color: #7e7e7e;
+    cursor: pointer;
+    border-bottom: 2px solid #f0f0f0;
+  }
+}
+.Noti_header {
+  font-family: "Helvetica";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 125.99%;
+  color: #000000;
+}
+.noti_body {
+  background: #ffffff;
+  box-shadow: 0px 2.42667px 4.85333px rgba(216, 220, 230, 0.52);
+  border-radius: 12px;
+  label {
+    font-family: "Helvetica";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+  }
+}
+.css-yk16xz-control {
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  min-height: 45px !important;
+}
+.users_box {
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  height: 150px;
+  width: 100%;
+}
+.content_box {
+  background: #ffffff;
+  height: 350px;
+  width: 100%;
+  font-family: "Helvetica";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 27px;
+  color: #000000;
+}

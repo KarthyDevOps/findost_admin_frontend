@@ -1,12 +1,15 @@
 import React, { useState, useEffect, Fragment } from "react";
 import TableComp from "../../common/TableComp/TableComp";
 import axios from "axios";
-import FormErrorMessage from "component/common/ErrorMessage";
+import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
 import ReactSelect from "react-select";
-import InputBox from "component/common/InputBox/InputBox";
+// import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import "./style.scss";
+import { history } from "helpers";
+import {BsSearch} from "react-icons/bs"
+
 
 const StaffManagementComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
@@ -37,7 +40,7 @@ const StaffManagementComp = () => {
         <div className="row align-items-center px-3">
           <div className="col-md-10 col-12">
             <div className="row align-items-center">
-              <div className="col-md-4 p-0 my-4">
+              <div className="col-md-4 p-0 my-4 staff_Search">
                 <InputBox
                   className="login_input"
                   type={"text"}
@@ -45,13 +48,13 @@ const StaffManagementComp = () => {
                   errors={errors}
                   name="search"
                   Iconic
-                  Search
                   value={searchStaff}
                   // onChange={(e) => {
                   //   setsearch(e.target.value);
                   //   setactivePage(1);
                   // }}
                 />
+                <i className="search_iconic"><BsSearch size={18} style={{color : "#7E7E7E"}}/></i>
               </div>
               <div className="col-md-3">
                 <ReactSelect
@@ -62,7 +65,7 @@ const StaffManagementComp = () => {
                   placeholder={"Filter by Role"}
                 />
               </div>
-              
+
               <div className="col-md-3">
                 <ReactSelect
                   value={status}
@@ -78,13 +81,14 @@ const StaffManagementComp = () => {
             <NormalButton
               className="loginButton"
               label={"Add Staff"}
-            //   onClick={DeletBulk}
+              onClick={() => history.push("/admin/add-staff")}
             />
           </div>
         </div>
         <div className="">
           <TableComp data={data} itemsPerPage={10} isCheck={true} />
         </div>
+        {console.log(data, "kkhkk")}
       </div>
     </Fragment>
   );

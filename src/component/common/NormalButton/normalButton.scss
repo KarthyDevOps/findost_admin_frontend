@@ -42,14 +42,38 @@
   justify-content: center;
 }
 .authButton1 {
-  border: 1px solid #0e69c2;
-  box-sizing: border-box;
-  border-radius: 4px;
-  color: #0e69c2;
-  width: 150px;
-  height: 40px;
-  // text-transform: uppercase;
-  background-color: transparent;
+  // border: 1px solid #0e69c2;
+  // box-sizing: border-box;
+  // border-radius: 4px;
+  // color: #0e69c2;
+  // width: 150px;
+  // height: 40px;
+  // // text-transform: uppercase;
+  // background-color: transparent;
+  background: #ffffff;
+  /* secondary */
+
+  border: 1px solid #292929;
+  border-radius: 8px;
+  font-family: "Helvetica";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 21px;
+  /* identical to box height */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  /* secondary */
+
+  color: #292929;
+  min-height: 45px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .profileCreatNext1 {
   background: #0e69c2;
