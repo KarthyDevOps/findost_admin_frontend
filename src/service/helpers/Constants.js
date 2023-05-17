@@ -21,7 +21,6 @@ export const mainLayoutStyle = makeStyles((theme) => ({
     display: "block",
   },
   nav: {
-    // paddingTop: "20px",
     "& .MuiListItemIcon-root": {
       minWidth: "41px",
       marginLeft: "10px",
@@ -48,13 +47,13 @@ export const mainLayoutStyle = makeStyles((theme) => ({
     // marginTop: "65px",
     // backgroundColor: "#0655A3",
     background: "#FFFFFF",
-    width: "18.7%",
-    overflow:"scroll",
-    '&::-webkit-scrollbar': {
-      display: 'none'
-    }
+    // width: "100%",
+    // overflow:"scroll",
+    // '&::-webkit-scrollbar': {
+    //   display: 'none'
+    // },
+    position: "relative",
   },
-
 
   // content: {
   //   flexGrow: 1,
@@ -71,10 +70,11 @@ export const mainLayoutStyle = makeStyles((theme) => ({
     [theme.breakpoints.up("sm")]: {
       // paddingTop: "2.3rem",
     },
-    // paddingTop: "5rem",
-    // marginTop: "4rem",
+    // // paddingTop: "5rem",
+    // // marginTop: "4rem",
     paddingTop: "0px",
     paddingLeft: "0px",
     paddingRight: "0px",
+    background : "#fbfbfb"
   },
 }));

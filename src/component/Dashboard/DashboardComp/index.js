@@ -179,18 +179,18 @@ const DashboardComp = () => {
   return (
     <div className="DashBoard px-5 py-3">
       <p>Dashboard</p>
-      <div className="row section_scroll">
+      <div className="d-flex align-items-center flex-wrap justify-content-between gap-3">
         {sectionData.map((data) => {
           return (
-            <div className="DashBoard_section col-2 p-4">
+            <div className="DashBoard_section section_scroll p-4 m-0">
               <p>{data.value}</p>
               <span>{data.name}</span>
             </div>
           );
         })}
       </div>
-      <div className="row justify-content-start my-5">
-        <div className="col-lg-4 col-md-4 col-4 chart_background mr-3">
+      <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 my-5">
+        <div className="chart_background p-4">
           <Chart
             options={columnOptions}
             series={columnSeries}
@@ -198,7 +198,7 @@ const DashboardComp = () => {
             height={350}
           />
         </div>
-        <div className="col-lg-7 col-md-7 col-7 chart_background">
+        <div className="chart_background">
           <Chart
             options={barOptions}
             series={barSeries}
@@ -207,8 +207,8 @@ const DashboardComp = () => {
           />
         </div>
       </div>
-      <div className="row justify-content-start my-4">
-        <div className="col-lg-3 col-md-4 col-4 chart_background mr-2">
+      <div className="d-flex align-items-center justify-content-between gap-3 my-4">
+        <div className="chart_background1">
           <span>Lorem ipsem</span>
           <Progress percent={30} showInfo={false} />
           <div className="progress_details">
@@ -226,7 +226,7 @@ const DashboardComp = () => {
             <span>150</span>
           </div>
         </div>
-        <div className="col-lg-4 col-md-4 col-4 chart_background mr-2">
+        <div className="chart_background1">
           <span>Lorem ipsem</span>
           <Chart
             options={pieOptions}
@@ -235,7 +235,7 @@ const DashboardComp = () => {
             height={350}
           />
         </div>
-        <div className="col-lg-4 col-md-4 col-4 chart_background">
+        <div className="chart_background1">
           <span>Lorem ipsem</span>
           <Chart
             options={donutOptions}

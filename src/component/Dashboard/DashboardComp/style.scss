@@ -9,6 +9,9 @@
     text-align: start;
     color: #000000;
   }
+  .section_scroll {
+    min-width: 10rem;
+  }
 }
 
 .DashBoard_section {
@@ -40,6 +43,29 @@
   background: #ffffff;
   box-shadow: 0px 0px 19.4277px rgba(0, 0, 0, 0.05);
   border-radius: 9.71387px;
+  width: 34rem;
+  height: 25rem;
+  span {
+    font-family: "Helvetica";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 19.4305px;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    text-transform: capitalize;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    color: #000000;
+  }
+}
+.chart_background1 {
+  background: #ffffff;
+  box-shadow: 0px 0px 19.4277px rgba(0, 0, 0, 0.05);
+  border-radius: 9.71387px;
+  width: 23rem;
+  height: 18rem;
+  padding: 12px;
   span {
     font-family: "Helvetica";
     font-style: normal;

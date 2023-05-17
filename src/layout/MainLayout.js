@@ -19,14 +19,16 @@ export function MainLayout(props) {
     <div className="mainLayout">
       {/* <Header /> */}
       <ThemeProvider theme={outerTheme}>
+        <div>
+          <Header />
+        </div>
         <div className={classes.root + " pb-5 "}>
-          <Sidebar classes={classes } privilegesData={props?.privilegesData} />
-          <main className={classes.content + 'col-12'}>
-            <div>
-              <Header />
-            </div>
-            {props.children}
-          </main>
+          <Sidebar
+            classes={classes}
+            privilegesData={props?.privilegesData}
+            className=""
+          />
+          <main className={classes.content + " p-0"}>{props.children}</main>
         </div>
       </ThemeProvider>
     </div>
