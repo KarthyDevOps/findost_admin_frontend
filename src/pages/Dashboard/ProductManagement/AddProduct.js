@@ -1,10 +1,11 @@
 import ProductManagementComp from 'component/Dashboard/ProductManagement'
 import React from 'react'
-import AddFeedbackcomp from 'component/Dashboard/FeedbackManagement/AddFeedbackcomp/AddFeedbackcomp'
+import AddProductcomp from 'component/Dashboard/ProductManagement/AddProductcomp/AddProductcomp'
+
 const AddProduct = () => {
   return (
     <div>
-        <AddFeedbackcomp/>
+        <AddProductcomp/>
     </div>
   )
 }

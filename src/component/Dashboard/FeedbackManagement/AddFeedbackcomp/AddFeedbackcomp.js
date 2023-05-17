@@ -5,11 +5,8 @@ import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
 import FormErrorMessage from "component/common/ErrorMessage";
 import ReactSelect from "react-select";
-// import TextEditor from "./EditorCmp";
 import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
-// import DatePick from "component/common/DatePicker";
-import { Editor } from "react-draft-wysiwyg";
-import TextEditor from "./EditorCmp";
+import TextEditor from "component/common/TextEditor/TextEditor";
 import NormalButton from "component/common/NormalButton/NormalButton";
 const AddFeedbackcomp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
@@ -20,6 +17,7 @@ const AddFeedbackcomp = () => {
   const [edit, setEdit] = useState(false);
   const [startdate, setstartdate] = useState("");
   const [enddate, setenddate] = useState("");
+  const [content, setContent] = useState("");
 
   const [editorState, setEditorState] = useState(null);
 
@@ -49,7 +47,8 @@ const AddFeedbackcomp = () => {
               <div className="col">
                
                 <div className="text_editor">
-                  <TextEditor />
+          <TextEditor content={content} setContent={setContent} />
+                  
                 </div>
               </div>
             </div>

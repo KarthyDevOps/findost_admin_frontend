@@ -82,7 +82,8 @@ const routers = [
       {
         component: "NotificationManagement",
         path: "/notification-management",
-        componentPath: "pages/Dashboard/NotificationManagement/NotificationManagement",
+        componentPath:
+          "pages/Dashboard/NotificationManagement/NotificationManagement",
         name: "NotificationManagement",
         auth: false,
         exact: true,
@@ -94,10 +95,12 @@ const routers = [
         name: "AddProduct",
         auth: false,
         exact: true,
-      },{
+      },
+      {
         component: "CreateNotification",
         path: "/create-notification",
-        componentPath: "pages/Dashboard/NotificationManagement/CreateNotification",
+        componentPath:
+          "pages/Dashboard/NotificationManagement/CreateNotification",
         name: "CreateNotification",
         auth: false,
         exact: true,
@@ -126,11 +129,28 @@ const routers = [
         component: "SendNotification",
         uth: false,
         exact: true,
-      },{
-
+      },
+      {
         path: "/send-notification",
-        componentPath: "pages/Dashboard/NotificationManagement/SendNotification",
+        componentPath:
+          "pages/Dashboard/NotificationManagement/SendNotification",
         name: "SendNotification",
+        auth: false,
+        exact: true,
+      },
+      {
+        component: "ContentManagement",
+        path: "/content-Management",
+        componentPath: "pages/Dashboard/ContentManagement/ContentManagement",
+        name: "ContentManagement",
+        auth: false,
+        exact: true,
+      },
+      {
+        component: "EditContentManagement",
+        path: "/editcontent-Management",
+        componentPath: "pages/Dashboard/ContentManagement/EditContentManagement",
+        name: "EditContentManagement",
         auth: false,
         exact: true,
       },
