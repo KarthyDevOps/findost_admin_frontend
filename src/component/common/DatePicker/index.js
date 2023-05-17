@@ -15,9 +15,10 @@ const DatePick = ({ handleChange, ...props }) => {
           {...props}
           clearIcon={false}
           format="dd/MM/yyyy"
-          dayPlaceholder="DD"
-          monthPlaceholder="MM"
-          yearPlaceholder="YYYY"
+          // dayPlaceholder="DD"
+          // monthPlaceholder="MM"
+          // yearPlaceholder="YYYY"/
+          placeholderText="Please select a date"
           onChange={handleChange}
           className={"profileCreationDate p-2"}
           calendarIcon={<img src={calendar} style={{ width: "90%" }} />}

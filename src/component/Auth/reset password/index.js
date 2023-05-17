@@ -26,7 +26,7 @@ import Privileges from "helpers/privileges";
 import { Encrypt } from "helpers";
 import InputBox from "component/common/InputBox/InputBox";
 
-const LoginComp = (props, type = "text", label) => {
+const ResetPassword = (props, type = "text", label) => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
   });
@@ -63,7 +63,7 @@ const LoginComp = (props, type = "text", label) => {
       <div className="">
         <div className="container-fluid">
           <div className="row ">
-            <div className="  col-lg-6 ">
+            <div className="  col-lg-5 ">
               <div className="row page  mt-3">
                 <div className="login_logo col-lg-12 ">
                   <img className="mx-auto d-block" src={login_logo}></img>
@@ -117,7 +117,7 @@ const LoginComp = (props, type = "text", label) => {
                 </div>
 
                 <div className="forget ">
-                  <div className="login_btn  mt-3">
+                  <div className="login_btn  mt-4">
                     {/* <NormalButton loginButton label="Login" /> */}
                     {/* <NormalButton loginButton label="Send Reset Link" /> */}
                     <NormalButton loginButton label="confirm" />
@@ -126,11 +126,11 @@ const LoginComp = (props, type = "text", label) => {
               </div>
             </div>
 
-            <div className="login_frame  col-lg-6">
-              <div className="container  ">
-                <div className="bg_slide">
-                  <img className=" d-block mx-auto" src={loginpage_frame}></img>
-                </div>
+            
+            <div className="login_frame ms-4 ps-5  col-lg-7">
+              <div className="clip"></div>
+              <div className="bg_slide">
+                <img className=" d-block mx-auto" src={loginpage_frame}></img>
               </div>
             </div>
           </div>
@@ -140,4 +140,4 @@ const LoginComp = (props, type = "text", label) => {
   );
 };
 
-export default LoginComp;
+export default ResetPassword;

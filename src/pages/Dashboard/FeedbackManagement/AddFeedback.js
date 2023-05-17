@@ -1,7 +1,7 @@
 import ProductManagementComp from 'component/Dashboard/ProductManagement'
 import React from 'react'
 import AddFeedbackcomp from 'component/Dashboard/FeedbackManagement/AddFeedbackcomp/AddFeedbackcomp'
-const AddProduct = () => {
+const AddFeedback = () => {
   return (
     <div>
         <AddFeedbackcomp/>
@@ -9,4 +9,4 @@ const AddProduct = () => {
   )
 }
 
-export default AddProduct
+export default AddFeedback

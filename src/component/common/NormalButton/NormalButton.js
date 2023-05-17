@@ -23,6 +23,8 @@ export class NormalButton extends Component {
       btnSecondary = false,
       profileBtn = false,
       outlineBtn = false,
+      cancel =false,
+      addProductbtn= false,
     } = this.props;
 
     return (
@@ -42,6 +44,9 @@ export class NormalButton extends Component {
                      ${btnSecondary ? "btnSecondary" : ""}
                      ${profileBtn ? "profileBtn" : ""}
                      ${outlineBtn ? "outlineBtn" : ""}
+                     ${cancel? 'cancelBtn ':''}
+                     ${addProductbtn? 'addProductbtn ':''}
+                   
                      ${className}`}
           onClick={onClick}
           disabled={disabled}

@@ -7,6 +7,8 @@ import { Provider } from "react-redux";
 import { store } from "./helpers";
 import "./assets/scss/index.scss";
 import "assets/scss/_abstracts.scss";
+import "react-datepicker/dist/react-datepicker.css";
+
 import "antd/dist/antd.css";
 
 // import "font-awesome/css/font-awesome.min.css";

@@ -40,7 +40,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  
 }
 .authButton1 {
   border: 1px solid #0e69c2;
@@ -169,4 +168,43 @@
   min-width: 90px;
   min-height: 37px;
   font-size: 16px;
+}
+.cancelBtn {
+  box-sizing: border-box;
+  width: 100%;
+  cursor: pointer;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  font-family: Helvetica;
+font-size: 18px;
+font-weight: 700;
+line-height: 21px;
+letter-spacing: 0em;
+text-align: center;
+
+  justify-content: center;
+  border: 1px solid #292929;
+  border-radius: 8px;
+background-color: #FFFFFF;
+}
+.addProductbtn{
+  box-sizing: border-box;
+  width: 100%;
+  cursor: pointer;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  border: 1px solid #292929;
+  border-radius: 8px;
+background-color: #000000;
+font-family: Helvetica;
+font-size: 18px;
+font-weight: 500;
+line-height: 21px;
+letter-spacing: 0em;
+text-align: center;
+
 }

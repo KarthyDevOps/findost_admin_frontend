@@ -61,22 +61,20 @@ const LoginComp = (props, type = "text", label) => {
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="">
+      <div className="login_page">
         <div className="container-fluid">
           <div className="row ">
             <div className="  col-lg-5 ">
               <div className="row page  mt-3">
                 <div className="login_logo col-lg-12 ">
-                  <img className="mx-auto d-block" src={login_logo}></img>
+                  <img
+                    className="mx-auto my-auto d-block"
+                    src={login_logo}
+                  ></img>
 
-                  {/* <h6 className="login ">Forgot password</h6> */}
-                  {/* <h6 className="login ">Reset Password </h6> */}
                   <h6 className="login ">Login </h6>
-
-                  {/* <p>Please provide registed email id to send reset link</p> */}
                 </div>
                 <>
-                  {/* user name box */}
                   <div className="userbox">
                     <InputBox
                       className="login_input"
@@ -102,34 +100,7 @@ const LoginComp = (props, type = "text", label) => {
                     </span>
                   </div>
                 </>
-                {/* email.id */}
 
-                {/* <div className="userbox">
-                    <InputBox
-                      className="login_input"
-                      placeholder="Email Id"
-                      Iconic
-                  errors={errors}
-
-                      name="emailId"
-                        register={register({
-                          required: true,
-                          pattern: /\S+@\S+\.\S+/,
-                        })}
-                    />
-                     <FormErrorMessage
-                  error={errors.emailId}
-                  messages={{
-                    required: "Mail ID is required",
-                    pattern: "Invalid Mail ID",
-                  }}
-                />
-                    <span className="userbox_icon">
-                      <img src={username_icon}></img>
-                    </span>
-                  </div> */}
-
-                {/* password box */}
                 <div className="passwordbox">
                   <InputBox
                     className="login_input"
@@ -153,60 +124,13 @@ const LoginComp = (props, type = "text", label) => {
                   </span>
                 </div>
 
-                {/* Reset password */}
-
-                {/* <div className="newPassword_box">
-                      <InputBox
-                        className="login_input"
-                        placeholder="new Password"
-                        Iconic
-                  errors={errors}
-
-                        type={ "password"}
-                      name="password"
-                      register={register({
-                        required: true,
-                      })}
-                      />
-                      <span className="newpassword_icon">
-                        <img src={password_icon}></img>
-                      </span>
-                    </div> */}
-
-                {/* <div className="newPassword_box">
-                    <InputBox
-                      className="login_input"
-                      placeholder="confirm Password"
-                      Iconic
-                  errors={errors}
-
-                      type={ "password"}
-                      name="password"
-                      register={register({
-                        required: true,
-                      })}
-                    />
-                       <FormErrorMessage
-                  error={errors.password}
-                  messages={{
-                    required: "Password is required",
-                  }}
-                />
-                    <span className="newpassword_icon">
-                      <img src={password_icon}></img>
-                    </span>
-                  </div> */}
                 <div className="forget ">
                   <Link to="/auth/forget">
                     <span className="forget">Forget Password ?</span>
                   </Link>
-                  <Link to="#">
-                    {/* <span className="forget">Login Instead</span> */}
-                  </Link>
+
                   <div className="login_btn  mt-3">
                     <NormalButton loginButton label="Login" />
-                    {/* <NormalButton loginButton label="Send Reset Link" /> */}
-                    {/* <NormalButton loginButton label="confirm" /> */}
                   </div>
 
                   <div className="social col-lg-10 ">
@@ -222,10 +146,9 @@ const LoginComp = (props, type = "text", label) => {
             </div>
 
             <div className="login_frame   col-lg-7">
-              <div className="container ">
-                <div className="bg_slide ">
-                  <img className=" d-block mx-auto" src={loginpage_frame}></img>
-                </div>
+              <div className="clip"></div>
+              <div className="bg_slide">
+                <img className=" d-block mx-auto" src={loginpage_frame}></img>
               </div>
             </div>
           </div>

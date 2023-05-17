@@ -11,7 +11,7 @@ import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker
 import { Editor } from "react-draft-wysiwyg";
 import TextEditor from "./EditorCmp";
 import NormalButton from "component/common/NormalButton/NormalButton";
-const AddProductcomp = () => {
+const AddFeedbackcomp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
   });
@@ -35,7 +35,7 @@ const AddProductcomp = () => {
               <BsArrowLeft size={28} />
             </i>
             <p className="add_products_title m-0">
-              {edit ? "Edit Product" : "Add Product"}
+            Add Feedback
             </p>
           </div>
         </div>
@@ -43,45 +43,11 @@ const AddProductcomp = () => {
 
         <div className="d-flex col-12   boder_box align-items-center">
           <div class="container ">
-            <p className="title_product">Product Details</p>
-            <div class="row gx-5">
-              <div class="col-4">
-                <label className="Product_description"> Product Name</label>
-                <InputBox
-                  className="login_input"
-                  type={"text"}
-                  placeholder="Enter Product Name"
-                  //   errors={errors}
-                  name="email"
-                  errors={errors}
-                  register={register({
-                    required: true,
-                    pattern: /\S+@\S+\.\S+/,
-                  })}
-
-                  //   value={searchStaff}
-                  // onChange={(e) => {
-                  //   setsearch(e.target.value);
-                  //   setactivePage(1);
-                  // }}
-                />
-              </div>
-              <div class="col-4">
-                <label className="Product_description">Product Plan</label>
-                <ReactSelect
-                  value={role}
-                  //   onChange={(value) => setservice(value)}
-                  //   options={seviceList}
-                  isClearable
-                  placeholder={"Enter Product Plan"}
-                />
-              </div>
-            </div>
+            <p className=""> Feedback Description</p>
+           
             <div className="row gx-5">
               <div className="col">
-                <label className="Product_description ms-3">
-                Add Feedback
-                </label>
+               
                 <div className="text_editor">
                   <TextEditor />
                 </div>
@@ -94,7 +60,7 @@ const AddProductcomp = () => {
                     </div>
                     <div className="col-2">
                      
-                      <NormalButton addProductbtn label='Add Product'> </NormalButton>
+                      <NormalButton addProductbtn label='Add Feedback'> </NormalButton>
                       {/* <NormalButton addProductbtn label='Update'> </NormalButton> */}
                     
                     </div>
@@ -107,4 +73,4 @@ const AddProductcomp = () => {
   );
 };
 
-export default AddProductcomp;
+export default AddFeedbackcomp;
