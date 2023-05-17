@@ -7,6 +7,7 @@ import FormErrorMessage from "component/common/ErrorMessage";
 import ReactSelect from "react-select";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import { history } from "helpers";
+import DropDown from "component/common/DropDown/DropDown";
 
 const AddStaff = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
@@ -19,7 +20,11 @@ const AddStaff = () => {
     <div className="AddStaff px-5">
       <div className="add-staff d-flex my-3 align-items-center ">
         <i className="pr-3">
-          <BsArrowLeft size={28} onClick={() => history.goBack()} style={{cursor : "pointer"}} />
+          <BsArrowLeft
+            size={28}
+            onClick={() => history.goBack()}
+            style={{ cursor: "pointer" }}
+          />
         </i>
         <p className="m-0">{edit ? "Edit Staff" : "Add Staff"}</p>
       </div>
@@ -89,22 +94,20 @@ const AddStaff = () => {
           </div>
           <div className="col-md-4 my-3">
             <label>Role</label>
-            <ReactSelect
-              value={role}
-              //   onChange={(value) => setservice(value)}
-              //   options={seviceList}
-              isClearable
-              placeholder={"Select Role"}
+            <DropDown
+              // value={value}
+              placeholder="Select Role"
+              // onChange={(e) => {}}
+              // options={options}
             />
           </div>
           <div className="col-md-4 my-3">
             <label>Status</label>
-            <ReactSelect
-              value={role}
-              //   onChange={(value) => setservice(value)}
-              //   options={seviceList}
-              isClearable
-              placeholder={"Select Status"}
+            <DropDown
+              // value={value}
+              placeholder="Select Status"
+              // onChange={(e) => {}}
+              // options={options}
             />
           </div>
         </div>

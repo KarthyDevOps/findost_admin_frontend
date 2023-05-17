@@ -3,18 +3,41 @@ import TableComp from "../../common/TableComp/TableComp";
 import axios from "axios";
 import FormErrorMessage from "component/common/ErrorMessage";
 import { useForm } from "react-hook-form";
-import ReactSelect from "react-select";
 import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import "./style.scss";
 import { history } from "helpers";
 import { BsSearch } from "react-icons/bs";
+import DropDown from "component/common/DropDown/DropDown";
 
 const StaffManagementComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
   });
-  const [data, setData] = useState([]);
+  const array = [
+    {
+      UserId: 1,
+      UserName: "Katlynn.Cremin",
+      EmailId: "Baby_Hyatt@gmail.com",
+      RoleName: "Staff",
+      status: "active",
+    },
+    {
+      UserId: 2,
+      UserName: "Katlynn.Cremin",
+      EmailId: "Baby_Hyatt@gmail.com",
+      RoleName: "Staff",
+      status: "inActive",
+    },
+    {
+      UserId: 3,
+      UserName: "Katlynn.Cremin",
+      EmailId: "Baby_Hyatt@gmail.com",
+      RoleName: "Staff",
+      status: "active",
+    },
+  ];
+  const [data, setData] = useState(array);
   const [searchStaff, setSearchStaff] = useState("");
   const [role, setRole] = useState("");
   const [status, setStatus] = useState("");
@@ -31,6 +54,14 @@ const StaffManagementComp = () => {
   //   };
   //   fetchData();
   // }, []);
+
+  const colourStylesRow = {
+    dropdownIndicator: (styles) => ({
+      ...styles,
+      color: "#000000",
+    }),
+  };
+
   return (
     <Fragment>
       <div className="staff_table px-5 pt-2">
@@ -58,22 +89,20 @@ const StaffManagementComp = () => {
                 </i>
               </div>
               <div className="col-md-3">
-                <ReactSelect
-                  value={role}
-                  //   onChange={(value) => setservice(value)}
-                  //   options={seviceList}
-                  isClearable
-                  placeholder={"Filter by Role"}
+                <DropDown
+                  // value={value}
+                  placeholder="Filter by Role"
+                  // onChange={(e) => {}}
+                  // options={options}
                 />
               </div>
 
               <div className="col-md-3">
-                <ReactSelect
-                  value={status}
-                  //   onChange={(value) => setservice(value)}
-                  //   options={seviceList}
-                  isClearable
-                  placeholder={"Filter by Status"}
+              <DropDown
+                  // value={value}
+                  placeholder="Filter by Status"
+                  // onChange={(e) => {}}
+                  // options={options}
                 />
               </div>
             </div>
@@ -88,7 +117,12 @@ const StaffManagementComp = () => {
         </div>
         <div className="">
           {data.length > 0 ? (
-            <TableComp data={data} itemsPerPage={10} isCheck={false} actions={false} />
+            <TableComp
+              data={data}
+              itemsPerPage={10}
+              isCheck={true}
+              actions={true}
+            />
           ) : (
             <p className="text-center mt-5 fs-15">No Data Available</p>
           )}

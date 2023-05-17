@@ -4,6 +4,7 @@ import "./style.scss";
 import ReactSelect from "react-select";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import { history } from "helpers";
+import DropDown from "component/common/DropDown/DropDown";
 
 const SendNotificationComp = () => {
   const [title, setTitle] = useState("");
@@ -12,7 +13,11 @@ const SendNotificationComp = () => {
     <div className="px-5">
       <div className="Noti_header d-flex my-3 align-items-center ">
         <i className="pr-3">
-          <BsArrowLeft size={28} onClick={() => history.goBack()} style={{cursor : "pointer"}} />
+          <BsArrowLeft
+            size={28}
+            onClick={() => history.goBack()}
+            style={{ cursor: "pointer" }}
+          />
         </i>
         <p className="m-0">Send Notification</p>
       </div>
@@ -20,23 +25,21 @@ const SendNotificationComp = () => {
         <div className="row">
           <div className="col-md-5 my-3">
             <label>Notification Title</label>
-            <ReactSelect
-              value={title}
-              //   onChange={(value) => setservice(value)}
-              //   options={seviceList}
-              isClearable
-              placeholder={"Select Notification Title"}
+            <DropDown
+              // value={value}
+              placeholder="Select Notification Title"
+              // onChange={(e) => {}}
+              // options={options}
             />
           </div>
 
           <div className="col-md-6 my-3">
             <label>Select Users</label>
-            <ReactSelect
-              value={users}
-              //   onChange={(value) => setservice(value)}
-              //   options={seviceList}
-              isClearable
-              placeholder={"Select Users"}
+            <DropDown
+              // value={value}
+              placeholder="Select Users"
+              // onChange={(e) => {}}
+              // options={options}
             />
           </div>
           <div className="col-1"></div>
