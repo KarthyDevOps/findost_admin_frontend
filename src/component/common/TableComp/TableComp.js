@@ -6,7 +6,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { VscEdit } from "react-icons/vsc";
 
 function TableComp(props) {
-  const { data, itemsPerPage, isCheck } = props;
+  const { data, itemsPerPage, isCheck, actions } = props;
 
   console.log("data :>> ", data);
 
@@ -46,8 +46,12 @@ function TableComp(props) {
                     <th key={key}>{key}</th>
                   </>
                 ))}
-              <th>Actions</th>
-              <th></th>
+              {actions && (
+                <>
+                  <th>Actions</th>
+                  <th></th>
+                </>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -69,12 +73,16 @@ function TableComp(props) {
                   {Object.keys(obj).map((key) => (
                     <td key={key}>{obj[key]}</td>
                   ))}
-                  <td>
-                    <VscEdit size={20} />
-                  </td>
-                  <td>
-                    <RiDeleteBinLine size={20} />
-                  </td>
+                  {actions && (
+                    <>
+                      <td>
+                        <VscEdit size={20} />
+                      </td>
+                      <td>
+                        <RiDeleteBinLine size={20} />
+                      </td>
+                    </>
+                  )}
                 </tr>
               );
             })}

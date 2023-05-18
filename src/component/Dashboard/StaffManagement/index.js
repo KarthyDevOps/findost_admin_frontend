@@ -1,15 +1,18 @@
 import React, { useState, useEffect, Fragment } from "react";
 import TableComp from "../../common/TableComp/TableComp";
 import axios from "axios";
+<<<<<<<<< Temporary merge branch 1
+import FormErrorMessage from "component/common/ErrorMessage";
+=========
 import InputBox from "component/common/InputBox/InputBox";
+>>>>>>>>> Temporary merge branch 2
 import { useForm } from "react-hook-form";
 import ReactSelect from "react-select";
 // import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import "./style.scss";
 import { history } from "helpers";
-import {BsSearch} from "react-icons/bs"
-
+import { BsSearch } from "react-icons/bs";
 
 const StaffManagementComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
@@ -19,19 +22,19 @@ const StaffManagementComp = () => {
   const [searchStaff, setSearchStaff] = useState("");
   const [role, setRole] = useState("");
   const [status, setStatus] = useState("");
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/posts"
-        );
-        setData(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "https://jsonplaceholder.typicode.com/posts"
+  //       );
+  //       setData(response.data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
   return (
     <Fragment>
       <div className="staff_table px-5 pt-2">
@@ -54,7 +57,9 @@ const StaffManagementComp = () => {
                   //   setactivePage(1);
                   // }}
                 />
-                <i className="search_iconic"><BsSearch size={18} style={{color : "#7E7E7E"}}/></i>
+                <i className="search_iconic">
+                  <BsSearch size={18} style={{ color: "#7E7E7E" }} />
+                </i>
               </div>
               <div className="col-md-3">
                 <ReactSelect
@@ -86,7 +91,11 @@ const StaffManagementComp = () => {
           </div>
         </div>
         <div className="">
-          <TableComp data={data} itemsPerPage={10} isCheck={true} />
+          {data.length > 0 ? (
+            <TableComp data={data} itemsPerPage={10} isCheck={false} actions={false} />
+          ) : (
+            <p className="text-center mt-5 fs-15">No Data Available</p>
+          )}
         </div>
         {console.log(data, "kkhkk")}
       </div>

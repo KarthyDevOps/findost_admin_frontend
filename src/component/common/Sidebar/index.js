@@ -44,11 +44,11 @@ function Sidebar({ classes, window, privilegesData }) {
   const location = useLocation();
   const drawer = (
     <div>
-      <div className={classes.toolbar}>
+      {/* <div className={classes.toolbar}>
         <div className="bg-white text-start p-3 pl-5">
           <img src={findostLogo} alt="logo" style={{ width: "30%" }}></img>
         </div>
-      </div>
+      </div> */}
       <List className={classes.nav} style={{ textDecoration: "none" }}>
         {React.Children.toArray(
           navLink.map(
