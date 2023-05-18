@@ -1,0 +1,18 @@
+.container {
+  background: #ffffff;
+  border: 1px dashed #e8e8e8;
+  border-radius: 4px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+
+  p {
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    color: #333333;
+    opacity: 0.6;
+  }
+}

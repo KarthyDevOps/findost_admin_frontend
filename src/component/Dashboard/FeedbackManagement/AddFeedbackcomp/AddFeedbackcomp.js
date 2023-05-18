@@ -8,6 +8,7 @@ import ReactSelect from "react-select";
 import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
 import TextEditor from "component/common/TextEditor/TextEditor";
 import NormalButton from "component/common/NormalButton/NormalButton";
+import { history } from "helpers";
 const AddFeedbackcomp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
@@ -30,7 +31,7 @@ const AddFeedbackcomp = () => {
         <div className="row">
           <div className=" d-flex my-3 align-items-center ">
             <i className="px-4">
-              <BsArrowLeft size={28} />
+              <BsArrowLeft size={28}  onClick={() => history.goBack()} style={{cursor : "pointer"}} />
             </i>
             <p className="add_products_title m-0">
             Add Feedback
@@ -55,7 +56,7 @@ const AddFeedbackcomp = () => {
             <div className="row mt-4">
                   <div className="col-12  d-flex justify-content-end">
                     <div className="col-2">
-                      <NormalButton cancel label='cancel'> </NormalButton>
+                      <NormalButton  onClick={() => history.goBack()} cancel label='cancel'> </NormalButton>
                     </div>
                     <div className="col-2">
                      

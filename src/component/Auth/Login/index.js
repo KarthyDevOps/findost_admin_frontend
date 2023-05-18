@@ -64,7 +64,7 @@ const LoginComp = (props, type = "text", label) => {
       <div className="login_page">
         <div className="container-fluid">
           <div className="row ">
-            <div className="  col-lg-5 ">
+            <div className=" login_filed col-lg-5 ">
               <div className="row page  mt-3">
                 <div className="login_logo col-lg-12 ">
                   <img
@@ -101,7 +101,7 @@ const LoginComp = (props, type = "text", label) => {
                   </div>
                 </>
 
-                <div className="passwordbox">
+                <div className="passwordbox ">
                   <InputBox
                     className="login_input"
                     placeholder="Password"
@@ -111,14 +111,23 @@ const LoginComp = (props, type = "text", label) => {
                     name="password"
                     register={register({
                       required: true,
+                      minLength: 8,
+                      maxLength: 16,
+                      pattern:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?& ]{8,}$/s,
                     })}
                   />
-                  <FormErrorMessage
-                    error={errors.password}
-                    messages={{
-                      required: "Password is required",
-                    }}
-                  />
+                    <FormErrorMessage
+                  error={errors.password}
+                  messages={{
+                    required: "Password is required",
+                    validate: "Passwords do not match",
+                    minLength: "Password must contain atleast 8 letters",
+                    maxLength: "Password should must contain only 16",
+                    pattern:
+                      "Password must contain a special character",
+                  }}
+                />
                   <span className="passwordbox_icon">
                     <img src={password_icon}></img>
                   </span>

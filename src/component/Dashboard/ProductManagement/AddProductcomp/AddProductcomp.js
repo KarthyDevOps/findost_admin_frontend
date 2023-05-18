@@ -3,13 +3,9 @@ import { BsArrowLeft } from "react-icons/bs";
 import "./style.scss";
 import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
-import FormErrorMessage from "component/common/ErrorMessage";
 import ReactSelect from "react-select";
-// import TextEditor from "./EditorCmp";
-import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
-// import DatePick from "component/common/DatePicker";
 import TextEditor from "component/common/TextEditor/TextEditor";
-
+import { history } from "helpers";
 import NormalButton from "component/common/NormalButton/NormalButton";
 const AddProductcomp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
@@ -33,7 +29,7 @@ const AddProductcomp = () => {
         <div className="row">
           <div className=" d-flex my-3 align-items-center ">
             <i className="px-4">
-              <BsArrowLeft size={28} />
+              <BsArrowLeft onClick={() => history.goBack()} style={{cursor : "pointer"}} size={28} />
             </i>
             <p className="add_products_title m-0">
               {edit ? "Edit Product" : "Add Product"}
@@ -92,7 +88,7 @@ const AddProductcomp = () => {
             <div className="row mt-4">
                   <div className="col-12  d-flex justify-content-end">
                     <div className="col-2">
-                      <NormalButton cancel label='cancel'> </NormalButton>
+                      <NormalButton  onClick={() => history.goBack()} cancel label='cancel'> </NormalButton>
                     </div>
                     <div className="col-2">
                      
