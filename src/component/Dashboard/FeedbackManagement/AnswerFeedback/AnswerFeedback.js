@@ -8,8 +8,8 @@ import ReactSelect from "react-select";
 // import TextEditor from "./EditorCmp";
 import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
 // import DatePick from "component/common/DatePicker";
-import { Editor } from "react-draft-wysiwyg";
-import TextEditor from "./EditorCmp";
+import TextEditor from "component/common/TextEditor/TextEditor";
+
 import NormalButton from "component/common/NormalButton/NormalButton";
 const AnswerFeedbackcomp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
@@ -22,6 +22,7 @@ const AnswerFeedbackcomp = () => {
   const [enddate, setenddate] = useState("");
 
   const [editorState, setEditorState] = useState(null);
+  const [content, setContent] = useState("");
 
   const handleChange = (state) => {
     setEditorState(state);
@@ -56,7 +57,8 @@ const AnswerFeedbackcomp = () => {
             <div className="row gx-5">
               <div className="col">
                 <div className="text_editor">
-                  <TextEditor />
+          <TextEditor content={content} setContent={setContent} />
+                  
                 </div>
               </div>
             </div>

@@ -1,12 +1,11 @@
-import ProductManagementComp from 'component/Dashboard/ProductManagement'
-import React from 'react'
-import AddFeedbackcomp from 'component/Dashboard/FeedbackManagement/AddFeedbackcomp/AddFeedbackcomp'
+import React from "react";
+import AddFeedbackcomp from "component/Dashboard/FeedbackManagement/AddFeedbackcomp/AddFeedbackcomp";
 const AddFeedback = () => {
   return (
     <div>
-        <AddFeedbackcomp/>
+      <AddFeedbackcomp />
     </div>
-  )
-}
+  );
+};
 
-export default AddFeedback
+export default AddFeedback;
