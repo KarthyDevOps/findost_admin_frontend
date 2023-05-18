@@ -9,7 +9,7 @@ import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker
 import TextEditor from "component/common/TextEditor/TextEditor";
 import { history } from "helpers";
 import NormalButton from "component/common/NormalButton/NormalButton";
-const EditContentManagementComp = () => {
+const AddTempleteManagementcomp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
   });
@@ -34,7 +34,7 @@ const EditContentManagementComp = () => {
             <BsArrowLeft size={28}   onClick={() => history.goBack()} style={{cursor : "pointer"}}/>
           </i>
           <p className="add_products_title m-0">
-          Content Management
+          Add Template
           </p>
         </div>
       </div>
@@ -45,11 +45,11 @@ const EditContentManagementComp = () => {
       
           <div class="row gx-5">
             <div class="col-4">
-              <label className="Product_description"> Page Title</label>
+              <label className="Product_description">Message Title</label>
               <InputBox
                 className="login_input"
                 type={"text"}
-                placeholder="Privacy Policy"
+                placeholder="Enter Message Title"
                 //   errors={errors}
                 name="email"
                 errors={errors}
@@ -66,7 +66,17 @@ const EditContentManagementComp = () => {
               />
             </div>
             <div class="col-4">
-              <label className="Product_description">Page Status</label>
+              <label className="Product_description">Message Type</label>
+              <ReactSelect
+                value={role}
+                //   onChange={(value) => setservice(value)}
+                //   options={seviceList}
+                isClearable
+                placeholder={"Active"}
+              />
+            </div>
+            <div class="col-4">
+              <label className="Product_description">Message Status</label>
               <ReactSelect
                 value={role}
                 //   onChange={(value) => setservice(value)}
@@ -76,10 +86,10 @@ const EditContentManagementComp = () => {
               />
             </div>
           </div>
-          <div className="row gx-5">
+          <div className="row gx-5 mt-3">
             <div className="col">
               <label className="Product_description ms-3">
-              Page Content
+              Template Message Content
               </label>
               <div className="text_editor">
               <TextEditor content={content} setContent={setContent} />
@@ -90,11 +100,11 @@ const EditContentManagementComp = () => {
           <div className="row mt-4">
                 <div className="col-12  d-flex justify-content-end">
                   <div className="col-2">
-                    <NormalButton  onClick={() => history.goBack()} cancel label='cancel'> </NormalButton>
+                    <NormalButton onClick={() => history.goBack()} cancel label='cancel'> </NormalButton>
                   </div>
                   <div className="col-2">
                    
-                    <NormalButton addProductbtn label='Update'> </NormalButton>
+                    <NormalButton addProductbtn label='Add Template'> </NormalButton>
                     {/* <NormalButton addProductbtn label='Update'> </NormalButton> */}
                   
                   </div>
@@ -107,4 +117,4 @@ const EditContentManagementComp = () => {
   );
 };
 
-export default EditContentManagementComp;
+export default AddTempleteManagementcomp;

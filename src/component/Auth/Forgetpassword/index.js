@@ -63,7 +63,7 @@ const Forgetpassword = (props, type = "text", label) => {
       <div className="login_page">
         <div className="container-fluid">
           <div className="row ">
-            <div className="  col-lg-5 ">
+            <div className=" login_filed col-lg-5 ">
               <div className="row page  mt-3">
                 <div className="login_logo col-lg-12 ">
                   <img className="mx-auto d-block" src={login_logo}></img>

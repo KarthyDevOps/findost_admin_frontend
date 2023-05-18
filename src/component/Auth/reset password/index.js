@@ -27,12 +27,15 @@ import { Encrypt } from "helpers";
 import InputBox from "component/common/InputBox/InputBox";
 
 const ResetPassword = (props, type = "text", label) => {
-  const { register, handleSubmit, errors, reset, setError } = useForm({
+  const { register, handleSubmit, errors, reset, setError,watch } = useForm({
     mode: "onChange",
   });
   const [emailId, setemailId] = useState("");
-  const [password, setpassword] = useState("");
   const dispatch = useDispatch();
+  const newPassword = useRef({});
+  newPassword.current = watch("newPassword", "");
+  // const [password, setPassword] = useState('');
+  // const [confirmPassword, setConfirmPassword] = useState('');
 
   const onSubmit = async (inputs) => {
     // const { data: { status, data } = {} } = await SignInAPI({
@@ -63,7 +66,7 @@ const ResetPassword = (props, type = "text", label) => {
       <div className="">
         <div className="container-fluid">
           <div className="row ">
-            <div className="  col-lg-5 ">
+            <div className=" login_filed  col-lg-5 ">
               <div className="row page  mt-3">
                 <div className="login_logo col-lg-12 ">
                   <img className="mx-auto d-block" src={login_logo}></img>
@@ -76,41 +79,65 @@ const ResetPassword = (props, type = "text", label) => {
                 </div>
 
                 {/* Reset password */}
-                <div className="newPassword_box">
+                <div className="newPassword_box mb-3">
                   <InputBox
-                    className="login_input"
+                    className="login_input "
                     placeholder="new Password"
                     Iconic
                     errors={errors}
                     type={"password"}
-                    name="password"
+                    name="newPassword"
                     register={register({
                       required: true,
+                      minLength: 8,
+                      maxLength: 16,
+                      pattern:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?& ]{8,}$/s,
                     })}
                   />
+                    <FormErrorMessage
+                error={errors.newPassword}
+                messages={{
+                  required: "Password is required",
+                  minLength: "Password must contain atleast 8 letters",
+                  maxLength: "Password should must contain only 16",
+                  pattern:
+                    "Password must contain a special character",
+                }}
+              />
                   <span className="newpassword_icon">
                     <img src={password_icon}></img>
                   </span>
                 </div>
 
-                <div className="newPassword_box">
+                <div className="newPassword_box my-3">
                   <InputBox
-                    className="login_input"
+                    className="login_input "
                     placeholder="confirm Password"
                     Iconic
                     errors={errors}
                     type={"password"}
-                    name="password"
+                    name="confirmPassword"
                     register={register({
                       required: true,
-                    })}
+                      minLength: 8,
+                      maxLength: 16,
+                      pattern:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?& ]{8,}$/s,
+                        validate: (value) => value === newPassword.current,
+                      })}
                   />
                   <FormErrorMessage
-                    error={errors.password}
-                    messages={{
-                      required: "Password is required",
-                    }}
-                  />
+                  error={errors.confirmPassword}
+                  messages={{
+                    required: "Password is required",
+                    validate: "Passwords do not match",
+                    minLength: "Password must contain atleast 8 letters",
+                    maxLength: "Password should must contain only 16",
+                    pattern:
+                      "Password must contain a special character",
+                  }}
+                />
                   <span className="newpassword_icon">
                     <img src={password_icon}></img>
                   </span>

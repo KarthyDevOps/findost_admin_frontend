@@ -1,15 +1,17 @@
 import React, { useState, useEffect, Fragment } from "react";
 import TableComp from "../../common/TableComp/TableComp";
 import axios from "axios";
-import FormErrorMessage from "component/common/ErrorMessage";
-import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom/cjs/react-router-dom";
-import ReactSelect from "react-select";
 import InputBox from "component/common/InputBox/InputBox";
+import { useForm } from "react-hook-form";
+import ReactSelect from "react-select";
+// import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import "./style.scss";
+import { history } from "helpers";
+import {BsSearch} from "react-icons/bs"
 
-const ProductManagementComp = () => {
+
+const TemplateManagementComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
   });
@@ -32,57 +34,46 @@ const ProductManagementComp = () => {
   }, []);
   return (
     <Fragment>
-      <div className="staff_table px-5 pt-4">
-        <p className="staff_title m-0">ProductManagement</p>
+      <div className="staff_table px-5 pt-2">
+        <p className="staff_title m-0">Template Management</p>
 
         <div className="row align-items-center px-3">
           <div className="col-md-10 col-12">
             <div className="row align-items-center">
-              <div className="col-md-4 p-0 my-4">
+              <div className="col-md-4 p-0 my-4 staff_Search">
                 <InputBox
                   className="login_input"
                   type={"text"}
-                  placeholder="Search by Id, Name"
+                  placeholder="Search by Template Id, Message Title"
                   errors={errors}
                   name="search"
                   Iconic
-                  Search
                   value={searchStaff}
                   // onChange={(e) => {
                   //   setsearch(e.target.value);
                   //   setactivePage(1);
                   // }}
                 />
+                <i className="search_iconic"><BsSearch size={18} style={{color : "#7E7E7E"}}/></i>
               </div>
-              {/* <div className="col-md-3">
+              <div className="col-md-3">
                 <ReactSelect
                   value={role}
                   //   onChange={(value) => setservice(value)}
                   //   options={seviceList}
                   isClearable
-                  placeholder={"Filter by Role"}
+                  placeholder={"Filter by Message Type"}
                 />
-              </div> */}
+              </div>
 
-              {/* <div className="col-md-3">
-                <ReactSelect
-                  value={status}
-                  //   onChange={(value) => setservice(value)}
-                  //   options={seviceList}
-                  isClearable
-                  placeholder={"Filter by Status"}
-                />
-              </div> */}
             </div>
           </div>
           <div className="col-md-2 col-12 p-0 m-0">
-            <Link to='/admin/add-product'>
             <NormalButton
               className="loginButton"
-              label={"Add Product"}
-              //   onClick={DeletBulk}
-              />
-              </Link>
+              label={"Add Template "}
+              onClick={() => history.push("/admin/add-template")}
+            />
           </div>
         </div>
         <div className="">
@@ -92,10 +83,10 @@ const ProductManagementComp = () => {
             <p className="text-center mt-5 fs-15">No Data Available</p>
           )}
         </div>
-        
+        {console.log(data, "kkhkk")}
       </div>
     </Fragment>
   );
 };
 
-export default ProductManagementComp;
+export default TemplateManagementComp;
