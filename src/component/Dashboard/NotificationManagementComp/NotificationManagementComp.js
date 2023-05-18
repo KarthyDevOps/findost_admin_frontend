@@ -125,29 +125,21 @@ const NotificationManagementComp = () => {
       )}
       {data && activeTab === "NotificationTemplate" ? (
         <div className="">
-          {data.length > 0 ? (
-            <TableComp
-              data={data}
-              itemsPerPage={10}
-              isCheck={false}
-              actions={false}
-            />
-          ) : (
-            <p className="text-center mt-5">No Data Available</p>
-          )}
+          <TableComp
+            data={data}
+            itemsPerPage={10}
+            isCheck={false}
+            actions={false}
+          />
         </div>
       ) : (
         <div className="">
-          {data.length > 0 ? (
-            <TableComp
-              data={data}
-              itemsPerPage={10}
-              isCheck={false}
-              actions={false}
-            />
-          ) : (
-            <p className="text-center mt-5">No Data Available</p>
-          )}
+          <TableComp
+            data={data}
+            itemsPerPage={10}
+            isCheck={false}
+            actions={false}
+          />
         </div>
       )}
       <div></div>

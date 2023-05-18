@@ -153,6 +153,24 @@ const routers = [
         auth: false,
         exact: true,
       },
+      {
+        component: "KnowledgeCenter",
+        path: "/knowledge-center",
+        componentPath:
+          "pages/Dashboard/KnowledgeCenter/KnowledgeCenter",
+        name: "KnowledgeCenter",
+        auth: false,
+        exact: true,
+      },
+      {
+        component: "AddKnowledge",
+        path: "/add-knowledge",
+        componentPath:
+          "pages/Dashboard/KnowledgeCenter/AddKnowledge",
+        name: "AddKnowledge",
+        auth: false,
+        exact: true,
+      },
     ],
   },
 ];

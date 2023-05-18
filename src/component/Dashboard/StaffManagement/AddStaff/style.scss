@@ -73,7 +73,26 @@ table {
     }
   }
 }
-
+td:first-child {
+  border-left-style: solid rgba(216, 220, 230, 0.52)!important;
+  border-top-left-radius: 8px!important;
+  border-bottom-left-radius: 8px!important;
+}
+td:last-child {
+  border-right-style: solid rgba(216, 220, 230, 0.52)!important;
+  border-bottom-right-radius: 8px!important;
+  border-top-right-radius: 8px!important;
+}
+th:first-child {
+  border-left-style: solid rgba(216, 220, 230, 0.52);
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+th:last-child {
+  border-right-style: solid rgba(216, 220, 230, 0.52);
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+}
 .checkBox_place {
   background: #ffffff;
   //   border: 1.13108px solid #5f5f5f;

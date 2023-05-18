@@ -5,6 +5,7 @@ import routers from "routes/routes";
 import { Toast } from "service/toast";
 import moment from "moment";
 import dashBoardImg from "assets/images/dashBoardImg.svg";
+import Dashboard_ia from "assets/images/Dashboard_ia.svg";
 import clientFamily from "assets/images/clientFamily.svg";
 import contentMt from "assets/images/contentMt.svg";
 import faqMt from "assets/images/faqMt.svg";
@@ -12,9 +13,19 @@ import feedBackMt from "assets/images/feedBackMt.svg";
 import knowledgeCenter from "assets/images/knowledgeCenter.svg";
 import notificationMt from "assets/images/notificationMt.svg";
 import staffMt from "assets/images/staffMt.svg";
+import Staff_a from "assets/images/Staff_a.svg";
 import productMt from "assets/images/productMt.svg";
 import siteSettings from "assets/images/siteSettings.svg";
 import templateMt from "assets/images/templateMt.svg";
+import Client_a from "assets/images/Client_a.svg";
+import Content_a from "assets/images/Content_a.svg";
+import Faq_a from "assets/images/Faq_a.svg";
+import Feed_a from "assets/images/Feed_a.svg";
+import Kc_a from "assets/images/Kc_a.svg";
+import Noti_a from "assets/images/Noti_a.svg";
+import Product_a from "assets/images/Product_a.svg";
+import Site_a from "assets/images/Site_a.svg";
+import Temp_a from "assets/images/Temp_a.svg";
 
 import CryptoJS from "crypto-js";
 
@@ -232,76 +243,76 @@ export const navLink = [
     to: "/admin/dashboard",
     label: "Dashboard",
     iconName: dashBoardImg,
-    inactiveIcon: dashBoardImg,
+    inactiveIcon: Dashboard_ia,
     privilegesName: "dashboard",
   },
   {
     to: "/admin/staff-management",
     label: "Staff Management",
-    iconName: staffMt,
+    iconName: Staff_a,
     inactiveIcon: staffMt,
     privilegesName: "staffManagement",
   },
   {
     to: "/admin/product-management",
     label: "Product Management",
-    iconName: productMt,
+    iconName: Product_a,
     inactiveIcon: productMt,
     privilegesName: "productManagement",
   },
   {
     to: "/admin/feedBack-management",
     label: "Feedback Management",
-    iconName: feedBackMt,
+    iconName: Feed_a,
     inactiveIcon: feedBackMt,
     privilegesName: "feedBackManagement",
   },
   {
     to: "/admin/notification-management",
     label: "Notification Management",
-    iconName: notificationMt,
+    iconName: Noti_a,
     inactiveIcon: notificationMt,
     privilegesName: "notificationManagement",
   },
   {
     to: "/admin/content-management",
     label: "Content Management",
-    iconName: contentMt,
+    iconName: Content_a,
     inactiveIcon: contentMt,
     privilegesName: "contentManagement",
   },
   {
     to: "/admin/template-management",
     label: "Template Management",
-    iconName: templateMt,
+    iconName: Temp_a,
     inactiveIcon: templateMt,
     privilegesName: "templateManagement",
   },
   {
     to: "/admin/faq-management",
     label: "FAQ Management",
-    iconName: faqMt,
+    iconName: Faq_a,
     inactiveIcon: faqMt,
     privilegesName: "faqManagement",
   },
   {
     to: "/admin/knowledge-center",
     label: "Knowledge Center",
-    iconName: knowledgeCenter,
+    iconName: Kc_a,
     inactiveIcon: knowledgeCenter,
     privilegesName: "knowledgeCenter",
   },
   {
     to: "/admin/clients-family",
     label: "Client's Family",
-    iconName: clientFamily,
+    iconName: Client_a,
     inactiveIcon: clientFamily,
     privilegesName: "clientsFamily",
   },
   {
     to: "/admin/site-settings",
     label: "Site Settings",
-    iconName: siteSettings,
+    iconName: Site_a,
     inactiveIcon: siteSettings,
     privilegesName: "siteSettings",
   },
