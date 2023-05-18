@@ -53,17 +53,34 @@ const SiteSettingComp = () => {
     },
   });
 
-  // const handleDrop =  (acceptedFiles) => {
+  // const handleDrop = async (droppedimage) => {
+  //   let formData = new FormData();
+  //   for (let index = 0; index < droppedimage.length; index++) {
+  //     const file = droppedimage[index];
+  //     formData.append("image", file);
+  //     let response = await uploadPetProfile(formData);
+  //     if (response.status == 200) {
+  //       setpetProfileUrl(response?.data?.data);
+  //     }
+  //   }
+  // };
+
+  // const handleDrop = (acceptedFiles) => {
   //   const file = acceptedFiles[0];
   //   const reader = new FileReader();
 
   //   reader.onload = () => {
-  //     setsiteImageSrc(reader.result);
+  //     setImageSrc(reader.result);
+  //     onFileDrop(reader.result); // Pass the image data to the parent component
   //   };
 
   //   reader.readAsDataURL(file);
   // };
 
+  const handleFileDrop = (fileData) => {
+    // Handle the dropped file data here
+    console.log(fileData);
+  };
   return (
     <div className="container-fluid">
       <div className="addProduct col-12">
@@ -75,9 +92,9 @@ const SiteSettingComp = () => {
         {/* <div> */}
 
         <div className="d-flex col-12   boder_box align-items-center">
-          <div class="container ">
-            <div class="row gx-5">
-              <div class="col-4">
+          <div className="container ">
+            <div className="row gx-5">
+              <div className="col-4">
                 <label className="Product_description">Site URL</label>
                 <InputBox
                   className="login_input"
@@ -87,7 +104,7 @@ const SiteSettingComp = () => {
                   name="text"
                 />
               </div>
-              <div class="col-4">
+              <div className="col-4">
                 <label className="Product_description"> Support Number</label>
                 <InputBox
                   className="login_input"
@@ -97,7 +114,7 @@ const SiteSettingComp = () => {
                   name="text"
                 />
               </div>
-              <div class="col-4">
+              <div className="col-4">
                 <label className="Product_description">Support Email</label>
                 <InputBox
                   className="login_input"
@@ -107,7 +124,7 @@ const SiteSettingComp = () => {
                   name="text"
                 />
               </div>
-              <div className="col-4 mt-4">
+              {/* <div className="col-4 mt-4">
                 <label className="Product_description">Site Logo</label>
 
                 <div
@@ -118,25 +135,24 @@ const SiteSettingComp = () => {
                     <img src={cloudIcon} alt="icon"></img>
                   </span>
                   <input {...getInputfileProps()} />
-                  {SiteimageSrc  ? (
-                    
+                  {SiteimageSrc ? (
                     <>
-                    <img
-                      // src={SiteimageSrc}
-                      src={SiteimageSrc.preview}
-                      // alt="Dropped"
-                      className="preview_image"
-                    />
-                    <span
-                    style={{ position: "absolute", top: "0", right: "0" }}
-                    // className={styles.removeOverlay}
-                    onClick={() => setsiteImageSrc(null)}
-                    >
-                    <AiOutlineCloseCircle
-                    size={24}
-                    style={{ color: "red" }}
-                    />
-                    </span>
+                      <img
+                        // src={SiteimageSrc}
+                        src={SiteimageSrc.preview}
+                        // alt="Dropped"
+                        className="preview_image"
+                      />
+                      <span
+                        style={{ position: "absolute", top: "0", right: "0" }}
+                        // className={styles.removeOverlay}
+                        onClick={() => setsiteImageSrc(null)}
+                      >
+                        <AiOutlineCloseCircle
+                          size={24}
+                          style={{ color: "red" }}
+                        />
+                      </span>
                     </>
                   ) : (
                     <div className="drag_text">
@@ -149,28 +165,37 @@ const SiteSettingComp = () => {
                     </div>
                   )}
                 </div>
-              </div>
-              {/* <Dropzone
-                onDrop={handleDrop}
-                accept="image/png, image/jpeg, image/jpg"
-                maxSize={3072000}
-                errors={errors}
-                {...register("dropZoneField", {
-                  required: petProfileUrl ? false : true,
-                })}
-              >
-                {({ getRootProps, getInputProps }) => (
-                  <div {...getRootProps({ className: 'dropzone' })}>
-                    <>
-                      <input {...getInputProps()} multiple={false} required />
-                      <p>Drag & Drop</p>
-                      <p>or</p>
-                      <p className="browse_file_text">Browse file</p>
-                    </>
-                  </div>
-                )}
-              </Dropzone> */}
+              </div> */}
               <div className="col-4 mt-4">
+                <label className="Product_description">Site Fav Logo</label>
+
+                <Dropzone 
+                onFileDrop={handleFileDrop}
+                >
+                  {({ getRootProps, getInputProps }) => (
+                    <div {...getRootProps({ className: "dropzone" })}>
+                        <input {...getInputProps()} multiple={false} required />
+                   
+                    </div>
+                  )}
+                </Dropzone>
+              </div>
+              <div className="col-4 mt-4">
+                <label className="Product_description">Site  Logo</label>
+
+                <Dropzone 
+                onFileDrop={handleFileDrop}
+                >
+                  {({ getRootProps, getInputProps }) => (
+                    <div {...getRootProps({ className: "dropzone" })}>
+                        <input {...getInputProps()} multiple={false} required />
+                   
+                    </div>
+                  )}
+                </Dropzone>
+              </div>
+
+              {/* <div className="col-4 mt-4">
                 <label className="Product_description">Site Fav Logo</label>
 
                 <div
@@ -183,24 +208,24 @@ const SiteSettingComp = () => {
                   <input {...getInputfavProps()} />
                   {SiteFavimageSrc ? (
                     <>
-                    <img
-                      //  src={SiteFavimageSrc}
-                      src={SiteFavimageSrc.preview}
-                      alt="Dropped"
-                      className="preview_image"
-                    />
-                    
-                      <span
-                      style={{ position: "absolute", top: "0", right: "0" }}
-                      // className={styles.removeOverlay}
-                      onClick={() => setsitefavImageSrc(null)}
-                      >
-                      <AiOutlineCloseCircle
-                      size={24}
-                      style={{ color: "red" }}
+                      <img
+                        //  src={SiteFavimageSrc}
+                        src={SiteFavimageSrc.preview}
+                        alt="Dropped"
+                        className="preview_image"
                       />
+
+                      <span
+                        style={{ position: "absolute", top: "0", right: "0" }}
+                        // className={styles.removeOverlay}
+                        onClick={() => setsitefavImageSrc(null)}
+                      >
+                        <AiOutlineCloseCircle
+                          size={24}
+                          style={{ color: "red" }}
+                        />
                       </span>
-                  </>
+                    </>
                   ) : (
                     <div className="drag_text">
                       <>
@@ -212,12 +237,12 @@ const SiteSettingComp = () => {
                     </div>
                   )}
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="row gx-5 mt-3">
               <div className="col">
                 <label className="Product_description ms-3">
-                  Template Message Content
+                  Copyright Text
                 </label>
                 <div className="text_editor">
                   <TextEditor content={content} setContent={setContent} />

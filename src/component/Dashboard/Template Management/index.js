@@ -25,7 +25,7 @@ const TemplateManagementComp = () => {
         const response = await axios.get(
           "https://jsonplaceholder.typicode.com/posts"
         );
-        setData(response.data);
+        // setData(response.data);
       } catch (error) {
         console.log(error);
       }
@@ -77,7 +77,11 @@ const TemplateManagementComp = () => {
           </div>
         </div>
         <div className="">
-          <TableComp data={data} itemsPerPage={10} isCheck={true} />
+          {data.length > 0 ? (
+            <TableComp data={data} itemsPerPage={10} isCheck={false} actions={false} />
+          ) : (
+            <p className="text-center mt-5 fs-15">No Data Available</p>
+          )}
         </div>
         {console.log(data, "kkhkk")}
       </div>

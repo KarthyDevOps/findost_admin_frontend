@@ -1,12 +1,8 @@
 import React, { useState, useEffect, Fragment } from "react";
 import TableComp from "../../common/TableComp/TableComp";
 import axios from "axios";
-<<<<<<<<< Temporary merge branch 1
 import FormErrorMessage from "component/common/ErrorMessage";
-=========
-import InputBox from "component/common/InputBox/InputBox";
->>>>>>>>> Temporary merge branch 2
-import { useForm } from "react-hook-form";
+import InputBox from "component/common/InputBox/InputBox";import { useForm } from "react-hook-form";
 import ReactSelect from "react-select";
 // import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
