@@ -132,7 +132,8 @@ const routers = [
       {
         component: "NotificationManagement",
         path: "/notification-management",
-        componentPath: "pages/Dashboard/NotificationManagement/NotificationManagement",
+        componentPath:
+          "pages/Dashboard/NotificationManagement/NotificationManagement",
         name: "NotificationManagement",
         auth: false,
         exact: true,
@@ -140,15 +141,42 @@ const routers = [
       {
         component: "CreateNotification",
         path: "/create-notification",
-        componentPath: "pages/Dashboard/NotificationManagement/CreateNotification",
+        componentPath:
+          "pages/Dashboard/NotificationManagement/CreateNotification",
         name: "CreateNotification",
         auth: false,
         exact: true,
       },
       {
         path: "/send-notification",
-        componentPath: "pages/Dashboard/NotificationManagement/SendNotification",
+        componentPath:
+          "pages/Dashboard/NotificationManagement/SendNotification",
         name: "SendNotification",
+        auth: false,
+        exact: true,
+      },
+      {
+        component: "FaqManagement",
+        path: "/faq-management",
+        componentPath: "pages/Dashboard/FaqManagement/FaqManagement",
+        name: "FaqManagement",
+        auth: false,
+        exact: true,
+      },
+      {
+        component: "AddFaq",
+        path: "/add-faq",
+        componentPath: "pages/Dashboard/FaqManagement/AddFaq",
+        name: "AddFaq",
+        auth: false,
+        exact: true,
+      },
+      {
+        component: "KnowledgeCenter",
+        path: "/knowledge-center",
+        componentPath:
+          "pages/Dashboard/KnowledgeCenter/KnowledgeCenter",
+        name: "KnowledgeCenter",
         auth: false,
         exact: true,
       },

@@ -3,6 +3,7 @@
   align-items: center;
   justify-content: flex-end;
 }
+
 .pagination-previous,
 .pagination-next {
   background: #ffffff;
@@ -11,6 +12,7 @@
   border-radius: 9.70667px;
   padding: 5px 10px;
 }
+
 .active_page {
   background: #292929;
   border: 1.21333px solid #e1e1e1;
@@ -23,6 +25,7 @@
   font-size: 16.9867px;
   line-height: 19px;
 }
+
 .pagination-item {
   padding: 5px 10px;
   margin: 5px;
@@ -32,6 +35,7 @@
   font-size: 16.9867px;
   line-height: 19px;
 }
+
 // .table_heading {
 //   background: #292929;
 //   box-shadow: 0px 2.42667px 4.85333px rgba(216, 220, 230, 0.52);
@@ -52,6 +56,7 @@
 table {
   border-collapse: separate;
   border-spacing: 0 5px;
+
   thead {
     tr {
       background: #292929;
@@ -64,6 +69,15 @@ table {
       line-height: 19px;
       color: #ffffff;
       height: 50px;
+
+      .check_box {
+        height: 22px;
+        width: 22px;
+        background: #ffffff;
+        border: 1.13108px solid #dbdde0;
+        border-radius: 2.26217px;
+      }
+
       .checkBox_place {
         width: 30px !important;
         text-align: center;
@@ -81,13 +95,44 @@ table {
       box-shadow: 0px 2.42667px 4.85333px rgba(216, 220, 230, 0.52);
       border-radius: 8px !important;
       height: 56px;
-      
       margin-top: 15px !important;
+
+      .check_box {
+        height: 22px;
+        width: 22px;
+        background: #ffffff;
+        border: 1.13108px solid #dbdde0;
+        border-radius: 2.26217px;
+      }
     }
   }
+
   td {
     text-align: center;
     width: 250px;
-    
   }
+}
+
+td:first-child {
+  border-left-style: solid rgba(216, 220, 230, 0.52);
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+td:last-child {
+  border-right-style: solid rgba(216, 220, 230, 0.52);
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+th:first-child {
+  border-left-style: solid rgba(216, 220, 230, 0.52);
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+th:last-child {
+  border-right-style: solid rgba(216, 220, 230, 0.52);
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
 }

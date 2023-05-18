@@ -2,52 +2,42 @@ import React, { useState } from "react";
 import { Button, Modal } from "antd";
 import "./style.scss";
 import ErrorImg from "assets/images/ErrorImg.svg";
+import successImg from "assets/images/SuccessImg.svg";
 import NormalButton from "../NormalButton/NormalButton";
-const DeleteModal = (props) => {
-  const { deleteName } = props;
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
+const DeleteModal = ({
+  DeleteMessage,
+  modalOpen,
+  closeModal,
+  handleDelete,
+}) => {
   return (
     <>
-      <Button type="primary" onClick={showModal}>
-        Open Modal
-      </Button>
-      <Modal open={isModalOpen} centered closable={false}>
+      <Modal open={modalOpen} centered closable={false}>
         <div className="p-5">
-          <p className="delete_text m-0">
-            Are you sure you want to {deleteName}?
-          </p>
-          <div className="delete_Img">
-            <img src={ErrorImg} alt="" />
-          </div>
-          <div className="d-flex align-items-center justify-content-center">
-            <div className="col-md-5">
-              <NormalButton
-                className="authButton1"
-                label={"No"}
-                onClick={handleCancel}
-              />
+          {DeleteMessage && <p className="delete_text m-0">{DeleteMessage}</p>}
+          {DeleteMessage && (
+            <div className="delete_Img">
+              <img src={ErrorImg} alt="" />
             </div>
-            <div className="col-md-5">
-              <NormalButton
-                className="loginButton"
-                label={"Yes"}
-                onClick={handleOk}
-              />
+          )}
+          {DeleteMessage && (
+            <div className="d-flex align-items-center justify-content-center">
+              <div className="col-6">
+                <NormalButton
+                  className="authButton1"
+                  label={"No"}
+                  onClick={closeModal}
+                />
+              </div>
+              <div className="col-6">
+                <NormalButton
+                  className="loginButton"
+                  label={"Yes"}
+                  onClick={handleDelete}
+                />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </Modal>
     </>

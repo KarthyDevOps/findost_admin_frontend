@@ -69,8 +69,8 @@ function Sidebar({ classes, window, privilegesData }) {
                   >
                     <div
                       style={{
-                        borderRight: to?.includes(location?.pathname)
-                          ? "5px solid white"
+                        borderLeft: to?.includes(location?.pathname)
+                          ? "5px solid #292929"
                           : null,
                       }}
                     >

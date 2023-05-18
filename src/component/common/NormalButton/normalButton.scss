@@ -31,6 +31,8 @@
   display: flex;
   align-items: center;
   text-align: center;
+  width: 173px;
+  height: 45px;
 
   color: #ffffff;
   background: #292929;
@@ -52,7 +54,8 @@
   // background-color: transparent;
   background: #ffffff;
   /* secondary */
-
+  width: 173px;
+  height: 45px;
   border: 1px solid #292929;
   border-radius: 8px;
   font-family: "Helvetica";
@@ -201,18 +204,18 @@
   display: flex;
   align-items: center;
   font-family: Helvetica;
-font-size: 18px;
-font-weight: 700;
-line-height: 21px;
-letter-spacing: 0em;
-text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 21px;
+  letter-spacing: 0em;
+  text-align: center;
 
   justify-content: center;
   border: 1px solid #292929;
   border-radius: 8px;
-background-color: #FFFFFF;
+  background-color: #ffffff;
 }
-.addProductbtn{
+.addProductbtn {
   box-sizing: border-box;
   width: 100%;
   cursor: pointer;
@@ -223,12 +226,11 @@ background-color: #FFFFFF;
   color: #ffffff;
   border: 1px solid #292929;
   border-radius: 8px;
-background-color: #000000;
-font-family: Helvetica;
-font-size: 18px;
-font-weight: 500;
-line-height: 21px;
-letter-spacing: 0em;
-text-align: center;
-
+  background-color: #000000;
+  font-family: Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: 0em;
+  text-align: center;
 }
