@@ -5,6 +5,8 @@ const drawerWidth = 286;
 export const mainLayoutStyle = makeStyles((theme) => ({
   root: {
     display: "flex",
+    position : "relative",
+    zIndex : "0"
   },
   drawer: {
     [theme.breakpoints.up("sm")]: {

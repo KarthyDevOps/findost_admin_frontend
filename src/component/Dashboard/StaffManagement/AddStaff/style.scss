@@ -51,6 +51,15 @@
   color: #ffffff;
   height: 50px;
   width: 100%;
+ 
+}
+
+input[type="checkbox"] {
+  height: 16px;
+  width: 16px;
+  background: #ffffff;
+  border: 1.13108px solid #5f5f5f;
+  border-radius: 2.26217px;
 }
 
 table {
@@ -74,14 +83,14 @@ table {
   }
 }
 td:first-child {
-  border-left-style: solid rgba(216, 220, 230, 0.52)!important;
-  border-top-left-radius: 8px!important;
-  border-bottom-left-radius: 8px!important;
+  border-left-style: solid rgba(216, 220, 230, 0.52) !important;
+  border-top-left-radius: 8px !important;
+  border-bottom-left-radius: 8px !important;
 }
 td:last-child {
-  border-right-style: solid rgba(216, 220, 230, 0.52)!important;
-  border-bottom-right-radius: 8px!important;
-  border-top-right-radius: 8px!important;
+  border-right-style: solid rgba(216, 220, 230, 0.52) !important;
+  border-bottom-right-radius: 8px !important;
+  border-top-right-radius: 8px !important;
 }
 th:first-child {
   border-left-style: solid rgba(216, 220, 230, 0.52);
@@ -93,17 +102,7 @@ th:last-child {
   border-bottom-right-radius: 8px;
   border-top-right-radius: 8px;
 }
-.checkBox_place {
-  background: #ffffff;
-  //   border: 1.13108px solid #5f5f5f;
-  border-radius: 2.26217px;
 
-  //   /* Inside auto layout */
-
-  //   flex: none;
-  //   order: 1;
-  //   flex-grow: 0;
-}
 
 .row_box {
   font-family: "Helvetica";

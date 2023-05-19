@@ -4,7 +4,6 @@ import axios from "axios";
 import FormErrorMessage from "component/common/ErrorMessage";
 import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
-import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import "./style.scss";
 import { history } from "helpers";
@@ -15,120 +14,211 @@ const StaffManagementComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
   });
-  const response = {
-    data: {
-      list: [
-        {
-          UserId: 1,
-          UserName: "Katlynn.Cremin",
-          EmailId: "Baby_Hyatt@gmail.com",
-          ClientName: "Adrienne_Sauer",
-          RoleName: "Staff",
-          status: "active",
-        },
-        {
-          UserId: 2,
-          UserName: "Katlynn.Cremin",
-          EmailId: "Baby_Hyatt@gmail.com",
-          ClientName: "Adrienne_Sauer",
-          RoleName: "Staff",
-          status: "inActive",
-        },
-        {
-          UserId: 3,
-          UserName: "Katlynn.Cremin",
-          EmailId: "Baby_Hyatt@gmail.com",
-          ClientName: "Adrienne_Sauer",
-          RoleName: "Staff",
-          status: "active",
-        },
-        {
-          UserId: 4,
-          UserName: "Katlynn.Cremin",
-          EmailId: "Baby_Hyatt@gmail.com",
-          ClientName: "Adrienne_Sauer",
-          RoleName: "Staff",
-          status: "active",
-        },
-        {
-          UserId: 5,
-          UserName: "Katlynn.Cremin",
-          EmailId: "Baby_Hyatt@gmail.com",
-          ClientName: "Adrienne_Sauer",
-          RoleName: "Staff",
-          status: "inActive",
-        },
-        {
-          UserId: 6,
-          UserName: "Katlynn.Cremin",
-          EmailId: "Baby_Hyatt@gmail.com",
-          ClientName: "Adrienne_Sauer",
-          RoleName: "Staff",
-          status: "active",
-        },
-        {
-          UserId: 7,
-          UserName: "Katlynn.Cremin",
-          EmailId: "Baby_Hyatt@gmail.com",
-          ClientName: "Adrienne_Sauer",
-          RoleName: "Staff",
-          status: "active",
-        },
-        {
-          UserId: 8,
-          UserName: "Katlynn.Cremin",
-          EmailId: "Baby_Hyatt@gmail.com",
-          ClientName: "Adrienne_Sauer",
-          RoleName: "Staff",
-          status: "inActive",
-        },
-        {
-          UserId: 9,
-          UserName: "Katlynn.Cremin",
-          EmailId: "Baby_Hyatt@gmail.com",
-          ClientName: "Adrienne_Sauer",
-          RoleName: "Staff",
-          status: "active",
-        },
-        {
-          UserId: 10,
-          UserName: "Katlynn.Cremin",
-          EmailId: "Baby_Hyatt@gmail.com",
-          ClientName: "Adrienne_Sauer",
-          RoleName: "Staff",
-          status: "active",
-        },
-      ],
-      pageMeta: {
-        size: 10,
-        page: 1,
-        total: 10,
-        totalPages: 1,
-      },
-    },
-  };
-  const [data, setData] = useState({});
+  // const response = {
+  //   data: {
+  //     list: [
+  //       {
+  //         UserId: 1,
+  //         UserName: "Katlynn.Cremindbakjsbk",
+  //         // EmailId: "Baby_Hyatt@gmail.com",
+  //         // ClientName: "Adrienne_Sa",
+  //         // RoleName: "Staffqejbfqwekjfqjke",
+  //         // status: "activeqekjfbqweofbquebfj",
+  //         // Title : "kdbsksbdkqebfweqjkfqwelj",
+  //         // Category : "khckhwkwhhfbwqekfwhk",
+  //         DateandTime : "2023-05-04T16:06:03.636Z",
+  //       },
+  //       // {
+  //       //   UserId: 2,
+  //       //   UserName: "Katlynn.Cremin",
+  //       //   EmailId: "Baby_Hyatt@gmail.com",
+  //       //   ClientName: "Adrienne_Sauer",
+  //       //   RoleName: "Staff",
+  //       //   status: "inActive",
+  //       //   Title : "kdbsksbdk",
+  //       //   Category : "khckhwkwhh",
+  //       //   DateandTime : "2023-05-04T16:06:03.636Z",
+  //       // },
+  //       // {
+  //       //   UserId: 3,
+  //       //   UserName: "Katlynn.Cremin",
+  //       //   EmailId: "Baby_Hyatt@gmail.com",
+  //       //   ClientName: "Adrienne_Sauer",
+  //       //   RoleName: "Staff",
+  //       //   status: "active",
+  //       //   Title : "kdbsksbdk",
+  //       //   Category : "khckhwkwhh",
+  //       //   DateandTime : "2023-05-04T16:06:03.636Z",
+  //       // },
+  //       // {
+  //       //   UserId: 4,
+  //       //   UserName: "Katlynn.Cremin",
+  //       //   EmailId: "Baby_Hyatt@gmail.com",
+  //       //   ClientName: "Adrienne_Sauer",
+  //       //   RoleName: "Staff",
+  //       //   status: "active",
+  //       //   Title : "kdbsksbdk",
+  //       //   Category : "khckhwkwhh",
+  //       //   DateandTime : "2023-05-04T16:06:03.636Z",
+  //       // },
+  //       // {
+  //       //   UserId: 5,
+  //       //   UserName: "Katlynn.Cremin",
+  //       //   EmailId: "Baby_Hyatt@gmail.com",
+  //       //   ClientName: "Adrienne_Sauer",
+  //       //   RoleName: "Staff",
+  //       //   status: "inActive",
+  //       //   Title : "kdbsksbdk",
+  //       //   Category : "khckhwkwhh",
+  //       //   DateandTime : "12-5-23",
+  //       // },
+  //       // {
+  //       //   UserId: 6,
+  //       //   UserName: "Katlynn.Cremin",
+  //       //   EmailId: "Baby_Hyatt@gmail.com",
+  //       //   ClientName: "Adrienne_Sauer",
+  //       //   RoleName: "Staff",
+  //       //   status: "active",
+  //       //   Title : "kdbsksbdk",
+  //       //   Category : "khckhwkwhh",
+  //       //   DateandTime : "12-5-23",
+  //       // },
+  //       // {
+  //       //   UserId: 7,
+  //       //   UserName: "Katlynn.Cremin",
+  //       //   EmailId: "Baby_Hyatt@gmail.com",
+  //       //   ClientName: "Adrienne_Sauer",
+  //       //   RoleName: "Staff",
+  //       //   status: "active",
+  //       //   Title : "kdbsksbdk",
+  //       //   Category : "khckhwkwhh",
+  //       //   DateandTime : "12-5-23",
+  //       // },
+  //       // {
+  //       //   UserId: 8,
+  //       //   UserName: "Katlynn.Cremin",
+  //       //   EmailId: "Baby_Hyatt@gmail.com",
+  //       //   ClientName: "Adrienne_Sauer",
+  //       //   RoleName: "Staff",
+  //       //   status: "inActive",
+  //       //   Title : "kdbsksbdk",
+  //       //   Category : "khckhwkwhh",
+  //       //   DateandTime : "12-5-23",
+  //       // },
+  //       // {
+  //       //   UserId: 9,
+  //       //   UserName: "Katlynn.Cremin",
+  //       //   EmailId: "Baby_Hyatt@gmail.com",
+  //       //   ClientName: "Adrienne_Sauer",
+  //       //   RoleName: "Staff",
+  //       //   status: "active",
+  //       //   Title : "kdbsksbdk",
+  //       //   Category : "khckhwkwhh",
+  //       //   DateandTime : "12-5-23",
+  //       // },
+  //       // {
+  //       //   UserId: 10,
+  //       //   UserName: "Katlynn.Cremin",
+  //       //   EmailId: "Baby_Hyatt@gmail.com",
+  //       //   ClientName: "Adrienne_Sauer",
+  //       //   RoleName: "Staff",
+  //       //   status: "active",
+  //       //   Title : "kdbsksbdk",
+  //       //   Category : "khckhwkwhh",
+  //       //   DateandTime : "12-5-23",
+  //       // },
+  //       // {
+  //       //   UserId: 11,
+  //       //   UserName: "Katlynn.Cremin",
+  //       //   EmailId: "Baby_Hyatt@gmail.com",
+  //       //   ClientName: "Adrienne_Sauer",
+  //       //   RoleName: "Staff",
+  //       //   status: "active",
+  //       //   Title : "kdbsksbdk",
+  //       //   Category : "khckhwkwhh",
+  //       //   DateandTime : "12-5-23",
+  //       // },
+  //       // {
+  //       //   UserId: 12,
+  //       //   UserName: "Katlynn.Cremin",
+  //       //   EmailId: "Baby_Hyatt@gmail.com",
+  //       //   ClientName: "Adrienne_Sauer",
+  //       //   RoleName: "Staff",
+  //       //   status: "active",
+  //       //   Title : "kdbsksbdk",
+  //       //   Category : "khckhwkwhh",
+  //       //   DateandTime : "12-5-23",
+  //       // },
+  //       // {
+  //       //   UserId: 13,
+  //       //   UserName: "Katlynn.Cremin",
+  //       //   EmailId: "Baby_Hyatt@gmail.com",
+  //       //   ClientName: "Adrienne_Sauer",
+  //       //   RoleName: "Staff",
+  //       //   status: "inActive",
+  //       //   Title : "kdbsksbdk",
+  //       //   Category : "khckhwkwhh",
+  //       //   DateandTime : "12-5-23",
+  //       // },
+  //       // {
+  //       //   UserId: 14,
+  //       //   UserName: "Katlynn.Cremin",
+  //       //   EmailId: "Baby_Hyatt@gmail.com",
+  //       //   ClientName: "Adrienne_Sauer",
+  //       //   RoleName: "Staff",
+  //       //   status: "active",
+  //       //   Title : "kdbsksbdk",
+  //       //   Category : "khckhwkwhh",
+  //       //   DateandTime : "12-5-23",
+  //       // },
+  //       // {
+  //       //   UserId: 15,
+  //       //   UserName: "Katlynn.Cremin",
+  //       //   EmailId: "Baby_Hyatt@gmail.com",
+  //       //   ClientName: "Adrienne_Sauer",
+  //       //   RoleName: "Staff",
+  //       //   status: "active",
+  //       //   Title : "kdbsksbdk",
+  //       //   Category : "khckhwkwhh",
+  //       //   DateandTime : "12-5-23",
+  //       // },
+  //     ],
+  //     pageMeta: {
+  //       size: 10,
+  //       page: 1,
+  //       total: 10,
+  //       totalPages: 1,
+  //     },
+  //   },
+  // };
+  const [data, setData] = useState([]);
   const [searchStaff, setSearchStaff] = useState("");
   const [role, setRole] = useState("");
   const [status, setStatus] = useState("");
-  const [activePage, setActivePage] = useState(1);
+  const includedKeys = ["_id", "name","brandImage","updatedAt" , "createdAt" , "isActive"];
+  const [pageCount, setPageCount] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    //   const fetchData = async () => {
-    //     try {
-    //       const response = await axios.get(
-    //         "https://jsonplaceholder.typicode.com/posts"
-    //       );
-    setData(response);
-    //     } catch (error) {
-    //       console.log(error);
-    //     }
-    //   };
-    //   fetchData();
-    // param = {
-    //   limlit : 10,page :
-    // }
-  }, []);
+    fetchData();
+  }, [currentPage]);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        `http://doodlebluelive.com:2129/api/v1/static/brand?limit=10&page=${currentPage}`
+      );
+      console.log("response.data :>> ", response.data.data.list);
+      setData(response.data.data.list);
+      setPageCount(response.data.data.pageMeta.totalPages);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <Fragment>
@@ -183,21 +273,16 @@ const StaffManagementComp = () => {
           </div>
         </div>
         <div className="">
-          {data ? (
-            <TableComp
-              data={data}
-              isCheck={true}
-              EditAction={true}
-              DeleteAction={true}
-              ReadAction={true}
-              activePage={activePage}
-              setActivePage={setActivePage}
-            />
-          ) : (
-            <p className="text-center mt-5 fs-15">No Data Available</p>
-          )}
+          <TableComp
+          data={data}
+          isCheck={true}
+          EditAction={true}
+          DeleteAction={true}
+          includedKeys={includedKeys}
+          pageCount={pageCount}
+          onPageChange={handlePageChange}
+          />
         </div>
-        {console.log(data, "kkhkk")}
       </div>
     </Fragment>
   );

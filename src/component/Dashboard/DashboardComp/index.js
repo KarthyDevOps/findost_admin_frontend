@@ -190,7 +190,7 @@ const DashboardComp = () => {
         })}
       </div>
       <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 my-5">
-        <div className="chart_background p-4">
+        <div className="chart_background2 p-4">
           <Chart
             options={columnOptions}
             series={columnSeries}
