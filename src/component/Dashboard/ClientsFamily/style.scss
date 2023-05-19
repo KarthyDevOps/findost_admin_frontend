@@ -1,0 +1,27 @@
+.clients_family,
+.edit_client {
+  h6,
+  p {
+    font-family: "Helvetica";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 125.99%;
+    color: #000000;
+  }
+}
+.client_box {
+  background: #ffffff;
+  box-shadow: 0px 2.42667px 4.85333px rgba(216, 220, 230, 0.52);
+  border-radius: 12px;
+  label {
+    font-family: "Helvetica";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+  }
+}

@@ -19,7 +19,7 @@ export function MainLayout(props) {
     <div className="mainLayout">
       {/* <Header /> */}
       <ThemeProvider theme={outerTheme}>
-        <div>
+        <div style={{position: "relative", zIndex:"1"}}>
           <Header />
         </div>
         <div className={classes.root + " pb-5 "}>

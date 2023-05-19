@@ -79,15 +79,15 @@ const routers = [
         exact: true,
       },
 
-      {
-        component: "NotificationManagement",
-        path: "/notification-management",
-        componentPath:
-          "pages/Dashboard/NotificationManagement/NotificationManagement",
-        name: "NotificationManagement",
-        auth: false,
-        exact: true,
-      },
+      // {
+      //   component: "NotificationManagement",
+      //   path: "/notification-management",
+      //   componentPath:
+      //     "pages/Dashboard/NotificationManagement/NotificationManagement",
+      //   name: "NotificationManagement",
+      //   auth: false,
+      //   exact: true,
+      // },
       {
         component: "AddProduct",
         path: "/add-product",
@@ -96,15 +96,15 @@ const routers = [
         auth: false,
         exact: true,
       },
-      {
-        component: "CreateNotification",
-        path: "/create-notification",
-        componentPath:
-          "pages/Dashboard/NotificationManagement/CreateNotification",
-        name: "CreateNotification",
-        auth: false,
-        exact: true,
-      },
+      // {
+      //   component: "CreateNotification",
+      //   path: "/create-notification",
+      //   componentPath:
+      //     "pages/Dashboard/NotificationManagement/CreateNotification",
+      //   name: "CreateNotification",
+      //   auth: false,
+      //   exact: true,
+      // },
       {
         component: "FeedbackManagement",
         path: "/feedback-management",
@@ -152,6 +152,22 @@ const routers = [
         componentPath:
           "pages/Dashboard/NotificationManagement/SendNotification",
         name: "SendNotification",
+        auth: false,
+        exact: true,
+      },
+      {
+        component: "ContentManagement",
+        path: "/content-Management",
+        componentPath: "pages/Dashboard/ContentManagement/ContentManagement",
+        name: "ContentManagement",
+        auth: false,
+        exact: true,
+      },
+      {
+        component: "EditContentManagement",
+        path: "/editcontent-Management",
+        componentPath: "pages/Dashboard/ContentManagement/EditContentManagement",
+        name: "EditContentManagement",
         auth: false,
         exact: true,
       },
@@ -217,6 +233,33 @@ const routers = [
         path: "/site-settings",
         componentPath: "pages/Dashboard/SiteSetting/SiteSetting",
         name: "SiteSetting",
+        auth: false,
+        exact: true,
+      },
+      {
+        component: "AddKnowledge",
+        path: "/add-knowledge",
+        componentPath:
+          "pages/Dashboard/KnowledgeCenter/AddKnowledge",
+        name: "AddKnowledge",
+        auth: false,
+        exact: true,
+      },
+      {
+        component: "ClientsFamily",
+        path: "/clients-family",
+        componentPath:
+          "pages/Dashboard/ClientsFamilyPage/ClientsFamilyPage",
+        name: "ClientsFamily",
+        auth: false,
+        exact: true,
+      },
+      {
+        component: "EditClientsFamily",
+        path: "/edit-client",
+        componentPath:
+          "pages/Dashboard/ClientsFamilyPage/EditClientsFamily",
+        name: "EditClientsFamily",
         auth: false,
         exact: true,
       },

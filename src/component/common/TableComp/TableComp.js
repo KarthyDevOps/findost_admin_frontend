@@ -8,28 +8,38 @@ import { VscEdit } from "react-icons/vsc";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import Loader from "component/common/Loader/index";
 import { useEffect } from "react";
+import moment from "moment";
 
 function TableComp(props) {
   const {
     data,
-    itemsPerPage,
     isCheck,
     EditAction,
     DeleteAction,
     ReadAction,
-    activePage,
-    setactivePage,
+    includedKeys,
+    pageCount,
+    onPageChange,
   } = props;
 
   console.log("data :>> ", data);
 
-  const [pageNumber, setPageNumber] = useState(1);
-  // const pageCount = Math.ceil(data.length / itemsPerPage);
-  const pageCount = data?.data?.pageMeta?.totalPages;
-  // const startIndex = pageNumber * itemsPerPage;
-  // const endIndex = startIndex + itemsPerPage;
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 10;
+
   const [modalVisible, setModalVisible] = useState(false);
-  const [isLoader, setIsLoader] = useState(false);
+
+  const handlePageChange = (selectedPage) => {
+    setCurrentPage(selectedPage.selected);
+    onPageChange(selectedPage.selected + 1);
+  };
+
+  const offset = currentPage * itemsPerPage;
+  const paginatedData = data.slice(
+    offset,
+    offset + itemsPerPage > data.length ? data.length : offset + itemsPerPage
+  );
+  console.log("paginatedData :>> ", paginatedData);
 
   const handleOpenModal = () => {
     setModalVisible(true);
@@ -39,58 +49,79 @@ function TableComp(props) {
     setModalVisible(false);
   };
 
-  // const handlePageChange = ({ selected }) => {
-  //   setPageNumber(selected);
-  // };
-
   return (
-    <div>
-      {data?.data?.list.length > 0 && (
-        <table>
+    <div className="table-container">
+      {data?.length > 0 && (
+        <table className="data-table">
           <thead>
             <tr>
-              {data?.data?.list && isCheck ? (
+              {isCheck ? (
                 <th className="checkBox_place">
                   <input type="checkbox" className="mt-2 check_box" />
                 </th>
               ) : (
                 <></>
               )}
-              {data?.data?.list &&
-                data?.data?.list.length > 0 &&
-                Object.keys(data?.data?.list[0]).map((key) => (
-                  <th key={key}>{key}</th>
-                ))}
+              {data &&
+                data.length > 0 &&
+                Object.keys(data[0]).map((key) => {
+                  if (includedKeys.includes(key)) {
+                    return (
+                      <th className="absorbing-column" key={key}>
+                        {key}
+                      </th>
+                    );
+                  }
+                  return null;
+                })}
               {EditAction && (
                 <>
-               
-                  <th>Actions</th>
-                  <th></th>
-                  <th></th>
+                  {EditAction && <th className="absorbing-column">Actions</th>}
+                  {DeleteAction && <th className="absorbing-column"></th>}
+                  {ReadAction && <th className="absorbing-column"></th>}
                 </>
               )}
             </tr>
           </thead>
           <tbody>
-            {data?.data?.list.length > 0 &&
-              data?.data?.list.map((obj) => {
+            {data?.length > 0 &&
+              data.map((obj) => {
+                console.log(obj, "obj");
                 return (
-                  <tr>
-                    {data?.data?.list && isCheck && (
+                  <tr key={obj.id}>
+                    {isCheck && (
                       <td className="checkBox_place">
-                        <input
-                          type="checkbox"
-                          className="mt-2 check_box"
-                          //   onClick={(e) => handleSelectAll(e)}
-                          //   checked={
-
-                          //   }
-                        />
+                        <input type="checkbox" className="mt-2 check_box" />
                       </td>
                     )}
-                    {Object.keys(obj).map((key) => (
-                      <td key={key}>{obj[key]}</td>
-                    ))}
+                    {Object.keys(obj).map((key) => {
+                      if (includedKeys.includes(key)) {
+                        return (
+                          <td key={key}>
+                            {typeof obj[key] === "string" &&
+                            moment(obj[key], moment.ISO_8601).isValid() ? (
+                              moment(obj[key]).format("MMM DD YYYY hh:mm a")
+                            ) : typeof obj[key] === "boolean" ? (
+                              obj[key] ? (
+                                <span>True</span>
+                              ) : (
+                                <span>False</span>
+                              )
+                            ) : typeof obj[key] === "object" &&
+                              obj[key] instanceof File ? (
+                              <img
+                                src={URL.createObjectURL(obj[key])}
+                                alt=""
+                                style={{ maxWidth: "100px" }}
+                              />
+                            ) : (
+                              obj[key]
+                            )}
+                          </td>
+                        );
+                      }
+                      return null;
+                    })}
                     {EditAction && (
                       <td>
                         <VscEdit size={20} style={{ cursor: "pointer" }} />
@@ -112,47 +143,38 @@ function TableComp(props) {
                         />
                       </td>
                     )}
-
-                    <DeleteModal
-                      modalOpen={modalVisible}
-                      closeModal={() => setModalVisible(false)}
-                      handleDelete={handleDeleteItem}
-                      DeleteMessage={"Are you sure you want to delete?"}
-                    />
                   </tr>
                 );
               })}
           </tbody>
         </table>
       )}
-      {<Loader loading={isLoader} />}
-      {!isLoader && data?.data?.list.length === 0 && (
-        <div className="text-center fs-20 fw-500 my-5 py-4">
-          No Data Available{" "}
+
+      {data && (
+        <div className="my-4">
+          <ReactPaginate
+            previousLabel={<FaCaretLeft />}
+            nextLabel={<FaCaretRight />}
+            pageCount={pageCount}
+            onPageChange={handlePageChange}
+            containerClassName={"pagination"}
+            previousClassName={"pagination-previous"}
+            nextClassName={"pagination-next"}
+            pageClassName={"pagination-item"}
+            breakClassName={"pagination-item"}
+            activeClassName={"active_page"}
+          />
         </div>
       )}
-      {data?.data?.list && (
-        <ReactPaginate
-          previousLabel={<FaCaretLeft />}
-          nextLabel={<FaCaretRight />}
-          pageCount={pageCount}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={3}
-          onPageChange={(e) => {
-            setactivePage(e.selected + 1);
-            // localStorage.setItem("activePage", e.selected + 1);
-          }}
-          // onPageChange={handlePageChange}
-          containerClassName={"pagination"}
-          previousClassName={"pagination-previous"}
-          nextClassName={"pagination-next"}
-          pageClassName={"pagination-item"}
-          breakClassName={"pagination-item"}
-          activeClassName={"active_page"}
-          // forcePage={pageCount}
-          forcePage={activePage - 1}
+      <div>
+        {" "}
+        <DeleteModal
+          modalOpen={modalVisible}
+          closeModal={() => setModalVisible(false)}
+          handleDelete={handleDeleteItem}
+          DeleteMessage={"Are you sure you want to delete?"}
         />
-      )}
+      </div>
     </div>
   );
 }

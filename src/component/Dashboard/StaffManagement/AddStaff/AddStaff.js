@@ -8,6 +8,7 @@ import ReactSelect from "react-select";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import { history } from "helpers";
 import DropDown from "component/common/DropDown/DropDown";
+import SuccessModal from "component/common/DeleteModal/SuccessModal";
 
 const AddStaff = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
@@ -16,6 +17,7 @@ const AddStaff = () => {
   const [role, setRole] = useState("");
   const [status, setStatus] = useState("");
   const [edit, setEdit] = useState(false);
+  const [modal, setModal] = useState(false);
 
   const options = [
     {
@@ -30,11 +32,17 @@ const AddStaff = () => {
       label: "THREE",
       value: "three",
     },
-    
   ];
 
   const onSubmit = (inputs) => {
     console.log("inputs :>> ", inputs);
+    setModal(true);
+
+    const timeout = setTimeout(() => {
+      setModal(false);
+    }, 1000);
+
+    return () => clearTimeout(timeout);
   };
   return (
     <div className="AddStaff px-5">
@@ -123,7 +131,7 @@ const AddStaff = () => {
                 })}
                 name="role"
                 errors={errors}
-                // onChange={(e) => {}}
+                onChange={(e) => {}}
                 options={options}
               />
             </div>
@@ -159,7 +167,7 @@ const AddStaff = () => {
               <tbody>
                 <tr className="">
                   <td className="row_box">Staff Management</td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -169,7 +177,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -179,7 +187,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -189,7 +197,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -199,7 +207,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -212,7 +220,7 @@ const AddStaff = () => {
                 </tr>
                 <tr className="">
                   <td className="row_box">Product Management</td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -222,7 +230,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -232,7 +240,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -242,7 +250,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -252,7 +260,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -265,7 +273,7 @@ const AddStaff = () => {
                 </tr>
                 <tr className="">
                   <td className="row_box">Feedback Management</td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -275,7 +283,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -285,7 +293,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -295,7 +303,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -305,7 +313,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -318,7 +326,7 @@ const AddStaff = () => {
                 </tr>
                 <tr className="">
                   <td className="row_box">Notification Management</td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -328,7 +336,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -338,7 +346,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -348,7 +356,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -358,7 +366,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -371,7 +379,7 @@ const AddStaff = () => {
                 </tr>
                 <tr className="">
                   <td className="row_box">Content Management</td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -381,7 +389,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -391,7 +399,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -401,7 +409,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -411,7 +419,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -424,7 +432,7 @@ const AddStaff = () => {
                 </tr>
                 <tr className="">
                   <td className="row_box">Template Management</td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -434,7 +442,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -444,7 +452,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -454,7 +462,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -464,7 +472,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -477,7 +485,7 @@ const AddStaff = () => {
                 </tr>
                 <tr className="">
                   <td className="row_box">FAQ / Support Management</td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -487,7 +495,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -497,7 +505,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -507,7 +515,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -517,7 +525,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -530,7 +538,7 @@ const AddStaff = () => {
                 </tr>
                 <tr className="">
                   <td className="row_box">Masters Management</td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -540,7 +548,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -550,7 +558,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -560,7 +568,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -570,7 +578,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -583,7 +591,7 @@ const AddStaff = () => {
                 </tr>
                 <tr className="">
                   <td className="row_box">Site Settings</td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -593,7 +601,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -603,7 +611,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -613,7 +621,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -623,7 +631,7 @@ const AddStaff = () => {
                       //   }
                     />
                   </td>
-                  <td className="checkBox_place">
+                  <td className="">
                     <input
                       type="checkbox"
                       className="mt-2"
@@ -654,6 +662,17 @@ const AddStaff = () => {
             </div>
           </div>
         </form>
+        <div>
+          <SuccessModal
+            modalOpen={modal}
+            onCancel={() => setModal(false)}
+            successMsg={
+              edit
+                ? "New Staff Updated Successfully"
+                : "Staff Details Added Successfully"
+            }
+          />
+        </div>
       </div>
     </div>
   );
