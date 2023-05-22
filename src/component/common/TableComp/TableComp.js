@@ -40,7 +40,7 @@ function TableComp(props) {
     offset + itemsPerPage > data.length ? data.length : offset + itemsPerPage
   );
   console.log("paginatedData :>> ", paginatedData);
-  console.log('includedKeys :>> ', includedKeys);
+  console.log("includedKeys :>> ", includedKeys);
 
   const handleOpenModal = () => {
     setModalVisible(true);
@@ -63,7 +63,7 @@ function TableComp(props) {
               ) : (
                 <></>
               )}
-              {data &&
+              {/* {data &&
                 data.length > 0 &&
                 Object.keys(data[0]).map((key) => {
                   if (includedKeys.includes(key)) {
@@ -74,7 +74,16 @@ function TableComp(props) {
                     );
                   }
                   return null;
-                })}
+                })} */}
+              {includedKeys.map((key) => {
+                return (
+                  <>
+                    <th className="absorbing-column" key={key}>
+                      {key.label}
+                    </th>
+                  </>
+                );
+              })}
               {EditAction && (
                 <>
                   {EditAction && <th className="absorbing-column">Actions</th>}
@@ -96,7 +105,7 @@ function TableComp(props) {
                       </td>
                     )}
                     {Object.keys(obj).map((key) => {
-                      if (includedKeys.includes(key)) {
+                      if (includedKeys.some((item) => item.value === key)) {
                         return (
                           <td key={key}>
                             {typeof obj[key] === "string" &&
