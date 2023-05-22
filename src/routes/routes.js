@@ -64,7 +64,7 @@ const routers = [
       },
       {
         component: "AddStaffManagement",
-        path: "/add-staff",
+        path: "/staff-management/add-staff",
         componentPath: "pages/Dashboard/StaffManagement/AddStaffManagement",
         name: "AddStaffManagement",
         auth: false,

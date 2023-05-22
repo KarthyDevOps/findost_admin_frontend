@@ -198,6 +198,22 @@ const StaffManagementComp = () => {
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const changes = {
+    "name": "newName",
+    "createdAt": "newCreatedAt",
+    "isActive": "newIsActive"
+  };
+ 
+  Object.keys(changes).forEach(key => {
+    const keyIndex = includedKeys.indexOf(key);
+  
+    if (keyIndex !== -1) {
+      includedKeys[keyIndex] = changes[key];
+    }
+  });
+  
+  console.log(includedKeys,"keys");
+
   useEffect(() => {
     fetchData();
   }, [currentPage]);
@@ -267,7 +283,7 @@ const StaffManagementComp = () => {
             <NormalButton
               className="loginButton"
               label={"Add Staff"}
-              onClick={() => history.push("/admin/add-staff")}
+              onClick={() => history.push("/admin/staff-management/add-staff")}
             />
           </div>
         </div>

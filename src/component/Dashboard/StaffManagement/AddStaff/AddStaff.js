@@ -59,7 +59,8 @@ const AddStaff = () => {
       <div className="Add-Form p-5">
         <p>Staff Details</p>
         <form>
-          <div className="row">
+          <div>
+            <div className="row">
             <div className="col-md-4">
               <label>Name</label>
               <InputBox
@@ -124,541 +125,505 @@ const AddStaff = () => {
             <div className="col-md-4 my-3">
               <label>Role</label>
               <DropDown
-                // value={value}
                 placeholder="Select Role"
                 register={register({
                   required: true,
                 })}
                 name="role"
                 errors={errors}
-                onChange={(e) => {}}
                 options={options}
+                onChange={(e) => setRole(e)}
               />
             </div>
             <div className="col-md-4 my-3">
               <label>Status</label>
               <DropDown
-                // value={value}
-                placeholder="Select Status"
-                register={register({
-                  required: true,
-                })}
+                register={register({ required: true })}
                 name="status"
                 errors={errors}
-                // onChange={(e) => {}}
                 options={options}
+                placeholder="Select Status"
+                onChange={(e) => setStatus(e)}
               />
             </div>
           </div>
 
-          <p className="m-0 py-3">Staff Permissions</p>
-          <div className="col-12 col-md-12 p-0 m-0">
-            <table style={{ width: "100%" }}>
-              <thead className="Row_Class">
-                <tr className="">
-                  <th></th>
-                  <th>All Access</th>
-                  <th>View Access</th>
-                  <th>Edit Access</th>
-                  <th>Add Access</th>
-                  <th>Delete Access</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="">
+            <p className="m-0 py-3">Staff Permissions</p>
+
+            <div className="col-12 col-md-12 p-0 m-0">
+              <table style={{ width: "100%" }}>
+                <thead className="Row_Class">
+                  <tr className="">
+                    <th></th>
+                    <th>All Access</th>
+                    <th>View Access</th>
+                    <th>Edit Access</th>
+                    <th>Add Access</th>
+                    <th>Delete Access</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="">
                   <td className="row_box">Staff Management</td>
                   <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
-
-                      //   }
-                    />
+                    <input type="checkbox" className="mt-2" />
                   </td>
                   <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
-
-                      //   }
-                    />
+                    <input type="checkbox" className="mt-2" />
                   </td>
                   <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
-
-                      //   }
-                    />
+                    <input type="checkbox" className="mt-2" />
                   </td>
                   <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
-
-                      //   }
-                    />
+                    <input type="checkbox" className="mt-2" />
                   </td>
                   <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
-
-                      //   }
-                    />
+                    <input type="checkbox" className="mt-2" />
                   </td>
                 </tr>
-                <tr className="">
-                  <td className="row_box">Product Management</td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                  <tr className="">
+                    <td className="row_box">Product Management</td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                </tr>
-                <tr className="">
-                  <td className="row_box">Feedback Management</td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                  </tr>
+                  <tr className="">
+                    <td className="row_box">Feedback Management</td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                </tr>
-                <tr className="">
-                  <td className="row_box">Notification Management</td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                  </tr>
+                  <tr className="">
+                    <td className="row_box">Notification Management</td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                </tr>
-                <tr className="">
-                  <td className="row_box">Content Management</td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                  </tr>
+                  <tr className="">
+                    <td className="row_box">Content Management</td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                </tr>
-                <tr className="">
-                  <td className="row_box">Template Management</td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                  </tr>
+                  <tr className="">
+                    <td className="row_box">Template Management</td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                </tr>
-                <tr className="">
-                  <td className="row_box">FAQ / Support Management</td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                  </tr>
+                  <tr className="">
+                    <td className="row_box">FAQ / Support Management</td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                </tr>
-                <tr className="">
-                  <td className="row_box">Masters Management</td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                  </tr>
+                  <tr className="">
+                    <td className="row_box">Masters Management</td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                </tr>
-                <tr className="">
-                  <td className="row_box">Site Settings</td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                  </tr>
+                  <tr className="">
+                    <td className="row_box">Site Settings</td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      className="mt-2"
-                      //   onClick={(e) => handleSelectAll(e)}
-                      //   checked={
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
 
-                      //   }
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div className="d-flex align-items-center justify-content-end my-3">
-            <div className="col-md-2">
-              <NormalButton
-                className="authButton1"
-                label={"Cancel"}
-                //   onClick={DeletBulk}
-              />
+                        //   }
+                      />
+                    </td>
+                    <td className="">
+                      <input
+                        type="checkbox"
+                        className="mt-2"
+                        //   onClick={(e) => handleSelectAll(e)}
+                        //   checked={
+
+                        //   }
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            <div className="col-md-2">
-              <NormalButton
-                className="loginButton"
-                label={edit ? "Update" : "Add Staff"}
-                onClick={handleSubmit(onSubmit)}
-              />
+            <div className="d-flex align-items-center justify-content-end my-3">
+              <div className="col-md-2">
+                <NormalButton
+                  className="authButton1"
+                  label={"Cancel"}
+                  //   onClick={DeletBulk}
+                />
+              </div>
+              <div className="col-md-2">
+                <NormalButton
+                  className="loginButton"
+                  label={edit ? "Update" : "Add Staff"}
+                  onClick={handleSubmit(onSubmit)}
+                />
+              </div>
             </div>
           </div>
         </form>

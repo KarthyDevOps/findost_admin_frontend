@@ -7,6 +7,7 @@ import InputBox from "component/common/InputBox/InputBox";
 import DropDown from "component/common/DropDown/DropDown";
 import TextEditor from "component/common/TextEditor/TextEditor";
 import NormalButton from "component/common/NormalButton/NormalButton";
+import Dropzone from "component/common/Dropzone";
 
 const AddKnowledgeComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
@@ -83,7 +84,19 @@ const AddKnowledgeComp = () => {
               // }}
             />
           </div>
-          <div className="col-4 my-3"></div>
+          <div className="col-4 mt-3">
+            <label className="Product_description">Upload Document</label>
+
+            <Dropzone
+            // onFileDrop={handleFileDrop}
+            >
+              {({ getRootProps, getInputProps }) => (
+                <div {...getRootProps({ className: "dropzone" })}>
+                  <input {...getInputProps()} multiple={false} required />
+                </div>
+              )}
+            </Dropzone>
+          </div>
           <div className="col-4 my-3">
             <label>Status</label>
             <DropDown
@@ -95,10 +108,10 @@ const AddKnowledgeComp = () => {
           </div>
         </div>
         <div>
-            <label>Description</label>
-            <TextEditor />
+          <label>Description</label>
+          <TextEditor />
         </div>
-        <div className="d-flex align-items-center justify-content-end my-3">
+        <div className="d-flex align-items-center justify-content-end my-5 py-3">
           <div className="col-md-2">
             <NormalButton
               className="authButton1"

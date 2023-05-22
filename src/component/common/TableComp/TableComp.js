@@ -40,6 +40,7 @@ function TableComp(props) {
     offset + itemsPerPage > data.length ? data.length : offset + itemsPerPage
   );
   console.log("paginatedData :>> ", paginatedData);
+  console.log('includedKeys :>> ', includedKeys);
 
   const handleOpenModal = () => {
     setModalVisible(true);
