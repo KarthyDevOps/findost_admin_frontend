@@ -9,6 +9,9 @@ import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import Loader from "component/common/Loader/index";
 import { useEffect } from "react";
 import moment from "moment";
+import editIcon from "assets/images/editIcon.svg";
+import deleteIcon from "assets/images/deleteIcon.svg";
+import { history } from "helpers";
 
 function TableComp(props) {
   const {
@@ -20,6 +23,7 @@ function TableComp(props) {
     includedKeys,
     pageCount,
     onPageChange,
+    editRouteName,
   } = props;
 
   console.log("data :>> ", data);
@@ -134,14 +138,19 @@ function TableComp(props) {
                     })}
                     {EditAction && (
                       <td>
-                        <VscEdit size={20} style={{ cursor: "pointer" }} />
+                        <img
+                          src={editIcon}
+                          alt="Edit"
+                          style={{ color: "#B4B4B4", cursor: "pointer" }}
+                        />
                       </td>
                     )}
                     {DeleteAction && (
                       <td onClick={handleOpenModal}>
-                        <RiDeleteBinLine
-                          size={20}
-                          style={{ cursor: "pointer" }}
+                        <img
+                          src={deleteIcon}
+                          alt="delete"
+                          style={{ color: "#B4B4B4", cursor: "pointer" }}
                         />
                       </td>
                     )}
