@@ -12,6 +12,7 @@ import { history } from "helpers";
 import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
 
 import NormalButton from "component/common/NormalButton/NormalButton";
+import DropDown from "component/common/DropDown/DropDown";
 const AddProductcomp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
@@ -34,7 +35,6 @@ const AddProductcomp = () => {
   const handleChange = (state) => {
     setEditorState(state);
   };
-
 
   const modules = {
     toolbar: [
@@ -108,13 +108,7 @@ const AddProductcomp = () => {
               </div>
               <div class="col-4">
                 <label className="Product_description">Product Plan</label>
-                <ReactSelect
-                  value={role}
-                  //   onChange={(value) => setservice(value)}
-                  //   options={seviceList}
-                  isClearable
-                  placeholder={"Enter Product Plan"}
-                />
+                <DropDown placeholder={"Enter Product Plan"} />
               </div>
             </div>
             <div className="row gx-5">
@@ -123,23 +117,23 @@ const AddProductcomp = () => {
                   Product Description
                 </label>
                 <div className="text_editor">
-                <ReactQuill
-            // className={`${styles.editors}`}
-            theme="snow"
-            value={quill}
-            defaultValue={quill}
-            onChange={setQuill}
-            modules={modules}
-            style={{ height: "300px", border: "none" }}
-          />
+                  <ReactQuill
+                    // className={`${styles.editors}`}
+                    theme="snow"
+                    value={quill}
+                    defaultValue={quill}
+                    onChange={setQuill}
+                    modules={modules}
+                    style={{ height: "300px", border: "none" }}
+                  />
 
                   {/* <TextEditor content={content} setContent={setContent} /> */}
                 </div>
               </div>
             </div>
-            <p className="title_product mt-4">Sub Product Details</p>
+            <p className="title_product mt-5">Sub Product Details</p>
 
-            <div className="  row gx-5 mt-4 ">
+            <div className="  row gx-5 mt-30 ">
               <div className="col-md-4 ">
                 <label className="Product_description"> Sub Product Name</label>
 
@@ -163,14 +157,7 @@ const AddProductcomp = () => {
                   {" "}
                   Product Mapped Details
                 </label>
-
-                <ReactSelect
-                  value={role}
-                  //   onChange={(value) => setservice(value)}
-                  //   options={seviceList}
-                  isClearable
-                  placeholder={"Filter by Status"}
-                />
+                <DropDown placeholder="Filter by Status" />
               </div>
 
               <div className=" col-md-2">
@@ -191,25 +178,12 @@ const AddProductcomp = () => {
               </div>
               <div className="col-md-4">
                 <label className="Product_description"> City</label>
-
-                <ReactSelect
-                  value={role}
-                  //   onChange={(value) => setservice(value)}
-                  //   options={seviceList}
-                  isClearable
-                  placeholder={"Select City"}
-                />
+                <DropDown placeholder={"Select City"} />
               </div>
               <div className="col-md-4">
                 <label className="Product_description">Country</label>
 
-                <ReactSelect
-                  value={role}
-                  //   onChange={(value) => setservice(value)}
-                  //   options={seviceList}
-                  isClearable
-                  placeholder={"India"}
-                />
+                <DropDown placeholder={"India"} />
               </div>
             </div>
 

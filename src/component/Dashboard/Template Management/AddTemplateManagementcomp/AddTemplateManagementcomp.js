@@ -9,6 +9,7 @@ import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker
 import TextEditor from "component/common/TextEditor/TextEditor";
 import { history } from "helpers";
 import NormalButton from "component/common/NormalButton/NormalButton";
+import DropDown from "component/common/DropDown/DropDown";
 const AddTempleteManagementcomp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
@@ -67,23 +68,16 @@ const AddTempleteManagementcomp = () => {
             </div>
             <div class="col-4">
               <label className="Product_description">Message Type</label>
-              <ReactSelect
-                value={role}
-                //   onChange={(value) => setservice(value)}
-                //   options={seviceList}
-                isClearable
+              <DropDown
                 placeholder={"Active"}
               />
+          
             </div>
             <div class="col-4">
               <label className="Product_description">Message Status</label>
-              <ReactSelect
-                value={role}
-                //   onChange={(value) => setservice(value)}
-                //   options={seviceList}
-                isClearable
-                placeholder={"Active"}
-              />
+          <DropDown
+              placeholder={"Active"}
+          />
             </div>
           </div>
           <div className="row gx-5 mt-3">

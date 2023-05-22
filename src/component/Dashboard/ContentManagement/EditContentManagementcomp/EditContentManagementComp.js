@@ -9,6 +9,7 @@ import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker
 import TextEditor from "component/common/TextEditor/TextEditor";
 import { history } from "helpers";
 import NormalButton from "component/common/NormalButton/NormalButton";
+import DropDown from "component/common/DropDown/DropDown";
 const EditContentManagementComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
@@ -67,13 +68,9 @@ const EditContentManagementComp = () => {
             </div>
             <div class="col-4">
               <label className="Product_description">Page Status</label>
-              <ReactSelect
-                value={role}
-                //   onChange={(value) => setservice(value)}
-                //   options={seviceList}
-                isClearable
+             <DropDown
                 placeholder={"Active"}
-              />
+             />
             </div>
           </div>
           <div className="row gx-5">
