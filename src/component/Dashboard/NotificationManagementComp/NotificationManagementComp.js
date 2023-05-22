@@ -127,7 +127,6 @@ const NotificationManagementComp = () => {
         <div className="">
           <TableComp
             data={data}
-            itemsPerPage={10}
             isCheck={false}
             actions={false}
           />
@@ -136,7 +135,6 @@ const NotificationManagementComp = () => {
         <div className="">
           <TableComp
             data={data}
-            itemsPerPage={10}
             isCheck={false}
             actions={false}
           />

@@ -100,12 +100,12 @@ const AddFaqComp = () => {
           <label>FAQ Status</label>
           <TextEditor />
         </div>
-        <div className="d-flex align-items-center justify-content-end my-3">
+        <div className="d-flex align-items-center justify-content-end my-5 pt-3">
           <div className="col-md-2">
             <NormalButton
               className="authButton1"
               label={"Cancel"}
-              //   onClick={DeletBulk}
+              onClick={() => history.goBack()}
             />
           </div>
           <div className="col-md-2">

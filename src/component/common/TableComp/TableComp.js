@@ -160,7 +160,7 @@ function TableComp(props) {
         </table>
       )}
 
-      {data && (
+      {data.length > 0 && (
         <div className="my-4">
           <ReactPaginate
             previousLabel={<FaCaretLeft />}

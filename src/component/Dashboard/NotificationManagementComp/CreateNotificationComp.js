@@ -10,7 +10,7 @@ import { history } from "helpers";
 const CreateNotificationComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
-  });
+  }); 
   const [content, setContent] = useState("");
   const [edit, setEdit] = useState(false);
 
@@ -49,12 +49,12 @@ const CreateNotificationComp = () => {
           <label>Notification Content</label>
           <TextEditor content={content} setContent={setContent} />
         </div>
-        <div className="d-flex align-items-center justify-content-end my-3">
+        <div className="d-flex align-items-center justify-content-end my-5 pt-3">
           <div className="col-md-2">
             <NormalButton
               className="authButton1"
               label={"Cancel"}
-              //   onClick={DeletBulk}
+              onClick={() => history.goBack()}
             />
           </div>
           <div className="col-md-2">
