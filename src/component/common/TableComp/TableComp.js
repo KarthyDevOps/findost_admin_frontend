@@ -9,6 +9,9 @@ import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import Loader from "component/common/Loader/index";
 import { useEffect } from "react";
 import moment from "moment";
+import editIcon from "assets/images/editIcon.svg";
+import deleteIcon from "assets/images/deleteIcon.svg";
+import { history } from "helpers";
 
 function TableComp(props) {
   const {
@@ -20,6 +23,7 @@ function TableComp(props) {
     includedKeys,
     pageCount,
     onPageChange,
+    editRouteName,
   } = props;
 
   console.log("data :>> ", data);
@@ -40,7 +44,7 @@ function TableComp(props) {
     offset + itemsPerPage > data.length ? data.length : offset + itemsPerPage
   );
   console.log("paginatedData :>> ", paginatedData);
-  console.log('includedKeys :>> ', includedKeys);
+  console.log("includedKeys :>> ", includedKeys);
 
   const handleOpenModal = () => {
     setModalVisible(true);
@@ -63,7 +67,7 @@ function TableComp(props) {
               ) : (
                 <></>
               )}
-              {data &&
+              {/* {data &&
                 data.length > 0 &&
                 Object.keys(data[0]).map((key) => {
                   if (includedKeys.includes(key)) {
@@ -74,7 +78,16 @@ function TableComp(props) {
                     );
                   }
                   return null;
-                })}
+                })} */}
+              {includedKeys.map((key) => {
+                return (
+                  <>
+                    <th className="absorbing-column" key={key}>
+                      {key.label}
+                    </th>
+                  </>
+                );
+              })}
               {EditAction && (
                 <>
                   {EditAction && <th className="absorbing-column">Actions</th>}
@@ -96,7 +109,7 @@ function TableComp(props) {
                       </td>
                     )}
                     {Object.keys(obj).map((key) => {
-                      if (includedKeys.includes(key)) {
+                      if (includedKeys.some((item) => item.value === key)) {
                         return (
                           <td key={key}>
                             {typeof obj[key] === "string" &&
@@ -125,14 +138,19 @@ function TableComp(props) {
                     })}
                     {EditAction && (
                       <td>
-                        <VscEdit size={20} style={{ cursor: "pointer" }} />
+                        <img
+                          src={editIcon}
+                          alt="Edit"
+                          style={{ color: "#B4B4B4", cursor: "pointer" }}
+                        />
                       </td>
                     )}
                     {DeleteAction && (
                       <td onClick={handleOpenModal}>
-                        <RiDeleteBinLine
-                          size={20}
-                          style={{ cursor: "pointer" }}
+                        <img
+                          src={deleteIcon}
+                          alt="delete"
+                          style={{ color: "#B4B4B4", cursor: "pointer" }}
                         />
                       </td>
                     )}
@@ -151,7 +169,7 @@ function TableComp(props) {
         </table>
       )}
 
-      {data && (
+      {data.length > 0 && (
         <div className="my-4">
           <ReactPaginate
             previousLabel={<FaCaretLeft />}

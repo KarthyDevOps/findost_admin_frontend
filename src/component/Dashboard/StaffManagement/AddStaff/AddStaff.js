@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import FormErrorMessage from "component/common/ErrorMessage";
 import ReactSelect from "react-select";
 import NormalButton from "component/common/NormalButton/NormalButton";
-import { history } from "helpers";
+import { history, generateInitialCheckedItems } from "helpers";
 import DropDown from "component/common/DropDown/DropDown";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 
@@ -18,6 +18,10 @@ const AddStaff = () => {
   const [status, setStatus] = useState("");
   const [edit, setEdit] = useState(false);
   const [modal, setModal] = useState(false);
+
+  const [managementCheckedItems, setManagementCheckedItems] = useState(
+    generateInitialCheckedItems()
+  );
 
   const options = [
     {
@@ -34,8 +38,11 @@ const AddStaff = () => {
     },
   ];
 
-  const onSubmit = (inputs) => {
-    console.log("inputs :>> ", inputs);
+  const onSubmit = (data) => {
+    console.log("data :>> ", data);
+    console.log("data :>> ", managementCheckedItems);
+    console.log("role :>> ", role);
+    console.log("status :>> ", status);
     setModal(true);
 
     const timeout = setTimeout(() => {
@@ -44,6 +51,29 @@ const AddStaff = () => {
 
     return () => clearTimeout(timeout);
   };
+
+  const handleManagementAllChange = (section) => (event) => {
+    const isChecked = event.target.checked;
+    setManagementCheckedItems((prevState) => ({
+      ...prevState,
+      [section]: Object.keys(prevState[section]).reduce((acc, key) => {
+        acc[key] = isChecked;
+        return acc;
+      }, {}),
+    }));
+  };
+
+  const handleManagementChange = (section, key) => (event) => {
+    const isChecked = event.target.checked;
+    setManagementCheckedItems((prevState) => ({
+      ...prevState,
+      [section]: {
+        ...prevState[section],
+        [key]: isChecked,
+      },
+    }));
+  };
+
   return (
     <div className="AddStaff px-5">
       <div className="add-staff d-flex my-3 align-items-center ">
@@ -59,8 +89,7 @@ const AddStaff = () => {
       <div className="Add-Form p-5">
         <p>Staff Details</p>
         <form>
-          <div>
-            <div className="row">
+          <div className="row">
             <div className="col-md-4">
               <label>Name</label>
               <InputBox
@@ -79,6 +108,12 @@ const AddStaff = () => {
                 //   setsearch(e.target.value);
                 //   setactivePage(1);
                 // }}
+              />
+              <FormErrorMessage
+                error={errors.name}
+                messages={{
+                  required: "Name is Required",
+                }}
               />
             </div>
             <div className="col-md-4">
@@ -101,6 +136,12 @@ const AddStaff = () => {
                 //   setactivePage(1);
                 // }}
               />
+              <FormErrorMessage
+                error={errors.email}
+                messages={{
+                  required: "Email is Required",
+                }}
+              />
             </div>
             <div className="col-md-4">
               <label>Password</label>
@@ -121,6 +162,12 @@ const AddStaff = () => {
                 //   setactivePage(1);
                 // }}
               />
+              <FormErrorMessage
+                error={errors.password}
+                messages={{
+                  required: "Password is Required",
+                }}
+              />
             </div>
             <div className="col-md-4 my-3">
               <label>Role</label>
@@ -128,6 +175,7 @@ const AddStaff = () => {
                 placeholder="Select Role"
                 register={register({
                   required: true,
+                  message: "Role is Required",
                 })}
                 name="role"
                 errors={errors}
@@ -138,7 +186,10 @@ const AddStaff = () => {
             <div className="col-md-4 my-3">
               <label>Status</label>
               <DropDown
-                register={register({ required: true })}
+                register={register({
+                  required: true,
+                  message: "Status is Required",
+                })}
                 name="status"
                 errors={errors}
                 options={options}
@@ -148,482 +199,556 @@ const AddStaff = () => {
             </div>
           </div>
 
-            <p className="m-0 py-3">Staff Permissions</p>
+          <p className="m-0 py-3">Staff Permissions</p>
 
-            <div className="col-12 col-md-12 p-0 m-0">
-              <table style={{ width: "100%" }}>
-                <thead className="Row_Class">
-                  <tr className="">
-                    <th></th>
-                    <th>All Access</th>
-                    <th>View Access</th>
-                    <th>Edit Access</th>
-                    <th>Add Access</th>
-                    <th>Delete Access</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="">
+          <div className="col-12 col-md-12 p-0 m-0">
+            <table style={{ width: "100%" }}>
+              <thead className="Row_Class">
+                <tr className="">
+                  <th></th>
+                  <th>All Access</th>
+                  <th>View Access</th>
+                  <th>Edit Access</th>
+                  <th>Add Access</th>
+                  <th>Delete Access</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="">
                   <td className="row_box">Staff Management</td>
                   <td className="">
-                    <input type="checkbox" className="mt-2" />
+                    <input
+                      type="checkbox"
+                      id="staff_all"
+                      name="staffManagement.staffAll"
+                      checked={Object.values(
+                        managementCheckedItems.staff
+                      ).every(Boolean)}
+                      onChange={handleManagementAllChange("staff")}
+                    />
                   </td>
                   <td className="">
-                    <input type="checkbox" className="mt-2" />
+                    <input
+                      type="checkbox"
+                      id="staff_view"
+                      name="staffManagement.staffView"
+                      checked={managementCheckedItems.staff.staffView}
+                      onChange={handleManagementChange("staff", "staffView")}
+                    />
                   </td>
                   <td className="">
-                    <input type="checkbox" className="mt-2" />
+                    <input
+                      type="checkbox"
+                      id="staff_edit"
+                      name="staffManagement.staffEdit"
+                      checked={managementCheckedItems.staff.staffEdit}
+                      onChange={handleManagementChange("staff", "staffEdit")}
+                    />
                   </td>
                   <td className="">
-                    <input type="checkbox" className="mt-2" />
+                    <input
+                      type="checkbox"
+                      id="staff_add"
+                      name="staffManagement.staffAdd"
+                      checked={managementCheckedItems.staff.staffAdd}
+                      onChange={handleManagementChange("staff", "staffAdd")}
+                    />
                   </td>
                   <td className="">
-                    <input type="checkbox" className="mt-2" />
+                    <input
+                      type="checkbox"
+                      id="staff_delete"
+                      name="staffManagement.staffDelete"
+                      checked={managementCheckedItems.staff.staffDelete}
+                      onChange={handleManagementChange("staff", "staffDelete")}
+                    />
                   </td>
                 </tr>
 
-                  <tr className="">
-                    <td className="row_box">Product Management</td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
+                <tr className="">
+                  <td className="row_box">Product Management</td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="product_all"
+                      name="productManagement.productAll"
+                      checked={Object.values(
+                        managementCheckedItems.product
+                      ).every(Boolean)}
+                      onChange={handleManagementAllChange("product")}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="product_view"
+                      name="productManagement.productView"
+                      checked={managementCheckedItems.product.productView}
+                      onChange={handleManagementChange(
+                        "product",
+                        "productView"
+                      )}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="product_edit"
+                      name="productManagement.productEdit"
+                      checked={managementCheckedItems.product.productEdit}
+                      onChange={handleManagementChange(
+                        "product",
+                        "productEdit"
+                      )}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="product_add"
+                      name="productManagement.productAdd"
+                      checked={managementCheckedItems.product.productAdd}
+                      onChange={handleManagementChange("product", "productAdd")}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="product_delete"
+                      name="productManagement.productDelete"
+                      checked={managementCheckedItems.product.productDelete}
+                      onChange={handleManagementChange(
+                        "product",
+                        "productDelete"
+                      )}
+                    />
+                  </td>
+                </tr>
 
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                  </tr>
-                  <tr className="">
-                    <td className="row_box">Feedback Management</td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                  </tr>
-                  <tr className="">
-                    <td className="row_box">Notification Management</td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                  </tr>
-                  <tr className="">
-                    <td className="row_box">Content Management</td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                  </tr>
-                  <tr className="">
-                    <td className="row_box">Template Management</td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                  </tr>
-                  <tr className="">
-                    <td className="row_box">FAQ / Support Management</td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                  </tr>
-                  <tr className="">
-                    <td className="row_box">Masters Management</td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                  </tr>
-                  <tr className="">
-                    <td className="row_box">Site Settings</td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="mt-2"
-                        //   onClick={(e) => handleSelectAll(e)}
-                        //   checked={
-
-                        //   }
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                <tr className="">
+                  <td className="row_box">Feedback Management</td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="feedback_all"
+                      name="feedbackManagement.feedbackAll"
+                      checked={Object.values(
+                        managementCheckedItems.feedback
+                      ).every(Boolean)}
+                      onChange={handleManagementAllChange("feedback")}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="feedback_view"
+                      name="feedbackManagement.feedbackView"
+                      checked={managementCheckedItems.feedback.feedbackView}
+                      onChange={handleManagementChange(
+                        "feedback",
+                        "feedbackView"
+                      )}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="feedback_edit"
+                      name="feedbackManagement.feedbackEdit"
+                      checked={managementCheckedItems.feedback.feedbackEdit}
+                      onChange={handleManagementChange(
+                        "feedback",
+                        "feedbackEdit"
+                      )}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="feedback_add"
+                      name="feedbackManagement.feedbackAdd"
+                      checked={managementCheckedItems.feedback.feedbackAdd}
+                      onChange={handleManagementChange(
+                        "feedback",
+                        "feedbackAdd"
+                      )}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="feedback_delete"
+                      name="feedbackManagement.feedbackDelete"
+                      checked={managementCheckedItems.feedback.feedbackDelete}
+                      onChange={handleManagementChange(
+                        "feedback",
+                        "feedbackDelete"
+                      )}
+                    />
+                  </td>
+                </tr>
+                <tr className="">
+                  <td className="row_box">Notification Management</td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="notification_all"
+                      name="notificationManagement.notificationAll"
+                      checked={Object.values(
+                        managementCheckedItems.notification
+                      ).every(Boolean)}
+                      onChange={handleManagementAllChange("notification")}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="notification_view"
+                      name="notificationManagement.notificationView"
+                      checked={
+                        managementCheckedItems.notification.notificationView
+                      }
+                      onChange={handleManagementChange(
+                        "notification",
+                        "notificationView"
+                      )}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="notification_edit"
+                      name="notificationManagement.notificationEdit"
+                      checked={
+                        managementCheckedItems.notification.notificationEdit
+                      }
+                      onChange={handleManagementChange(
+                        "notification",
+                        "notificationEdit"
+                      )}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="notification_add"
+                      name="notificationManagement.notificationAdd"
+                      checked={
+                        managementCheckedItems.notification.notificationAdd
+                      }
+                      onChange={handleManagementChange(
+                        "notification",
+                        "notificationAdd"
+                      )}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="notification_delete"
+                      name="notificationManagement.notificationDelete"
+                      checked={
+                        managementCheckedItems.notification.notificationDelete
+                      }
+                      onChange={handleManagementChange(
+                        "notification",
+                        "notificationDelete"
+                      )}
+                    />
+                  </td>
+                </tr>
+                <tr className="">
+                  <td className="row_box">Content Management</td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="content_all"
+                      name="contentManagement.contentAll"
+                      checked={Object.values(
+                        managementCheckedItems.content
+                      ).every(Boolean)}
+                      onChange={handleManagementAllChange("content")}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="content_view"
+                      name="contentManagement.contentView"
+                      checked={managementCheckedItems.content.contentView}
+                      onChange={handleManagementChange(
+                        "content",
+                        "contentView"
+                      )}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="content_edit"
+                      name="contentManagement.contentEdit"
+                      checked={managementCheckedItems.content.contentEdit}
+                      onChange={handleManagementChange(
+                        "content",
+                        "contentEdit"
+                      )}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="content_add"
+                      name="contentManagement.contentAdd"
+                      checked={managementCheckedItems.content.contentAdd}
+                      onChange={handleManagementChange("content", "contentAdd")}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="content_delete"
+                      name="contentManagement.contentDelete"
+                      checked={managementCheckedItems.content.contentDelete}
+                      onChange={handleManagementChange(
+                        "content",
+                        "contentDelete"
+                      )}
+                    />
+                  </td>
+                </tr>
+                <tr className="">
+                  <td className="row_box">Template Management</td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="template_all"
+                      name="templateManagement.templateAll"
+                      checked={Object.values(
+                        managementCheckedItems.template
+                      ).every(Boolean)}
+                      onChange={handleManagementAllChange("template")}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="template_view"
+                      name="templateManagement.templateView"
+                      checked={managementCheckedItems.template.templateView}
+                      onChange={handleManagementChange(
+                        "template",
+                        "templateView"
+                      )}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="template_edit"
+                      name="templateManagement.templateEdit"
+                      checked={managementCheckedItems.template.templateEdit}
+                      onChange={handleManagementChange(
+                        "template",
+                        "templateEdit"
+                      )}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="template_add"
+                      name="templateManagement.templateAdd"
+                      checked={managementCheckedItems.template.templateAdd}
+                      onChange={handleManagementChange(
+                        "template",
+                        "templateAdd"
+                      )}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="template_delete"
+                      name="templateManagement.templateDelete"
+                      checked={managementCheckedItems.template.templateDelete}
+                      onChange={handleManagementChange(
+                        "template",
+                        "templateDelete"
+                      )}
+                    />
+                  </td>
+                </tr>
+                <tr className="">
+                  <td className="row_box">FAQ / Support Management</td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="faq_all"
+                      name="faqManagement.faqAll"
+                      checked={Object.values(managementCheckedItems.faq).every(
+                        Boolean
+                      )}
+                      onChange={handleManagementAllChange("faq")}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="faq_view"
+                      name="faqManagement.faqView"
+                      checked={managementCheckedItems.faq.faqView}
+                      onChange={handleManagementChange("faq", "faqView")}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="faq_edit"
+                      name="faqManagement.faqEdit"
+                      checked={managementCheckedItems.faq.faqEdit}
+                      onChange={handleManagementChange("faq", "faqEdit")}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="faq_add"
+                      name="faqManagement.faqAdd"
+                      checked={managementCheckedItems.faq.faqAdd}
+                      onChange={handleManagementChange("faq", "faqAdd")}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="faq_delete"
+                      name="faqManagement.faqDelete"
+                      checked={managementCheckedItems.faq.faqDelete}
+                      onChange={handleManagementChange("faq", "faqDelete")}
+                    />
+                  </td>
+                </tr>
+                <tr className="">
+                  <td className="row_box">Masters Management</td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="master_all"
+                      name="masterManagement.masterAll"
+                      checked={Object.values(
+                        managementCheckedItems.master
+                      ).every(Boolean)}
+                      onChange={handleManagementAllChange("master")}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="master_view"
+                      name="masterManagement.masterView"
+                      checked={managementCheckedItems.master.masterView}
+                      onChange={handleManagementChange("master", "masterView")}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="master_edit"
+                      name="masterManagement.masterEdit"
+                      checked={managementCheckedItems.master.masterEdit}
+                      onChange={handleManagementChange("master", "masterEdit")}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="master_add"
+                      name="masterManagement.masterAdd"
+                      checked={managementCheckedItems.master.masterAdd}
+                      onChange={handleManagementChange("master", "masterAdd")}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="master_delete"
+                      name="masterManagement.masterDelete"
+                      checked={managementCheckedItems.master.masterDelete}
+                      onChange={handleManagementChange(
+                        "master",
+                        "masterDelete"
+                      )}
+                    />
+                  </td>
+                </tr>
+                <tr className="">
+                  <td className="row_box">Site Settings</td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="site_all"
+                      name="siteManagement.siteAll"
+                      checked={Object.values(managementCheckedItems.site).every(
+                        Boolean
+                      )}
+                      onChange={handleManagementAllChange("site")}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="site_view"
+                      name="siteManagement.siteView"
+                      checked={managementCheckedItems.site.siteView}
+                      onChange={handleManagementChange("site", "siteView")}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="site_edit"
+                      name="siteManagement.siteEdit"
+                      checked={managementCheckedItems.site.siteEdit}
+                      onChange={handleManagementChange("site", "siteEdit")}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="site_add"
+                      name="siteManagement.siteAdd"
+                      checked={managementCheckedItems.site.siteAdd}
+                      onChange={handleManagementChange("site", "siteAdd")}
+                    />
+                  </td>
+                  <td className="">
+                    <input
+                      type="checkbox"
+                      id="site_delete"
+                      name="siteManagement.siteDelete"
+                      checked={managementCheckedItems.site.siteDelete}
+                      onChange={handleManagementChange("site", "siteDelete")}
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="d-flex align-items-center justify-content-end my-3">
+            <div className="col-md-2">
+              <NormalButton
+                className="authButton1"
+                label={"Cancel"}
+                onClick={() => history.goBack()}
+              />
             </div>
-            <div className="d-flex align-items-center justify-content-end my-3">
-              <div className="col-md-2">
-                <NormalButton
-                  className="authButton1"
-                  label={"Cancel"}
-                  //   onClick={DeletBulk}
-                />
-              </div>
-              <div className="col-md-2">
-                <NormalButton
-                  className="loginButton"
-                  label={edit ? "Update" : "Add Staff"}
-                  onClick={handleSubmit(onSubmit)}
-                />
-              </div>
+            <div className="col-md-2">
+              <NormalButton
+                className="loginButton"
+                label={edit ? "Update" : "Add Staff"}
+                onClick={handleSubmit(onSubmit)}
+                type="submit"
+              />
             </div>
           </div>
         </form>

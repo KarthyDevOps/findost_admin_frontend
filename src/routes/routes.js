@@ -64,7 +64,7 @@ const routers = [
       },
       {
         component: "AddStaffManagement",
-        path: "/staff-management/add-staff",
+        path: "/add-staff",
         componentPath: "pages/Dashboard/StaffManagement/AddStaffManagement",
         name: "AddStaffManagement",
         auth: false,
@@ -79,15 +79,15 @@ const routers = [
         exact: true,
       },
 
-      // {
-      //   component: "NotificationManagement",
-      //   path: "/notification-management",
-      //   componentPath:
-      //     "pages/Dashboard/NotificationManagement/NotificationManagement",
-      //   name: "NotificationManagement",
-      //   auth: false,
-      //   exact: true,
-      // },
+      {
+        component: "NotificationManagement",
+        path: "/notification-management",
+        componentPath:
+          "pages/Dashboard/NotificationManagement/NotificationManagement",
+        name: "NotificationManagement",
+        auth: false,
+        exact: true,
+      },
       {
         component: "AddProduct",
         path: "/add-product",

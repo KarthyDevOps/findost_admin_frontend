@@ -67,7 +67,7 @@ const SendNotificationComp = () => {
             <NormalButton
               className="authButton1"
               label={"Cancel"}
-              //   onClick={DeletBulk}
+              onClick={() => history.goBack()}
             />
           </div>
           <div className="col-md-3">

@@ -238,6 +238,36 @@ export const Encrypt = (plainText) => {
   }
 };
 
+export const generateInitialCheckedItems = () => ({
+  staff: Object.fromEntries(
+    ['View', 'Edit', 'Add', 'Delete'].map((action) => [`staff${action}`, false])
+  ),
+  product: Object.fromEntries(
+    ['View', 'Edit', 'Add', 'Delete'].map((action) => [`product${action}`, false])
+  ),
+  feedback: Object.fromEntries(
+    ['View', 'Edit', 'Add', 'Delete'].map((action) => [`feedback${action}`, false])
+  ),
+  notification: Object.fromEntries(
+    ['View', 'Edit', 'Add', 'Delete'].map((action) => [`notification${action}`, false])
+  ),
+  content: Object.fromEntries(
+    ['View', 'Edit', 'Add', 'Delete'].map((action) => [`content${action}`, false])
+  ),
+  template: Object.fromEntries(
+    ['View', 'Edit', 'Add', 'Delete'].map((action) => [`template${action}`, false])
+  ),
+  faq: Object.fromEntries(
+    ['View', 'Edit', 'Add', 'Delete'].map((action) => [`faq${action}`, false])
+  ),
+  master: Object.fromEntries(
+    ['View', 'Edit', 'Add', 'Delete'].map((action) => [`master${action}`, false])
+  ),
+  site: Object.fromEntries(
+    ['View', 'Edit', 'Add', 'Delete'].map((action) => [`site${action}`, false])
+  ),
+});
+
 export const navLink = [
   {
     to: "/admin/dashboard",
