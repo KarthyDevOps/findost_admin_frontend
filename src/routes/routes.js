@@ -129,15 +129,7 @@ const routers = [
         auth: false,
         exact: true,
       },
-      {
-        component: "NotificationManagement",
-        path: "/notification-management",
-        componentPath:
-          "pages/Dashboard/NotificationManagement/NotificationManagement",
-        name: "NotificationManagement",
-        auth: false,
-        exact: true,
-      },
+     
       {
         component: "CreateNotification",
         path: "/create-notification",
