@@ -8,6 +8,7 @@ import ReactSelect from "react-select";
 import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import "./style.scss";
+import DropDown from "component/common/DropDown/DropDown";
 import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
 const FeedbackManagementComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
@@ -57,11 +58,7 @@ const FeedbackManagementComp = () => {
                 />
               </div>
               <div className="col-md-3">
-                <ReactSelect
-                  value={role}
-                  //   onChange={(value) => setservice(value)}
-                  //   options={seviceList}
-                  isClearable
+               <DropDown
                   placeholder={"Filter by Status"}
                 />
               </div>

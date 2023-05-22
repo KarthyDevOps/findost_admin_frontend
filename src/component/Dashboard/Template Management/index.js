@@ -9,6 +9,7 @@ import NormalButton from "component/common/NormalButton/NormalButton";
 import "./style.scss";
 import { history } from "helpers";
 import {BsSearch} from "react-icons/bs"
+import DropDown from "component/common/DropDown/DropDown";
 
 
 const TemplateManagementComp = () => {
@@ -57,13 +58,9 @@ const TemplateManagementComp = () => {
                 <i className="search_iconic"><BsSearch size={18} style={{color : "#7E7E7E"}}/></i>
               </div>
               <div className="col-md-3">
-                <ReactSelect
-                  value={role}
-                  //   onChange={(value) => setservice(value)}
-                  //   options={seviceList}
-                  isClearable
+               <DropDown
                   placeholder={"Filter by Message Type"}
-                />
+               />
               </div>
 
             </div>

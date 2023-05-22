@@ -19,6 +19,10 @@ function Dropzone({ onFileDrop }) {
 
     reader.readAsDataURL(file);
   };
+  const cancelImg = (e) => {
+    e.stopPropagation();
+    setImageSrc(null);
+  };
   const { getRootProps, getInputProps } = useDropzone({ onDrop: handleDrop });
 
   return (
@@ -42,16 +46,21 @@ function Dropzone({ onFileDrop }) {
             </>
           </div>
         )}
-      </div>
       {imageSrc && (
         <span
-          style={{ position: "absolute", top: "20", right: "0" ,cursor:'pointer' }}
+          style={{
+            position: "absolute",
+            top: "0",
+            right: "0",
+            cursor: "pointer",
+          }}
           // className={styles.removeOverlay}
-          onClick={() => setImageSrc(null)}
+          onClick={cancelImg}
         >
           <AiOutlineCloseCircle size={24} style={{ color: "red" }} />
         </span>
       )}
+      </div>
     </>
   );
 }
