@@ -60,7 +60,7 @@ const DashboardComp = () => {
     },
     grid: {
       row: {
-        colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+        colors: ["#f3f3f3", "transparent"], 
         opacity: 0.5,
       },
     },
@@ -77,6 +77,9 @@ const DashboardComp = () => {
         "Sep",
       ],
     },
+    tooltip:{
+      enabled : false,
+    }
   };
 
   const columnSeries = [
@@ -103,6 +106,7 @@ const DashboardComp = () => {
         horizontal: false,
         columnWidth: "55%",
         endingShape: "rounded",
+       
       },
     },
     dataLabels: {
@@ -115,7 +119,9 @@ const DashboardComp = () => {
     },
     xaxis: {
       categories: ["Feb", "Mar", "Apr", "May"],
+     
     },
+   
     yaxis: {
       title: {
         text: "$ (thousands)",
@@ -124,12 +130,14 @@ const DashboardComp = () => {
     fill: {
       opacity: 1,
     },
+    
     tooltip: {
-      y: {
-        formatter: function (val) {
-          return "$ " + val + " thousands";
-        },
-      },
+    enabled : false,
+      // y: {
+      //   formatter: function (val) {
+      //     return "$ " + val + " thousands";
+      //   },
+      // },
     },
   };
 

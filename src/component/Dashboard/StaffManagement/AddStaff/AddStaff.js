@@ -9,9 +9,10 @@ import NormalButton from "component/common/NormalButton/NormalButton";
 import { history, generateInitialCheckedItems } from "helpers";
 import DropDown from "component/common/DropDown/DropDown";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
+import CustomController from "component/common/Controller";
 
 const AddStaff = () => {
-  const { register, handleSubmit, errors, reset, setError } = useForm({
+  const { register, handleSubmit, errors, reset, setError, control } = useForm({
     mode: "onChange",
   });
   const [role, setRole] = useState("");
@@ -167,32 +168,50 @@ const AddStaff = () => {
             </div>
             <div className="col-md-4 my-3">
               <label>Role</label>
-              <DropDown
-                placeholder="Select Role"
-                register={register({
-                  required: true,
-                  message: "Role is Required",
-                })}
-                name="role"
-                value={role}
-                errors={errors}
-                options={options}
-                onChange={(e) => setRole(e)}
+              <CustomController
+                name={"role"}
+                control={control}
+                error={errors.role}
+                defaultValue={role}
+                rules={{ required: true }}
+                messages={{ required: "Role is Required" }}
+                render={({ onChange, ...field }) => {
+                  return (
+                    <DropDown
+                      {...field}
+                      placeholder="Select Role"
+                      name="role"
+                      value={role}
+                      errors={errors.role}
+                      options={options}
+                      onChange={(e) => setRole(e)}
+                    />
+                  );
+                }}
               />
             </div>
             <div className="col-md-4 my-3">
               <label>Status</label>
-              <DropDown
-                register={register({
-                  required: true,
-                  message: "Status is Required",
-                })}
-                name="status"
-                value={status}
-                errors={errors}
-                options={options}
-                placeholder="Select Status"
-                onChange={(e) => setStatus(e)}
+              <CustomController
+                name={"status"}
+                control={control}
+                error={errors.status}
+                defaultValue={status}
+                rules={{ required: true }}
+                messages={{ required: "Status is Required" }}
+                render={({ onChange, ...field }) => {
+                  return (
+                    <DropDown
+                      {...field}
+                      placeholder="Select Status"
+                      name="status"
+                      value={status}
+                      errors={errors.status}
+                      options={options}
+                      onChange={(e) => setStatus(e)}
+                    />
+                  );
+                }}
               />
             </div>
           </div>

@@ -13,23 +13,54 @@ const ProductManagementComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
   });
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([
+    {
+      ProductId: "51322",
+      ProductStatus: "inactive",
+      ProductName: "Bedfordshire",
+      ProductDescription: "Nemo dolorem eum aliquam non.",
+    },
+    {
+      ProductId: "99751",
+      ProductStatus: "active",
+      ProductName: "innovative",
+      ProductDescription: "Nesciunt et voluptas a illo voluptates commodi.",
+    },
+    {
+      ProductId: "21548",
+      ProductStatus: "active",
+      ProductName: "Markets",
+      ProductDescription:
+        "Quod et architecto consequatur ducimus sit sit facilis.",
+    },
+  ]);
   const [searchStaff, setSearchStaff] = useState("");
-  const [role, setRole] = useState("");
-  const [status, setStatus] = useState("");
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/posts"
-        );
-        // setData(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
+  const [pageCount, setPageCount] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const includedKeys = [
+    {
+      label: "Product Id",
+      value: "ProductId",
+    },
+    {
+      label: "Product Status",
+      value: "ProductStatus",
+    },
+    {
+      label: "Product Name",
+      value: "ProductName",
+    },
+    {
+      label: "Product Description",
+      value: "ProductDescription",
+    },
+  ];
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
     <Fragment>
       <div className="staff_table px-5 pt-4">
@@ -54,45 +85,35 @@ const ProductManagementComp = () => {
                   // }}
                 />
               </div>
-              {/* <div className="col-md-3">
-                <ReactSelect
-                  value={role}
-                  //   onChange={(value) => setservice(value)}
-                  //   options={seviceList}
-                  isClearable
-                  placeholder={"Filter by Role"}
-                />
-              </div> */}
-
-              {/* <div className="col-md-3">
-                <ReactSelect
-                  value={status}
-                  //   onChange={(value) => setservice(value)}
-                  //   options={seviceList}
-                  isClearable
-                  placeholder={"Filter by Status"}
-                />
-              </div> */}
             </div>
           </div>
           <div className="col-md-2 col-12 p-0 m-0">
-            <Link to='/admin/product-management/add-product'>
-            <NormalButton
-              className="loginButton"
-              label={"Add Product"}
-              //   onClick={DeletBulk}
+            <Link to="/admin/product-management/add-product">
+              <NormalButton
+                className="loginButton"
+                label={"Add Product"}
+                //   onClick={DeletBulk}
               />
-              </Link>
+            </Link>
           </div>
         </div>
         <div className="">
           {data.length > 0 ? (
-            <TableComp data={data} itemsPerPage={10} isCheck={false} actions={false} />
+            <TableComp
+              data={data}
+              isCheck={true}
+              EditAction={true}
+              DeleteAction={true}
+              includedKeys={includedKeys}
+              pageCount={pageCount}
+              onPageChange={handlePageChange}
+              setCurrentPage={setCurrentPage}
+              editRouteName={"/admin/product-management/add-product"}
+            />
           ) : (
             <p className="text-center mt-5 fs-15">No Data Available</p>
           )}
         </div>
-        
       </div>
     </Fragment>
   );

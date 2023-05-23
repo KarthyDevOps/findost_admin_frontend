@@ -14,25 +14,63 @@ const FeedbackManagementComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
   });
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([
+    {
+      userId: "51322",
+      status: "Open",
+      dateandTime: "2023-05-04T16:06:03.636Z",
+      userName: "Lauren_Crona",
+      feedbackDescription:"Nemo dolorem eum aliquam non."
+    },
+    {
+      userId: "51322",
+      status: "Accepted",
+      dateandTime: "2023-05-04T16:06:03.636Z",
+      userName: "Lauren_Crona",
+      feedbackDescription:"Nemo dolorem eum aliquam non."
+    },
+    {
+      userId: "51322",
+      status: "Inprogress",
+      dateandTime: "2023-05-04T16:06:03.636Z",
+      userName: "Lauren_Crona",
+      feedbackDescription:"Nemo dolorem eum aliquam non."
+    },
+  ]);
   const [searchStaff, setSearchStaff] = useState("");
-  const [role, setRole] = useState("");
   const [status, setStatus] = useState("");
   const [startdate, setstartdate] = useState("");
   const [enddate, setenddate] = useState("");
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/posts"
-        );
-        setData(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
+  const [pageCount, setPageCount] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const includedKeys = [
+    {
+      label: "User Id",
+      value: "userId",
+    },
+    {
+      label: "Status",
+      value: "status",
+    },
+    {
+      label: "Date and Time",
+      value: "dateandTime",
+    },
+    {
+      label: "Username",
+      value: "userName",
+    },
+    {
+      label: "Feedback Description",
+      value: "feedbackDescription",
+    },
+  ];
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
     <Fragment>
       <div className="staff_table px-5 pt-4">
@@ -58,39 +96,47 @@ const FeedbackManagementComp = () => {
                 />
               </div>
               <div className="col-md-3">
-               <DropDown
-                  placeholder={"Filter by Status"}
-                />
+                <DropDown placeholder={"Filter by Status"} />
               </div>
 
               <div className="col-md-2">
                 <CommonDatePicker
-                      value={startdate}
-                      onChange={(text) => setstartdate(text)}
-                      placeholder="Start Date"
-                    />
+                  value={startdate}
+                  onChange={(text) => setstartdate(text)}
+                  placeholder="Start Date"
+                />
               </div>
               <div className="col-md-2">
                 <CommonDatePicker
-                      value={enddate}
-                      onChange={(text) => setenddate(text)}
-                      placeholder="End Date"
-                    />
+                  value={enddate}
+                  onChange={(text) => setenddate(text)}
+                  placeholder="End Date"
+                />
               </div>
             </div>
           </div>
           <div className="col-md-2 col-12 p-0 m-0">
-            <Link to='/admin/feedback-management/add-feedback'>
-            <NormalButton
-              className="loginButton"
-              label={"Add Feedback"}
-              //   onClick={DeletBulk}
+            <Link to="/admin/feedback-management/add-feedback">
+              <NormalButton
+                className="loginButton"
+                label={"Add Feedback"}
+                //   onClick={DeletBulk}
               />
-              </Link>
+            </Link>
           </div>
         </div>
         <div className="">
-          <TableComp data={data} itemsPerPage={10} isCheck={true} />
+          <TableComp
+            data={data}
+            isCheck={true}
+            ReadAction={true}
+            DeleteAction={true}
+            includedKeys={includedKeys}
+            pageCount={pageCount}
+            onPageChange={handlePageChange}
+            setCurrentPage={setCurrentPage}
+            editRouteName={"/admin/feedback-management/add-feedback"}
+          />
         </div>
       </div>
     </Fragment>
