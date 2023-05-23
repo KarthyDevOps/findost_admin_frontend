@@ -147,22 +147,8 @@ const routers = [
         auth: false,
         exact: true,
       },
-      {
-        component: "ContentManagement",
-        path: "/content-Management",
-        componentPath: "pages/Dashboard/ContentManagement/ContentManagement",
-        name: "ContentManagement",
-        auth: false,
-        exact: true,
-      },
-      {
-        component: "EditContentManagement",
-        path: "/editcontent-Management",
-        componentPath: "pages/Dashboard/ContentManagement/EditContentManagement",
-        name: "EditContentManagement",
-        auth: false,
-        exact: true,
-      },
+  
+    
       {
         component: "FaqManagement",
         path: "/faq-management",

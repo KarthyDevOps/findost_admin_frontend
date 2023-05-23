@@ -60,7 +60,7 @@ const AddFeedbackcomp = () => {
                     </div>
                     <div className="col-2">
                      
-                      <NormalButton addProductbtn label='Add Feedback'> </NormalButton>
+                      <NormalButton addProductbtn label='Add Feedback' onClick> </NormalButton>
                       {/* <NormalButton addProductbtn label='Update'> </NormalButton> */}
                     
                     </div>
