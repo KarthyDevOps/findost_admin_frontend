@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, useCallback } from "react";
 import TableComp from "../../common/TableComp/TableComp";
 import axios from "axios";
 import InputBox from "component/common/InputBox/InputBox";
@@ -13,7 +13,7 @@ const StaffManagementComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
   });
-  
+
   const [data, setData] = useState([]);
   const [searchStaff, setSearchStaff] = useState("");
   const [role, setRole] = useState("");
@@ -126,6 +126,7 @@ const StaffManagementComp = () => {
             includedKeys={includedKeys}
             pageCount={pageCount}
             onPageChange={handlePageChange}
+            setCurrentPage={setCurrentPage}
           />
         </div>
       </div>

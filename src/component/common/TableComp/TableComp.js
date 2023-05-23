@@ -23,13 +23,10 @@ function TableComp(props) {
     includedKeys,
     pageCount,
     onPageChange,
-    editRouteName,
+    editRouteName,setCurrentPage
   } = props;
 
   console.log("data :>> ", data);
-
-  const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 10;
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -38,12 +35,6 @@ function TableComp(props) {
     onPageChange(selectedPage.selected + 1);
   };
 
-  const offset = currentPage * itemsPerPage;
-  const paginatedData = data.slice(
-    offset,
-    offset + itemsPerPage > data.length ? data.length : offset + itemsPerPage
-  );
-  console.log("paginatedData :>> ", paginatedData);
   console.log("includedKeys :>> ", includedKeys);
 
   const handleOpenModal = () => {
