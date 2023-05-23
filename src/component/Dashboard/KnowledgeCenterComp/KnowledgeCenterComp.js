@@ -54,7 +54,7 @@ const KnowledgeCenterComp = () => {
           <NormalButton
             className="loginButton"
             label={"Add New"}
-            onClick={() => history.push("/admin/add-knowledge")}
+            onClick={() => history.push("/admin/knowledge-center/add-knowledge")}
           />
         </div>
         </div>

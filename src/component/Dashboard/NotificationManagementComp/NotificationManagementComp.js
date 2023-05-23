@@ -89,7 +89,7 @@ const NotificationManagementComp = () => {
               <NormalButton
                 className="loginButton"
                 label={"Create Notification"}
-                onClick={() => history.push("/admin/create-notification?tab=0")}
+                onClick={() => history.push("/admin/notification-management/create-notification")}
               />
             </div>
           </div>
@@ -117,7 +117,7 @@ const NotificationManagementComp = () => {
               <NormalButton
                 className="loginButton"
                 label={"Send Notification"}
-                onClick={() => history.push("/admin/send-notification?tab=1")}
+                onClick={() => history.push("/admin/notification-management/send-notification")}
               />
             </div>
           </div>

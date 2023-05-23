@@ -64,7 +64,7 @@ const FaqManagementComp = () => {
           <NormalButton
             className="loginButton"
             label={"Add New FAQ"}
-            onClick={() => history.push("/admin/add-faq")}
+            onClick={() => history.push("/admin/faq-management/add-faq")}
           />
         </div>
         <div></div>

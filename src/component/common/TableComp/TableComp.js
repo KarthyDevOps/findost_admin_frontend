@@ -23,12 +23,14 @@ function TableComp(props) {
     includedKeys,
     pageCount,
     onPageChange,
-    editRouteName,setCurrentPage
+    editRouteName,
+    setCurrentPage,
   } = props;
 
   console.log("data :>> ", data);
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handlePageChange = (selectedPage) => {
     setCurrentPage(selectedPage.selected);
@@ -45,20 +47,40 @@ function TableComp(props) {
     setModalVisible(false);
   };
 
+  useEffect(() => {
+    if (data && data.length > 0) {
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+  }, [data]);
+  console.log('loading :>> ', loading);
+
   return (
     <div className="table-container">
-      {data?.length > 0 && (
-        <table className="data-table">
-          <thead>
-            <tr>
-              {isCheck ? (
-                <th className="checkBox_place">
-                  <input type="checkbox" className="mt-2 check_box" />
-                </th>
-              ) : (
-                <></>
-              )}
-              {/* {data &&
+      {loading && (
+        <Loader
+          loading={loading}
+          className="d-flex align-items-center justify-content-center"
+        />
+      )}
+      {!loading && (
+        <>
+          {data.length === 0 ? (
+            <p>No data available</p>
+          ) : (
+            <>
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    {isCheck ? (
+                      <th className="checkBox_place">
+                        <input type="checkbox" className="mt-2 check_box" />
+                      </th>
+                    ) : (
+                      <></>
+                    )}
+                    {/* {data &&
                 data.length > 0 &&
                 Object.keys(data[0]).map((key) => {
                   if (includedKeys.includes(key)) {
@@ -70,121 +92,125 @@ function TableComp(props) {
                   }
                   return null;
                 })} */}
-              {includedKeys.map((key) => {
-                return (
-                  <>
-                    <th className="absorbing-column" key={key}>
-                      {key.label}
-                    </th>
-                  </>
-                );
-              })}
-              {EditAction && (
-                <>
-                  {EditAction && <th className="absorbing-column">Actions</th>}
-                  {DeleteAction && <th className="absorbing-column"></th>}
-                  {ReadAction && <th className="absorbing-column"></th>}
-                </>
-              )}
-            </tr>
-          </thead>
-          <tbody>
-            {data?.length > 0 &&
-              data.map((obj) => {
-                console.log(obj, "obj");
-                return (
-                  <tr key={obj.id}>
-                    {isCheck && (
-                      <td className="checkBox_place">
-                        <input type="checkbox" className="mt-2 check_box" />
-                      </td>
-                    )}
-                    {Object.keys(obj).map((key) => {
-                      if (includedKeys.some((item) => item.value === key)) {
-                        return (
-                          <td key={key}>
-                            {typeof obj[key] === "string" &&
-                            moment(obj[key], moment.ISO_8601).isValid() ? (
-                              moment(obj[key]).format("MMM DD YYYY hh:mm a")
-                            ) : typeof obj[key] === "boolean" ? (
-                              obj[key] ? (
-                                <span>True</span>
-                              ) : (
-                                <span>False</span>
-                              )
-                            ) : typeof obj[key] === "object" &&
-                              obj[key] instanceof File ? (
-                              <img
-                                src={URL.createObjectURL(obj[key])}
-                                alt=""
-                                style={{ maxWidth: "100px" }}
-                              />
-                            ) : (
-                              obj[key]
-                            )}
-                          </td>
-                        );
-                      }
-                      return null;
+                    {includedKeys.map((key) => {
+                      return (
+                        <>
+                          <th className="absorbing-column" key={key}>
+                            {key.label}
+                          </th>
+                        </>
+                      );
                     })}
                     {EditAction && (
-                      <td>
-                        <img
-                          src={editIcon}
-                          alt="Edit"
-                          style={{ color: "#B4B4B4", cursor: "pointer" }}
-                        />
-                      </td>
-                    )}
-                    {DeleteAction && (
-                      <td onClick={handleOpenModal}>
-                        <img
-                          src={deleteIcon}
-                          alt="delete"
-                          style={{ color: "#B4B4B4", cursor: "pointer" }}
-                        />
-                      </td>
-                    )}
-                    {ReadAction && (
-                      <td onClick={handleOpenModal}>
-                        <MdOutlineMessage
-                          size={20}
-                          style={{ cursor: "pointer" }}
-                        />
-                      </td>
+                      <>
+                        {EditAction && (
+                          <th className="absorbing-column">Actions</th>
+                        )}
+                        {DeleteAction && <th className="absorbing-column"></th>}
+                        {ReadAction && <th className="absorbing-column"></th>}
+                      </>
                     )}
                   </tr>
-                );
-              })}
-          </tbody>
-        </table>
-      )}
+                </thead>
 
-      {data.length > 0 && (
-        <div className="my-4">
-          <ReactPaginate
-            previousLabel={<FaCaretLeft />}
-            nextLabel={<FaCaretRight />}
-            pageCount={pageCount}
-            onPageChange={handlePageChange}
-            containerClassName={"pagination"}
-            previousClassName={"pagination-previous"}
-            nextClassName={"pagination-next"}
-            pageClassName={"pagination-item"}
-            breakClassName={"pagination-item"}
-            activeClassName={"active_page"}
-          />
-        </div>
+                <tbody>
+                  {data.map((obj) => {
+                    return (
+                      <tr key={obj.id}>
+                        {isCheck && (
+                          <td className="checkBox_place">
+                            <input type="checkbox" className="mt-2 check_box" />
+                          </td>
+                        )}
+                        {Object.keys(obj).map((key) => {
+                          if (includedKeys.some((item) => item.value === key)) {
+                            return (
+                              <td key={key}>
+                                {typeof obj[key] === "string" &&
+                                moment(obj[key], moment.ISO_8601).isValid() ? (
+                                  moment(obj[key]).format("MMM DD YYYY hh:mm a")
+                                ) : typeof obj[key] === "boolean" ? (
+                                  obj[key] ? (
+                                    <span>True</span>
+                                  ) : (
+                                    <span>False</span>
+                                  )
+                                ) : typeof obj[key] === "object" &&
+                                  obj[key] instanceof File ? (
+                                  <img
+                                    src={URL.createObjectURL(obj[key])}
+                                    alt=""
+                                    style={{ maxWidth: "100px" }}
+                                  />
+                                ) : (
+                                  obj[key]
+                                )}
+                              </td>
+                            );
+                          }
+                          return null;
+                        })}
+                        {EditAction && (
+                          <td>
+                            <img
+                              src={editIcon}
+                              alt="Edit"
+                              style={{ color: "#B4B4B4", cursor: "pointer" }}
+                            />
+                          </td>
+                        )}
+                        {DeleteAction && (
+                          <td onClick={handleOpenModal}>
+                            <img
+                              src={deleteIcon}
+                              alt="delete"
+                              style={{ color: "#B4B4B4", cursor: "pointer" }}
+                            />
+                          </td>
+                        )}
+                        {ReadAction && (
+                          <td onClick={handleOpenModal}>
+                            <MdOutlineMessage
+                              size={20}
+                              style={{ cursor: "pointer" }}
+                            />
+                          </td>
+                        )}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+
+              {data.length > 0 && (
+                <div className="my-4">
+                  <ReactPaginate
+                    previousLabel={<FaCaretLeft />}
+                    nextLabel={<FaCaretRight />}
+                    pageCount={pageCount}
+                    onPageChange={handlePageChange}
+                    containerClassName={"pagination"}
+                    previousClassName={"pagination-previous"}
+                    nextClassName={"pagination-next"}
+                    pageClassName={"pagination-item"}
+                    breakClassName={"pagination-item"}
+                    activeClassName={"active_page"}
+                  />
+                </div>
+              )}
+              <div>
+                {" "}
+                <DeleteModal
+                  modalOpen={modalVisible}
+                  closeModal={() => setModalVisible(false)}
+                  handleDelete={handleDeleteItem}
+                  DeleteMessage={"Are you sure you want to delete?"}
+                />
+              </div>
+            </>
+          )}
+        </>
       )}
-      <div>
-        {" "}
-        <DeleteModal
-          modalOpen={modalVisible}
-          closeModal={() => setModalVisible(false)}
-          handleDelete={handleDeleteItem}
-          DeleteMessage={"Are you sure you want to delete?"}
-        />
-      </div>
     </div>
   );
 }

@@ -76,7 +76,7 @@ const ProductManagementComp = () => {
             </div>
           </div>
           <div className="col-md-2 col-12 p-0 m-0">
-            <Link to='/admin/add-product'>
+            <Link to='/admin/product-management/add-product'>
             <NormalButton
               className="loginButton"
               label={"Add Product"}

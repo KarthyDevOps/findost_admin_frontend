@@ -69,7 +69,7 @@ function Sidebar({ classes, window, privilegesData }) {
                   >
                     <div
                       style={{
-                        borderLeft: to?.includes(location?.pathname)
+                        borderLeft: location.pathname.startsWith(to)
                           ? "5px solid #292929"
                           : null,
                       }}
@@ -77,15 +77,17 @@ function Sidebar({ classes, window, privilegesData }) {
                       <ListItem
                         button
                         className={
-                          to?.includes(location.pathname)
+                          // to?.includes(location.pathname)
+                          location.pathname.startsWith(to)
                             ? "active-div"
                             : "inActive-div"
                         }
                       >
+                        {console.log(to, "ttttt")}
                         <div>
                           <ListItemText>
                             <span className="mr-3">
-                              {to?.includes(location.pathname) ? (
+                              {location.pathname.startsWith(to) ? (
                                 <img src={iconName} alt="" />
                               ) : (
                                 <img src={inactiveIcon} alt="" />
@@ -94,7 +96,7 @@ function Sidebar({ classes, window, privilegesData }) {
 
                             <span
                               className={
-                                to?.includes(location.pathname)
+                                location.pathname.startsWith(to)
                                   ? "activeBar"
                                   : "inActiveBar"
                               }

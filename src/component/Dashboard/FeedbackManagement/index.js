@@ -80,7 +80,7 @@ const FeedbackManagementComp = () => {
             </div>
           </div>
           <div className="col-md-2 col-12 p-0 m-0">
-            <Link to='/admin/add-feedback'>
+            <Link to='/admin/feedback-management/add-feedback'>
             <NormalButton
               className="loginButton"
               label={"Add Feedback"}
