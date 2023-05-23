@@ -69,7 +69,7 @@ const TemplateManagementComp = () => {
             <NormalButton
               className="loginButton"
               label={"Add Template "}
-              onClick={() => history.push("/admin/add-template")}
+              onClick={() => history.push("/admin/template-management/add-template")}
             />
           </div>
         </div>

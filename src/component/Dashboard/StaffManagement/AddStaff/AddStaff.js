@@ -39,16 +39,12 @@ const AddStaff = () => {
   ];
 
   const onSubmit = (data) => {
-    console.log("data :>> ", data);
     console.log("data :>> ", managementCheckedItems);
-    console.log("role :>> ", role);
-    console.log("status :>> ", status);
-    setModal(true);
 
+    setModal(true);
     const timeout = setTimeout(() => {
       setModal(false);
     }, 1000);
-
     return () => clearTimeout(timeout);
   };
 
@@ -178,6 +174,7 @@ const AddStaff = () => {
                   message: "Role is Required",
                 })}
                 name="role"
+                value={role}
                 errors={errors}
                 options={options}
                 onChange={(e) => setRole(e)}
@@ -191,6 +188,7 @@ const AddStaff = () => {
                   message: "Status is Required",
                 })}
                 name="status"
+                value={status}
                 errors={errors}
                 options={options}
                 placeholder="Select Status"
