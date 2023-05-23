@@ -23,23 +23,23 @@ const StaffManagementComp = () => {
 
   const includedKeys = [
     {
-      label: "Id",
+      label: "User Id",
       value: "_id",
     },
     {
-      label: "Name",
+      label: "Username",
       value: "name",
     },
     {
-      label: "BrandImage",
+      label: "Email Id",
       value: "brandImage",
     },
     {
-      label: "Updated",
+      label: "Role Name",
       value: "updatedAt",
     },
     {
-      label: "Created",
+      label: "Status",
       value: "createdAt",
     },
   ];
@@ -127,6 +127,7 @@ const StaffManagementComp = () => {
             pageCount={pageCount}
             onPageChange={handlePageChange}
             setCurrentPage={setCurrentPage}
+            editRouteName={"/admin/staff-management/add-staff"}
           />
         </div>
       </div>
