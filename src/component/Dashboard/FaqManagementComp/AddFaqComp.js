@@ -9,9 +9,10 @@ import ReactSelect from "react-select";
 import TextEditor from "component/common/TextEditor/TextEditor";
 import DropDown from "component/common/DropDown/DropDown";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
+import CustomController from "component/common/Controller";
 import FormErrorMessage from "component/common/ErrorMessage";
 const AddFaqComp = () => {
-  const { register, handleSubmit, errors, reset, setError } = useForm({
+  const { register, handleSubmit, errors, control,reset, setError } = useForm({
     mode: "onChange",
   });
   const [modal, setModal] = useState(false);
@@ -86,30 +87,76 @@ const AddFaqComp = () => {
           <div className="row my-4">
             <div className="col-3">
               <label>Category</label>
-              <DropDown
-                // value={value}
-                placeholder="Select Category"
-                // onChange={(e) => {}}
-                // options={options}
+              <CustomController
+                name={"category"}
+                control={control}
+                error={errors.category}
+                // defaultValue={role}
+                rules={{ required: true }}
+                messages={{ required: " Category is Required" }}
+                render={({ onChange, ...field }) => {
+                  return (
+                    <DropDown
+                    // value={value}
+                    name="category"
+                    placeholder="Select Category"
+                    
+                      // onChange={(e) => {}}
+                      // options={options}
+                    />
+                  );
+                }}
               />
+          
+              
             </div>
             <div className="col-4">
               <label>Sub Category</label>
-              <DropDown
-                // value={value}
-                placeholder="Select Sub Category"
-                // onChange={(e) => {}}
-                // options={options}
+              <CustomController
+                name={"subcategory"}
+                control={control}
+                error={errors.subcategory}
+                // defaultValue={role}
+                rules={{ required: true }}
+                messages={{ required: "  Sub Category is Required" }}
+                render={({ onChange, ...field }) => {
+                  return (
+                    <DropDown
+                    // value={value}
+                    name="subcategory"
+                    placeholder="Select Sub Category"
+                    
+                      // onChange={(e) => {}}
+                      // options={options}
+                    />
+                  );
+                }}
               />
+          
             </div>
             <div className="col-3">
               <label>FAQ Status</label>
-              <DropDown
-                // value={value}
-                placeholder="Select Status"
-                // onChange={(e) => {}}
-                // options={options}
+              <CustomController
+                name={"select"}
+                control={control}
+                error={errors.select}
+                // defaultValue={role}
+                rules={{ required: true }}
+                messages={{ required: " Status is Required" }}
+                render={({ onChange, ...field }) => {
+                  return (
+                    <DropDown
+                    // value={value}
+                    name="select"
+                    placeholder="Select Status"
+                    
+                      // onChange={(e) => {}}
+                      // options={options}
+                    />
+                  );
+                }}
               />
+            
             </div>
           </div>
           <div className="col-12 p-0">

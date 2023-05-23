@@ -8,12 +8,13 @@ import ReactSelect from "react-select";
 import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
 import TextEditor from "component/common/TextEditor/TextEditor";
 import { history } from "helpers";
+import CustomController from "component/common/Controller";
 // import FormErrorMessage from "component/common/ErrorMessage";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import DropDown from "component/common/DropDown/DropDown";
 const EditContentManagementComp = () => {
-  const { register, handleSubmit, errors, reset, setError } = useForm({
+  const { register, handleSubmit, errors,control, reset, setError } = useForm({
     mode: "onChange",
   });
 
@@ -89,7 +90,26 @@ const EditContentManagementComp = () => {
                 </div>
                 <div class="col-4">
                   <label className="Product_description">Page Status</label>
-                  <DropDown placeholder={"Active"} />
+                  <CustomController
+                    name={"active"}
+                    control={control}
+                    error={errors.active}
+                    // defaultValue={role}
+                    rules={{ required: true }}
+                    messages={{ required: "Page Status is Required" }}
+                    render={({ onChange, ...field }) => {
+                      return (
+                        <DropDown
+                          // value={value}
+                          name="active"
+                          placeholder="Active"
+
+                          // onChange={(e) => {}}
+                          // options={options}
+                        />
+                      );
+                    }}
+                  />
                 </div>
               </div>
               <div className="row gx-5">

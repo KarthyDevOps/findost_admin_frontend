@@ -10,8 +10,9 @@ import NormalButton from "component/common/NormalButton/NormalButton";
 import Dropzone from "component/common/Dropzone";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import FormErrorMessage from "component/common/ErrorMessage";
+import CustomController from "component/common/Controller";
 const AddKnowledgeComp = () => {
-  const { register, handleSubmit, errors, reset, setError } = useForm({
+  const { register, handleSubmit, errors, reset, setError, control } = useForm({
     mode: "onChange",
   });
   const [modal, setModal] = useState(false);
@@ -72,20 +73,46 @@ const AddKnowledgeComp = () => {
             </div>
             <div className="col-4">
               <label>Category</label>
-              <DropDown
-                // value={value}
-                placeholder="Select Category"
-                // onChange={(e) => {}}
-                // options={options}
+              <CustomController
+                name={"category"}
+                control={control}
+                error={errors.category}
+                // defaultValue={role}
+                rules={{ required: true }}
+                messages={{ required: "category is Required" }}
+                render={({ onChange, ...field }) => {
+                  return (
+                    <DropDown
+                      // value={value}
+                      name="category"
+                      placeholder="Select Category"
+                      // onChange={(e) => {}}
+                      // options={options}
+                    />
+                  );
+                }}
               />
             </div>
             <div className="col-4">
               <label>Sub Category</label>
-              <DropDown
-                // value={value}
-                placeholder="Select Sub Category"
-                // onChange={(e) => {}}
-                // options={options}
+              <CustomController
+                name={"subcategory"}
+                control={control}
+                error={errors.subcategory}
+                // defaultValue={role}
+                rules={{ required: true }}
+                messages={{ required: "Subcategory is Required" }}
+                render={({ onChange, ...field }) => {
+                  return (
+                    <DropDown
+                      // value={value}
+                      name="subcategory"
+                      placeholder="Select Sub Category"
+                      // onChange={(e) => {}}
+                      // options={options}
+                    />
+                  );
+                }}
               />
             </div>
             <div className="col-4 my-3">
@@ -100,16 +127,16 @@ const AddKnowledgeComp = () => {
                 register={register({
                   required: true,
 
-                pattern: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
-              })}
-            />
-            <FormErrorMessage
-              error={errors.URL}
-              messages={{
-                required: "URL is required",
-                pattern: "Invalid URL",
-              }}
-            />
+                  pattern: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
+                })}
+              />
+              <FormErrorMessage
+                error={errors.URL}
+                messages={{
+                  required: "URL is required",
+                  pattern: "Invalid URL",
+                }}
+              />
             </div>
             <div className="col-4 mt-3">
               <label className="Product_description">Upload Document</label>
@@ -126,11 +153,24 @@ const AddKnowledgeComp = () => {
             </div>
             <div className="col-4 my-3">
               <label>Status</label>
-              <DropDown
-                // value={value}
-                placeholder="Select Status"
-                // onChange={(e) => {}}
-                // options={options}
+              <CustomController
+                name={"status"}
+                control={control}
+                error={errors.status}
+                // defaultValue={role}
+                rules={{ required: true }}
+                messages={{ required: "Status is Required" }}
+                render={({ onChange, ...field }) => {
+                  return (
+                    <DropDown
+                      // value={value}
+                      name="status"
+                      placeholder="Select status"
+                      // onChange={(e) => {}}
+                      // options={options}
+                    />
+                  );
+                }}
               />
             </div>
           </div>

@@ -11,9 +11,9 @@ import { history } from "helpers";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import DropDown from "component/common/DropDown/DropDown";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
-
+import CustomController from "component/common/Controller";
 const AddTempleteManagementcomp = () => {
-  const { register, handleSubmit, errors, reset, setError } = useForm({
+  const { register, handleSubmit, errors, control, reset, setError } = useForm({
     mode: "onChange",
   });
   // const [role, setRole] = useState("");
@@ -23,7 +23,7 @@ const AddTempleteManagementcomp = () => {
   // const [enddate, setenddate] = useState("");
   const [content, setContent] = useState("");
   const [modal, setModal] = useState(false);
-  const [edit, setEdit] = useState(false);
+  const [edit, setEdit] = useState(true);
 
   const [editorState, setEditorState] = useState(null);
 
@@ -55,7 +55,9 @@ const AddTempleteManagementcomp = () => {
                 style={{ cursor: "pointer" }}
               />
             </i>
-            <p className="add_products_title m-0">Add Template</p>
+            <p className="add_products_title m-0">
+              {edit ? "Add Template" : "Template Management"}
+            </p>
           </div>
         </div>
         {/* <div> */}
@@ -74,26 +76,60 @@ const AddTempleteManagementcomp = () => {
                     errors={errors}
                     register={register({
                       required: true,
-                 
                     })}
-
-                  
                   />
-                      <FormErrorMessage
+                  <FormErrorMessage
                     error={errors.title}
                     messages={{
                       required: "Title is required",
-                     
                     }}
                   />
                 </div>
                 <div class="col-4">
                   <label className="Product_description">Message Type</label>
-                  <DropDown placeholder={"Active"} />
+                  <CustomController
+                    name={"active"}
+                    control={control}
+                    error={errors.active}
+                    // defaultValue={role}
+                    rules={{ required: true }}
+                    messages={{ required: "Message type is Required" }}
+                    render={({ onChange, ...field }) => {
+                      return (
+                        <DropDown
+                          // value={value}
+                          name="active"
+                          placeholder="Active"
+
+                          // onChange={(e) => {}}
+                          // options={options}
+                        />
+                      );
+                    }}
+                  />
                 </div>
                 <div class="col-4">
                   <label className="Product_description">Message Status</label>
-                  <DropDown placeholder={"Active"} />
+                  <CustomController
+                    name={"activeType"}
+                    control={control}
+                    error={errors.activeType}
+                    // defaultValue={role}
+                    rules={{ required: true }}
+                    messages={{ required: "Message Status is Required" }}
+                    render={({ onChange, ...field }) => {
+                      return (
+                        <DropDown
+                          // value={value}
+                          name="activeType"
+                          placeholder="Active"
+
+                          // onChange={(e) => {}}
+                          // options={options}
+                        />
+                      );
+                    }}
+                  />
                 </div>
               </div>
               <div className="row gx-5 mt-3">
@@ -121,7 +157,7 @@ const AddTempleteManagementcomp = () => {
                     <NormalButton
                       addProductbtn
                       onClick={handleSubmit(onSubmit)}
-                      label="Add Template"
+                      label={edit ? "Add Template" : "Update"}
                     >
                       {" "}
                     </NormalButton>

@@ -12,17 +12,15 @@ import { useDropzone } from "react-dropzone";
 // import "react-dropzone/dist/styles.css";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import NormalButton from "component/common/NormalButton/NormalButton";
+import CustomController from "component/common/Controller";
 const SiteSettingComp = () => {
-  const { register, handleSubmit, errors, reset, setError } = useForm({
+  const { register, handleSubmit, errors, control, reset, setError } = useForm({
     mode: "onChange",
   });
 
   const [content, setContent] = useState("");
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState(false);
-
-  
- 
 
   const handleFileDrop = (fileData) => {
     // Handle the dropped file data here
@@ -164,35 +162,56 @@ const SiteSettingComp = () => {
               </div> */}
                 <div className="col-4 mt-4">
                   <label className="Product_description">Site Fav Logo</label>
-
-                  <Dropzone onFileDrop={handleFileDrop}>
-                    {({ getRootProps, getInputProps }) => (
-                      <div {...getRootProps({ className: "dropzone" })}>
-                        <input {...getInputProps()} multiple={false} required />
-                      </div>
-                    )}
-                   
-                  </Dropzone>
-                  {
-                      <FormErrorMessage
-                      error={errors.dropZoneField}
-                      messages={{
-                        required: "Pet Photo is Required",
-                      }}
-                    />
-                  }
-
+                  {/* <CustomController
+                    name={"logo"}
+                    control={control}
+                    error={errors.logo}
+                    // defaultValue={role}
+                    rules={{ required: true }}
+                    messages={{ required: "site logo is Required" }}
+                    render={({ onChange, ...field }) => {
+                      return ( */}
+                        <Dropzone onFileDrop={handleFileDrop} name="logo">
+                          {({ getRootProps, getInputProps }) => (
+                            <div {...getRootProps({ className: "dropzone" })}>
+                              <input
+                                {...getInputProps()}
+                                multiple={false}
+                                required
+                              />
+                            </div>
+                          )}
+                        </Dropzone>
+                      {/* );
+                    }}
+                  /> */}
                 </div>
                 <div className="col-4 mt-4">
                   <label className="Product_description">Site Logo</label>
-
-                  <Dropzone onFileDrop={handleFileDrop}>
-                    {({ getRootProps, getInputProps }) => (
-                      <div {...getRootProps({ className: "dropzone" })}>
-                        <input {...getInputProps()} multiple={false} required />
-                      </div>
-                    )}
-                  </Dropzone>
+{/* 
+                  <CustomController
+                    name={"drop"}
+                    control={control}
+                    error={errors.drop}
+                    // defaultValue={role}
+                    rules={{ required: true }}
+                    messages={{ required: "site logo is Required" }}
+                    render={({ onChange, ...field }) => {
+                      return ( */}
+                        <Dropzone onFileDrop={handleFileDrop} name="drop">
+                          {({ getRootProps, getInputProps }) => (
+                            <div {...getRootProps({ className: "dropzone" })}>
+                              <input
+                                {...getInputProps()}
+                                multiple={false}
+                                required
+                              />
+                            </div>
+                          )}
+                        </Dropzone>
+                      {/* );
+                    }}
+                  /> */}
                 </div>
 
                 {/* <div className="col-4 mt-4">
@@ -279,11 +298,7 @@ const SiteSettingComp = () => {
           <SuccessModal
             modalOpen={modal}
             onCancel={() => setModal(false)}
-            successMsg={
-             
-                "New Staff Updated Successfully"
-               
-            }
+            successMsg={"New Staff Updated Successfully"}
           />
         </div>
       </div>

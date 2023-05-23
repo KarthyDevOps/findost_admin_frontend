@@ -9,12 +9,15 @@ import InputBox from "component/common/InputBox/InputBox";
 import DatePick from "component/common/DatePicker";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
+import CustomController from "component/common/Controller";
 const EditClientsFamilyComp = () => {
-  const { register, handleSubmit, errors, reset, setError } = useForm({
+  const { register, handleSubmit, errors, reset, setError,control } = useForm({
     mode: "onChange",
   });
   const [date, setdate] = useState("");
+const onSubmit=()=>{
 
+}
   return (
     <div className="px-5 py-3">
       <div className="edit_client d-flex my-3 align-items-center ">
@@ -117,23 +120,33 @@ const EditClientsFamilyComp = () => {
               <FormErrorMessage
               error={errors.relativename}
               messages={{
-                required: "name is required",
+                required: "Relative Name is required",
               }}
             />
           </div>
           <div className="col-md-4 my-3">
             <label>Relationship</label>
-            <DropDown
-              // value={value}
-              placeholder="Select Relationship"
-              register={register({
-                required: true,
-              })}
-              name="role"
-              errors={errors}
-              // onChange={(e) => {}}
-              // options={options}
-            />
+            <CustomController
+                name={"select"}
+                control={control}
+                error={errors.select}
+                // defaultValue={role}
+                rules={{ required: true }}
+                messages={{ required: "Select RelationShip is Required" }}
+                render={({ onChange, ...field }) => {
+                  return (
+                    <DropDown
+                    // value={value}
+                    name="select"
+                    placeholder="Select RelationShip"
+                    
+                      // onChange={(e) => {}}
+                      // options={options}
+                    />
+                  );
+                }}
+              />
+
           </div>
         </div>
         <div className="d-flex align-items-center justify-content-end my-5">
@@ -148,7 +161,7 @@ const EditClientsFamilyComp = () => {
             <NormalButton
               className="loginButton"
               label={"Update"}
-              onClick={handleSubmit}
+              onClick={handleSubmit(onSubmit)}
               //   onClick={DeletBulk}
             />
           </div>
