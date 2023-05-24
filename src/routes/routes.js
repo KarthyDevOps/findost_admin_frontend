@@ -107,7 +107,7 @@ const routers = [
       },
       {
         component: "AddFeedback",
-        path: "/feedback-management/add-feedback",
+        path: "/feedBack-management/add-feedback",
         componentPath: "pages/Dashboard/FeedbackManagement/AddFeedback",
         name: "AddFeedback",
         auth: false,
@@ -115,7 +115,7 @@ const routers = [
       },
       {
         component: "AnswerFeedback",
-        path: "/feedback-management/answer-feedback",
+        path: "/feedBack-management/answer-feedback",
         componentPath: "pages/Dashboard/FeedbackManagement/AnswerFeedback",
         name: "AnswerFeedback",
         auth: false,
@@ -149,7 +149,7 @@ const routers = [
       },
       {
         component: "EditContentManagement",
-        path: "/content-Management/editcontent-Management",
+        path: "/content-management/editcontent-Management",
         componentPath: "pages/Dashboard/ContentManagement/EditContentManagement",
         name: "EditContentManagement",
         auth: false,

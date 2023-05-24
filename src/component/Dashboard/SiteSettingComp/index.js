@@ -8,7 +8,7 @@ import Dropzone from "component/common/Dropzone";
 import FormErrorMessage from "component/common/ErrorMessage";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import NormalButton from "component/common/NormalButton/NormalButton";
-// import CustomController from "component/common/Controller";
+import CustomController from "component/common/Controller";
 const SiteSettingComp = () => {
   const { register, handleSubmit, errors, control, reset, setError } = useForm({
     mode: "onChange",
@@ -167,24 +167,20 @@ const SiteSettingComp = () => {
                     messages={{ required: "site logo is Required" }}
                     render={({ onChange, ...field }) => {
                       return ( */}
-                        <Dropzone onFileDrop={handleFileDrop} name="logo">
-                          {({ getRootProps, getInputProps }) => (
-                            <div {...getRootProps({ className: "dropzone" })}>
-                              <input
-                                {...getInputProps()}
-                                multiple={false}
-                                required
-                              />
-                            </div>
-                          )}
-                        </Dropzone>
-                      {/* );
+                  <Dropzone onFileDrop={handleFileDrop} name="logo">
+                    {({ getRootProps, getInputProps }) => (
+                      <div {...getRootProps({ className: "dropzone" })}>
+                        <input {...getInputProps()} multiple={false} required />
+                      </div>
+                    )}
+                  </Dropzone>
+                  {/* );
                     }}
                   /> */}
                 </div>
                 <div className="col-4 mt-4">
                   <label className="Product_description">Site Logo</label>
-{/* 
+                  {/* 
                   <CustomController
                     name={"drop"}
                     control={control}
@@ -194,18 +190,14 @@ const SiteSettingComp = () => {
                     messages={{ required: "site logo is Required" }}
                     render={({ onChange, ...field }) => {
                       return ( */}
-                        <Dropzone onFileDrop={handleFileDrop} name="drop">
-                          {({ getRootProps, getInputProps }) => (
-                            <div {...getRootProps({ className: "dropzone" })}>
-                              <input
-                                {...getInputProps()}
-                                multiple={false}
-                                required
-                              />
-                            </div>
-                          )}
-                        </Dropzone>
-                      {/* );
+                  <Dropzone onFileDrop={handleFileDrop} name="drop">
+                    {({ getRootProps, getInputProps }) => (
+                      <div {...getRootProps({ className: "dropzone" })}>
+                        <input {...getInputProps()} multiple={false} required />
+                      </div>
+                    )}
+                  </Dropzone>
+                  {/* );
                     }}
                   /> */}
                 </div>
@@ -260,7 +252,25 @@ const SiteSettingComp = () => {
                     Copyright Text
                   </label>
                   <div className="text_editor">
-                    <TextEditor content={content} setContent={setContent} />
+                    <CustomController
+                      name={"TextEditor"}
+                      control={control}
+                      error={errors.TextEditor}
+                      // defaultValue={endDate}
+                      rules={{ required: true }}
+                      messages={{
+                        required: "Copyright is Required",
+                      }}
+                      render={({ onChange, ...field }) => {
+                        return (
+                          <TextEditor
+                            errors={errors.TextEditor}
+                            content={content}
+                            setContent={setContent}
+                          />
+                        );
+                      }}
+                    />
                   </div>
                 </div>
               </div>

@@ -161,7 +161,25 @@ const AddFaqComp = () => {
           </div>
           <div className="col-12 p-0">
             <label>FAQ Status</label>
-            <TextEditor />
+            <CustomController
+                      name={"TextEditor"}
+                      control={control}
+                      error={errors.TextEditor}
+                      // defaultValue={endDate}
+                      rules={{ required: true }}
+                      messages={{
+                        required: "FAQ status is Required",
+                      }}
+                      render={({ onChange, ...field }) => {
+                        return (
+                          <TextEditor
+                            errors={errors.TextEditor}
+                            // content={content}
+                            // setContent={setContent}
+                          />
+                        );
+                      }}
+                    />
           </div>
           <div className="d-flex align-items-center justify-content-end my-5 pt-3">
             <div className="col-md-2">

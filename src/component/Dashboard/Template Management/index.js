@@ -16,10 +16,73 @@ const TemplateManagementComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
   });
-  const [data, setData] = useState([]);
+  const [pageCount, setPageCount] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [data, setData] = useState([
+    {
+      templateId: "51322",
+      status: "inactive",
+      messagetype: "Template Message",
+      messagetitle: "open source",
+      messageDescription:"Nemo dolorem eum aliquam non."
+    },
+    {
+      templateId: "51322",
+      status: "active",
+      messagetype: "Template Message",
+      messagetitle: "source",
+      messageDescription:"Nemo dolorem eum aliquam non."
+    },
+    {
+      templateId: "51322",
+      status: "active",
+      messagetype: "Template Message",
+      messagetitle: "open source",
+      messageDescription:"Nemo dolorem eum aliquam non."
+    },
+    {
+      templateId: "51322",
+      status: "active",
+      messagetype: "Template Message",
+      messagetitle: " edge",
+      messageDescription:"Nemo dolorem eum aliquam non."
+    },
+    {
+      templateId: "51322",
+      status: "active",
+      messagetype: "Template Message",
+      messagetitle: "source",
+      messageDescription:"Nemo dolorem eum aliquam non."
+    },
+  ]);
   const [searchStaff, setSearchStaff] = useState("");
-  const [role, setRole] = useState("");
-  const [status, setStatus] = useState("");
+  const includedKeys = [
+    {
+      label: "Template Id",
+      value: "templateId",
+    },
+    {
+      label: "Status",
+      value: "status",
+    },
+    {
+      label: "Message Type",
+      value: "messagetype",
+    },
+    {
+      label: "Message Title",
+      value: "messagetitle",
+    },
+    {
+      label: "Message Description",
+      value: "messageDescription",
+    },
+  ];
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -75,7 +138,18 @@ const TemplateManagementComp = () => {
         </div>
         <div className="">
           {data.length > 0 ? (
-            <TableComp data={data} itemsPerPage={10} isCheck={false} actions={false} />
+             <TableComp
+             data={data}
+             isCheck={true}
+             EditAction={true}
+
+             DeleteAction={true}
+             includedKeys={includedKeys}
+             pageCount={pageCount}
+             onPageChange={handlePageChange}
+             setCurrentPage={setCurrentPage}
+             editRouteName={"/admin/template-management/add-template"}
+           />
           ) : (
             <p className="text-center mt-5 fs-15">No Data Available</p>
           )}

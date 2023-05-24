@@ -1,11 +1,8 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import "./style.scss";
-import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
-import FormErrorMessage from "component/common/ErrorMessage";
-import ReactSelect from "react-select";
-import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
+
 import TextEditor from "component/common/TextEditor/TextEditor";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import { history } from "helpers";
@@ -13,11 +10,7 @@ const AddFeedbackcomp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
   });
-  const [role, setRole] = useState("");
-  const [status, setStatus] = useState("");
-  const [edit, setEdit] = useState(false);
-  const [startdate, setstartdate] = useState("");
-  const [enddate, setenddate] = useState("");
+
   const [content, setContent] = useState("");
 
   const [editorState, setEditorState] = useState(null);

@@ -118,7 +118,25 @@ const EditContentManagementComp = () => {
                     Page Content
                   </label>
                   <div className="text_editor">
-                    <TextEditor content={content} setContent={setContent} />
+                  <CustomController
+                      name={"TextEditor"}
+                      control={control}
+                      error={errors.TextEditor}
+                      // defaultValue={endDate}
+                      rules={{ required: true }}
+                      messages={{
+                        required: "Page content is Required",
+                      }}
+                      render={({ onChange, ...field }) => {
+                        return (
+                          <TextEditor
+                            errors={errors.TextEditor}
+                            content={content}
+                            setContent={setContent}
+                          />
+                        );
+                      }}
+                    />
                   </div>
                 </div>
               </div>

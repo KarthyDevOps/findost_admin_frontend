@@ -13,10 +13,57 @@ const ContentManagementComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
   });
-  const [data, setData] = useState([]);
   const [searchStaff, setSearchStaff] = useState("");
   const [role, setRole] = useState("");
   const [status, setStatus] = useState("");
+  const [pageCount, setPageCount] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+
+
+  const [data, setData] = useState([
+    {
+      pagesId: "51322",
+      status: "Inactive",
+      dateandTime: "2023-05-04T16:06:03.636Z",
+      pagetitle: "privacy policy",
+      feedbackDescription:"Nemo dolorem eum aliquam non."
+    },
+    {
+      pagesId: "51322",
+      status: "active",
+      dateandTime: "2023-05-04T16:06:03.636Z",
+      pagetitle: "terms and condition",
+      feedbackDescription:"Nemo dolorem eum aliquam non."
+    },
+    {
+      pagesId: "51322",
+      status: "active",
+      dateandTime: "2023-05-04T16:06:03.636Z",
+      pagetitle: "Benefits and Process",
+      feedbackDescription:"Nemo dolorem eum aliquam non."
+    },
+  ]);
+
+  const includedKeys = [
+    {
+      label: "Pages Id",
+      value: "pagesId",
+    },
+    {
+      label: "Page Status",
+      value: "status",
+    },
+   
+    {
+      label: "Page Title",
+      value: "pagetitle",
+    },
+   
+  ];
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,7 +85,20 @@ const ContentManagementComp = () => {
        
         <div className="">
           {data.length > 0 ? (
-            <TableComp data={data} itemsPerPage={10} isCheck={false} actions={false} />
+            
+            <TableComp
+            data={data}
+            // isCheck={true}
+            // ReadAction={true}
+            EditAction={true}
+
+            DeleteAction={true}
+            includedKeys={includedKeys}
+            pageCount={pageCount}
+            onPageChange={handlePageChange}
+            setCurrentPage={setCurrentPage}
+            editRouteName={"/admin/content-management/editcontent-Management"}
+          />
           ) : (
             <p className="text-center mt-5 fs-15">No Data Available</p>
           )}

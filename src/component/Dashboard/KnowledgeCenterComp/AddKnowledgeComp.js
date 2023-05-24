@@ -176,7 +176,25 @@ const AddKnowledgeComp = () => {
           </div>
           <div>
             <label>Description</label>
-            <TextEditor />
+            <CustomController
+                      name={"TextEditor"}
+                      control={control}
+                      error={errors.TextEditor}
+                      // defaultValue={endDate}
+                      rules={{ required: true }}
+                      messages={{
+                        required: "Description is Required",
+                      }}
+                      render={({ onChange, ...field }) => {
+                        return (
+                          <TextEditor
+                            errors={errors.TextEditor}
+                            // content={content}
+                            // setContent={setContent}
+                          />
+                        );
+                      }}
+                    />
           </div>
           <div className="d-flex align-items-center justify-content-end my-5 py-3">
             <div className="col-md-2">
