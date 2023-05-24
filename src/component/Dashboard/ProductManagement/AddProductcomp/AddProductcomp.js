@@ -5,8 +5,6 @@ import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
 import ReactQuill from "react-quill";
 import "quill/dist/quill.snow.css";
-import ReactSelect from "react-select";
-import TextEditor from "component/common/TextEditor/TextEditor";
 import { history } from "helpers";
 import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
 import CustomController from "component/common/Controller";
@@ -315,7 +313,7 @@ const AddProductcomp = () => {
                 <div className="col-12  d-flex justify-content-end">
                   <div className="col-2">
                     <NormalButton
-                      onClick={() => history.goBack()}
+                      onClick={() => history.push("/admin/product-management")}
                       cancel
                       label="cancel"
                     />{" "}
