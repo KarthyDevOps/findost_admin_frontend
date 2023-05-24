@@ -10,7 +10,26 @@ import DeleteModal from "component/common/DeleteModal/DeleteModal";
 const NotificationManagementComp = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [search, setSearch] = useState("");
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([
+    {
+      notificationId: "51322",
+      dateandTime: "2023-05-04T16:06:03.636Z",
+      notificationTitle: "mission-critical",
+      notificationDescription: "Nemo dolorem eum aliquam non.",
+    },
+    {
+      notificationId: "51322",
+      dateandTime: "2023-05-04T16:06:03.636Z",
+      notificationTitle: "cross-platform",
+      notificationDescription: "Nemo dolorem eum aliquam non.",
+    },
+    {
+      notificationId: "51322",
+      dateandTime: "2023-05-04T16:06:03.636Z",
+      notificationTitle: "transparent",
+      notificationDescription: "Nemo dolorem eum aliquam non.",
+    },
+  ]);
 
   const handleTab = (tab) => {
     setActiveTab(tab);
@@ -25,20 +44,31 @@ const NotificationManagementComp = () => {
     setActiveTab(tabValue);
   }, [tabValue]);
 
-  // useEffect(() => {
-  //   handleTab(tabValue ?? "NotificationTemplate");
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         "https://jsonplaceholder.typicode.com/posts"
-  //       );
-  //       setData(response.data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
+  const [pageCount, setPageCount] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const includedKeys = [
+    {
+      label: "Notification Id",
+      value: "notificationId",
+    },
+    {
+      label: "Date and Time",
+      value: "dateandTime",
+    },
+    {
+      label: "Notification Title",
+      value: "notificationTitle",
+    },
+    {
+      label: "Notification Description",
+      value: "notificationDescription",
+    },
+  ];
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <div className="notification_container px-5">
@@ -89,7 +119,11 @@ const NotificationManagementComp = () => {
               <NormalButton
                 className="loginButton"
                 label={"Create Notification"}
-                onClick={() => history.push("/admin/create-notification?tab=0")}
+                onClick={() =>
+                  history.push(
+                    "/admin/notification-management/create-notification"
+                  )
+                }
               />
             </div>
           </div>
@@ -117,7 +151,11 @@ const NotificationManagementComp = () => {
               <NormalButton
                 className="loginButton"
                 label={"Send Notification"}
-                onClick={() => history.push("/admin/send-notification?tab=1")}
+                onClick={() =>
+                  history.push(
+                    "/admin/notification-management/send-notification"
+                  )
+                }
               />
             </div>
           </div>
@@ -127,16 +165,28 @@ const NotificationManagementComp = () => {
         <div className="">
           <TableComp
             data={data}
-            isCheck={false}
-            actions={false}
+            isCheck={true}
+            EditAction={true}
+            DeleteAction={true}
+            includedKeys={includedKeys}
+            pageCount={pageCount}
+            onPageChange={handlePageChange}
+            setCurrentPage={setCurrentPage}
+            editRouteName={"/admin/notification-management/create-notification"}
           />
         </div>
       ) : (
         <div className="">
           <TableComp
             data={data}
-            isCheck={false}
-            actions={false}
+            isCheck={true}
+            EditAction={true}
+            DeleteAction={true}
+            includedKeys={includedKeys}
+            pageCount={pageCount}
+            onPageChange={handlePageChange}
+            setCurrentPage={setCurrentPage}
+            editRouteName={"/admin/notification-management/send-notification"}
           />
         </div>
       )}

@@ -2,17 +2,13 @@ import React, { useState, useEffect, Fragment } from "react";
 import "./style.scss";
 import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
-import cloudIcon from "../../../assets/images/uploadcloud.svg";
 import TextEditor from "component/common/TextEditor/TextEditor";
 import { history } from "helpers";
 import Dropzone from "component/common/Dropzone";
-import { AiOutlineCloseCircle } from "react-icons/ai";
 import FormErrorMessage from "component/common/ErrorMessage";
-import { useDropzone } from "react-dropzone";
-// import "react-dropzone/dist/styles.css";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import NormalButton from "component/common/NormalButton/NormalButton";
-import CustomController from "component/common/Controller";
+// import CustomController from "component/common/Controller";
 const SiteSettingComp = () => {
   const { register, handleSubmit, errors, control, reset, setError } = useForm({
     mode: "onChange",

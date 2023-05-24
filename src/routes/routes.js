@@ -64,7 +64,7 @@ const routers = [
       },
       {
         component: "AddStaffManagement",
-        path: "/add-staff",
+        path: "/staff-management/add-staff",
         componentPath: "pages/Dashboard/StaffManagement/AddStaffManagement",
         name: "AddStaffManagement",
         auth: false,
@@ -90,21 +90,13 @@ const routers = [
       },
       {
         component: "AddProduct",
-        path: "/add-product",
+        path: "/product-management/add-product",
         componentPath: "pages/Dashboard/ProductManagement/AddProduct",
         name: "AddProduct",
         auth: false,
         exact: true,
-      },
-      // {
-      //   component: "CreateNotification",
-      //   path: "/create-notification",
-      //   componentPath:
-      //     "pages/Dashboard/NotificationManagement/CreateNotification",
-      //   name: "CreateNotification",
-      //   auth: false,
-      //   exact: true,
-      // },
+      },  
+     
       {
         component: "FeedbackManagement",
         path: "/feedback-management",
@@ -115,7 +107,7 @@ const routers = [
       },
       {
         component: "AddFeedback",
-        path: "/add-feedback",
+        path: "/feedback-management/add-feedback",
         componentPath: "pages/Dashboard/FeedbackManagement/AddFeedback",
         name: "AddFeedback",
         auth: false,
@@ -123,7 +115,7 @@ const routers = [
       },
       {
         component: "AnswerFeedback",
-        path: "/answer-feedback",
+        path: "/feedback-management/answer-feedback",
         componentPath: "pages/Dashboard/FeedbackManagement/AnswerFeedback",
         name: "AnswerFeedback",
         auth: false,
@@ -132,7 +124,7 @@ const routers = [
      
       {
         component: "CreateNotification",
-        path: "/create-notification",
+        path: "/notification-management/create-notification",
         componentPath:
           "pages/Dashboard/NotificationManagement/CreateNotification",
         name: "CreateNotification",
@@ -140,15 +132,29 @@ const routers = [
         exact: true,
       },
       {
-        path: "/send-notification",
+        path: "/notification-management/send-notification",
         componentPath:
           "pages/Dashboard/NotificationManagement/SendNotification",
         name: "SendNotification",
         auth: false,
         exact: true,
       },
-  
-    
+      {
+        component: "ContentManagement",
+        path: "/content-Management",
+        componentPath: "pages/Dashboard/ContentManagement/ContentManagement",
+        name: "ContentManagement",
+        auth: false,
+        exact: true,
+      },
+      {
+        component: "EditContentManagement",
+        path: "/content-Management/editcontent-Management",
+        componentPath: "pages/Dashboard/ContentManagement/EditContentManagement",
+        name: "EditContentManagement",
+        auth: false,
+        exact: true,
+      },
       {
         component: "FaqManagement",
         path: "/faq-management",
@@ -159,7 +165,7 @@ const routers = [
       },
       {
         component: "AddFaq",
-        path: "/add-faq",
+        path: "/faq-management/add-faq",
         componentPath: "pages/Dashboard/FaqManagement/AddFaq",
         name: "AddFaq",
         auth: false,
@@ -174,22 +180,8 @@ const routers = [
         auth: false,
         exact: true,
       },
-      {
-        component: "ContentManagement",
-        path: "/content-Management",
-        componentPath: "pages/Dashboard/ContentManagement/ContentManagement",
-        name: "ContentManagement",
-        auth: false,
-        exact: true,
-      },
-      {
-        component: "EditContentManagement",
-        path: "/editcontent-Management",
-        componentPath: "pages/Dashboard/ContentManagement/EditContentManagement",
-        name: "EditContentManagement",
-        auth: false,
-        exact: true,
-      },
+
+   
       {
         component: "TemplateManagement",
         path: "/template-management",
@@ -200,7 +192,7 @@ const routers = [
       },
       {
         component: "AddTemplateManagement",
-        path: "/add-template",
+        path: "/template-management/add-template",
         componentPath: "pages/Dashboard/TemplateManagement/AddTemplateManagement",
         name: "AddTemplateManagement",
         auth: false,
@@ -216,7 +208,7 @@ const routers = [
       },
       {
         component: "AddKnowledge",
-        path: "/add-knowledge",
+        path: "/knowledge-center/add-knowledge",
         componentPath:
           "pages/Dashboard/KnowledgeCenter/AddKnowledge",
         name: "AddKnowledge",
@@ -234,7 +226,7 @@ const routers = [
       },
       {
         component: "EditClientsFamily",
-        path: "/edit-client",
+        path: "/clients-family/edit-client",
         componentPath:
           "pages/Dashboard/ClientsFamilyPage/EditClientsFamily",
         name: "EditClientsFamily",

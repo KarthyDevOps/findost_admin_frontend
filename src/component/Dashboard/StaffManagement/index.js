@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, useCallback } from "react";
 import TableComp from "../../common/TableComp/TableComp";
 import axios from "axios";
 import InputBox from "component/common/InputBox/InputBox";
@@ -13,7 +13,7 @@ const StaffManagementComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
   });
-  
+
   const [data, setData] = useState([]);
   const [searchStaff, setSearchStaff] = useState("");
   const [role, setRole] = useState("");
@@ -23,23 +23,23 @@ const StaffManagementComp = () => {
 
   const includedKeys = [
     {
-      label: "Id",
+      label: "User Id",
       value: "_id",
     },
     {
-      label: "Name",
+      label: "Username",
       value: "name",
     },
     {
-      label: "BrandImage",
+      label: "Email Id",
       value: "brandImage",
     },
     {
-      label: "Updated",
+      label: "Role Name",
       value: "updatedAt",
     },
     {
-      label: "Created",
+      label: "Status",
       value: "createdAt",
     },
   ];
@@ -113,7 +113,7 @@ const StaffManagementComp = () => {
             <NormalButton
               className="loginButton"
               label={"Add Staff"}
-              onClick={() => history.push("/admin/add-staff")}
+              onClick={() => history.push("/admin/staff-management/add-staff")}
             />
           </div>
         </div>
@@ -126,6 +126,8 @@ const StaffManagementComp = () => {
             includedKeys={includedKeys}
             pageCount={pageCount}
             onPageChange={handlePageChange}
+            setCurrentPage={setCurrentPage}
+            editRouteName={"/admin/staff-management/add-staff"}
           />
         </div>
       </div>
