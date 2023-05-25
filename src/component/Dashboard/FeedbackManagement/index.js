@@ -116,7 +116,7 @@ const FeedbackManagementComp = () => {
             </div>
           </div>
           <div className="col-md-2 col-12 p-0 m-0">
-            <Link to="/admin/feedback-management/add-feedback">
+            <Link to="/admin/feedBack-management/add-feedback">
               <NormalButton
                 className="loginButton"
                 label={"Add Feedback"}
@@ -135,7 +135,7 @@ const FeedbackManagementComp = () => {
             pageCount={pageCount}
             onPageChange={handlePageChange}
             setCurrentPage={setCurrentPage}
-            editRouteName={"/admin/feedback-management/add-feedback"}
+            editRouteName={"/admin/feedBack-management/answer-feedback"}
           />
         </div>
       </div>

@@ -1,11 +1,8 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import "./style.scss";
-import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
-import FormErrorMessage from "component/common/ErrorMessage";
-import ReactSelect from "react-select";
-import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
+
 import TextEditor from "component/common/TextEditor/TextEditor";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import { history } from "helpers";
@@ -14,11 +11,7 @@ const AddFeedbackcomp = () => {
   const { register, handleSubmit, errors, reset, setError, control } = useForm({
     mode: "onChange",
   });
-  const [role, setRole] = useState("");
-  const [status, setStatus] = useState("");
-  const [edit, setEdit] = useState(false);
-  const [startdate, setstartdate] = useState("");
-  const [enddate, setenddate] = useState("");
+
   const [content, setContent] = useState("");
 
   const [editorState, setEditorState] = useState(null);
@@ -90,6 +83,19 @@ const AddFeedbackcomp = () => {
                       onClick={handleSubmit(onSubmit)}
                     />
                   </div>
+                </div>
+              </div>
+            </div>
+            <div className="row mt-4">
+              <div className="col-12  d-flex justify-content-end">
+                <div className="col-2">
+                  <NormalButton onClick={() => history.goBack()} cancel label='cancel'> </NormalButton>
+                </div>
+                <div className="col-2">
+
+                  <NormalButton addProductbtn label='Add Feedback' onClick> </NormalButton>
+                  {/* <NormalButton addProductbtn label='Update'> </NormalButton> */}
+
                 </div>
               </div>
             </div>

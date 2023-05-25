@@ -5,8 +5,83 @@ import ReactSelect from "react-select";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import { history } from "helpers";
 import DropDown from "component/common/DropDown/DropDown";
-
+import TableComp from "component/common/TableComp/TableComp";
 const FaqManagementComp = () => {
+
+
+  const [pageCount, setPageCount] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [data, setData] = useState([
+    {
+      templateId: "51322",
+      status: "inactive",
+      category: "Template Message",
+      subCategory: "open source",
+      faqTitle:"real-time",
+      faqAnswer:'Nemo dolorem eum aliquam non.'
+    },
+    {
+      templateId: "51322",
+      status: "active",
+      category: "Template Message",
+      subCategory: "source",
+      faqTitle:"real-time",
+      faqAnswer:'Nemo dolorem eum aliquam non.'
+    },
+    {
+      templateId: "51322",
+      status: "active",
+      category: "Template Message",
+      subCategory: "open source",
+      faqTitle:"real-time",
+      faqAnswer:'Nemo dolorem eum aliquam non.'
+    },
+    {
+      templateId: "51322",
+      status: "active",
+      category: "Template Message",
+      subCategory: " edge",
+      faqTitle:"real-time",
+      faqAnswer:'Nemo dolorem eum aliquam non.'
+    },
+    {
+      templateId: "51322",
+      status: "active",
+      category: "Template Message",
+      subCategory: "source",
+      faqTitle:"real-time",
+      faqAnswer:'Nemo dolorem eum aliquam non.'
+    },
+  ]);
+  const includedKeys = [
+    {
+      label: "Id",
+      value: "templateId",
+    },
+    {
+      label: "Status",
+      value: "status",
+    },
+    {
+      label: "Category",
+      value: "category",
+    },
+    {
+      label: "Sub Category",
+      value: "subCategory",
+    },
+    {
+      label: "FAQ Title",
+      value: "faqTitle",
+    },
+    {
+      label: "FAQ Answer",
+      value: "faqAnswer",
+    },
+  ];
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
   // useEffect(() => {
   //   if (modalVisible) {
   //     const timer = setTimeout(() => {
@@ -67,7 +142,24 @@ const FaqManagementComp = () => {
             onClick={() => history.push("/admin/faq-management/add-faq")}
           />
         </div>
-        <div></div>
+        <div className=" mt-4 p-3">
+          {data.length > 0 ? (
+             <TableComp
+             data={data}
+             isCheck={true}
+             EditAction={true}
+
+             DeleteAction={true}
+             includedKeys={includedKeys}
+             pageCount={pageCount}
+             onPageChange={handlePageChange}
+             setCurrentPage={setCurrentPage}
+             editRouteName={"/admin/faq-management/add-faq"}
+           />
+          ) : (
+            <p className="text-center mt-5 fs-15">No Data Available</p>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -208,58 +208,63 @@ const AddProductcomp = () => {
                   />
                 </div>
 
-                <div className="col-md-2">
+                <div className="col-lg-4">
                   <label className="Product_description">
                     {" "}
                     Duration Details
                   </label>
-                  <CustomController
-                    name={"startDate"}
-                    control={control}
-                    error={errors.startDate}
-                    // defaultValue={startDate}
-                    rules={{ required: true }}
-                    messages={{
-                      required: "StartDate is Required",
-                    }}
-                    render={({ onChange, ...field }) => {
-                      return (
-                        <CommonDatePicker
-                          {...field}
-                          value={startDate}
-                          name="startDate"
-                          onChange={(text) => setStartDate(text)}
-                          placeholder="Start Date"
-                          errors={errors.startDate}
-                        />
-                      );
-                    }}
-                  />
+                  <div className="row">
+                    <div className="col-md-6">
+                      <CustomController
+                        name={"startDate"}
+                        control={control}
+                        error={errors.startDate}
+                        // defaultValue={startDate}
+                        rules={{ required: true }}
+                        messages={{
+                          required: "StartDate is Required",
+                        }}
+                        render={({ onChange, ...field }) => {
+                          return (
+                            <CommonDatePicker
+                              {...field}
+                              value={startDate}
+                              name="startDate"
+                              onChange={(text) => setStartDate(text)}
+                              placeholder="Start Date"
+                              errors={errors.startDate}
+                            />
+                          );
+                        }}
+                      />
+                    </div>
+                    <div className=" col-md-6 ">
+                      <CustomController
+                        name={"endDate"}
+                        control={control}
+                        error={errors.endDate}
+                        // defaultValue={endDate}
+                        rules={{ required: true }}
+                        messages={{
+                          required: "EndDate is Required",
+                        }}
+                        render={({ onChange, ...field }) => {
+                          return (
+                            <CommonDatePicker
+                              {...field}
+                              value={endDate}
+                              name="endDate"
+                              onChange={(text) => setEndDate(text)}
+                              placeholder="End Date"
+                              errors={errors.endDate}
+                            />
+                          );
+                        }}
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div className="end_date col-md-2 ">
-                  <CustomController
-                    name={"endDate"}
-                    control={control}
-                    error={errors.endDate}
-                    // defaultValue={endDate}
-                    rules={{ required: true }}
-                    messages={{
-                      required: "EndDate is Required",
-                    }}
-                    render={({ onChange, ...field }) => {
-                      return (
-                        <CommonDatePicker
-                          {...field}
-                          value={endDate}
-                          name="endDate"
-                          onChange={(text) => setEndDate(text)}
-                          placeholder="End Date"
-                          errors={errors.endDate}
-                        />
-                      );
-                    }}
-                  />
-                </div>
+
                 <div className="col-md-4">
                   <label className="Product_description"> City</label>
                   <CustomController

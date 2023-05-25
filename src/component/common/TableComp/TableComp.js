@@ -127,8 +127,15 @@ function TableComp(props) {
                         </>
                       );
                     })}
-                    <th className="checkBox_place">Actions</th>
-                    <th className="checkBox_place"></th>
+
+                    {!DeleteAction && !EditAction ? null : !DeleteAction ? (
+                      <th className="checkBox_place"></th>
+                    ) : (
+                      <>
+                        <th className="checkBox_place">Actions</th>
+                        <th className="checkBox_place"></th>
+                      </>
+                    )}
                   </tr>
                 </thead>
                 <tbody>

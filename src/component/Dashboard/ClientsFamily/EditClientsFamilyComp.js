@@ -2,16 +2,22 @@ import React, { useState, useEffect, Fragment } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { history } from "helpers";
 import "./style.scss";
+import FormErrorMessage from "component/common/ErrorMessage";
 import DropDown from "component/common/DropDown/DropDown";
 import { useForm } from "react-hook-form";
 import InputBox from "component/common/InputBox/InputBox";
 import DatePick from "component/common/DatePicker";
 import NormalButton from "component/common/NormalButton/NormalButton";
-
+import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
+import CustomController from "component/common/Controller";
 const EditClientsFamilyComp = () => {
-  const { register, handleSubmit, errors, reset, setError } = useForm({
+  const { register, handleSubmit, errors, reset, setError,control } = useForm({
     mode: "onChange",
   });
+  const [date, setdate] = useState("");
+const onSubmit=()=>{
+
+}
   return (
     <div className="px-5 py-3">
       <div className="edit_client d-flex my-3 align-items-center ">
@@ -24,6 +30,8 @@ const EditClientsFamilyComp = () => {
         </i>
         <p className="m-0">{"Client’s Family"}</p>
       </div>
+      <form>
+
       <div className="client_box p-5">
         <div className="row ">
           <div className="col-md-4">
@@ -44,6 +52,12 @@ const EditClientsFamilyComp = () => {
               //   setsearch(e.target.value);
               //   setactivePage(1);
               // }}
+            />
+            <FormErrorMessage
+              error={errors.name}
+              messages={{
+                required: "Client Name is required",
+              }}
             />
           </div>
           <div className="col-md-4">
@@ -66,10 +80,23 @@ const EditClientsFamilyComp = () => {
               //   setactivePage(1);
               // }}
             />
+              <FormErrorMessage
+              error={errors.email}
+              messages={{
+                required: "Email is required",
+                pattern:'Invalid Email'
+              }}
+            />
           </div>
-          <div className="col-md-4">
+          <div className="col-lg-2">
             <label>Date of Birth</label>
-            <DatePick />
+            <div className="date_of_birth">
+              <CommonDatePicker
+                value={date}
+                onChange={(text) => setdate(text)}
+                placeholder="DOB"
+              />
+            </div>
           </div>
           <div className="col-md-4 my-3">
             <label>Relative Name</label>
@@ -78,7 +105,7 @@ const EditClientsFamilyComp = () => {
               type={"text"}
               placeholder="Enter Relative Name"
               //   errors={errors}
-              name="name"
+              name="relativename"
               errors={errors}
               register={register({
                 required: true,
@@ -90,20 +117,36 @@ const EditClientsFamilyComp = () => {
               //   setactivePage(1);
               // }}
             />
+              <FormErrorMessage
+              error={errors.relativename}
+              messages={{
+                required: "Relative Name is required",
+              }}
+            />
           </div>
           <div className="col-md-4 my-3">
             <label>Relationship</label>
-            <DropDown
-              // value={value}
-              placeholder="Select Relationship"
-              register={register({
-                required: true,
-              })}
-              name="role"
-              errors={errors}
-              // onChange={(e) => {}}
-              // options={options}
-            />
+            <CustomController
+                name={"select"}
+                control={control}
+                error={errors.select}
+                // defaultValue={role}
+                rules={{ required: true }}
+                messages={{ required: "Select RelationShip is Required" }}
+                render={({ onChange, ...field }) => {
+                  return (
+                    <DropDown
+                    // value={value}
+                    name="select"
+                    placeholder="Select RelationShip"
+                    
+                      // onChange={(e) => {}}
+                      // options={options}
+                    />
+                  );
+                }}
+              />
+
           </div>
         </div>
         <div className="d-flex align-items-center justify-content-end my-5">
@@ -118,11 +161,13 @@ const EditClientsFamilyComp = () => {
             <NormalButton
               className="loginButton"
               label={"Update"}
+              onClick={handleSubmit(onSubmit)}
               //   onClick={DeletBulk}
             />
           </div>
         </div>
       </div>
+      </form>
     </div>
   );
 };
