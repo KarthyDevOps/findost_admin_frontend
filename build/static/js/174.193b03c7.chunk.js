@@ -1,0 +1,2 @@
+(this.webpackJsonpadmin=this.webpackJsonpadmin||[]).push([[174],{679:function(o,_,c){o.exports={accordion__section:"Collapse_accordion__section__3zW0l",dot:"Collapse_dot__2H2aD",accordion:"Collapse_accordion__3u_AV",accordion__title:"Collapse_accordion__title__3rp9b",accordion__icon:"Collapse_accordion__icon__w8qiI",accordion__icon_rotate:"Collapse_accordion__icon_rotate__3MErg",accordion__content:"Collapse_accordion__content__1maNk",accordion__text:"Collapse_accordion__text__1A1A8",circleBox:"Collapse_circleBox__21LMq"}}}]);
+//# sourceMappingURL=174.193b03c7.chunk.js.map

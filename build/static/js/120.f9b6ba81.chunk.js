@@ -1,0 +1,2 @@
+(this.webpackJsonpadmin=this.webpackJsonpadmin||[]).push([[120],{412:function(e,a,t){"use strict";t.r(a);var i=t(0),n=t.n(i),r=t(11),d=t(162);a.default=function(e){var a,t=e.privilegesData,i=Object(r.useParams)().id,l=new URLSearchParams(window.location.search).get("uui");return(null===t||void 0===t||null===(a=t.patientManagement)||void 0===a?void 0:a.view)?n.a.createElement("div",null,n.a.createElement(d.default,{patientId:i||l,privileges:t})):n.a.createElement(r.Redirect,{to:"/admin/dashboard"})}}}]);
+//# sourceMappingURL=120.f9b6ba81.chunk.js.map
