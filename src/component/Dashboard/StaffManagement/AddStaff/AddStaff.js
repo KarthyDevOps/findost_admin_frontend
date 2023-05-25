@@ -756,7 +756,7 @@ const AddStaff = () => {
               <NormalButton
                 className="authButton1"
                 label={"Cancel"}
-                onClick={() => history.goBack()}
+                onClick={() => history.push("/admin/staff-management")}
               />
             </div>
             <div className="col-md-2">

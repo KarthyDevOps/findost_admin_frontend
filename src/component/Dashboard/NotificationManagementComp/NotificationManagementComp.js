@@ -10,7 +10,7 @@ import DeleteModal from "component/common/DeleteModal/DeleteModal";
 const NotificationManagementComp = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [search, setSearch] = useState("");
-  const [data, setData] = useState([
+  const [templatedata, setTemplateData] = useState([
     {
       notificationId: "51322",
       dateandTime: "2023-05-04T16:06:03.636Z",
@@ -30,6 +30,29 @@ const NotificationManagementComp = () => {
       notificationDescription: "Nemo dolorem eum aliquam non.",
     },
   ]);
+  const [historydata, setHistoryData] = useState([
+    {
+      notificationId: "51322",
+      notificationSentStatus: "Failed",
+      dateandTime: "2023-05-04T16:06:03.636Z",
+      notificationTitle: "mission-critical",
+      notificationContent: "Nemo dolorem eum aliquam non.",
+    },
+    {
+      notificationId: "51322",
+      notificationSentStatus: "Success",
+      dateandTime: "2023-05-04T16:06:03.636Z",
+      notificationTitle: "cross-platform",
+      notificationContent: "Nemo dolorem eum aliquam non.",
+    },
+    {
+      notificationId: "51322",
+      notificationSentStatus: "Success",
+      dateandTime: "2023-05-04T16:06:03.636Z",
+      notificationTitle: "transparent",
+      notificationContent: "Nemo dolorem eum aliquam non.",
+    },
+  ]);
 
   const handleTab = (tab) => {
     setActiveTab(tab);
@@ -47,7 +70,7 @@ const NotificationManagementComp = () => {
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const includedKeys = [
+  const templateKeys = [
     {
       label: "Notification Id",
       value: "notificationId",
@@ -63,6 +86,29 @@ const NotificationManagementComp = () => {
     {
       label: "Notification Description",
       value: "notificationDescription",
+    },
+  ];
+
+  const historyKeys = [
+    {
+      label: "Notification Id",
+      value: "notificationId",
+    },
+    {
+      label: "Notification Sent Status",
+      value: "notificationSentStatus",
+    },
+    {
+      label: "Date and Time",
+      value: "dateandTime",
+    },
+    {
+      label: "Notification Title",
+      value: "notificationTitle",
+    },
+    {
+      label: "Notification Content",
+      value: "notificationContent",
     },
   ];
 
@@ -161,14 +207,14 @@ const NotificationManagementComp = () => {
           </div>
         </>
       )}
-      {data && activeTab === "NotificationTemplate" ? (
+      {activeTab === 0 ? (
         <div className="">
           <TableComp
-            data={data}
+            data={templatedata}
             isCheck={true}
             EditAction={true}
             DeleteAction={true}
-            includedKeys={includedKeys}
+            includedKeys={templateKeys}
             pageCount={pageCount}
             onPageChange={handlePageChange}
             setCurrentPage={setCurrentPage}
@@ -178,11 +224,11 @@ const NotificationManagementComp = () => {
       ) : (
         <div className="">
           <TableComp
-            data={data}
+            data={historydata}
             isCheck={true}
-            EditAction={true}
-            DeleteAction={true}
-            includedKeys={includedKeys}
+            EditAction={false}
+            DeleteAction={false}
+            includedKeys={historyKeys}
             pageCount={pageCount}
             onPageChange={handlePageChange}
             setCurrentPage={setCurrentPage}

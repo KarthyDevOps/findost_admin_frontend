@@ -9,8 +9,9 @@ import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker
 import TextEditor from "component/common/TextEditor/TextEditor";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import { history } from "helpers";
+import CustomController from "component/common/Controller";
 const AddFeedbackcomp = () => {
-  const { register, handleSubmit, errors, reset, setError } = useForm({
+  const { register, handleSubmit, errors, reset, setError, control } = useForm({
     mode: "onChange",
   });
   const [role, setRole] = useState("");
@@ -25,49 +26,75 @@ const AddFeedbackcomp = () => {
   const handleChange = (state) => {
     setEditorState(state);
   };
+
+  const onSubmit = (data) => {
+    console.log('data :>> ', data);
+  };
   return (
     <div className="container-fluid">
       <div className="addProduct col-12">
         <div className="row">
           <div className=" d-flex my-3 align-items-center ">
             <i className="px-4">
-              <BsArrowLeft size={28}  onClick={() => history.goBack()} style={{cursor : "pointer"}} />
+              <BsArrowLeft
+                size={28}
+                onClick={() => history.goBack()}
+                style={{ cursor: "pointer" }}
+              />
             </i>
-            <p className="add_products_title m-0">
-            Add Feedback
-            </p>
+            <p className="add_products_title m-0">Add Feedback</p>
           </div>
         </div>
-        {/* <div> */}
-
-        <div className="d-flex col-12   boder_box align-items-center">
-          <div class="container ">
-            <p className=""> Feedback Description</p>
-           
-            <div className="row gx-5">
-              <div className="col">
-               
-                <div className="text_editor">
-          <TextEditor content={content} setContent={setContent} />
-                  
+        <form>
+          <div className="d-flex col-12   boder_box align-items-center">
+            <div class="container ">
+              <p className=""> Feedback Description</p>
+              <div className="row gx-5">
+                <div className="col">
+                  <div className="text_editor">
+                    <CustomController
+                      name={"content"}
+                      control={control}
+                      error={errors.content}
+                      // defaultValue={content}
+                      rules={{ required: true }}
+                      messages={{
+                        required: "Feedback Description is Required",
+                      }}
+                      render={({ onChange, ...field }) => {
+                        return (
+                          <TextEditor
+                            {...field}
+                            content={content}
+                            setContent={setContent}
+                          />
+                        );
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="row mt-4">
+                <div className="col-12  d-flex justify-content-end">
+                  <div className="col-2">
+                    <NormalButton
+                      onClick={() => history.push("/admin/feedback-management")}
+                      cancel
+                      label="cancel"
+                    />
+                  </div>
+                  <div className="col-2">
+                    <NormalButton
+                      addProductbtn
+                      label="Add Feedback"
+                      onClick={handleSubmit(onSubmit)}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="row mt-4">
-                  <div className="col-12  d-flex justify-content-end">
-                    <div className="col-2">
-                      <NormalButton  onClick={() => history.goBack()} cancel label='cancel'> </NormalButton>
-                    </div>
-                    <div className="col-2">
-                     
-                      <NormalButton addProductbtn label='Add Feedback'> </NormalButton>
-                      {/* <NormalButton addProductbtn label='Update'> </NormalButton> */}
-                    
-                    </div>
-                  </div>
-                </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

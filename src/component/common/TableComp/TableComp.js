@@ -51,6 +51,8 @@ function TableComp(props) {
     accepted: "#2F80ED",
     inprogress: "#F2C94C",
     closed: "#27AE60",
+    failed: "#EB5757",
+    success: "#27AE60",
   };
 
   const handleOpenModal = (id) => {
