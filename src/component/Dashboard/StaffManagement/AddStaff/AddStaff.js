@@ -15,8 +15,6 @@ const AddStaff = () => {
   const { register, handleSubmit, errors, reset, setError, control } = useForm({
     mode: "onChange",
   });
-  const [role, setRole] = useState("");
-  const [status, setStatus] = useState("");
   const [edit, setEdit] = useState(false);
   const [modal, setModal] = useState(false);
 
@@ -40,7 +38,8 @@ const AddStaff = () => {
   ];
 
   const onSubmit = (data) => {
-    console.log("data :>> ", managementCheckedItems);
+    console.log("managementCheckedItems :>> ", managementCheckedItems);
+    console.log("data :>> ", data);
 
     setModal(true);
     const timeout = setTimeout(() => {
@@ -137,6 +136,7 @@ const AddStaff = () => {
                 error={errors.email}
                 messages={{
                   required: "Email is Required",
+                  pattern : "Invalid Email Id"
                 }}
               />
             </div>
@@ -172,7 +172,7 @@ const AddStaff = () => {
                 name={"role"}
                 control={control}
                 error={errors.role}
-                defaultValue={role}
+             
                 rules={{ required: true }}
                 messages={{ required: "Role is Required" }}
                 render={({ onChange, ...field }) => {
@@ -181,10 +181,9 @@ const AddStaff = () => {
                       {...field}
                       placeholder="Select Role"
                       name="role"
-                      value={role}
-                      errors={errors.role}
+                      value={options.value}
                       options={options}
-                      onChange={(e) => setRole(e)}
+                      onChange={(option) => onChange(option.value)}
                     />
                   );
                 }}
@@ -196,7 +195,6 @@ const AddStaff = () => {
                 name={"status"}
                 control={control}
                 error={errors.status}
-                defaultValue={status}
                 rules={{ required: true }}
                 messages={{ required: "Status is Required" }}
                 render={({ onChange, ...field }) => {
@@ -205,10 +203,10 @@ const AddStaff = () => {
                       {...field}
                       placeholder="Select Status"
                       name="status"
-                      value={status}
+                      value={options.value}
                       errors={errors.status}
                       options={options}
-                      onChange={(e) => setStatus(e)}
+                      onChange={(option) => onChange(option.value)}
                     />
                   );
                 }}

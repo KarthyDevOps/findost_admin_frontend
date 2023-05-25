@@ -3,7 +3,7 @@ import ReactSelect from "react-select";
 import "./style.scss";
 
 const DropDown = (props) => {
-  const { value, onChange, options, placeholder } = props;
+  const { value, onChange, options, placeholder, isMulti } = props;
 
   const colourStyles = {
     dropdownIndicator: (styles) => ({
@@ -14,6 +14,7 @@ const DropDown = (props) => {
 
   return (
     <ReactSelect
+      isMulti={isMulti}
       value={value}
       onChange={onChange}
       options={options}

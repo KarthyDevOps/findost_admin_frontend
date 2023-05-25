@@ -21,7 +21,7 @@ const AddFeedbackcomp = () => {
   };
 
   const onSubmit = (data) => {
-    console.log('data :>> ', data);
+    console.log("data :>> ", data);
   };
   return (
     <div className="container-fluid">
@@ -49,7 +49,6 @@ const AddFeedbackcomp = () => {
                       name={"content"}
                       control={control}
                       error={errors.content}
-                      // defaultValue={content}
                       rules={{ required: true }}
                       messages={{
                         required: "Feedback Description is Required",
@@ -59,7 +58,9 @@ const AddFeedbackcomp = () => {
                           <TextEditor
                             {...field}
                             content={content}
-                            setContent={setContent}
+                            onChange={(text) =>
+                              onChange(() => setContent(text))
+                            }
                           />
                         );
                       }}
@@ -83,19 +84,6 @@ const AddFeedbackcomp = () => {
                       onClick={handleSubmit(onSubmit)}
                     />
                   </div>
-                </div>
-              </div>
-            </div>
-            <div className="row mt-4">
-              <div className="col-12  d-flex justify-content-end">
-                <div className="col-2">
-                  <NormalButton onClick={() => history.goBack()} cancel label='cancel'> </NormalButton>
-                </div>
-                <div className="col-2">
-
-                  <NormalButton addProductbtn label='Add Feedback' onClick> </NormalButton>
-                  {/* <NormalButton addProductbtn label='Update'> </NormalButton> */}
-
                 </div>
               </div>
             </div>
