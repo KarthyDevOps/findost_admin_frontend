@@ -16,8 +16,6 @@ const AddProductcomp = () => {
   const { register, handleSubmit, errors, reset, setError, control } = useForm({
     mode: "onChange",
   });
-  const [role, setRole] = useState("");
-  const [status, setStatus] = useState("");
   const [edit, setEdit] = useState(false);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -25,6 +23,21 @@ const AddProductcomp = () => {
   const [quill, setQuill] = useState("");
 
   const [editorState, setEditorState] = useState(null);
+
+  const options = [
+    {
+      label: "ONE",
+      value: "one",
+    },
+    {
+      label: "TWO",
+      value: "two",
+    },
+    {
+      label: "THREE",
+      value: "three",
+    },
+  ];
 
   const Quill = ReactQuill.Quill;
   var Block = Quill.import("blots/block");
@@ -63,6 +76,8 @@ const AddProductcomp = () => {
 
   const onsubmit = (data) => {
     console.log("data :>> ", data);
+    console.log("startDate :>> ", startDate);
+    console.log("endDate :>> ", endDate);
   };
 
   return (
@@ -113,7 +128,6 @@ const AddProductcomp = () => {
                     name={"productPlan"}
                     control={control}
                     error={errors.productPlan}
-                    // defaultValue={city}
                     rules={{ required: true }}
                     messages={{ required: "Product Plan is Required" }}
                     render={({ onChange, ...field }) => {
@@ -122,10 +136,10 @@ const AddProductcomp = () => {
                           {...field}
                           placeholder="Enter Product Plan"
                           name="productPlan"
-                          // value={status}
                           errors={errors.productPlan}
-                          // options={options}
-                          // onChange={(e) => setStatus(e)}
+                          value={options.value}
+                          options={options}
+                          onChange={(option) => onChange(option.value)}
                         />
                       );
                     }}
@@ -160,7 +174,6 @@ const AddProductcomp = () => {
                     {" "}
                     Sub Product Name
                   </label>
-
                   <InputBox
                     className="login_input"
                     type={"text"}
@@ -187,7 +200,6 @@ const AddProductcomp = () => {
                     name={"status"}
                     control={control}
                     error={errors.status}
-                    // defaultValue={city}
                     rules={{ required: true }}
                     messages={{
                       required: "Product Mapping Details is Required",
@@ -198,10 +210,10 @@ const AddProductcomp = () => {
                           {...field}
                           placeholder="Filter by Status"
                           name="status"
-                          // value={status}
                           errors={errors.status}
-                          // options={options}
-                          // onChange={(e) => setStatus(e)}
+                          value={options.value}
+                          options={options}
+                          onChange={(option) => onChange(option.value)}
                         />
                       );
                     }}
@@ -219,7 +231,6 @@ const AddProductcomp = () => {
                         name={"startDate"}
                         control={control}
                         error={errors.startDate}
-                        // defaultValue={startDate}
                         rules={{ required: true }}
                         messages={{
                           required: "StartDate is Required",
@@ -230,9 +241,11 @@ const AddProductcomp = () => {
                               {...field}
                               value={startDate}
                               name="startDate"
-                              onChange={(text) => setStartDate(text)}
+                              onChange={(date) =>
+                                onChange(() => setStartDate(date))
+                              }
                               placeholder="Start Date"
-                              errors={errors.startDate}
+                              error={errors.startDate}
                             />
                           );
                         }}
@@ -243,7 +256,6 @@ const AddProductcomp = () => {
                         name={"endDate"}
                         control={control}
                         error={errors.endDate}
-                        // defaultValue={endDate}
                         rules={{ required: true }}
                         messages={{
                           required: "EndDate is Required",
@@ -254,9 +266,10 @@ const AddProductcomp = () => {
                               {...field}
                               value={endDate}
                               name="endDate"
-                              onChange={(text) => setEndDate(text)}
+                              onChange={(date) =>
+                                onChange(() => setEndDate(date))
+                              }
                               placeholder="End Date"
-                              errors={errors.endDate}
                             />
                           );
                         }}
@@ -271,7 +284,6 @@ const AddProductcomp = () => {
                     name={"city"}
                     control={control}
                     error={errors.city}
-                    // defaultValue={city}
                     rules={{ required: true }}
                     messages={{ required: "City is Required" }}
                     render={({ onChange, ...field }) => {
@@ -279,11 +291,10 @@ const AddProductcomp = () => {
                         <DropDown
                           {...field}
                           placeholder="Select City"
-                          name="status"
-                          // value={status}
-                          errors={errors.city}
-                          // options={options}
-                          // onChange={(e) => setStatus(e)}
+                          name="city"
+                          value={options.value}
+                          options={options}
+                          onChange={(option) => onChange(option.value)}
                         />
                       );
                     }}
@@ -295,7 +306,6 @@ const AddProductcomp = () => {
                     name={"country"}
                     control={control}
                     error={errors.country}
-                    // defaultValue={city}
                     rules={{ required: true }}
                     messages={{ required: "Country is Required" }}
                     render={({ onChange, ...field }) => {
@@ -304,10 +314,9 @@ const AddProductcomp = () => {
                           {...field}
                           placeholder="Select Country"
                           name="country"
-                          // value={status}
-                          errors={errors.city}
-                          // options={options}
-                          // onChange={(e) => setStatus(e)}
+                          value={options.value}
+                          options={options}
+                          onChange={(option) => onChange(option.value)}
                         />
                       );
                     }}

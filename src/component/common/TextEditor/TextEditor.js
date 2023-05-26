@@ -1,7 +1,7 @@
 import ReactQuill from "react-quill";
 import "quill/dist/quill.snow.css";
 import "./style.scss";
-import React,{ useState }  from "react";
+import React, { useState } from "react";
 // const [quill, setQuill] = useState("");
 const Quill = ReactQuill.Quill;
 var Block = Quill.import("blots/block");
@@ -34,22 +34,19 @@ const modules = {
 };
 
 const TextEditor = (props) => {
-  const { content,setContent } = props;
-  const handleChange = (state) => {
-    setContent(state);
-  };
+  const { content, onChange } = props;
+
   return (
     <div>
-        <ReactQuill
+      <ReactQuill
         className="editorClassName"
         theme="snow"
         value={content}
         defaultValue={content}
-        onChange={setContent}
+        onChange={onChange}
         modules={modules}
-        style={{ height: "400px", border: "none" ,marginBottom:'40px'}}
+        style={{ height: "400px", border: "none", marginBottom: "40px" }}
       />
-    
     </div>
   );
 };

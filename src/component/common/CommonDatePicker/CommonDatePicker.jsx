@@ -27,6 +27,7 @@ const CommonDatePicker = ({
       <span className={styles.icon}>
         <AiOutlineCalendar size={25} />
       </span>
+
     </div>
   );
 };

@@ -14,8 +14,28 @@ const SendNotificationComp = () => {
   const [title, setTitle] = useState("");
   const [users, setUsers] = useState([]);
 
+  const options = [
+    {
+      label: "ONE",
+      value: "one",
+    },
+    {
+      label: "TWO",
+      value: "two",
+    },
+    {
+      label: "THREE",
+      value: "three",
+    },
+  ];
+
   const onsubmit = (data) => {
     console.log("data :>> ", data);
+  };
+
+  const handleUser = (value) => {
+    let updatedUsers = options.filter((user) => user.value !== value);
+    setUsers(updatedUsers);
   };
   return (
     <div className="px-5">
@@ -46,10 +66,10 @@ const SendNotificationComp = () => {
                       {...field}
                       placeholder="Select Notification Title"
                       name="title"
-                      // value={status}
+                      value={title}
                       errors={errors.title}
-                      // options={options}
-                      // onChange={(e) => setStatus(e)}
+                      options={options}
+                      onChange={(text) => onChange(() => setTitle(text))}
                     />
                   );
                 }}
@@ -68,22 +88,40 @@ const SendNotificationComp = () => {
                   return (
                     <DropDown
                       {...field}
+                      isMulti
                       placeholder="Select Users"
                       name="users"
-                      // value={status}
+                      value={users}
                       errors={errors.users}
-                      // options={options}
-                      // onChange={(e) => setStatus(e)}
+                      options={options}
+                      onChange={(user) => onChange(() => setUsers(user))}
                     />
                   );
                 }}
               />
+              {console.log(users, "users")}
             </div>
             <div className="col-1"></div>
           </div>
           <div>
             <label>Select Users</label>
-            <div className=" col-11 users_box"></div>
+            <div className=" col-11 users_box p-3">
+              {users.length > 0 &&
+                users.map((user) => {
+                  return (
+                    <>
+                      <span
+                        style={{ background: " #F2F2F2", borderRadius: "6px" }}
+                      >
+                        {user.label}
+                        <small onClick={(e) => handleUser(user.value)}>
+                          &nbsp;&nbsp; X
+                        </small>
+                      </span>
+                    </>
+                  );
+                })}
+            </div>
             <div className="col-1"></div>
           </div>
           <div className="my-3">
@@ -106,7 +144,7 @@ const SendNotificationComp = () => {
               <NormalButton
                 className="authButton1"
                 label={"Cancel"}
-                onClick={() => history.goBack()}
+                onClick={() => history.push("/admin/notification-management")}
               />
             </div>
             <div className="col-md-3">

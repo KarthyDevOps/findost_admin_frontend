@@ -61,7 +61,6 @@ const CreateNotificationComp = () => {
               name={"content"}
               control={control}
               error={errors.content}
-              // defaultValue={city}
               rules={{ required: true }}
               messages={{
                 required: "Notification Content is Required",
@@ -71,7 +70,7 @@ const CreateNotificationComp = () => {
                   <TextEditor
                     {...field}
                     content={content}
-                    setContent={setContent}
+                    onChange={(text) => onChange(() => setContent(text))}
                   />
                 );
               }}
@@ -82,7 +81,7 @@ const CreateNotificationComp = () => {
               <NormalButton
                 className="authButton1"
                 label={"Cancel"}
-                onClick={() => history.goBack()}
+                onClick={() => history.push("/admin/notification-management")}
               />
             </div>
             <div className="col-md-2">
