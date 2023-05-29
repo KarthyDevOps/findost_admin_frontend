@@ -1,2 +1,0 @@
-(this.webpackJsonpadmin=this.webpackJsonpadmin||[]).push([[101,137],{386:function(e,a,t){"use strict";t.r(a);var n=t(0),c=t.n(n);t(647);a.default=function(e){var a=e.cardItems;return c.a.createElement("div",{className:"d-flex"},c.a.createElement("div",{className:"appointment-card d-flex"},c.a.createElement("div",{className:"icon-box mr-1"},a.img),c.a.createElement("div",{className:"p-2"},c.a.createElement("p",{className:"mb-0"},a.count),c.a.createElement("span",null,a.text))))}},647:function(e,a,t){}}]);
-//# sourceMappingURL=101.f6763cb1.chunk.js.map
