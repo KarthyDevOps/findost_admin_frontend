@@ -19,15 +19,16 @@ import FormErrorMessage from "component/common/ErrorMessage";
 import NormalButton from "component/common/NormalButton/NormalButton";
 
 // Service
-import { SignInAPI } from "service/Auth";
+import { LoginAPI } from "service/Auth";
 
 // Helpers
 import { history } from "helpers";
 import Privileges from "helpers/privileges";
 import { Encrypt } from "helpers";
 import InputBox from "component/common/InputBox/InputBox";
+import { adminData } from "reducer/home";
 
-const LoginComp = (props, type = "text", label) => {
+const LoginComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
   });
@@ -36,31 +37,23 @@ const LoginComp = (props, type = "text", label) => {
   const dispatch = useDispatch();
 
   const onSubmit = async (inputs) => {
-    // const { data: { status, data } = {} } = await SignInAPI({
-    //   emailId: inputs?.emailId,
-    //   password: Encrypt(inputs?.password),
-    // });
+    console.log("inputs", inputs);
 
-    // if (status !== 200 || !data?.token) {
-    //   if (data && /email/gi.test(data))
-    //     setError("emailId", { type: "invalid", shouldFocus: true });
-    //   if (data && /password/gi.test(data))
-    //     setError("password", { type: "passowordNotMatch", shouldFocus: true });
+    let body = {
+      email: inputs?.emailId,
+      password: inputs?.password,
+    };
+    const response = await LoginAPI(body);
 
-    //   if (status === 400 && data) {
-    //     Toast({ type: "error", message: data });
-    //   }
-    //   return;
-    // }
-
-    // localStorage.removeItem("token");
-    // localStorage.setItem("token", data?.token);
-    // await dispatch(Privileges());
-    // reset({ emailId: "", password: "" });
-    history.push("/admin/dashboard");
+    if (response.status === 200) {
+      localStorage.removeItem("token");
+      localStorage.setItem("token", response?.data?.data?.token);
+      reset({ emailId: "", password: "" });
+      history.push("/admin/dashboard");
+    }
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form>
       <div className="login_page">
         <div className="container-fluid">
           <div className="row ">
@@ -78,21 +71,22 @@ const LoginComp = (props, type = "text", label) => {
                   <div className="userbox">
                     <InputBox
                       className="login_input"
-                      type={"text"}
-                      placeholder="user name"
+                      type={"email"}
+                      placeholder="Email Id"
                       Iconic
                       errors={errors}
-                      name="username"
+                      onChange={setemailId}
+                      name="emailId"
                       register={register({
                         required: true,
-                        pattern: /^[a-zA-Z0-9]+$/,
+                        pattern: /\S+@\S+\.\S+/,
                       })}
                     />
                     <FormErrorMessage
-                      error={errors.username}
+                      error={errors.emailId}
                       messages={{
-                        required: "User name is required",
-                        pattern: "Invalid User name ",
+                        required: "Email is required",
+                        pattern: "Invalid Email Id ",
                       }}
                     />
                     <span className="userbox_icon">
@@ -109,25 +103,24 @@ const LoginComp = (props, type = "text", label) => {
                     errors={errors}
                     type={"password"}
                     name="password"
+                    onChange={setpassword}
                     register={register({
                       required: true,
                       minLength: 8,
                       maxLength: 16,
-                      pattern:
-                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?& ]{8,}$/s,
+                      pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?& ]{8,}$/s,
                     })}
                   />
-                    <FormErrorMessage
-                  error={errors.password}
-                  messages={{
-                    required: "Password is required",
-                    validate: "Passwords do not match",
-                    minLength: "Password must contain atleast 8 letters",
-                    maxLength: "Password should must contain only 16",
-                    pattern:
-                      "Password must contain a special character",
-                  }}
-                />
+                  <FormErrorMessage
+                    error={errors.password}
+                    messages={{
+                      required: "Password is required",
+                      validate: "Passwords do not match",
+                      minLength: "Password must contain atleast 8 letters",
+                      maxLength: "Password should must contain only 16",
+                      pattern: "Password must contain a special character",
+                    }}
+                  />
                   <span className="passwordbox_icon">
                     <img src={password_icon}></img>
                   </span>
@@ -139,7 +132,11 @@ const LoginComp = (props, type = "text", label) => {
                   </Link>
 
                   <div className="login_btn  mt-3">
-                    <NormalButton loginButton label="Login" />
+                    <NormalButton
+                      loginButton
+                      label="Login"
+                      onClick={handleSubmit(onSubmit)}
+                    />
                   </div>
 
                   <div className="social col-lg-10 ">
