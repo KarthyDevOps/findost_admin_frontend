@@ -8,7 +8,7 @@ import ReactSelect from "react-select";
 import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import "./style.scss";
-import { getProductList } from "../../../service/helpers/Cms";
+import { getProductList } from "../../../service/Cms";
 
 const ProductManagementComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
@@ -42,7 +42,7 @@ const ProductManagementComp = () => {
     setCurrentPage(page);
   };
 
-  const onSubmit = async () => {
+  const getProducts = async () => {
     let params = {
       page: currentPage,
       limit: 10,
@@ -54,7 +54,7 @@ const ProductManagementComp = () => {
     }
   };
   useEffect(() => {
-    onSubmit();
+    getProducts();
   }, []);
 
   return (
