@@ -10,6 +10,7 @@ import { history, generateInitialCheckedItems } from "helpers";
 import DropDown from "component/common/DropDown/DropDown";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import CustomController from "component/common/Controller";
+import { addStaff } from "service/Auth";
 
 const AddStaff = () => {
   const { register, handleSubmit, errors, reset, setError, control } = useForm({
@@ -24,28 +25,48 @@ const AddStaff = () => {
 
   const options = [
     {
-      label: "ONE",
-      value: "one",
+      label: "ADMIN",
+      value: "Admin",
     },
     {
-      label: "TWO",
-      value: "two",
+      label: "SUPER ADMIN",
+      value: "Super Admin",
     },
     {
-      label: "THREE",
-      value: "three",
+      label: "STAFF",
+      value: "Staff",
     },
   ];
 
-  const onSubmit = (data) => {
+  const status = [
+    {
+      label: "ACTIVE",
+      value: "active",
+    },
+    {
+      label: "InACTIVE",
+      value: "inActive",
+    },
+  ];
+
+  const onSubmit = async (data) => {
     console.log("managementCheckedItems :>> ", managementCheckedItems);
     console.log("data :>> ", data);
-
-    setModal(true);
-    const timeout = setTimeout(() => {
-      setModal(false);
-    }, 1000);
-    return () => clearTimeout(timeout);
+    try {
+      let body = {
+      
+      };
+      let response = await addStaff(body);
+      if (response.status === 200) {
+        setModal(true);
+        const timeout = setTimeout(() => {
+          setModal(false);
+        }, 1000);
+        return () => clearTimeout(timeout);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const handleManagementAllChange = (section) => (event) => {
@@ -136,7 +157,7 @@ const AddStaff = () => {
                 error={errors.email}
                 messages={{
                   required: "Email is Required",
-                  pattern : "Invalid Email Id"
+                  pattern: "Invalid Email Id",
                 }}
               />
             </div>
@@ -172,7 +193,6 @@ const AddStaff = () => {
                 name={"role"}
                 control={control}
                 error={errors.role}
-             
                 rules={{ required: true }}
                 messages={{ required: "Role is Required" }}
                 render={({ onChange, ...field }) => {
@@ -203,10 +223,10 @@ const AddStaff = () => {
                       {...field}
                       placeholder="Select Status"
                       name="status"
-                      value={options.value}
+                      value={status.value}
                       errors={errors.status}
-                      options={options}
-                      onChange={(option) => onChange(option.value)}
+                      options={status}
+                      onChange={(status) => onChange(status.value)}
                     />
                   );
                 }}
