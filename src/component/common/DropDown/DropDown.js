@@ -18,7 +18,7 @@ const DropDown = (props) => {
       value={value}
       onChange={onChange}
       options={options}
-      isClearable
+      // isClearable
       components={{
         IndicatorSeparator: () => null,
       }}

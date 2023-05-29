@@ -12,11 +12,27 @@ import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import CustomController from "component/common/Controller";
 import FormErrorMessage from "component/common/ErrorMessage";
 const AddFaqComp = () => {
-  const { register, handleSubmit, errors, control,reset, setError } = useForm({
+  const { register, handleSubmit, errors, control, reset, setError } = useForm({
     mode: "onChange",
   });
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState(false);
+  const [content, setContent] = useState("");
+
+  const options = [
+    {
+      label: "ONE",
+      value: "one",
+    },
+    {
+      label: "TWO",
+      value: "two",
+    },
+    {
+      label: "THREE",
+      value: "three",
+    },
+  ];
 
   const onSubmit = (data) => {
     // console.log("data :>> ", data);
@@ -97,18 +113,17 @@ const AddFaqComp = () => {
                 render={({ onChange, ...field }) => {
                   return (
                     <DropDown
-                    // value={value}
-                    name="category"
-                    placeholder="Select Category"
-                    
-                      // onChange={(e) => {}}
-                      // options={options}
+                      // value={value}
+                      name="category"
+                      placeholder="Select Category"
+                      errors={errors.status}
+                      value={options.value}
+                      options={options}
+                      onChange={(option) => onChange(option.value)}
                     />
                   );
                 }}
               />
-          
-              
             </div>
             <div className="col-4">
               <label>Sub Category</label>
@@ -122,17 +137,17 @@ const AddFaqComp = () => {
                 render={({ onChange, ...field }) => {
                   return (
                     <DropDown
-                    // value={value}
-                    name="subcategory"
-                    placeholder="Select Sub Category"
-                    
-                      // onChange={(e) => {}}
-                      // options={options}
+                      // value={value}
+                      name="subcategory"
+                      placeholder="Select Sub Category"
+                      errors={errors.status}
+                      value={options.value}
+                      options={options}
+                      onChange={(option) => onChange(option.value)}
                     />
                   );
                 }}
               />
-          
             </div>
             <div className="col-3">
               <label>FAQ Status</label>
@@ -146,40 +161,41 @@ const AddFaqComp = () => {
                 render={({ onChange, ...field }) => {
                   return (
                     <DropDown
-                    // value={value}
-                    name="select"
-                    placeholder="Select Status"
-                    
-                      // onChange={(e) => {}}
-                      // options={options}
+                      // value={value}
+                      name="select"
+                      placeholder="Select Status"
+                      errors={errors.status}
+                      value={options.value}
+                      options={options}
+                      onChange={(option) => onChange(option.value)}
                     />
                   );
                 }}
               />
-            
             </div>
           </div>
           <div className="col-12 p-0">
             <label>FAQ Status</label>
             <CustomController
-                      name={"TextEditor"}
-                      control={control}
-                      error={errors.TextEditor}
-                      // defaultValue={endDate}
-                      rules={{ required: true }}
-                      messages={{
-                        required: "FAQ status is Required",
-                      }}
-                      render={({ onChange, ...field }) => {
-                        return (
-                          <TextEditor
-                            errors={errors.TextEditor}
-                            // content={content}
-                            // setContent={setContent}
-                          />
-                        );
-                      }}
-                    />
+              name={"TextEditor"}
+              control={control}
+              error={errors.TextEditor}
+              // defaultValue={endDate}
+              rules={{ required: true }}
+              messages={{
+                required: "FAQ status is Required",
+              }}
+              render={({ onChange, ...field }) => {
+                return (
+                  <TextEditor
+                    {...field}
+                    content={content}
+                    errors={errors.TextEditor}
+                    onChange={(text) => onChange(() => setContent(text))}
+                  />
+                );
+              }}
+            />
           </div>
           <div className="d-flex align-items-center justify-content-end my-5 pt-3">
             <div className="col-md-2">
@@ -201,16 +217,16 @@ const AddFaqComp = () => {
         </div>
       </form>
       <div>
-          <SuccessModal
-            modalOpen={modal}
-            onCancel={() => setModal(false)}
-            successMsg={
-              edit
-                ? "FAQ Content Updated Successfully"
-                : "New FAQ Added Successfully"
-            }
-          />
-        </div>
+        <SuccessModal
+          modalOpen={modal}
+          onCancel={() => setModal(false)}
+          successMsg={
+            edit
+              ? "FAQ Content Updated Successfully"
+              : "New FAQ Added Successfully"
+          }
+        />
+      </div>
     </div>
   );
 };

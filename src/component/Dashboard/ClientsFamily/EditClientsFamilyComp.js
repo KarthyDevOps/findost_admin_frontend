@@ -11,13 +11,26 @@ import NormalButton from "component/common/NormalButton/NormalButton";
 import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
 import CustomController from "component/common/Controller";
 const EditClientsFamilyComp = () => {
-  const { register, handleSubmit, errors, reset, setError,control } = useForm({
+  const { register, handleSubmit, errors, reset, setError, control } = useForm({
     mode: "onChange",
   });
   const [date, setdate] = useState("");
-const onSubmit=()=>{
+  const onSubmit = () => {};
+  const options = [
+    {
+      label: "ONE",
+      value: "one",
+    },
+    {
+      label: "TWO",
+      value: "two",
+    },
+    {
+      label: "THREE",
+      value: "three",
+    },
+  ];
 
-}
   return (
     <div className="px-5 py-3">
       <div className="edit_client d-flex my-3 align-items-center ">
@@ -31,102 +44,114 @@ const onSubmit=()=>{
         <p className="m-0">{"Client’s Family"}</p>
       </div>
       <form>
+        <div className="client_box p-5">
+          <div className="row ">
+            <div className="col-md-4">
+              <label>Client Name</label>
+              <InputBox
+                className="add_staff"
+                type={"text"}
+                placeholder="Enter Client Name"
+                //   errors={errors}
+                name="name"
+                errors={errors}
+                register={register({
+                  required: true,
+                })}
 
-      <div className="client_box p-5">
-        <div className="row ">
-          <div className="col-md-4">
-            <label>Client Name</label>
-            <InputBox
-              className="add_staff"
-              type={"text"}
-              placeholder="Enter Client Name"
-              //   errors={errors}
-              name="name"
-              errors={errors}
-              register={register({
-                required: true,
-              })}
-
-              //   value={searchStaff}
-              // onChange={(e) => {
-              //   setsearch(e.target.value);
-              //   setactivePage(1);
-              // }}
-            />
-            <FormErrorMessage
-              error={errors.name}
-              messages={{
-                required: "Client Name is required",
-              }}
-            />
-          </div>
-          <div className="col-md-4">
-            <label>Email Id</label>
-            <InputBox
-              className="add_staff"
-              type={"text"}
-              placeholder="Enter Email Id"
-              //   errors={errors}
-              name="email"
-              errors={errors}
-              register={register({
-                required: true,
-                pattern: /\S+@\S+\.\S+/,
-              })}
-
-              //   value={searchStaff}
-              // onChange={(e) => {
-              //   setsearch(e.target.value);
-              //   setactivePage(1);
-              // }}
-            />
+                //   value={searchStaff}
+                // onChange={(e) => {
+                //   setsearch(e.target.value);
+                //   setactivePage(1);
+                // }}
+              />
               <FormErrorMessage
-              error={errors.email}
-              messages={{
-                required: "Email is required",
-                pattern:'Invalid Email'
-              }}
-            />
-          </div>
-          <div className="col-lg-2">
-            <label>Date of Birth</label>
-            <div className="date_of_birth">
-              <CommonDatePicker
-                value={date}
-                onChange={(text) => setdate(text)}
-                placeholder="DOB"
+                error={errors.name}
+                messages={{
+                  required: "Client Name is required",
+                }}
               />
             </div>
-          </div>
-          <div className="col-md-4 my-3">
-            <label>Relative Name</label>
-            <InputBox
-              className="add_staff"
-              type={"text"}
-              placeholder="Enter Relative Name"
-              //   errors={errors}
-              name="relativename"
-              errors={errors}
-              register={register({
-                required: true,
-              })}
+            <div className="col-md-4">
+              <label>Email Id</label>
+              <InputBox
+                className="add_staff"
+                type={"text"}
+                placeholder="Enter Email Id"
+                //   errors={errors}
+                name="email"
+                errors={errors}
+                register={register({
+                  required: true,
+                  pattern: /\S+@\S+\.\S+/,
+                })}
 
-              //   value={searchStaff}
-              // onChange={(e) => {
-              //   setsearch(e.target.value);
-              //   setactivePage(1);
-              // }}
-            />
+                //   value={searchStaff}
+                // onChange={(e) => {
+                //   setsearch(e.target.value);
+                //   setactivePage(1);
+                // }}
+              />
               <FormErrorMessage
-              error={errors.relativename}
-              messages={{
-                required: "Relative Name is required",
-              }}
-            />
-          </div>
-          <div className="col-md-4 my-3">
-            <label>Relationship</label>
-            <CustomController
+                error={errors.email}
+                messages={{
+                  required: "Email is required",
+                  pattern: "Invalid Email",
+                }}
+              />
+            </div>
+            <div className="col-lg-2">
+              <label>Date of Birth</label>
+              <div className="date_of_birth">
+                <CustomController
+                  name={"endDate"}
+                  control={control}
+                  error={errors.endDate}
+                  rules={{ required: true }}
+                  messages={{
+                    required: "DOB is Required",
+                  }}
+                  render={({ onChange, ...field }) => {
+                    return (
+                      <CommonDatePicker
+                        value={date}
+                        placeholder="DOB"
+                        onChange={(data) => onChange(() => setdate(data))}
+                      />
+                    );
+                  }}
+                />
+              </div>
+            </div>
+            <div className="col-md-4 my-3">
+              <label>Relative Name</label>
+              <InputBox
+                className="add_staff"
+                type={"text"}
+                placeholder="Enter Relative Name"
+                //   errors={errors}
+                name="relativename"
+                errors={errors}
+                register={register({
+                  required: true,
+                })}
+
+                //   value={searchStaff}
+                // onChange={(e) => {
+                //   setsearch(e.target.value);
+                //   setactivePage(1);
+                // }}
+              />
+              <FormErrorMessage
+                error={errors.relativename}
+                messages={{
+                  required: "Relative Name is required",
+                }}
+              />
+            </div>
+            <div className="col-md-4 my-3">
+              <label>Relationship</label>
+              <CustomController
                 name={"select"}
                 control={control}
                 error={errors.select}
@@ -136,37 +161,36 @@ const onSubmit=()=>{
                 render={({ onChange, ...field }) => {
                   return (
                     <DropDown
-                    // value={value}
-                    name="select"
-                    placeholder="Select RelationShip"
-                    
-                      // onChange={(e) => {}}
-                      // options={options}
+                      // value={value}
+                      name="select"
+                      placeholder="Select RelationShip"
+                      value={options.value}
+                      options={options}
+                      onChange={(option) => onChange(option.value)}
                     />
                   );
                 }}
               />
-
+            </div>
+          </div>
+          <div className="d-flex align-items-center justify-content-end my-5">
+            <div className="col-md-2">
+              <NormalButton
+                className="authButton1"
+                label={"Cancel"}
+                onClick={() => history.goBack()}
+              />
+            </div>
+            <div className="col-md-2">
+              <NormalButton
+                className="loginButton"
+                label={"Update"}
+                onClick={handleSubmit(onSubmit)}
+                //   onClick={DeletBulk}
+              />
+            </div>
           </div>
         </div>
-        <div className="d-flex align-items-center justify-content-end my-5">
-          <div className="col-md-2">
-            <NormalButton
-              className="authButton1"
-              label={"Cancel"}
-              onClick={() => history.goBack()}
-            />
-          </div>
-          <div className="col-md-2">
-            <NormalButton
-              className="loginButton"
-              label={"Update"}
-              onClick={handleSubmit(onSubmit)}
-              //   onClick={DeletBulk}
-            />
-          </div>
-        </div>
-      </div>
       </form>
     </div>
   );

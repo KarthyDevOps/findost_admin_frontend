@@ -16,14 +16,14 @@ const SiteSettingComp = () => {
 
   const [content, setContent] = useState("");
   const [modal, setModal] = useState(false);
-  const [edit, setEdit] = useState(false);
+  // const [edit, setEdit] = useState(false);
 
   const handleFileDrop = (fileData) => {
     // Handle the dropped file data here
     console.log(fileData);
   };
   const onSubmit = (data) => {
-    // console.log("data :>> ", data);
+    console.log("data :>> ", data);
     // console.log("data :>> ", managementCheckedItems);
     // console.log("role :>> ", role);
     // console.log("status :>> ", status);
@@ -266,7 +266,7 @@ const SiteSettingComp = () => {
                           <TextEditor
                             errors={errors.TextEditor}
                             content={content}
-                            setContent={setContent}
+                            onChange={(text) => onChange(() => setContent(text))}
                           />
                         );
                       }}
