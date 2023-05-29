@@ -14,7 +14,7 @@ import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import DropDown from "component/common/DropDown/DropDown";
 const EditContentManagementComp = () => {
-  const { register, handleSubmit, errors,control, reset, setError } = useForm({
+  const { register, handleSubmit, errors, control, reset, setError } = useForm({
     mode: "onChange",
   });
 
@@ -22,6 +22,21 @@ const EditContentManagementComp = () => {
   const [modal, setModal] = useState(false);
 
   const [editorState, setEditorState] = useState(null);
+
+  const options = [
+    {
+      label: "ONE",
+      value: "one",
+    },
+    {
+      label: "TWO",
+      value: "two",
+    },
+    {
+      label: "THREE",
+      value: "three",
+    },
+  ];
 
   const handleChange = (state) => {
     setEditorState(state);
@@ -70,7 +85,6 @@ const EditContentManagementComp = () => {
                     errors={errors}
                     register={register({
                       required: true,
-                  
                     })}
 
                     //   value={searchStaff}
@@ -79,14 +93,12 @@ const EditContentManagementComp = () => {
                     //   setactivePage(1);
                     // }}
                   />
-                     <FormErrorMessage
+                  <FormErrorMessage
                     error={errors.policy}
                     messages={{
                       required: "Privacy Policy is required",
-                    
                     }}
                   />
-
                 </div>
                 <div class="col-4">
                   <label className="Product_description">Page Status</label>
@@ -103,9 +115,10 @@ const EditContentManagementComp = () => {
                           // value={value}
                           name="active"
                           placeholder="Active"
-
-                          // onChange={(e) => {}}
-                          // options={options}
+                          errors={errors.status}
+                          value={options.value}
+                          options={options}
+                          onChange={(option) => onChange(option.value)}
                         />
                       );
                     }}
@@ -118,11 +131,10 @@ const EditContentManagementComp = () => {
                     Page Content
                   </label>
                   <div className="text_editor">
-                  <CustomController
+                    <CustomController
                       name={"TextEditor"}
                       control={control}
                       error={errors.TextEditor}
-                      // defaultValue={endDate}
                       rules={{ required: true }}
                       messages={{
                         required: "Page content is Required",
@@ -130,9 +142,11 @@ const EditContentManagementComp = () => {
                       render={({ onChange, ...field }) => {
                         return (
                           <TextEditor
-                            errors={errors.TextEditor}
                             content={content}
-                            setContent={setContent}
+                            {...field}
+                            onChange={(text) =>
+                              onChange(() => setContent(text))
+                            }
                           />
                         );
                       }}

@@ -151,13 +151,7 @@ const AddStaff = () => {
                 errors={errors}
                 register={register({
                   required: true,
-                })}
-
-                //   value={searchStaff}
-                // onChange={(e) => {
-                //   setsearch(e.target.value);
-                //   setactivePage(1);
-                // }}
+              })}
               />
               <FormErrorMessage
                 error={errors.password}
@@ -171,8 +165,7 @@ const AddStaff = () => {
               <CustomController
                 name={"role"}
                 control={control}
-                error={errors.role}
-             
+                error={errors.role}             
                 rules={{ required: true }}
                 messages={{ required: "Role is Required" }}
                 render={({ onChange, ...field }) => {

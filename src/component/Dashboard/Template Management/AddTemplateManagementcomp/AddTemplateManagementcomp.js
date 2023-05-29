@@ -26,7 +26,20 @@ const AddTempleteManagementcomp = () => {
   const [edit, setEdit] = useState(true);
 
   const [editorState, setEditorState] = useState(null);
-
+  const options = [
+    {
+      label: "ONE",
+      value: "one",
+    },
+    {
+      label: "TWO",
+      value: "two",
+    },
+    {
+      label: "THREE",
+      value: "three",
+    },
+  ];
   const handleChange = (state) => {
     setEditorState(state);
   };
@@ -100,9 +113,10 @@ const AddTempleteManagementcomp = () => {
                           // value={value}
                           name="active"
                           placeholder="Active"
-
-                          // onChange={(e) => {}}
-                          // options={options}
+                          // errors={errors.status}
+                          value={options.value}
+                          options={options}
+                          onChange={(option) => onChange(option.value)}
                         />
                       );
                     }}
@@ -123,9 +137,9 @@ const AddTempleteManagementcomp = () => {
                           // value={value}
                           name="activeType"
                           placeholder="Active"
-
-                          // onChange={(e) => {}}
-                          // options={options}
+                          value={options.value}
+                          options={options}
+                          onChange={(option) => onChange(option.value)}
                         />
                       );
                     }}
@@ -138,7 +152,7 @@ const AddTempleteManagementcomp = () => {
                     Template Message Content
                   </label>
                   <div className="text_editor">
-                  <CustomController
+                    <CustomController
                       name={"TextEditor"}
                       control={control}
                       error={errors.TextEditor}
@@ -150,9 +164,11 @@ const AddTempleteManagementcomp = () => {
                       render={({ onChange, ...field }) => {
                         return (
                           <TextEditor
-                            errors={errors.TextEditor}
                             content={content}
-                            setContent={setContent}
+                            {...field}
+                            onChange={(text) =>
+                              onChange(() => setContent(text))
+                            }
                           />
                         );
                       }}

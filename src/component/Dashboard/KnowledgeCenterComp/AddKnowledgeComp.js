@@ -17,7 +17,21 @@ const AddKnowledgeComp = () => {
   });
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState(false);
-
+  const [content, setContent] = useState("");
+  const options = [
+    {
+      label: "ONE",
+      value: "one",
+    },
+    {
+      label: "TWO",
+      value: "two",
+    },
+    {
+      label: "THREE",
+      value: "three",
+    },
+  ];
   const onSubmit = (data) => {
     // console.log("data :>> ", data);
     // console.log("data :>> ", managementCheckedItems);
@@ -86,8 +100,9 @@ const AddKnowledgeComp = () => {
                       // value={value}
                       name="category"
                       placeholder="Select Category"
-                      // onChange={(e) => {}}
-                      // options={options}
+                      value={options.value}
+                      options={options}
+                      onChange={(option) => onChange(option.value)}
                     />
                   );
                 }}
@@ -108,8 +123,9 @@ const AddKnowledgeComp = () => {
                       // value={value}
                       name="subcategory"
                       placeholder="Select Sub Category"
-                      // onChange={(e) => {}}
-                      // options={options}
+                      value={options.value}
+                      options={options}
+                      onChange={(option) => onChange(option.value)}
                     />
                   );
                 }}
@@ -166,8 +182,9 @@ const AddKnowledgeComp = () => {
                       // value={value}
                       name="status"
                       placeholder="Select status"
-                      // onChange={(e) => {}}
-                      // options={options}
+                      value={options.value}
+                      options={options}
+                      onChange={(option) => onChange(option.value)}
                     />
                   );
                 }}
@@ -177,24 +194,24 @@ const AddKnowledgeComp = () => {
           <div>
             <label>Description</label>
             <CustomController
-                      name={"TextEditor"}
-                      control={control}
-                      error={errors.TextEditor}
-                      // defaultValue={endDate}
-                      rules={{ required: true }}
-                      messages={{
-                        required: "Description is Required",
-                      }}
-                      render={({ onChange, ...field }) => {
-                        return (
-                          <TextEditor
-                            errors={errors.TextEditor}
-                            // content={content}
-                            // setContent={setContent}
-                          />
-                        );
-                      }}
-                    />
+              name={"TextEditor"}
+              control={control}
+              error={errors.TextEditor}
+              // defaultValue={endDate}
+              rules={{ required: true }}
+              messages={{
+                required: "Description is Required",
+              }}
+              render={({ onChange, ...field }) => {
+                return (
+                  <TextEditor
+                    content={content}
+                    errors={errors.TextEditor}
+                    onChange={(text) => onChange(() => setContent(text))}
+                  />
+                );
+              }}
+            />
           </div>
           <div className="d-flex align-items-center justify-content-end my-5 py-3">
             <div className="col-md-2">

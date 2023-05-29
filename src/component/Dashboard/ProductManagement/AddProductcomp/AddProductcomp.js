@@ -263,9 +263,9 @@ const AddProductcomp = () => {
                         render={({ onChange, ...field }) => {
                           return (
                             <CommonDatePicker
+                            name="endDate"
                               {...field}
                               value={endDate}
-                              name="endDate"
                               onChange={(date) =>
                                 onChange(() => setEndDate(date))
                               }
