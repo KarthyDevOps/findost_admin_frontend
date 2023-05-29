@@ -8,6 +8,7 @@ import "./style.scss";
 import { history } from "helpers";
 import { BsSearch } from "react-icons/bs";
 import DropDown from "component/common/DropDown/DropDown";
+import { getStaff } from "service/Auth";
 
 const StaffManagementComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
@@ -32,34 +33,35 @@ const StaffManagementComp = () => {
     },
     {
       label: "Email Id",
-      value: "brandImage",
+      value: "email",
     },
     {
       label: "Role Name",
-      value: "updatedAt",
+      value: "role",
     },
     {
       label: "Status",
-      value: "createdAt",
+      value: "isActive",
     },
   ];
 
-  useEffect(() => {
-    fetchData();
-  }, [currentPage]);
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(
-        `http://doodlebluelive.com:2129/api/v1/static/brand?limit=10&page=${currentPage}`
-      );
-      console.log("response.data :>> ", response.data.data.list);
-      setData(response.data.data.list);
-      setPageCount(response.data.data.pageMeta.totalPages);
-    } catch (error) {
-      console.log(error);
+  const onSubmit = async () => {
+    let params = {
+      page: currentPage,
+      limit: 10,
+      search : ""
+    };
+    let response = await getStaff(params);
+    if (response.status === 200) {
+      console.log("response", response?.data?.data?.list);
+      setData(response?.data?.data?.list)
+      setPageCount(response?.data?.data?.pageMeta?.total)
+      setCurrentPage(response?.data?.data?.pageMeta?.currentPage)
     }
   };
+  useEffect(() => {
+    onSubmit();
+  }, []);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);

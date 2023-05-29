@@ -4,3 +4,4 @@ export const privilegesData = (payload) => {
     type: "ADMIN_PRIVILEGES",
   };
 }
+

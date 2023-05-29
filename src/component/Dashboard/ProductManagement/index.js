@@ -8,32 +8,13 @@ import ReactSelect from "react-select";
 import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import "./style.scss";
+import { getProductList } from "../../../service/helpers/Cms";
 
 const ProductManagementComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
   });
-  const [data, setData] = useState([
-    {
-      ProductId: "51322",
-      ProductStatus: "inactive",
-      ProductName: "Bedfordshire",
-      ProductDescription: "Nemo dolorem eum aliquam non.",
-    },
-    {
-      ProductId: "99751",
-      ProductStatus: "active",
-      ProductName: "innovative",
-      ProductDescription: "Nesciunt et voluptas a illo voluptates commodi.",
-    },
-    {
-      ProductId: "21548",
-      ProductStatus: "active",
-      ProductName: "Markets",
-      ProductDescription:
-        "Quod et architecto consequatur ducimus sit sit facilis.",
-    },
-  ]);
+  const [data, setData] = useState([]);
   const [searchStaff, setSearchStaff] = useState("");
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -60,6 +41,21 @@ const ProductManagementComp = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+
+  const onSubmit = async () => {
+    let params = {
+      page: currentPage,
+      limit: 10,
+      search : ""
+    };
+    let response = await getProductList(params);
+    if (response) {
+      console.log("response", response);
+    }
+  };
+  useEffect(() => {
+    onSubmit();
+  }, []);
 
   return (
     <Fragment>

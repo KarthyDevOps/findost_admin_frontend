@@ -27,11 +27,11 @@ const initialState = {
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
-    case 'ADMIN_PRIVILEGES':
+    case "ADMIN_DATA":
       return {
         ...state,
-        privileges: payload
-      }
+        userInfo: payload,
+      };
     default:
       return state;
   }
