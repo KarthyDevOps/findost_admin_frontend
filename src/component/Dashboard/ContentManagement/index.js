@@ -8,7 +8,7 @@ import ReactSelect from "react-select";
 import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import "./style.scss";
-import { getContentList } from "service/helpers/Cms";
+import { getContentList } from "service/Cms";
 
 const ContentManagementComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
