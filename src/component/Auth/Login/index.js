@@ -140,7 +140,7 @@ const LoginComp = () => {
                   </div>
 
                   <div className="social col-lg-10 ">
-                    <p className=" "> Follows Us On </p>
+                    <p className=" "> Follow Us On </p>
                   </div>
                   <div className="social_logo">
                     <img src={twitter_logo}></img>

@@ -51,6 +51,8 @@ export const endpoints = {
   },
   cms : {
     LIST_PRODUCTS : `${cms}/product-management/list`,
+    LIST_CONTENT:`${cms}/content-management/list`,
+    
   }
 
 };
