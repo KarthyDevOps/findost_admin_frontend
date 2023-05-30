@@ -45,7 +45,7 @@ const StaffManagementComp = () => {
     },
   ];
 
-  const onSubmit = async () => {
+  const getStaffList = async () => {
     let params = {
       page: currentPage,
       limit: 10,
@@ -60,7 +60,7 @@ const StaffManagementComp = () => {
     }
   };
   useEffect(() => {
-    onSubmit();
+    getStaffList();
   }, []);
 
   const handlePageChange = (page) => {

@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { history } from "helpers";
 import { endpoints } from "config/api";
-import { axiosErrorHandler } from "./axiosHelpers";
+import { axiosErrorHandler } from "./helpers/axiosHelpers";
 
 export const getProductList = async (params) => {
   let request = await axios({
