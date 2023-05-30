@@ -11,6 +11,7 @@ import CustomController from "component/common/Controller";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import DropDown from "component/common/DropDown/DropDown";
 import FormErrorMessage from "component/common/ErrorMessage";
+import { addProduct } from "service/Cms";
 
 const AddProductcomp = () => {
   const { register, handleSubmit, errors, reset, setError, control } = useForm({
@@ -21,6 +22,7 @@ const AddProductcomp = () => {
   const [endDate, setEndDate] = useState("");
   const [content, setContent] = useState("");
   const [quill, setQuill] = useState("");
+  const [modal, setModal] = useState(false);
 
   const [editorState, setEditorState] = useState(null);
 
@@ -74,10 +76,30 @@ const AddProductcomp = () => {
     },
   };
 
-  const onsubmit = (data) => {
+  const onsubmit = async (data) => {
     console.log("data :>> ", data);
     console.log("startDate :>> ", startDate);
     console.log("endDate :>> ", endDate);
+
+    try {
+      let body = {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        role: data.role,
+        status: data.status,
+      };
+      let response = await addProduct(body);
+      if (response.status === 200) {
+        setModal(true);
+        const timeout = setTimeout(() => {
+          setModal(false);
+        }, 1000);
+        return () => clearTimeout(timeout);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (

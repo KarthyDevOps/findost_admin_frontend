@@ -122,14 +122,26 @@ export const dateDiff = (orderStartDate, orderEndDate = false) => {
   ]);
 
   let startDate = moment([
-    String(orderStartDate).split(",")[0].split(" ")[2],
-    getMonth(String(orderStartDate).split(",")[0].split(" ")[1]),
+    String(orderStartDate)
+      .split(",")[0]
+      .split(" ")[2],
+    getMonth(
+      String(orderStartDate)
+        .split(",")[0]
+        .split(" ")[1]
+    ),
     String(orderStartDate).split("th")[0],
   ]);
 
   let endDate = moment([
-    String(orderEndDate).split(",")[0].split(" ")[2],
-    getMonth(String(orderEndDate).split(",")[0].split(" ")[1]),
+    String(orderEndDate)
+      .split(",")[0]
+      .split(" ")[2],
+    getMonth(
+      String(orderEndDate)
+        .split(",")[0]
+        .split(" ")[1]
+    ),
     String(orderEndDate).split("th")[0],
   ]);
 
@@ -170,16 +182,14 @@ export const timeConvert = (time) => {
   return time.join(""); // return adjusted time or original string
 };
 
-export const debounce =
-  (func, setLoading, timeout = 500) =>
-  (...args) => {
-    clearTimeout(timer);
-    timer = setTimeout(async () => {
-      typeof setLoading === "function" && setLoading(true);
-      await func(...args);
-      typeof setLoading === "function" && setLoading(false);
-    }, [timeout]);
-  };
+export const debounce = (func, setLoading, timeout = 500) => (...args) => {
+  clearTimeout(timer);
+  timer = setTimeout(async () => {
+    typeof setLoading === "function" && setLoading(true);
+    await func(...args);
+    typeof setLoading === "function" && setLoading(false);
+  }, [timeout]);
+};
 
 export const debounceFunction = (fn, delay) => {
   let timeoutID;
@@ -237,36 +247,6 @@ export const Encrypt = (plainText) => {
     return plainText;
   }
 };
-
-export const generateInitialCheckedItems = () => ({
-  staff: Object.fromEntries(
-    ['View', 'Edit', 'Add', 'Delete'].map((action) => [`staff${action}`, false])
-  ),
-  product: Object.fromEntries(
-    ['View', 'Edit', 'Add', 'Delete'].map((action) => [`product${action}`, false])
-  ),
-  feedback: Object.fromEntries(
-    ['View', 'Edit', 'Add', 'Delete'].map((action) => [`feedback${action}`, false])
-  ),
-  notification: Object.fromEntries(
-    ['View', 'Edit', 'Add', 'Delete'].map((action) => [`notification${action}`, false])
-  ),
-  content: Object.fromEntries(
-    ['View', 'Edit', 'Add', 'Delete'].map((action) => [`content${action}`, false])
-  ),
-  template: Object.fromEntries(
-    ['View', 'Edit', 'Add', 'Delete'].map((action) => [`template${action}`, false])
-  ),
-  faq: Object.fromEntries(
-    ['View', 'Edit', 'Add', 'Delete'].map((action) => [`faq${action}`, false])
-  ),
-  master: Object.fromEntries(
-    ['View', 'Edit', 'Add', 'Delete'].map((action) => [`master${action}`, false])
-  ),
-  site: Object.fromEntries(
-    ['View', 'Edit', 'Add', 'Delete'].map((action) => [`site${action}`, false])
-  ),
-});
 
 export const navLink = [
   {

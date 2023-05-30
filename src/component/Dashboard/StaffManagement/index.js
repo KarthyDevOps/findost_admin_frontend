@@ -1,6 +1,5 @@
-import React, { useState, useEffect, Fragment, useCallback } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import TableComp from "../../common/TableComp/TableComp";
-import axios from "axios";
 import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
 import NormalButton from "component/common/NormalButton/NormalButton";
@@ -8,7 +7,9 @@ import "./style.scss";
 import { history } from "helpers";
 import { BsSearch } from "react-icons/bs";
 import DropDown from "component/common/DropDown/DropDown";
-import { getStaff } from "service/Auth";
+import { getStaff, deleteStaff } from "service/Auth";
+import DeleteModal from "component/common/DeleteModal/DeleteModal";
+import { Toast } from "service/toast";
 
 const StaffManagementComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
@@ -17,15 +18,18 @@ const StaffManagementComp = () => {
 
   const [data, setData] = useState([]);
   const [searchStaff, setSearchStaff] = useState("");
-  const [role, setRole] = useState("");
-  const [status, setStatus] = useState("");
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
+  const [active, setIsactive] = useState("");
+  const [modalVisible, setModalVisible] = useState({
+    id: null,
+    show: false,
+  });
 
   const includedKeys = [
     {
       label: "User Id",
-      value: "_id",
+      value: "adminId",
     },
     {
       label: "Username",
@@ -49,14 +53,15 @@ const StaffManagementComp = () => {
     let params = {
       page: currentPage,
       limit: 10,
-      search : ""
+      search: "",
     };
     let response = await getStaff(params);
     if (response.status === 200) {
       console.log("response", response?.data?.data?.list);
-      setData(response?.data?.data?.list)
-      setPageCount(response?.data?.data?.pageMeta?.total)
-      setCurrentPage(response?.data?.data?.pageMeta?.currentPage)
+      setIsactive(response?.data?.data?.list[0].isactive);
+      setData(response?.data?.data?.list);
+      setPageCount(response?.data?.data?.pageMeta?.pageCount);
+      setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
     }
   };
   useEffect(() => {
@@ -65,6 +70,27 @@ const StaffManagementComp = () => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+  };
+
+  const handleOpenModal = (id) => {
+    setModalVisible({
+      id: id,
+      show: true,
+    });
+  };
+
+  const handleDeleteItem = async () => {
+    if (modalVisible.show && modalVisible.id) {
+      let params = {
+        id: modalVisible.id,
+      };
+      let response = await deleteStaff(params);
+      if (response.status === 200) {
+        Toast({ type: "success", message: response.data.message });
+        getStaffList();
+      }
+    }
+    setModalVisible({ show: false, id: null });
   };
 
   return (
@@ -130,6 +156,16 @@ const StaffManagementComp = () => {
             onPageChange={handlePageChange}
             setCurrentPage={setCurrentPage}
             editRouteName={"/admin/staff-management/add-staff"}
+            handleOpenModal={handleOpenModal}
+          />
+        </div>
+        <div>
+          {" "}
+          <DeleteModal
+            modalOpen={modalVisible.show}
+            closeModal={() => setModalVisible({ id: null, show: false })}
+            handleDelete={handleDeleteItem}
+            DeleteMessage={"Are you sure you want to delete Staff?"}
           />
         </div>
       </div>

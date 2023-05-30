@@ -16,3 +16,15 @@ export const getProductList = async (params) => {
     });
     return request;
   };
+
+  export const addProduct = async (data) => {
+    const request = await axios({
+      method: "post",
+      url: endpoints.cms.ADD_PRODUCT,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      data: data,
+    }).catch(axiosErrorHandler);
+    return request;
+  };
