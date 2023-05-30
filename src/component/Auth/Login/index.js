@@ -37,19 +37,23 @@ const LoginComp = () => {
   const dispatch = useDispatch();
 
   const onSubmit = async (inputs) => {
-    console.log("inputs", inputs);
-
-    let body = {
-      email: inputs?.emailId,
-      password: inputs?.password,
-    };
-    const response = await LoginAPI(body);
-
-    if (response.status === 200) {
-      localStorage.removeItem("token");
-      localStorage.setItem("token", response?.data?.data?.token);
-      reset({ emailId: "", password: "" });
-      history.push("/admin/dashboard");
+    try {
+      let body = {
+        email: inputs?.emailId,
+        password: inputs?.password,
+      };
+      const response = await LoginAPI(body);
+      if (response.status === 200) {
+        localStorage.removeItem("token");
+        localStorage.setItem("token", response?.data?.data?.token);
+        Toast({ type: "success", message: response.data.message });
+        reset({ emailId: "", password: "" });
+        history.push("/admin/dashboard");
+      } else {
+        Toast({ type: "error", message: response.data.message });
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
     }
   };
   return (

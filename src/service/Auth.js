@@ -39,3 +39,39 @@ export const addStaff = async (data) => {
   });
   return request;
 };
+
+export const editStaff = async (params) => {
+  const request = await axios({
+    method: "get",
+    url: endpoints.auth.EDIT_STAFF,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const deleteStaff = async (params) => {
+  const request = await axios({
+    method: "delete",
+    url: endpoints.auth.DELETE_STAFF,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const updateStaff = async (body, id) => {
+  const request = await axios({
+    method: "put",
+    url: `${endpoints.auth.UPDATE_STAFF}?id=${id}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body,
+  }).catch(axiosErrorHandler);
+  return request;
+};

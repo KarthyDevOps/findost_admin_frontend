@@ -10,18 +10,47 @@ import { history, generateInitialCheckedItems } from "helpers";
 import DropDown from "component/common/DropDown/DropDown";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import CustomController from "component/common/Controller";
-import { addStaff } from "service/Auth";
+import { addStaff, editStaff, updateStaff } from "service/Auth";
+import { useLocation } from "react-router-dom/cjs/react-router-dom";
+import Search from "antd/lib/transfer/search";
+import { Toast } from "service/toast";
 
 const AddStaff = () => {
-  const { register, handleSubmit, errors, reset, setError, control } = useForm({
+  const {
+    register,
+    handleSubmit,
+    errors,
+    reset,
+    setError,
+    control,
+    setValue,
+    getValues,
+  } = useForm({
     mode: "onChange",
   });
   const [edit, setEdit] = useState(false);
   const [modal, setModal] = useState(false);
+  const location = useLocation();
+  const [staffDetails, setStaffDetails] = useState({
+    // name: "",
+    // email: "",
+    // password: "",
+    role: "",
+    status: "",
+    permissions: {},
+  });
 
-  const [managementCheckedItems, setManagementCheckedItems] = useState(
-    generateInitialCheckedItems()
-  );
+  const [managementOptions, setManagementOptions] = useState({
+    staffManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+    productManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+    feedbackManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+    notificationManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+    contentManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+    templateManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+    faqManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+    mastersManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+    siteSettings: ["VIEW", "EDIT", "ADD", "DELETE"],
+  });
 
   const options = [
     {
@@ -49,46 +78,167 @@ const AddStaff = () => {
     },
   ];
 
-  const onSubmit = async (data) => {
-    console.log("managementCheckedItems :>> ", managementCheckedItems);
-    console.log("data :>> ", data);
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get("Editid");
+
+  useEffect(() => {
+    if (urlParams.has("Editid")) {
+      setEdit(true);
+      getStaffDetails();
+    }
+  }, []);
+
+  useEffect(() => {
+    setValue(
+      "role",
+      options.find((option) => option.value === staffDetails.role)
+    );
+    setValue(
+      "status",
+      status.find((option) => option.value === staffDetails.status)
+    );
+    if (staffDetails.permissions) {
+      Object.entries(staffDetails.permissions).forEach(
+        ([managementOption, values]) => {
+          setValue(managementOption, values);
+        }
+      );
+    }
+  }, [staffDetails, setValue]);
+  console.log("staffDetails :>> ", staffDetails);
+
+  const getStaffDetails = async () => {
     try {
-      let body = {
-      
+      const params = {
+        id: id,
       };
-      let response = await addStaff(body);
+      let response = await editStaff(params);
       if (response.status === 200) {
-        setModal(true);
-        const timeout = setTimeout(() => {
-          setModal(false);
-        }, 1000);
-        return () => clearTimeout(timeout);
+        const data = response?.data.data[0];
+        setValue("name", data.name);
+        setValue("email", data.email);
+        setValue("password", data.password);
+        setStaffDetails({
+          role: data.role,
+          status: data.isActive ? "active" : "inActive",
+          permissions: data.permissions,
+        });
+      } else {
+        Toast({ type: "error", message: response.data.message });
       }
     } catch (e) {
-      console.log(e);
+      console.log("e :>> ", e);
     }
   };
 
-  const handleManagementAllChange = (section) => (event) => {
-    const isChecked = event.target.checked;
-    setManagementCheckedItems((prevState) => ({
-      ...prevState,
-      [section]: Object.keys(prevState[section]).reduce((acc, key) => {
-        acc[key] = isChecked;
-        return acc;
-      }, {}),
-    }));
+  const onSubmit = async (data) => {
+    console.log("dataform :>> ", data);
+    if (!edit) {
+      try {
+        let body = {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          role: staffDetails.role,
+          permissions: {
+            staffManagement: data.staffManagement,
+            productManagement: data.productManagement,
+            feedbackManagement: data.feedbackManagement,
+            notificationManagement: data.notificationManagement,
+            contentManagement: data.contentManagement,
+            templateManagement: data.templateManagement,
+            faqManagement: data.faqManagement,
+            mastersManagement: data.mastersManagement,
+            siteSettings: data.siteSettings,
+          },
+        };
+        if (staffDetails.status === "active") {
+          body.isActive = true;
+        } else {
+          body.isActive = false;
+        }
+        let response = await addStaff(body);
+        if (response.status === 200) {
+          setModal(true);
+          const timeout = setTimeout(() => {
+            setModal(false);
+            reset(staffDetails);
+            history.push("/admin/staff-management");
+          }, 1000);
+          return () => clearTimeout(timeout);
+        } else {
+          Toast({ type: "error", message: response.data.message });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      try {
+        let body = {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          role: staffDetails.role,
+          permissions: {
+            staffManagement: data.staffManagement,
+            productManagement: data.productManagement,
+            feedbackManagement: data.feedbackManagement,
+            notificationManagement: data.notificationManagement,
+            contentManagement: data.contentManagement,
+            templateManagement: data.templateManagement,
+            faqManagement: data.faqManagement,
+            mastersManagement: data.mastersManagement,
+            siteSettings: data.siteSettings,
+          },
+        };
+        if (staffDetails.status === "active") {
+          body.isActive = true;
+        } else {
+          body.isActive = false;
+        }
+        let response = await updateStaff(body, id);
+        if (response.status === 200) {
+          setModal(true);
+          const timeout = setTimeout(() => {
+            setModal(false);
+            reset(staffDetails);
+            history.push("/admin/staff-management");
+          }, 1000);
+          return () => clearTimeout(timeout);
+        } else {
+          Toast({ type: "error", message: response.data.message });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
   };
-
-  const handleManagementChange = (section, key) => (event) => {
+  const handleCheckAll = (event, managementOption) => {
     const isChecked = event.target.checked;
-    setManagementCheckedItems((prevState) => ({
-      ...prevState,
-      [section]: {
-        ...prevState[section],
-        [key]: isChecked,
-      },
-    }));
+
+    if (isChecked) {
+      setValue(managementOption, [
+        "ALL",
+        ...managementOptions[managementOption],
+      ]);
+    } else {
+      setValue(managementOption, []);
+    }
+  };
+  const handleCheckOption = (managementOption, option, event) => {
+    const isChecked = event.target.checked;
+    const currentValues = control.getValues(managementOption);
+
+    if (isChecked) {
+      if (!currentValues.includes(option)) {
+        setValue(managementOption, [...currentValues, option]);
+      }
+    } else {
+      setValue(
+        managementOption,
+        currentValues.filter((value) => value !== option)
+      );
+    }
   };
 
   return (
@@ -113,18 +263,12 @@ const AddStaff = () => {
                 className="add_staff"
                 type={"text"}
                 placeholder="Enter Name"
-                //   errors={errors}
                 name="name"
+                defaultValue={staffDetails.name}
                 errors={errors}
                 register={register({
                   required: true,
                 })}
-
-                //   value={searchStaff}
-                // onChange={(e) => {
-                //   setsearch(e.target.value);
-                //   setactivePage(1);
-                // }}
               />
               <FormErrorMessage
                 error={errors.name}
@@ -139,19 +283,13 @@ const AddStaff = () => {
                 className="add_staff"
                 type={"text"}
                 placeholder="Enter Email Id"
-                //   errors={errors}
                 name="email"
+                defaultValue={staffDetails.email}
                 errors={errors}
                 register={register({
                   required: true,
                   pattern: /\S+@\S+\.\S+/,
                 })}
-
-                //   value={searchStaff}
-                // onChange={(e) => {
-                //   setsearch(e.target.value);
-                //   setactivePage(1);
-                // }}
               />
               <FormErrorMessage
                 error={errors.email}
@@ -167,17 +305,23 @@ const AddStaff = () => {
                 className="add_staff"
                 type={"text"}
                 placeholder="Enter Password"
-                //   errors={errors}
                 name="password"
                 errors={errors}
+                defaultValue={staffDetails.password}
                 register={register({
                   required: true,
-              })}
+                  minLength: 8,
+                  maxLength: 16,
+                  // pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?& ]{8,}$/s,
+                })}
               />
               <FormErrorMessage
                 error={errors.password}
                 messages={{
                   required: "Password is Required",
+                  minLength: "Password must contain atleast 8 letters",
+                  maxLength: "Password should must contain only 16",
+                  // pattern: "Password must contain a special character",
                 }}
               />
             </div>
@@ -188,6 +332,10 @@ const AddStaff = () => {
                 control={control}
                 error={errors.role}
                 rules={{ required: true }}
+                // defaultValue={staffDetails.role}
+                value={options.find(
+                  (option) => option.value === getValues("role")
+                )}
                 messages={{ required: "Role is Required" }}
                 render={({ onChange, ...field }) => {
                   return (
@@ -195,9 +343,14 @@ const AddStaff = () => {
                       {...field}
                       placeholder="Select Role"
                       name="role"
-                      value={options.value}
                       options={options}
-                      onChange={(option) => onChange(option.value)}
+                      onChange={(option) => {
+                        setStaffDetails((prevState) => ({
+                          ...prevState,
+                          role: option.value,
+                        }));
+                        // onChange(option.value);
+                      }}
                     />
                   );
                 }}
@@ -210,6 +363,10 @@ const AddStaff = () => {
                 control={control}
                 error={errors.status}
                 rules={{ required: true }}
+                // defaultValue={staffDetails.status}
+                value={status.find(
+                  (option) => option.value === getValues("status")
+                )}
                 messages={{ required: "Status is Required" }}
                 render={({ onChange, ...field }) => {
                   return (
@@ -217,10 +374,15 @@ const AddStaff = () => {
                       {...field}
                       placeholder="Select Status"
                       name="status"
-                      value={status.value}
                       errors={errors.status}
                       options={status}
-                      onChange={(status) => onChange(status.value)}
+                      onChange={(option) => {
+                        setStaffDetails((prevState) => ({
+                          ...prevState,
+                          status: option.value,
+                        }));
+                        // onChange(option.value);
+                      }}
                     />
                   );
                 }}
@@ -243,523 +405,39 @@ const AddStaff = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr className="">
-                  <td className="row_box">Staff Management</td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="staff_all"
-                      name="staffManagement.staffAll"
-                      checked={Object.values(
-                        managementCheckedItems.staff
-                      ).every(Boolean)}
-                      onChange={handleManagementAllChange("staff")}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="staff_view"
-                      name="staffManagement.staffView"
-                      checked={managementCheckedItems.staff.staffView}
-                      onChange={handleManagementChange("staff", "staffView")}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="staff_edit"
-                      name="staffManagement.staffEdit"
-                      checked={managementCheckedItems.staff.staffEdit}
-                      onChange={handleManagementChange("staff", "staffEdit")}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="staff_add"
-                      name="staffManagement.staffAdd"
-                      checked={managementCheckedItems.staff.staffAdd}
-                      onChange={handleManagementChange("staff", "staffAdd")}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="staff_delete"
-                      name="staffManagement.staffDelete"
-                      checked={managementCheckedItems.staff.staffDelete}
-                      onChange={handleManagementChange("staff", "staffDelete")}
-                    />
-                  </td>
-                </tr>
-
-                <tr className="">
-                  <td className="row_box">Product Management</td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="product_all"
-                      name="productManagement.productAll"
-                      checked={Object.values(
-                        managementCheckedItems.product
-                      ).every(Boolean)}
-                      onChange={handleManagementAllChange("product")}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="product_view"
-                      name="productManagement.productView"
-                      checked={managementCheckedItems.product.productView}
-                      onChange={handleManagementChange(
-                        "product",
-                        "productView"
-                      )}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="product_edit"
-                      name="productManagement.productEdit"
-                      checked={managementCheckedItems.product.productEdit}
-                      onChange={handleManagementChange(
-                        "product",
-                        "productEdit"
-                      )}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="product_add"
-                      name="productManagement.productAdd"
-                      checked={managementCheckedItems.product.productAdd}
-                      onChange={handleManagementChange("product", "productAdd")}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="product_delete"
-                      name="productManagement.productDelete"
-                      checked={managementCheckedItems.product.productDelete}
-                      onChange={handleManagementChange(
-                        "product",
-                        "productDelete"
-                      )}
-                    />
-                  </td>
-                </tr>
-
-                <tr className="">
-                  <td className="row_box">Feedback Management</td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="feedback_all"
-                      name="feedbackManagement.feedbackAll"
-                      checked={Object.values(
-                        managementCheckedItems.feedback
-                      ).every(Boolean)}
-                      onChange={handleManagementAllChange("feedback")}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="feedback_view"
-                      name="feedbackManagement.feedbackView"
-                      checked={managementCheckedItems.feedback.feedbackView}
-                      onChange={handleManagementChange(
-                        "feedback",
-                        "feedbackView"
-                      )}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="feedback_edit"
-                      name="feedbackManagement.feedbackEdit"
-                      checked={managementCheckedItems.feedback.feedbackEdit}
-                      onChange={handleManagementChange(
-                        "feedback",
-                        "feedbackEdit"
-                      )}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="feedback_add"
-                      name="feedbackManagement.feedbackAdd"
-                      checked={managementCheckedItems.feedback.feedbackAdd}
-                      onChange={handleManagementChange(
-                        "feedback",
-                        "feedbackAdd"
-                      )}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="feedback_delete"
-                      name="feedbackManagement.feedbackDelete"
-                      checked={managementCheckedItems.feedback.feedbackDelete}
-                      onChange={handleManagementChange(
-                        "feedback",
-                        "feedbackDelete"
-                      )}
-                    />
-                  </td>
-                </tr>
-                <tr className="">
-                  <td className="row_box">Notification Management</td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="notification_all"
-                      name="notificationManagement.notificationAll"
-                      checked={Object.values(
-                        managementCheckedItems.notification
-                      ).every(Boolean)}
-                      onChange={handleManagementAllChange("notification")}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="notification_view"
-                      name="notificationManagement.notificationView"
-                      checked={
-                        managementCheckedItems.notification.notificationView
-                      }
-                      onChange={handleManagementChange(
-                        "notification",
-                        "notificationView"
-                      )}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="notification_edit"
-                      name="notificationManagement.notificationEdit"
-                      checked={
-                        managementCheckedItems.notification.notificationEdit
-                      }
-                      onChange={handleManagementChange(
-                        "notification",
-                        "notificationEdit"
-                      )}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="notification_add"
-                      name="notificationManagement.notificationAdd"
-                      checked={
-                        managementCheckedItems.notification.notificationAdd
-                      }
-                      onChange={handleManagementChange(
-                        "notification",
-                        "notificationAdd"
-                      )}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="notification_delete"
-                      name="notificationManagement.notificationDelete"
-                      checked={
-                        managementCheckedItems.notification.notificationDelete
-                      }
-                      onChange={handleManagementChange(
-                        "notification",
-                        "notificationDelete"
-                      )}
-                    />
-                  </td>
-                </tr>
-                <tr className="">
-                  <td className="row_box">Content Management</td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="content_all"
-                      name="contentManagement.contentAll"
-                      checked={Object.values(
-                        managementCheckedItems.content
-                      ).every(Boolean)}
-                      onChange={handleManagementAllChange("content")}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="content_view"
-                      name="contentManagement.contentView"
-                      checked={managementCheckedItems.content.contentView}
-                      onChange={handleManagementChange(
-                        "content",
-                        "contentView"
-                      )}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="content_edit"
-                      name="contentManagement.contentEdit"
-                      checked={managementCheckedItems.content.contentEdit}
-                      onChange={handleManagementChange(
-                        "content",
-                        "contentEdit"
-                      )}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="content_add"
-                      name="contentManagement.contentAdd"
-                      checked={managementCheckedItems.content.contentAdd}
-                      onChange={handleManagementChange("content", "contentAdd")}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="content_delete"
-                      name="contentManagement.contentDelete"
-                      checked={managementCheckedItems.content.contentDelete}
-                      onChange={handleManagementChange(
-                        "content",
-                        "contentDelete"
-                      )}
-                    />
-                  </td>
-                </tr>
-                <tr className="">
-                  <td className="row_box">Template Management</td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="template_all"
-                      name="templateManagement.templateAll"
-                      checked={Object.values(
-                        managementCheckedItems.template
-                      ).every(Boolean)}
-                      onChange={handleManagementAllChange("template")}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="template_view"
-                      name="templateManagement.templateView"
-                      checked={managementCheckedItems.template.templateView}
-                      onChange={handleManagementChange(
-                        "template",
-                        "templateView"
-                      )}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="template_edit"
-                      name="templateManagement.templateEdit"
-                      checked={managementCheckedItems.template.templateEdit}
-                      onChange={handleManagementChange(
-                        "template",
-                        "templateEdit"
-                      )}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="template_add"
-                      name="templateManagement.templateAdd"
-                      checked={managementCheckedItems.template.templateAdd}
-                      onChange={handleManagementChange(
-                        "template",
-                        "templateAdd"
-                      )}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="template_delete"
-                      name="templateManagement.templateDelete"
-                      checked={managementCheckedItems.template.templateDelete}
-                      onChange={handleManagementChange(
-                        "template",
-                        "templateDelete"
-                      )}
-                    />
-                  </td>
-                </tr>
-                <tr className="">
-                  <td className="row_box">FAQ / Support Management</td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="faq_all"
-                      name="faqManagement.faqAll"
-                      checked={Object.values(managementCheckedItems.faq).every(
-                        Boolean
-                      )}
-                      onChange={handleManagementAllChange("faq")}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="faq_view"
-                      name="faqManagement.faqView"
-                      checked={managementCheckedItems.faq.faqView}
-                      onChange={handleManagementChange("faq", "faqView")}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="faq_edit"
-                      name="faqManagement.faqEdit"
-                      checked={managementCheckedItems.faq.faqEdit}
-                      onChange={handleManagementChange("faq", "faqEdit")}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="faq_add"
-                      name="faqManagement.faqAdd"
-                      checked={managementCheckedItems.faq.faqAdd}
-                      onChange={handleManagementChange("faq", "faqAdd")}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="faq_delete"
-                      name="faqManagement.faqDelete"
-                      checked={managementCheckedItems.faq.faqDelete}
-                      onChange={handleManagementChange("faq", "faqDelete")}
-                    />
-                  </td>
-                </tr>
-                <tr className="">
-                  <td className="row_box">Masters Management</td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="master_all"
-                      name="masterManagement.masterAll"
-                      checked={Object.values(
-                        managementCheckedItems.master
-                      ).every(Boolean)}
-                      onChange={handleManagementAllChange("master")}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="master_view"
-                      name="masterManagement.masterView"
-                      checked={managementCheckedItems.master.masterView}
-                      onChange={handleManagementChange("master", "masterView")}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="master_edit"
-                      name="masterManagement.masterEdit"
-                      checked={managementCheckedItems.master.masterEdit}
-                      onChange={handleManagementChange("master", "masterEdit")}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="master_add"
-                      name="masterManagement.masterAdd"
-                      checked={managementCheckedItems.master.masterAdd}
-                      onChange={handleManagementChange("master", "masterAdd")}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="master_delete"
-                      name="masterManagement.masterDelete"
-                      checked={managementCheckedItems.master.masterDelete}
-                      onChange={handleManagementChange(
-                        "master",
-                        "masterDelete"
-                      )}
-                    />
-                  </td>
-                </tr>
-                <tr className="">
-                  <td className="row_box">Site Settings</td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="site_all"
-                      name="siteManagement.siteAll"
-                      checked={Object.values(managementCheckedItems.site).every(
-                        Boolean
-                      )}
-                      onChange={handleManagementAllChange("site")}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="site_view"
-                      name="siteManagement.siteView"
-                      checked={managementCheckedItems.site.siteView}
-                      onChange={handleManagementChange("site", "siteView")}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="site_edit"
-                      name="siteManagement.siteEdit"
-                      checked={managementCheckedItems.site.siteEdit}
-                      onChange={handleManagementChange("site", "siteEdit")}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="site_add"
-                      name="siteManagement.siteAdd"
-                      checked={managementCheckedItems.site.siteAdd}
-                      onChange={handleManagementChange("site", "siteAdd")}
-                    />
-                  </td>
-                  <td className="">
-                    <input
-                      type="checkbox"
-                      id="site_delete"
-                      name="siteManagement.siteDelete"
-                      checked={managementCheckedItems.site.siteDelete}
-                      onChange={handleManagementChange("site", "siteDelete")}
-                    />
-                  </td>
-                </tr>
+                {Object.entries(managementOptions).map(
+                  ([managementOption, options]) => (
+                    <tr key={managementOption} className="">
+                      <td className="row_box">
+                        {managementOption.charAt(0).toUpperCase() +
+                          managementOption.slice(1)}{" "}
+                        {managementOption === "siteSettings" ? "" : ""}
+                      </td>
+                      <td className="">
+                        <input
+                          type="checkbox"
+                          onChange={(e) => handleCheckAll(e, managementOption)}
+                          name={managementOption}
+                          value="ALL"
+                          ref={control.register}
+                        />
+                      </td>
+                      {options.map((option) => (
+                        <td className="">
+                          <input
+                            type="checkbox"
+                            onChange={(e) =>
+                              handleCheckOption(managementOption, option, e)
+                            }
+                            name={managementOption}
+                            value={option}
+                            ref={control.register}
+                          />
+                        </td>
+                      ))}
+                    </tr>
+                  )
+                )}
               </tbody>
             </table>
           </div>
