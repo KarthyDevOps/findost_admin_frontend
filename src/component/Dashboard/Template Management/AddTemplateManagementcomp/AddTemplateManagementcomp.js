@@ -4,57 +4,164 @@ import "./style.scss";
 import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
 import FormErrorMessage from "component/common/ErrorMessage";
-import ReactSelect from "react-select";
-import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
 import TextEditor from "component/common/TextEditor/TextEditor";
 import { history } from "helpers";
+import { addTemplate, editTemplate, updateTemplate } from "service/Cms";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import DropDown from "component/common/DropDown/DropDown";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import CustomController from "component/common/Controller";
+import { Toast } from "service/toast";
+
 const AddTempleteManagementcomp = () => {
-  const { register, handleSubmit, errors, control, reset, setError } = useForm({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    errors,
+    control,
+    reset,
+    setError,
+    getValues,
+  } = useForm({
     mode: "onChange",
   });
-  // const [role, setRole] = useState("");
-  // const [status, setStatus] = useState("");
-  // const [edit, setEdit] = useState(false);
-  // const [startdate, setstartdate] = useState("");
-  // const [enddate, setenddate] = useState("");
+ 
   const [content, setContent] = useState("");
   const [modal, setModal] = useState(false);
-  const [edit, setEdit] = useState(true);
-
-  const [editorState, setEditorState] = useState(null);
+  const [edit, setEdit] = useState(false);
+  const [TemplateDetails, setTemplateDetails] = useState({
+   
+    type: "",
+    status: "",
+  });
+  // console.log('first', TemplateDetails)
   const options = [
     {
-      label: "ONE",
-      value: "one",
+      label: " PRE Template Message",
+      value: "pre template message",
     },
     {
-      label: "TWO",
-      value: "two",
-    },
-    {
-      label: "THREE",
-      value: "three",
+      label: " POST Template Message",
+      value: "post template message",
     },
   ];
-  const handleChange = (state) => {
-    setEditorState(state);
+  const status = [
+    {
+      label: "ACTIVE",
+      value: "active",
+    },
+    {
+      label: "InACTIVE",
+      value: "inActive",
+    },
+  ];
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const templateId = urlParams.get("Editid");
+  useEffect(() => {
+    setValue(
+      "type",
+      options.find((option) => option.value === TemplateDetails.type)
+    );
+    setValue(
+      "status",
+      status.find((option) => option.value === TemplateDetails.status)
+    );
+  
+    
+  }, [TemplateDetails, setValue]);
+  const getTemplateDetails = async () => {
+    try {
+      const params = {
+        templateId: templateId,
+      };
+      let response = await editTemplate(params);
+      if (response.status === 200) {
+        const data = response?.data.data;
+        console.log('data', data)
+        setValue("title", data.title);
+        setContent(data.description)
+        setTemplateDetails({
+          type: data.type,
+          status: data.isActive ? "active" : "inActive",
+        });
+      } else {
+        Toast({ type: "error", message: response.data.message });
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
   };
-  const onSubmit = (data) => {
-    // console.log("data :>> ", data);
-    // console.log("data :>> ", managementCheckedItems);
-    // console.log("role :>> ", role);
-    // console.log("status :>> ", status);
+
+  useEffect(() => {
+    if (urlParams.has("Editid")) {
+      setEdit(true);
+      getTemplateDetails();
+    }
+  }, []);
+
+  // const handleChange = (state) => {
+  //   setEditorState(state);
+  // };
+  const onSubmit = async (data) => {
     setModal(true);
 
-    const timeout = setTimeout(() => {
-      setModal(false);
-    }, 1000);
-
-    return () => clearTimeout(timeout);
+    if (!edit) {
+      try {
+        let body = {
+          title: data.title,
+          description:content,
+          type: TemplateDetails.type,
+        };
+        if (TemplateDetails.status === "active") {
+          body.isActive = true;
+        } else {
+          body.isActive = false;
+        }
+        let response = await addTemplate(body);
+        if (response.status === 200) {
+          setModal(true);
+          const timeout = setTimeout(() => {
+            setModal(false);
+            reset(TemplateDetails);
+            history.push("/admin/template-management");
+          }, 1000);
+          return () => clearTimeout(timeout);
+        } else {
+          Toast({ type: "error", message: response.data.message });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      try {
+        let body = {
+          title: data.title,
+          description:content,
+          type: TemplateDetails.type,
+        };
+        if (TemplateDetails.status === "active") {
+          body.isActive = true;
+        } else {
+          body.isActive = false;
+        }
+        let response = await updateTemplate(body, templateId);
+        if (response.status === 200) {
+          setModal(true);
+          const timeout = setTimeout(() => {
+            setModal(false);
+            reset(TemplateDetails);
+            history.push("/admin/template-management");
+          }, 1000);
+          return () => clearTimeout(timeout);
+        } else {
+          Toast({ type: "error", message: response.data.message });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
   };
   return (
     <div className="container-fluid">
@@ -69,7 +176,7 @@ const AddTempleteManagementcomp = () => {
               />
             </i>
             <p className="add_products_title m-0">
-              {edit ? "Add Template" : "Template Management"}
+              {!edit ? "Add Template" : "Template Management"}
             </p>
           </div>
         </div>
@@ -84,7 +191,6 @@ const AddTempleteManagementcomp = () => {
                     className="login_input"
                     type={"text"}
                     placeholder="Enter Message Title"
-                    //   errors={errors}
                     name="title"
                     errors={errors}
                     register={register({
@@ -101,9 +207,9 @@ const AddTempleteManagementcomp = () => {
                 <div class="col-4">
                   <label className="Product_description">Message Type</label>
                   <CustomController
-                    name={"active"}
+                    name={"type"}
                     control={control}
-                    error={errors.active}
+                    error={errors.type}
                     // defaultValue={role}
                     rules={{ required: true }}
                     messages={{ required: "Message type is Required" }}
@@ -111,12 +217,18 @@ const AddTempleteManagementcomp = () => {
                       return (
                         <DropDown
                           // value={value}
-                          name="active"
+                          {...field}
+                          name="type"
                           placeholder="Active"
                           // errors={errors.status}
-                          value={options.value}
                           options={options}
-                          onChange={(option) => onChange(option.value)}
+                          onChange={(option) => {
+                            setTemplateDetails((prevState) => ({
+                              ...prevState,
+                              type: option.value,
+                            }));
+                            // onChange(option.value);
+                          }}
                         />
                       );
                     }}
@@ -125,21 +237,31 @@ const AddTempleteManagementcomp = () => {
                 <div class="col-4">
                   <label className="Product_description">Message Status</label>
                   <CustomController
-                    name={"activeType"}
+                    name={"status"}
                     control={control}
-                    error={errors.activeType}
+                    error={errors.status}
                     // defaultValue={role}
+                    value={status.find(
+                      (option) => option.value === getValues("status")
+                    )}
                     rules={{ required: true }}
                     messages={{ required: "Message Status is Required" }}
                     render={({ onChange, ...field }) => {
                       return (
                         <DropDown
                           // value={value}
-                          name="activeType"
+                          {...field}
+                          name="status"
+                      errors={errors.status}
+
                           placeholder="Active"
-                          value={options.value}
-                          options={options}
-                          onChange={(option) => onChange(option.value)}
+                          options={status}
+                          onChange={(option) => {
+                            setTemplateDetails((prevState) => ({
+                              ...prevState,
+                              status: option.value,
+                            }));
+                          }}
                         />
                       );
                     }}
@@ -156,7 +278,6 @@ const AddTempleteManagementcomp = () => {
                       name={"TextEditor"}
                       control={control}
                       error={errors.TextEditor}
-                      // defaultValue={endDate}
                       rules={{ required: true }}
                       messages={{
                         required: "Template message is Required",
@@ -166,6 +287,7 @@ const AddTempleteManagementcomp = () => {
                           <TextEditor
                             content={content}
                             {...field}
+                            
                             onChange={(text) =>
                               onChange(() => setContent(text))
                             }
@@ -191,7 +313,7 @@ const AddTempleteManagementcomp = () => {
                     <NormalButton
                       addProductbtn
                       onClick={handleSubmit(onSubmit)}
-                      label={edit ? "Add Template" : "Update"}
+                      label={!edit ? "Add Template" : "Update"}
                     >
                       {" "}
                     </NormalButton>

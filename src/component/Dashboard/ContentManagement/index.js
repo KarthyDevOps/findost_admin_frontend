@@ -3,10 +3,7 @@ import TableComp from "../../common/TableComp/TableComp";
 import axios from "axios";
 import FormErrorMessage from "component/common/ErrorMessage";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom/cjs/react-router-dom";
-import ReactSelect from "react-select";
-import InputBox from "component/common/InputBox/InputBox";
-import NormalButton from "component/common/NormalButton/NormalButton";
+
 import "./style.scss";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import { getContentList, deleteContentList } from "service/Cms";
@@ -20,9 +17,6 @@ const ContentManagementComp = () => {
     id: null,
     show: false,
   });
-  const [searchStaff, setSearchStaff] = useState("");
-  const [role, setRole] = useState("");
-  const [status, setStatus] = useState("");
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
 

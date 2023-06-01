@@ -363,7 +363,6 @@ const AddStaff = () => {
                 control={control}
                 error={errors.status}
                 rules={{ required: true }}
-                // defaultValue={staffDetails.status}
                 value={status.find(
                   (option) => option.value === getValues("status")
                 )}

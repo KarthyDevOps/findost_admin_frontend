@@ -4,63 +4,53 @@ import InputBox from "component/common/InputBox/InputBox";
 import ReactSelect from "react-select";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import { history } from "helpers";
+import { getFAQList, deleteFAQList } from "service/Cms";
 import DropDown from "component/common/DropDown/DropDown";
 import TableComp from "component/common/TableComp/TableComp";
+import { Toast } from "service/toast";
+import DeleteModal from "component/common/DeleteModal/DeleteModal";
+
 const FaqManagementComp = () => {
-
-
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [data, setData] = useState([
-    {
-      templateId: "51322",
-      status: "inactive",
-      category: "Template Message",
-      subCategory: "open source",
-      faqTitle:"real-time",
-      faqAnswer:'Nemo dolorem eum aliquam non.'
-    },
-    {
-      templateId: "51322",
-      status: "active",
-      category: "Template Message",
-      subCategory: "source",
-      faqTitle:"real-time",
-      faqAnswer:'Nemo dolorem eum aliquam non.'
-    },
-    {
-      templateId: "51322",
-      status: "active",
-      category: "Template Message",
-      subCategory: "open source",
-      faqTitle:"real-time",
-      faqAnswer:'Nemo dolorem eum aliquam non.'
-    },
-    {
-      templateId: "51322",
-      status: "active",
-      category: "Template Message",
-      subCategory: " edge",
-      faqTitle:"real-time",
-      faqAnswer:'Nemo dolorem eum aliquam non.'
-    },
-    {
-      templateId: "51322",
-      status: "active",
-      category: "Template Message",
-      subCategory: "source",
-      faqTitle:"real-time",
-      faqAnswer:'Nemo dolorem eum aliquam non.'
-    },
-  ]);
+  const [data, setData] = useState([]);
+  const [active, setIsactive] = useState("");
+
+  const [modalVisible, setModalVisible] = useState({
+    id: null,
+    show: false,
+  });
+  const handleOpenModal = (id) => {
+    setModalVisible({
+      id: id,
+      show: true,
+    });
+  };
+  const fetchData = async () => {
+    try {
+      let params = {
+        page: currentPage,
+        limit: 10,
+        search: "",
+      };
+      const response = await getFAQList(params);
+      setIsactive(response?.data?.data?.list[0].isactive);
+      setData(response?.data?.data?.list);
+      setPageCount(response?.data?.data?.pageMeta?.pageCount);
+      setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const includedKeys = [
     {
       label: "Id",
-      value: "templateId",
+      value: "faqId",
     },
     {
       label: "Status",
-      value: "status",
+      value: "isActive",
     },
     {
       label: "Category",
@@ -72,25 +62,34 @@ const FaqManagementComp = () => {
     },
     {
       label: "FAQ Title",
-      value: "faqTitle",
+      value: "title",
     },
     {
       label: "FAQ Answer",
-      value: "faqAnswer",
+      value: "answer",
     },
   ];
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-  // useEffect(() => {
-  //   if (modalVisible) {
-  //     const timer = setTimeout(() => {
-  //       setModalVisible(false);
-  //     }, 1000);
 
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [modalVisible]);
+  useEffect(() => {
+    fetchData();
+  }, [setData]);
+
+  const handleDeleteItem = async () => {
+    if (modalVisible.show && modalVisible.id) {
+      let params = {
+        faqId: modalVisible.id,
+      };
+      let response = await deleteFAQList(params);
+      if (response.status === 200) {
+        Toast({ type: "success", message: response.data.message });
+      }
+    }
+    setModalVisible({ show: false, id: null });
+  };
+
   return (
     <div className="faq_head px-5 py-3">
       <h6>FAQ Management</h6>
@@ -144,22 +143,28 @@ const FaqManagementComp = () => {
         </div>
         <div className=" mt-4 p-3">
           {data.length > 0 ? (
-             <TableComp
-             data={data}
-             isCheck={true}
-             EditAction={true}
-
-             DeleteAction={true}
-             includedKeys={includedKeys}
-             pageCount={pageCount}
-             onPageChange={handlePageChange}
-             setCurrentPage={setCurrentPage}
-             editRouteName={"/admin/faq-management/add-faq"}
-           />
+            <TableComp
+              data={data}
+              isCheck={true}
+              EditAction={true}
+              DeleteAction={true}
+              includedKeys={includedKeys}
+              pageCount={pageCount}
+              handleOpenModal={handleOpenModal}
+              onPageChange={handlePageChange}
+              setCurrentPage={setCurrentPage}
+              editRouteName={"/admin/faq-management/add-faq"}
+            />
           ) : (
             <p className="text-center mt-5 fs-15">No Data Available</p>
           )}
         </div>
+        <DeleteModal
+          modalOpen={modalVisible.show}
+          closeModal={() => setModalVisible({ id: null, show: false })}
+          handleDelete={handleDeleteItem}
+          DeleteMessage={"Are you sure you want to delete Staff?"}
+        />
       </div>
     </div>
   );

@@ -7,10 +7,13 @@ import ReactSelect from "react-select";
 // import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import "./style.scss";
+import { getTemplateList,deletetemplateList } from "service/Cms";
 import { history } from "helpers";
 import {BsSearch} from "react-icons/bs"
 import DropDown from "component/common/DropDown/DropDown";
+import { Toast } from "service/toast";
 
+import DeleteModal from "component/common/DeleteModal/DeleteModal";
 
 const TemplateManagementComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
@@ -18,43 +21,12 @@ const TemplateManagementComp = () => {
   });
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [data, setData] = useState([
-    {
-      templateId: "51322",
-      status: "inactive",
-      messagetype: "Template Message",
-      messagetitle: "open source",
-      messageDescription:"Nemo dolorem eum aliquam non."
-    },
-    {
-      templateId: "51322",
-      status: "active",
-      messagetype: "Template Message",
-      messagetitle: "source",
-      messageDescription:"Nemo dolorem eum aliquam non."
-    },
-    {
-      templateId: "51322",
-      status: "active",
-      messagetype: "Template Message",
-      messagetitle: "open source",
-      messageDescription:"Nemo dolorem eum aliquam non."
-    },
-    {
-      templateId: "51322",
-      status: "active",
-      messagetype: "Template Message",
-      messagetitle: " edge",
-      messageDescription:"Nemo dolorem eum aliquam non."
-    },
-    {
-      templateId: "51322",
-      status: "active",
-      messagetype: "Template Message",
-      messagetitle: "source",
-      messageDescription:"Nemo dolorem eum aliquam non."
-    },
-  ]);
+  const [data, setData] = useState([]);
+  const [active, setIsactive] = useState("");
+  const [modalVisible, setModalVisible] = useState({
+    id: null,
+    show: false,
+  });
   const [searchStaff, setSearchStaff] = useState("");
   const includedKeys = [
     {
@@ -63,39 +35,71 @@ const TemplateManagementComp = () => {
     },
     {
       label: "Status",
-      value: "status",
+      value: "isActive",
     },
     {
       label: "Message Type",
-      value: "messagetype",
+      value: "type",
     },
     {
       label: "Message Title",
-      value: "messagetitle",
+      value: "title",
     },
     {
       label: "Message Description",
-      value: "messageDescription",
+      value: "description",
     },
   ];
+
+  const handleOpenModal = (id) => {
+    setModalVisible({
+      id: id,
+      show: true,
+    });
+  };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
+  const fetchData = async () => {
+    try {
+      let params = {
+        page: currentPage,
+        limit: 10,
+        search: "",
+      };
+      const response = await getTemplateList(params);
+      console.log(response.data.data.list, "response");
+      setIsactive(response?.data?.data?.list[0].isactive);
+      setData(response?.data?.data?.list);
+      setPageCount(response?.data?.data?.pageMeta?.pageCount);
+      setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
+   
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/posts"
-        );
-        // setData(response.data);
-      } catch (error) {
-        console.log(error);
+  fetchData()
+  }, [setData]);
+
+
+  const handleDeleteItem = async () => {
+    if (modalVisible.show && modalVisible.id) {
+      let params = {
+        templateId: modalVisible.id,
+      };
+      let response = await deletetemplateList(params);
+      if (response.status === 200) {
+        Toast({ type: "success", message: response.data.message });
       }
-    };
-    fetchData();
-  }, []);
+    }
+    setModalVisible({ show: false, id: null });
+  };
+
+
   return (
     <Fragment>
       <div className="staff_table px-5 pt-2">
@@ -142,19 +146,24 @@ const TemplateManagementComp = () => {
              data={data}
              isCheck={true}
              EditAction={true}
-
              DeleteAction={true}
              includedKeys={includedKeys}
              pageCount={pageCount}
              onPageChange={handlePageChange}
              setCurrentPage={setCurrentPage}
+              handleOpenModal={handleOpenModal}
              editRouteName={"/admin/template-management/add-template"}
            />
           ) : (
             <p className="text-center mt-5 fs-15">No Data Available</p>
           )}
         </div>
-        {console.log(data, "kkhkk")}
+        <DeleteModal
+            modalOpen={modalVisible.show}
+            closeModal={() => setModalVisible({ id: null, show: false })}
+            handleDelete={handleDeleteItem}
+            DeleteMessage={"Are you sure you want to delete Staff?"}
+          />
       </div>
     </Fragment>
   );

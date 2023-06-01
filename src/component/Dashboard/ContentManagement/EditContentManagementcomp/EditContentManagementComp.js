@@ -4,13 +4,10 @@ import "./style.scss";
 import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
 import FormErrorMessage from "component/common/ErrorMessage";
-// import ReactSelect from "react-select";
-// import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
 import TextEditor from "component/common/TextEditor/TextEditor";
 import { history } from "helpers";
 import { editContent, updateContent } from "service/Cms";
 import CustomController from "component/common/Controller";
-// import FormErrorMessage from "component/common/ErrorMessage";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import DropDown from "component/common/DropDown/DropDown";
@@ -24,7 +21,6 @@ const EditContentManagementComp = () => {
     setValue,
     reset,
     setError,
-
     getValues,
   } = useForm({
     mode: "onChange",
@@ -34,7 +30,6 @@ const EditContentManagementComp = () => {
 // console.log(content)
   const [modal, setModal] = useState(false);
   const [edit, setedit] = useState(false);
-  const [editorState, setEditorState] = useState(null);
   const [contentDetails, setcontentDetails] = useState({
     status: "",
   });
@@ -98,10 +93,9 @@ const EditContentManagementComp = () => {
         let body = {
           title: data.title,
           description: content,
-          contentId:66876,
         };
         if (contentDetails.status === "active") {
-          body.isActive = true;
+          body.isActive = true; 
         } else {
           body.isActive = false;
         }

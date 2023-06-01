@@ -5,19 +5,39 @@ import { history } from "helpers";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
-import ReactSelect from "react-select";
 import TextEditor from "component/common/TextEditor/TextEditor";
 import DropDown from "component/common/DropDown/DropDown";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import CustomController from "component/common/Controller";
 import FormErrorMessage from "component/common/ErrorMessage";
+import { Toast } from "service/toast";
+import { addFAQ, editFAQ, updateFAQ } from "service/Cms";
+
 const AddFaqComp = () => {
-  const { register, handleSubmit, errors, control, reset, setError } = useForm({
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    setValue,
+    errors,
+    control,
+    reset,
+    setError,
+  } = useForm({
     mode: "onChange",
   });
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState(false);
   const [content, setContent] = useState("");
+  const [FAQDetails, setFAQDetails] = useState({
+    // name: "",
+    // email: "",
+    // password: "",
+    category: "",
+    subcategory: "",
+    status: "",
+  });
+  console.log("FAQDetails", FAQDetails);
 
   const options = [
     {
@@ -33,19 +53,126 @@ const AddFaqComp = () => {
       value: "three",
     },
   ];
+  const status = [
+    {
+      label: "ACTIVE",
+      value: "active",
+    },
+    {
+      label: "InACTIVE",
+      value: "inActive",
+    },
+  ];
 
-  const onSubmit = (data) => {
-    // console.log("data :>> ", data);
-    // console.log("data :>> ", managementCheckedItems);
-    // console.log("role :>> ", role);
-    // console.log("status :>> ", status);
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get("Editid");
+  useEffect(() => {
+    setValue(
+      "category",
+      options.find((option) => option.value === FAQDetails.category)
+    );
+    setValue(
+      "subcategory",
+      options.find((option) => option.value === FAQDetails.subcategory)
+    );
+    setValue(
+      "status",
+      status.find((option) => option.value === FAQDetails.status)
+    );
+  }, [FAQDetails, setValue]);
+  console.log('FAQDetails', FAQDetails)
+
+  const getFAQDetails = async () => {
+    try {
+      const params = {
+        faqId: id,
+      };
+      let response = await editFAQ(params);
+      if (response.status === 200) {
+        const data = response?.data.data;
+        console.log("data", data);
+        setValue("title", data.title);
+        setContent(data.answer);
+        setFAQDetails({
+          category: data.category,
+          subcategory: data.subCategory,
+          status: data.isActive ? "active" : "inActive",
+        });
+      } else {
+        Toast({ type: "error", message: response.data.message });
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
+  };
+
+  useEffect(() => {
+    if (urlParams.has("Editid")) {
+      setEdit(true);
+      getFAQDetails();
+    }
+  }, []);
+  const onSubmit = async (data) => {
     setModal(true);
 
-    const timeout = setTimeout(() => {
-      setModal(false);
-    }, 1000);
-
-    return () => clearTimeout(timeout);
+    if (!edit) {
+    
+      try {
+        let body = {
+          title: data.title,
+          answer: content,
+          subCategory: FAQDetails.subcategory,
+          category: FAQDetails.category,
+        };
+        if (FAQDetails.status === "active") {
+          body.isActive = true;
+        } else {
+          body.isActive = false;
+        }
+        let response = await addFAQ(body);
+        if (response.status === 200) {
+          setModal(true);
+          const timeout = setTimeout(() => {
+            setModal(false);
+            reset(FAQDetails);
+            history.push("/admin/faq-management");
+          }, 1000);
+          return () => clearTimeout(timeout);
+        } else {
+          Toast({ type: "error", message: response.data.message });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      try {
+        let body = {
+          title: data.title,
+          answer: content,
+          subcategory: FAQDetails.subcategory,
+          category: FAQDetails.category,
+        };
+        if (FAQDetails.status === "active") {
+          body.isActive = true;
+        } else {
+          body.isActive = false;
+        }
+        let response = await updateFAQ(body, id);
+        if (response.status === 200) {
+          setModal(true);
+          const timeout = setTimeout(() => {
+            setModal(false);
+            reset(FAQDetails);
+            history.push("/admin/faq-management");
+          }, 1000);
+          return () => clearTimeout(timeout);
+        } else {
+          Toast({ type: "error", message: response.data.message });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
   };
   return (
     <div className="add_faq px-5 py-3">
@@ -107,19 +234,24 @@ const AddFaqComp = () => {
                 name={"category"}
                 control={control}
                 error={errors.category}
-                // defaultValue={role}
+                value={options.find(
+                  (option) => option.value === getValues("category")
+                )}
                 rules={{ required: true }}
                 messages={{ required: " Category is Required" }}
                 render={({ onChange, ...field }) => {
                   return (
                     <DropDown
-                      // value={value}
+                      {...field}
                       name="category"
                       placeholder="Select Category"
-                      errors={errors.status}
-                      value={options.value}
                       options={options}
-                      onChange={(option) => onChange(option.value)}
+                      onChange={(option) => {
+                        setFAQDetails((prevState) => ({
+                          ...prevState,
+                          category: option.value,
+                        }));
+                      }}
                     />
                   );
                 }}
@@ -131,19 +263,24 @@ const AddFaqComp = () => {
                 name={"subcategory"}
                 control={control}
                 error={errors.subcategory}
-                // defaultValue={role}
+                value={status.find(
+                  (option) => option.value === getValues("subcategory")
+                )}
                 rules={{ required: true }}
-                messages={{ required: "  Sub Category is Required" }}
+                messages={{ required: "Sub Category is Required" }}
                 render={({ onChange, ...field }) => {
                   return (
                     <DropDown
-                      // value={value}
+                      {...field}
                       name="subcategory"
                       placeholder="Select Sub Category"
-                      errors={errors.status}
-                      value={options.value}
                       options={options}
-                      onChange={(option) => onChange(option.value)}
+                      onChange={(option) => {
+                        setFAQDetails((prevState) => ({
+                          ...prevState,
+                          subcategory: option.value,
+                        }));
+                      }}
                     />
                   );
                 }}
@@ -152,22 +289,28 @@ const AddFaqComp = () => {
             <div className="col-3">
               <label>FAQ Status</label>
               <CustomController
-                name={"select"}
+                name={"status"}
                 control={control}
-                error={errors.select}
-                // defaultValue={role}
+                error={errors.status}
+                value={status.find(
+                  (option) => option.value === getValues("status")
+                )}
                 rules={{ required: true }}
                 messages={{ required: " Status is Required" }}
                 render={({ onChange, ...field }) => {
                   return (
                     <DropDown
-                      // value={value}
-                      name="select"
+                      {...field}
+                      name="status"
                       placeholder="Select Status"
-                      errors={errors.status}
-                      value={options.value}
-                      options={options}
-                      onChange={(option) => onChange(option.value)}
+                      // errors={errors.status}
+                      options={status}
+                      onChange={(option) => {
+                        setFAQDetails((prevState) => ({
+                          ...prevState,
+                          status: option.value,
+                        }));
+                      }}
                     />
                   );
                 }}
