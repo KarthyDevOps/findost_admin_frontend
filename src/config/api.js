@@ -12,10 +12,17 @@ export const endpoints = {
     LOGIN_USER: `${userUrl}/admin/login`,
     GET_sTAFF: `${userUrl}/admin/list`,
     ADD_STAFF: `${userUrl}/admin/addProfile`,
+    EDIT_STAFF: `${userUrl}/admin/getProfile`,
+    DELETE_STAFF: `${userUrl}/admin/delete`,
+    UPDATE_STAFF: `${userUrl}/admin/updateProfile`,
   },
 
   cms: {
     LIST_PRODUCTS: `${cms}/product-management/list`,
     LIST_CONTENT: `${cms}/content-management/list`,
+    ADD_PRODUCT: `${cms}/product-management/create`,
+    DELETE_CONTENT:`${cms}/content-management/delete`,
+    EDIT_CONTENT:`${cms}/content-management/get`,
+    UPDATE_CONTENT:`${cms}/content-management/update`,
   },
 };

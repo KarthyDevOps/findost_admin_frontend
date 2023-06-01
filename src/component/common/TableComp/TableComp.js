@@ -2,10 +2,6 @@ import React, { useState } from "react";
 import ReactPaginate from "react-paginate";
 import "./style.scss";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
-import { RiDeleteBinLine } from "react-icons/ri";
-import { MdOutlineMessage } from "react-icons/md";
-import { VscEdit } from "react-icons/vsc";
-import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import Loader from "component/common/Loader/index";
 import { useEffect } from "react";
 import moment from "moment";
@@ -26,14 +22,11 @@ function TableComp(props) {
     onPageChange,
     editRouteName,
     setCurrentPage,
+    handleOpenModal,
   } = props;
 
   console.log("data :>> ", data);
 
-  const [modalVisible, setModalVisible] = useState({
-    id: null,
-    show: false,
-  });
   const [loading, setLoading] = useState(false);
 
   const handlePageChange = (selectedPage) => {
@@ -53,25 +46,6 @@ function TableComp(props) {
     closed: "#27AE60",
     failed: "#EB5757",
     success: "#27AE60",
-  };
-
-  const handleOpenModal = (id) => {
-    setModalVisible({
-      id: id,
-      show: true,
-    });
-  };
-
-  // dynamic delete function
-  const handleDeleteItem = () => {
-    if (modalVisible.show && modalVisible.id) {
-      let body = {
-        productId: modalVisible.id,
-      };
-      // await RemoveWishList(body);
-      setModalVisible({ show: false, id: null });
-    }
-    setModalVisible({ show: false, id: null });
   };
 
   useEffect(() => {
@@ -106,18 +80,6 @@ function TableComp(props) {
                     ) : (
                       <></>
                     )}
-                    {/* {data &&
-                data.length > 0 &&
-                Object.keys(data[0]).map((key) => {
-                  if (includedKeys.includes(key)) {
-                    return (
-                      <th className="absorbing-column" key={key}>
-                        {key}
-                      </th>
-                    );
-                  }
-                  return null;
-                })} */}
                     {includedKeys.map((key) => {
                       return (
                         <>
@@ -147,39 +109,40 @@ function TableComp(props) {
                             <input type="checkbox" className="mt-2 check_box" />
                           </td>
                         )}
-                        {Object.keys(obj).map((key) => {
-                          if (includedKeys.some((item) => item.value === key)) {
+                        {includedKeys.map((item) => {
+                          const key = item.value;
+                          if (obj.hasOwnProperty(key)) {
+                            const value = obj[key];
+                            const label = item.label;
                             const statusKey = key.toLowerCase();
                             if (statusKey.includes("status")) {
-                              const status = obj[key].toLowerCase();
+                              const status = value.toLowerCase();
                               const color = statusColors[status] || "black";
                               return (
                                 <td key={key}>
                                   <span style={{ color }}>
-                                    {obj[key].charAt(0).toUpperCase() +
-                                      obj[key].slice(1)}
+                                    {value.charAt(0).toUpperCase() +
+                                      value.slice(1)}
                                   </span>
                                 </td>
                               );
+                            } else if (statusKey.includes("date")) {
+                              return <td key={key}>{value}</td>;
                             } else {
                               return (
                                 <td key={key}>
-                                  {typeof obj[key] === "string" &&
-                                  moment(
-                                    obj[key],
-                                    moment.ISO_8601
-                                  ).isValid() ? (
-                                    moment(obj[key]).format(
-                                      "MMM DD YYYY hh:mm a"
-                                    )
-                                  ) : typeof obj[key] === "boolean" ? (
-                                    obj[key] ? (
-                                      <span>True</span>
+                                  {typeof value === "boolean" ? (
+                                    value ? (
+                                      <span style={{ color: "#1D9E00" }}>
+                                        Active
+                                      </span>
                                     ) : (
-                                      <span>False</span>
+                                      <span style={{ color: "#DD2025" }}>
+                                        InActive
+                                      </span>
                                     )
                                   ) : (
-                                    obj[key]
+                                    value
                                   )}
                                 </td>
                               );
@@ -187,6 +150,45 @@ function TableComp(props) {
                           }
                           return null;
                         })}
+
+                        {/* {includedKeys.map((item) => {
+                          const key = item.value;
+                          if (obj.hasOwnProperty(key)) {
+                            const value = obj[key];
+                            const label = item.label;
+                            const statusKey = key.toLowerCase();
+                            if (statusKey.includes("status")) {
+                              const status = value.toLowerCase();
+                              const color = statusColors[status] || "black";
+                              return (
+                                <td key={key}>
+                                  <span style={{ color }}>
+                                    {value.charAt(0).toUpperCase() +
+                                      value.slice(1)}
+                                  </span>
+                                </td>
+                              );
+                            } else {
+                              return (
+                                <td key={key}>
+                                  {typeof value === "string" &&
+                                  moment(value, moment.ISO_8601).isValid() ? (
+                                    moment(value).format("MMM DD YYYY hh:mm a")
+                                  ) : typeof value === "boolean" ? (
+                                    value ? (
+                                      <span>True</span>
+                                    ) : (
+                                      <span>False</span>
+                                    )
+                                  ) : (
+                                    value
+                                  )}
+                                </td>
+                              );
+                            }
+                          }
+                          return null;
+                        })} */}
 
                         {EditAction && (
                           <td>
@@ -196,7 +198,7 @@ function TableComp(props) {
                               style={{ color: "#B4B4B4", cursor: "pointer" }}
                               onClick={() =>
                                 history.push(
-                                  `${editRouteName}?Editid=${obj.id}`
+                                  `${editRouteName}?Editid=${obj._id}`
                                 )
                               }
                             />
@@ -210,14 +212,14 @@ function TableComp(props) {
                               style={{ color: "#B4B4B4", cursor: "pointer" }}
                               onClick={() =>
                                 history.push(
-                                  `${editRouteName}?Editid=${obj.id}`
+                                  `${editRouteName}?Editid=${obj._id}`
                                 )
                               }
                             />
                           </td>
                         )}
                         {DeleteAction && (
-                          <td onClick={() => handleOpenModal(obj.id)}>
+                          <td onClick={() => handleOpenModal(obj._id)}>
                             <img
                               src={deleteIcon}
                               alt="delete"
@@ -247,15 +249,6 @@ function TableComp(props) {
                   />
                 </div>
               )}
-              <div>
-                {" "}
-                <DeleteModal
-                  modalOpen={modalVisible.show}
-                  // closeModal={() => setModalVisible(false)}
-                  handleDelete={handleDeleteItem}
-                  DeleteMessage={"Are you sure you want to delete?"}
-                />
-              </div>
             </>
           )}
         </>

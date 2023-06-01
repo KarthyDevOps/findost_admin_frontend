@@ -8,11 +8,17 @@ import ReactSelect from "react-select";
 import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import "./style.scss";
-import { getContentList } from "service/Cms";
+import DeleteModal from "component/common/DeleteModal/DeleteModal";
+import { getContentList, deleteContentList } from "service/Cms";
+import { Toast } from "service/toast";
 
 const ContentManagementComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
+  });
+  const [modalVisible, setModalVisible] = useState({
+    id: null,
+    show: false,
   });
   const [searchStaff, setSearchStaff] = useState("");
   const [role, setRole] = useState("");
@@ -35,11 +41,7 @@ const ContentManagementComp = () => {
       label: "Page Title",
       value: "title",
     },
-
   ];
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
 
   const fetchData = async () => {
     try {
@@ -55,13 +57,37 @@ const ContentManagementComp = () => {
       console.log(error);
     }
   };
+
   useEffect(() => fetchData(), []);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+  const handleOpenModal = (id) => {
+    setModalVisible({
+      id: id,
+      show: true,
+    });
+  };
+  const handleDeleteItem = async () => {
+    if (modalVisible.show) {
+      let params = {
+        contentId: modalVisible.id,
+      };
+      console.log(params,'gg')
+      let response = await deleteContentList(params);
+      if (response.status === 200) {
+        Toast({ type: "success", message: response.data.message });
+        // deleteContentList(); 
+      }
+    }
+    setModalVisible({ show: false, id: null });
+  };
 
   return (
     <Fragment>
       <div className="staff_table px-5 pt-4">
         <p className="staff_title m-0">Content Management</p>
-
         <div className="">
           {data.length > 0 ? (
             <TableComp
@@ -74,13 +100,22 @@ const ContentManagementComp = () => {
               pageCount={pageCount}
               onPageChange={handlePageChange}
               setCurrentPage={setCurrentPage}
+              handleOpenModal={handleOpenModal}
               editRouteName={"/admin/content-management/editcontent-Management"}
             />
           ) : (
             <p className="text-center mt-5 fs-15">No Data Available</p>
           )}
+          <div>
+            <DeleteModal
+              modalOpen={modalVisible.show}
+              closeModal={() => setModalVisible({ id: null, show: false })}
+              handleDelete={handleDeleteItem}
+              DeleteMessage={"Are you sure you want to delete Page Title?"}
+            />
+          </div>
         </div>
-      </div>
+      </div>{" "}
     </Fragment>
   );
 };
