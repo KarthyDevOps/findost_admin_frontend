@@ -16,11 +16,16 @@ export const endpoints = {
     DELETE_STAFF: `${userUrl}/admin/delete`,
     UPDATE_STAFF: `${userUrl}/admin/updateProfile`,
   },
+
   cms: {
     LIST_PRODUCTS: `${cms}/product-management/list`,
+    LIST_CONTENT: `${cms}/content-management/list`,
     ADD_PRODUCT: `${cms}/product-management/create`,
     DELETE_PRODUCT: `${cms}/product-management/delete`,
     EDIT_PRODUCT: `${cms}/product-management/get`,
     UPDATE_PRODUCT: `${cms}/product-management/update`,
+    DELETE_CONTENT:`${cms}/content-management/delete`,
+    EDIT_CONTENT:`${cms}/content-management/get`,
+    UPDATE_CONTENT:`${cms}/content-management/update`,
   },
 };
