@@ -19,7 +19,7 @@ export const LoginAPI = async (data) => {
 export const getStaff = async (params) => {
   let request = await axios({
     method: "get",
-    url: `${endpoints.auth.GET_sTAFF}`,
+    url: `${endpoints.auth.GET_STAFF}`,
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },

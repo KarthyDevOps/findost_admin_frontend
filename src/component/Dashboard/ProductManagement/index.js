@@ -8,7 +8,9 @@ import ReactSelect from "react-select";
 import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import "./style.scss";
-import { getProductList } from "../../../service/Cms";
+import { getProductList, deleteProduct } from "../../../service/Cms";
+import DeleteModal from "component/common/DeleteModal/DeleteModal";
+import { Toast } from "service/toast";
 
 const ProductManagementComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
@@ -18,23 +20,27 @@ const ProductManagementComp = () => {
   const [searchStaff, setSearchStaff] = useState("");
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
+  const [modalVisible, setModalVisible] = useState({
+    id: null,
+    show: false,
+  });
 
   const includedKeys = [
     {
       label: "Product Id",
-      value: "ProductId",
+      value: "productId",
     },
     {
       label: "Product Status",
-      value: "ProductStatus",
+      value: "isActive",
     },
     {
       label: "Product Name",
-      value: "ProductName",
+      value: "productName",
     },
     {
       label: "Product Description",
-      value: "ProductDescription",
+      value: "productDescription",
     },
   ];
 
@@ -42,20 +48,46 @@ const ProductManagementComp = () => {
     setCurrentPage(page);
   };
 
-  const getProducts = async () => {
-    let params = {
-      page: currentPage,
-      limit: 10,
-      search : ""
-    };
-    let response = await getProductList(params);
-    if (response) {
-      console.log("response", response);
-    }
+  const getProductsList = async () => {
+    try {
+      let params = {
+        page: currentPage,
+        limit: 10,
+        search: "",
+      };
+      let response = await getProductList(params);
+      if (response.status === 200) {
+        console.log("response", response?.data?.data);
+        setData(response?.data?.data?.list);
+        setPageCount(response?.data?.data?.pageMeta?.pageCount);
+        setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
+      }
+    } catch (err) {}
   };
   useEffect(() => {
-    getProducts();
+    getProductsList();
   }, []);
+
+  const handleOpenModal = (id) => {
+    setModalVisible({
+      id: id,
+      show: true,
+    });
+  };
+
+  const handleDeleteItem = async () => {
+    if (modalVisible.show && modalVisible.id) {
+      let params = {
+        productId: modalVisible.id,
+      };
+      let response = await deleteProduct(params);
+      if (response.status === 200) {
+        Toast({ type: "success", message: response.data.message });
+        getProductsList();
+      }
+    }
+    setModalVisible({ show: false, id: null });
+  };
 
   return (
     <Fragment>
@@ -94,21 +126,27 @@ const ProductManagementComp = () => {
           </div>
         </div>
         <div className="">
-          {data.length > 0 ? (
-            <TableComp
-              data={data}
-              isCheck={true}
-              EditAction={true}
-              DeleteAction={true}
-              includedKeys={includedKeys}
-              pageCount={pageCount}
-              onPageChange={handlePageChange}
-              setCurrentPage={setCurrentPage}
-              editRouteName={"/admin/product-management/add-product"}
-            />
-          ) : (
-            <p className="text-center mt-5 fs-15">No Data Available</p>
-          )}
+          <TableComp
+            data={data}
+            isCheck={true}
+            EditAction={true}
+            DeleteAction={true}
+            includedKeys={includedKeys}
+            pageCount={pageCount}
+            onPageChange={handlePageChange}
+            setCurrentPage={setCurrentPage}
+            editRouteName={"/admin/product-management/add-product"}
+            handleOpenModal={handleOpenModal}
+          />
+        </div>
+        <div>
+          {" "}
+          <DeleteModal
+            modalOpen={modalVisible.show}
+            closeModal={() => setModalVisible({ id: null, show: false })}
+            handleDelete={handleDeleteItem}
+            DeleteMessage={"Are you sure you want to delete Product?"}
+          />
         </div>
       </div>
     </Fragment>
