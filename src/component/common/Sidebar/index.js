@@ -54,8 +54,8 @@ function Sidebar({ classes, window, privilegesData }) {
           navLink.map(
             ({ to, label, iconName, inactiveIcon, nestedChild }, index) => {
               console.log("toooooo", { dashboard, patientManagement, to })
-              if (!dashboard?.view && to === "/admin/dashboard") return;
-              if (!patientManagement?.view && to?.includes("/admin/patient-management")) return;
+              // if (!dashboard?.view && to === "/admin/dashboard") return;
+              // if (!patientManagement?.view && to?.includes("/admin/patient-management")) return;
 
               return (
                 <>
@@ -83,7 +83,6 @@ function Sidebar({ classes, window, privilegesData }) {
                             : "inActive-div"
                         }
                       >
-                        {console.log(to, "ttttt")}
                         <div>
                           <ListItemText>
                             <span className="mr-3">

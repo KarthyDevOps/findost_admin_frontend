@@ -10,7 +10,7 @@ export const cms = `${baseURL}:2274/cms/v1`;
 export const endpoints = {
   auth: {
     LOGIN_USER: `${userUrl}/admin/login`,
-    GET_sTAFF: `${userUrl}/admin/list`,
+    GET_STAFF: `${userUrl}/admin/list`,
     ADD_STAFF: `${userUrl}/admin/addProfile`,
     EDIT_STAFF: `${userUrl}/admin/getProfile`,
     DELETE_STAFF: `${userUrl}/admin/delete`,
@@ -19,5 +19,8 @@ export const endpoints = {
   cms: {
     LIST_PRODUCTS: `${cms}/product-management/list`,
     ADD_PRODUCT: `${cms}/product-management/create`,
+    DELETE_PRODUCT: `${cms}/product-management/delete`,
+    EDIT_PRODUCT: `${cms}/product-management/get`,
+    UPDATE_PRODUCT: `${cms}/product-management/update`,
   },
 };

@@ -57,7 +57,6 @@ const StaffManagementComp = () => {
     };
     let response = await getStaff(params);
     if (response.status === 200) {
-      console.log("response", response?.data?.data?.list);
       setIsactive(response?.data?.data?.list[0].isactive);
       setData(response?.data?.data?.list);
       setPageCount(response?.data?.data?.pageMeta?.pageCount);

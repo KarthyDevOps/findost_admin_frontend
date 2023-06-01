@@ -28,3 +28,39 @@ export const getProductList = async (params) => {
     }).catch(axiosErrorHandler);
     return request;
   };
+
+  export const editProduct = async (params) => {
+    const request = await axios({
+      method: "get",
+      url: endpoints.cms.EDIT_PRODUCT,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      params,
+    }).catch(axiosErrorHandler);
+    return request;
+  };
+  
+  export const deleteProduct = async (params) => {
+    const request = await axios({
+      method: "delete",
+      url: endpoints.cms.DELETE_PRODUCT,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      params,
+    }).catch(axiosErrorHandler);
+    return request;
+  };
+  
+  export const updateProduct = async (body, id) => {
+    const request = await axios({
+      method: "put",
+      url: `${endpoints.cms.UPDATE_PRODUCT}?productId=${id}`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      data: body,
+    }).catch(axiosErrorHandler);
+    return request;
+  };
