@@ -75,3 +75,65 @@ export const updateStaff = async (body, id) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
+
+export const getClient = async (params) => {
+  let request = await axios({
+    method: "get",
+    url: `${endpoints.auth.LIST_CLIENT}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params: params,
+  });
+  return request;
+};
+
+export const addClient = async (data) => {
+  let request = await axios({
+    method: "post",
+    url: endpoints.auth.ADD_CLIENT,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: data,
+  });
+  return request;
+};
+
+export const editClient = async (params) => {
+  console.log('params', params)
+  const request = await axios({
+    method: "get",
+    url: endpoints.auth.EDIT_CLIENT,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const deleteClient = async (params) => {
+  const request = await axios({
+    method: "delete",
+    url: endpoints.auth.DELETE_CLIENT,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const updateClient = async (body, id) => {
+  const request = await axios({
+    method: "put",
+    url: `${endpoints.auth.UPDATE_CLIENT}?id=${id}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body,
+  }).catch(axiosErrorHandler);
+  return request;
+};

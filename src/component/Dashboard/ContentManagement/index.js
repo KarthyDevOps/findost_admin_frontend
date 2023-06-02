@@ -95,7 +95,7 @@ const ContentManagementComp = () => {
               onPageChange={handlePageChange}
               setCurrentPage={setCurrentPage}
               handleOpenModal={handleOpenModal}
-              editRouteName={"/admin/content-management/editcontent-Management"}
+              editRouteName={"/admin/content-management/editcontent-management"}
             />
           ) : (
             <p className="text-center mt-5 fs-15">No Data Available</p>
