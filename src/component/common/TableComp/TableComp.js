@@ -109,8 +109,10 @@ function TableComp(props) {
                             <input type="checkbox" className="mt-2 check_box" />
                           </td>
                         )}
+
                         {includedKeys.map((item) => {
                           const key = item.value;
+                          // status keys color change
                           if (obj.hasOwnProperty(key)) {
                             const value = obj[key];
                             const label = item.label;
@@ -126,8 +128,28 @@ function TableComp(props) {
                                   </span>
                                 </td>
                               );
+                              // date and time formatter
                             } else if (statusKey.includes("date")) {
-                              return <td key={key}>{value}</td>;
+                              const isDateValid = moment(
+                                value,
+                                moment.ISO_8601
+                              ).isValid();
+                              const formattedValue = isDateValid
+                                ? moment(value).format("MMM DD YYYY hh:mm a")
+                                : value;
+
+                              return <td key={key}>{formattedValue}</td>;
+                              // for HTML tags
+                            } else if (
+                              typeof value === "string" &&
+                              /<[a-z][\s\S]*>/i.test(value)
+                            ) {
+                              const textOnlyValue = value.replace(
+                                /<[^>]+>/g,
+                                ""
+                              );
+                              return <td key={key}>{textOnlyValue}</td>;
+                              // for boolean
                             } else {
                               return (
                                 <td key={key}>
@@ -138,7 +160,7 @@ function TableComp(props) {
                                       </span>
                                     ) : (
                                       <span style={{ color: "#DD2025" }}>
-                                        InActive
+                                        Inactive
                                       </span>
                                     )
                                   ) : (
@@ -150,45 +172,6 @@ function TableComp(props) {
                           }
                           return null;
                         })}
-
-                        {/* {includedKeys.map((item) => {
-                          const key = item.value;
-                          if (obj.hasOwnProperty(key)) {
-                            const value = obj[key];
-                            const label = item.label;
-                            const statusKey = key.toLowerCase();
-                            if (statusKey.includes("status")) {
-                              const status = value.toLowerCase();
-                              const color = statusColors[status] || "black";
-                              return (
-                                <td key={key}>
-                                  <span style={{ color }}>
-                                    {value.charAt(0).toUpperCase() +
-                                      value.slice(1)}
-                                  </span>
-                                </td>
-                              );
-                            } else {
-                              return (
-                                <td key={key}>
-                                  {typeof value === "string" &&
-                                  moment(value, moment.ISO_8601).isValid() ? (
-                                    moment(value).format("MMM DD YYYY hh:mm a")
-                                  ) : typeof value === "boolean" ? (
-                                    value ? (
-                                      <span>True</span>
-                                    ) : (
-                                      <span>False</span>
-                                    )
-                                  ) : (
-                                    value
-                                  )}
-                                </td>
-                              );
-                            }
-                          }
-                          return null;
-                        })} */}
 
                         {EditAction && (
                           <td>

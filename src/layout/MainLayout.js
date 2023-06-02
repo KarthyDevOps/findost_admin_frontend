@@ -17,7 +17,6 @@ export function MainLayout(props) {
   const classes = mainLayoutStyle();
   return (
     <div className="mainLayout">
-      {/* <Header /> */}
       <ThemeProvider theme={outerTheme}>
         <div style={{position: "relative", zIndex:"1"}}>
           <Header />

@@ -4,15 +4,12 @@ import "./style.scss";
 import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
 import FormErrorMessage from "component/common/ErrorMessage";
-import ReactSelect from "react-select";
 import NormalButton from "component/common/NormalButton/NormalButton";
-import { history, generateInitialCheckedItems } from "helpers";
+import { history } from "helpers";
 import DropDown from "component/common/DropDown/DropDown";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import CustomController from "component/common/Controller";
 import { addStaff, editStaff, updateStaff } from "service/Auth";
-import { useLocation } from "react-router-dom/cjs/react-router-dom";
-import Search from "antd/lib/transfer/search";
 import { Toast } from "service/toast";
 
 const AddStaff = () => {
@@ -30,11 +27,7 @@ const AddStaff = () => {
   });
   const [edit, setEdit] = useState(false);
   const [modal, setModal] = useState(false);
-  const location = useLocation();
   const [staffDetails, setStaffDetails] = useState({
-    // name: "",
-    // email: "",
-    // password: "",
     role: "",
     status: "",
     permissions: {},
@@ -117,7 +110,6 @@ const AddStaff = () => {
         const data = response?.data.data[0];
         setValue("name", data.name);
         setValue("email", data.email);
-        setValue("password", data.password);
         setStaffDetails({
           role: data.role,
           status: data.isActive ? "active" : "inActive",
@@ -307,12 +299,13 @@ const AddStaff = () => {
                 placeholder="Enter Password"
                 name="password"
                 errors={errors}
+                disabled={edit}
                 defaultValue={staffDetails.password}
                 register={register({
-                  required: true,
+                  required: edit ? false : true,
                   minLength: 8,
                   maxLength: 16,
-                  // pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?& ]{8,}$/s,
+                  pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?& ]{8,}$/s,
                 })}
               />
               <FormErrorMessage
@@ -321,7 +314,7 @@ const AddStaff = () => {
                   required: "Password is Required",
                   minLength: "Password must contain atleast 8 letters",
                   maxLength: "Password should must contain only 16",
-                  // pattern: "Password must contain a special character",
+                  pattern: "Password must contain a special character",
                 }}
               />
             </div>
@@ -332,7 +325,7 @@ const AddStaff = () => {
                 control={control}
                 error={errors.role}
                 rules={{ required: true }}
-                // defaultValue={staffDetails.role}
+                defaultValue={staffDetails.role}
                 value={options.find(
                   (option) => option.value === getValues("role")
                 )}
@@ -349,7 +342,7 @@ const AddStaff = () => {
                           ...prevState,
                           role: option.value,
                         }));
-                        // onChange(option.value);
+                        onChange(option.value);
                       }}
                     />
                   );
@@ -363,6 +356,7 @@ const AddStaff = () => {
                 control={control}
                 error={errors.status}
                 rules={{ required: true }}
+                defaultValue={staffDetails.status}
                 value={status.find(
                   (option) => option.value === getValues("status")
                 )}
@@ -380,7 +374,7 @@ const AddStaff = () => {
                           ...prevState,
                           status: option.value,
                         }));
-                        // onChange(option.value);
+                        onChange(option.value);
                       }}
                     />
                   );
@@ -464,8 +458,8 @@ const AddStaff = () => {
             onCancel={() => setModal(false)}
             successMsg={
               edit
-                ? "New Staff Updated Successfully"
-                : "Staff Details Added Successfully"
+                ? "Staff Details Updated Successfully"
+                : "New Staff Added Successfully"
             }
           />
         </div>

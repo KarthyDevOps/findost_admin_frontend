@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Select, { components } from "react-select";
+import dropDownIcon from "assets/images/dropDownIcon.png"
 
 class NormalMultiSelect extends Component {
   //change select
@@ -71,7 +72,7 @@ class NormalMultiSelect extends Component {
           <components.DropdownIndicator {...props}>
             <span>
               {!disabled && (
-                <img src={"dropDownIcon"} style={{ width: "100%" }} />
+                <img src={dropDownIcon} style={{ width: "100%" }} />
               )}
             </span>
           </components.DropdownIndicator>
@@ -104,13 +105,13 @@ class NormalMultiSelect extends Component {
       singleValue: (base) => ({
         ...base,
         color: "#222222",
-        fontSize: 14,
-
+        fontSize: 16,
+        fontFamily: "Helvetica",
         fontWeight: 600,
       }),
       control: (base) => ({
         ...base,
-        borderRadius: borderRadius ? 50 : 4,
+        borderRadius: 10,
         border: "1px solid #C7C7C7",
         boxShadow: "0 !important",
         outline: "0 ",
