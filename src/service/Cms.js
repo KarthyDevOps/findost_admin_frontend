@@ -1,5 +1,5 @@
 import axios from "axios";
-import { history } from "helpers";
+import { history } from "component/Dashboard/ProductManagement/helpers";
 import { endpoints } from "config/api";
 import { axiosErrorHandler } from "./helpers/axiosHelpers";
 

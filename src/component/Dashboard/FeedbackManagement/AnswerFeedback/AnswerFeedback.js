@@ -4,7 +4,7 @@ import "./style.scss";
 import { useForm } from "react-hook-form";
 
 import TextEditor from "component/common/TextEditor/TextEditor";
-import { history } from "helpers";
+import { history } from "component/Dashboard/ProductManagement/helpers";
 import NormalButton from "component/common/NormalButton/NormalButton";
 const AnswerFeedbackcomp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({

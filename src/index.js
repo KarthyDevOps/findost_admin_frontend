@@ -4,7 +4,7 @@ import "./index.css";
 import Routes from "./routes/index";
 import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
-import { store } from "./helpers";
+import { store } from "./component/Dashboard/ProductManagement/helpers";
 import "./assets/scss/index.scss";
 import "assets/scss/_abstracts.scss";
 import "react-datepicker/dist/react-datepicker.css";

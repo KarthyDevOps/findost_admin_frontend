@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 
 import TextEditor from "component/common/TextEditor/TextEditor";
 import NormalButton from "component/common/NormalButton/NormalButton";
-import { history } from "helpers";
+import { history } from "component/Dashboard/ProductManagement/helpers";
 import CustomController from "component/common/Controller";
 const AddFeedbackcomp = () => {
   const { register, handleSubmit, errors, reset, setError, control } = useForm({

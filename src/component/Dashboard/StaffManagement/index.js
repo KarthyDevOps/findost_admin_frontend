@@ -4,7 +4,7 @@ import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import "./style.scss";
-import { history } from "helpers";
+import { history } from "component/Dashboard/ProductManagement/helpers";
 import { BsSearch } from "react-icons/bs";
 import DropDown from "component/common/DropDown/DropDown";
 import { getStaff, deleteStaff } from "service/Auth";

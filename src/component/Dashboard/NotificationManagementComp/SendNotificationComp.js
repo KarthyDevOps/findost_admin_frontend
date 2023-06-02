@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import "./style.scss";
 import NormalButton from "component/common/NormalButton/NormalButton";
-import { history } from "helpers";
+import { history } from "component/Dashboard/ProductManagement/helpers";
 import DropDown from "component/common/DropDown/DropDown";
 import { useForm } from "react-hook-form";
 import CustomController from "component/common/Controller";

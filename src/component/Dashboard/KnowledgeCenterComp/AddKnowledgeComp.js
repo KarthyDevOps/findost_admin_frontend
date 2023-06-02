@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import "./style.scss";
-import { history } from "helpers";
+import { history } from "component/Dashboard/ProductManagement/helpers";
 import { useForm } from "react-hook-form";
 import InputBox from "component/common/InputBox/InputBox";
 import DropDown from "component/common/DropDown/DropDown";

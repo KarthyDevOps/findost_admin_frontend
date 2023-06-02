@@ -21,9 +21,9 @@ import NormalButton from "component/common/NormalButton/NormalButton";
 import { SignInAPI } from "service/Auth";
 
 // Helpers
-import { history } from "helpers";
-import Privileges from "helpers/privileges";
-import { Encrypt } from "helpers";
+import { history } from "component/Dashboard/ProductManagement/helpers";
+import Privileges from "component/Dashboard/ProductManagement/helpers/privileges";
+import { Encrypt } from "component/Dashboard/ProductManagement/helpers";
 import InputBox from "component/common/InputBox/InputBox";
 
 const Forgetpassword = (props, type = "text", label) => {
@@ -72,7 +72,9 @@ const Forgetpassword = (props, type = "text", label) => {
                   {/* <h6 className="login ">Reset Password </h6> */}
                   {/* <h6 className="login ">Login </h6> */}
 
-                  <p className="text-center">Please provide registed email id to send reset link</p>
+                  <p className="text-center">
+                    Please provide registed email id to send reset link
+                  </p>
                 </div>
 
                 <div className="userbox">
@@ -112,7 +114,6 @@ const Forgetpassword = (props, type = "text", label) => {
               </div>
             </div>
 
-            
             <div className="login_frame ms-4 ps-5  col-lg-7">
               <div className="clip"></div>
               <div className="bg_slide">

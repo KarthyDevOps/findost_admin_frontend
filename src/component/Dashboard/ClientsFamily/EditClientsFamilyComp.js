@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { BsArrowLeft } from "react-icons/bs";
-import { history } from "helpers";
+import { history } from "component/Dashboard/ProductManagement/helpers";
 import "./style.scss";
 import FormErrorMessage from "component/common/ErrorMessage";
 import DropDown from "component/common/DropDown/DropDown";

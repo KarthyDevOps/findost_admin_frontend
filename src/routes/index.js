@@ -2,12 +2,12 @@ import React, { Component, Suspense, useEffect } from "react";
 import { Route, Router, Redirect } from "react-router-dom";
 import Routers from "./routes";
 import * as Layout from "../layout";
-import { history } from "../helpers";
-import CodeSplitter from "helpers/CodeSplitter";
+import { history } from "../component/Dashboard/ProductManagement/helpers";
+import CodeSplitter from "component/Dashboard/ProductManagement/helpers/CodeSplitter";
 import { NotificationContainer } from "react-notifications";
 import { connect } from "react-redux";
 import { InitialLoader } from "component/common/Loader";
-import Privileges from "helpers/privileges";
+import Privileges from "component/Dashboard/ProductManagement/helpers/privileges";
 
 function Wrapper({ Component, ...props }) {
   useEffect(() => {
@@ -17,13 +17,12 @@ function Wrapper({ Component, ...props }) {
 }
 
 class RoutesClass extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       renderRoute: false,
       pathname: null,
-      loading: true
+      loading: true,
     };
   }
 
@@ -31,7 +30,7 @@ class RoutesClass extends Component {
     const { adminPrivileges } = this.props;
     await adminPrivileges();
     this.setState({ ...this.state, loading: false });
-  }
+  };
 
   componentWillMount() {
     this.fetchInitialData();
@@ -72,7 +71,10 @@ class RoutesClass extends Component {
 
                       const LayoutComponent = Layout[component];
                       return (
-                        <LayoutComponent {...props} privilegesData={privilegesData}>
+                        <LayoutComponent
+                          {...props}
+                          privilegesData={privilegesData}
+                        >
                           {childrens.map(
                             ({
                               component: ChildrenComponent,
@@ -92,15 +94,17 @@ class RoutesClass extends Component {
                                   path={path + childrenPath}
                                   exact={exact}
                                   key={path + childrenPath}
-                                  render={props => {
-                                    let PageComponent = CodeSplitter.getComponent(name);
+                                  render={(props) => {
+                                    let PageComponent = CodeSplitter.getComponent(
+                                      name
+                                    );
                                     return (
                                       <Wrapper
                                         {...props}
                                         privilegesData={privilegesData}
                                         Component={PageComponent}
                                       />
-                                    )
+                                    );
                                   }}
                                 />
                               );
@@ -120,7 +124,7 @@ class RoutesClass extends Component {
                   path={path}
                   exact={exact}
                   key={component || 2322}
-                  render={props => {
+                  render={(props) => {
                     if (component) {
                       let PageComponent = CodeSplitter.getComponent(name);
                       return (
@@ -129,7 +133,7 @@ class RoutesClass extends Component {
                           privilegesData={privilegesData}
                           Component={PageComponent}
                         />
-                      )
+                      );
                     }
 
                     if (redirect) {
@@ -151,12 +155,12 @@ class RoutesClass extends Component {
   }
 }
 
-const mapState = state => ({
-  privilegesData: state?.home?.privileges
+const mapState = (state) => ({
+  privilegesData: state?.home?.privileges,
 });
 
 const mapDispatch = {
-  adminPrivileges: Privileges
-}
+  adminPrivileges: Privileges,
+};
 
 export default connect(mapState, mapDispatch)(RoutesClass);

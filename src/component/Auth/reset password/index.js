@@ -21,13 +21,13 @@ import NormalButton from "component/common/NormalButton/NormalButton";
 import { SignInAPI } from "service/Auth";
 
 // Helpers
-import { history } from "helpers";
-import Privileges from "helpers/privileges";
-import { Encrypt } from "helpers";
+import { history } from "component/Dashboard/ProductManagement/helpers";
+import Privileges from "component/Dashboard/ProductManagement/helpers/privileges";
+import { Encrypt } from "component/Dashboard/ProductManagement/helpers";
 import InputBox from "component/common/InputBox/InputBox";
 
 const ResetPassword = (props, type = "text", label) => {
-  const { register, handleSubmit, errors, reset, setError,watch } = useForm({
+  const { register, handleSubmit, errors, reset, setError, watch } = useForm({
     mode: "onChange",
   });
   const [emailId, setemailId] = useState("");
@@ -91,20 +91,18 @@ const ResetPassword = (props, type = "text", label) => {
                       required: true,
                       minLength: 8,
                       maxLength: 16,
-                      pattern:
-                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?& ]{8,}$/s,
+                      pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?& ]{8,}$/s,
                     })}
                   />
-                    <FormErrorMessage
-                error={errors.newPassword}
-                messages={{
-                  required: "Password is required",
-                  minLength: "Password must contain atleast 8 letters",
-                  maxLength: "Password should must contain only 16",
-                  pattern:
-                    "Password must contain a special character",
-                }}
-              />
+                  <FormErrorMessage
+                    error={errors.newPassword}
+                    messages={{
+                      required: "Password is required",
+                      minLength: "Password must contain atleast 8 letters",
+                      maxLength: "Password should must contain only 16",
+                      pattern: "Password must contain a special character",
+                    }}
+                  />
                   <span className="newpassword_icon">
                     <img src={password_icon}></img>
                   </span>
@@ -122,22 +120,20 @@ const ResetPassword = (props, type = "text", label) => {
                       required: true,
                       minLength: 8,
                       maxLength: 16,
-                      pattern:
-                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?& ]{8,}$/s,
-                        validate: (value) => value === newPassword.current,
-                      })}
+                      pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?& ]{8,}$/s,
+                      validate: (value) => value === newPassword.current,
+                    })}
                   />
                   <FormErrorMessage
-                  error={errors.confirmPassword}
-                  messages={{
-                    required: "Password is required",
-                    validate: "Passwords do not match",
-                    minLength: "Password must contain atleast 8 letters",
-                    maxLength: "Password should must contain only 16",
-                    pattern:
-                      "Password must contain a special character",
-                  }}
-                />
+                    error={errors.confirmPassword}
+                    messages={{
+                      required: "Password is required",
+                      validate: "Passwords do not match",
+                      minLength: "Password must contain atleast 8 letters",
+                      maxLength: "Password should must contain only 16",
+                      pattern: "Password must contain a special character",
+                    }}
+                  />
                   <span className="newpassword_icon">
                     <img src={password_icon}></img>
                   </span>
@@ -153,7 +149,6 @@ const ResetPassword = (props, type = "text", label) => {
               </div>
             </div>
 
-            
             <div className="login_frame ms-4 ps-5  col-lg-7">
               <div className="clip"></div>
               <div className="bg_slide">

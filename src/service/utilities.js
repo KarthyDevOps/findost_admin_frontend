@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // import { history } from "../service/helpers";
-import { history } from "helpers";
+import { history } from "component/Dashboard/ProductManagement/helpers";
 
 //axios Instance
 export const axiosInstance = axios.create({

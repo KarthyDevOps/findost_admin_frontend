@@ -3,7 +3,7 @@ import ReactPaginate from "react-paginate";
 import pageNext from "assets/icons/pageNext.svg";
 import pageBack from "assets/icons/pageBack.svg";
 import "./pagination.scss";
-import { history } from "helpers";
+import { history } from "component/Dashboard/ProductManagement/helpers";
 export default function PaginationComponent(props) {
   let {
     paginationShow = true,
@@ -16,7 +16,6 @@ export default function PaginationComponent(props) {
   } = props;
 
   const handlePageChange = (pageNumber) => {
-    
     paginationChange(pageNumber);
   };
 

@@ -3,7 +3,7 @@ import "./style.scss";
 import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
 import TextEditor from "component/common/TextEditor/TextEditor";
-import { history } from "helpers";
+import { history } from "component/Dashboard/ProductManagement/helpers";
 import Dropzone from "component/common/Dropzone";
 import FormErrorMessage from "component/common/ErrorMessage";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
@@ -266,7 +266,9 @@ const SiteSettingComp = () => {
                           <TextEditor
                             errors={errors.TextEditor}
                             content={content}
-                            onChange={(text) => onChange(() => setContent(text))}
+                            onChange={(text) =>
+                              onChange(() => setContent(text))
+                            }
                           />
                         );
                       }}

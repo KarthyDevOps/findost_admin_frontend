@@ -8,7 +8,7 @@ import moment from "moment";
 import editIcon from "assets/images/editIcon.svg";
 import deleteIcon from "assets/images/deleteIcon.svg";
 import ReadImg from "assets/images/ReadImg.svg";
-import { history } from "helpers";
+import { history } from "component/Dashboard/ProductManagement/helpers";
 
 function TableComp(props) {
   const {

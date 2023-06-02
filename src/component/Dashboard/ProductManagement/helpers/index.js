@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware } from "redux";
-import { reducers } from "../reducer";
+import { reducers } from "../../../../reducer";
 import thunk from "redux-thunk";
 import routers from "routes/routes";
 import { Toast } from "service/toast";

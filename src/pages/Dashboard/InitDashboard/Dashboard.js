@@ -1,12 +1,11 @@
 import React from "react";
-import { Redirect } from 'react-router-dom';
-import { navLink } from 'helpers';
+import { Redirect } from "react-router-dom";
+import { navLink } from "component/Dashboard/ProductManagement/helpers";
 
 import DashboardComp from "component/Dashboard/DashboardComp";
 
 const Dashboard = ({ privilegesData: { dashboard, ...arg } = {} }) => {
-
-  console.log("dashhh ", dashboard)
+  console.log("dashhh ", dashboard);
   // if (!dashboard?.view) {
   //   let data = { dashboard, ...arg };
 

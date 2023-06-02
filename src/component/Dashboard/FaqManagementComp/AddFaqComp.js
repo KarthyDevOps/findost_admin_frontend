@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import "./style.scss";
-import { history } from "helpers";
+import { history } from "component/Dashboard/ProductManagement/helpers";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";

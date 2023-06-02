@@ -1,7 +1,7 @@
 import DropDown from "component/common/DropDown/DropDown";
 import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
-import { history } from "helpers";
+import { history } from "component/Dashboard/ProductManagement/helpers";
 import React, { useState } from "react";
 import "./style.scss";
 import TableComp from "component/common/TableComp/TableComp";

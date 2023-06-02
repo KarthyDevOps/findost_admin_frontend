@@ -3,7 +3,7 @@ import "./style.scss";
 import InputBox from "component/common/InputBox/InputBox";
 import ReactSelect from "react-select";
 import NormalButton from "component/common/NormalButton/NormalButton";
-import { history } from "helpers";
+import { history } from "component/Dashboard/ProductManagement/helpers";
 import { getFAQList, deleteFAQList } from "service/Cms";
 import DropDown from "component/common/DropDown/DropDown";
 import TableComp from "component/common/TableComp/TableComp";

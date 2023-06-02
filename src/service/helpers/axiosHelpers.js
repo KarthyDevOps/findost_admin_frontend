@@ -1,4 +1,4 @@
-import { history } from "helpers";
+import { history } from "component/Dashboard/ProductManagement/helpers";
 import { Toast } from "service/toast";
 
 export const axiosErrorHandler = (error, action, checkUnauthorized = true) => {
@@ -8,11 +8,17 @@ export const axiosErrorHandler = (error, action, checkUnauthorized = true) => {
   if (!localStorage.getItem("token")) {
     history.push("/auth");
   }
-  
+
   if (dataStatus === 400 || responseStatus === 400 || requestStatus === 400) {
     if (localStorage.getItem("token")) {
       //Toast({ type: "error", message: error?.response?.data?.data?.message });
-      Toast({ type: "error", message: error?.response?.data?.data?.message || error?.response?.data?.message || error?.response?.data?.data });
+      Toast({
+        type: "error",
+        message:
+          error?.response?.data?.data?.message ||
+          error?.response?.data?.message ||
+          error?.response?.data?.data,
+      });
     }
   }
 

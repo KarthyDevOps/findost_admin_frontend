@@ -5,7 +5,7 @@ import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
 import FormErrorMessage from "component/common/ErrorMessage";
 import TextEditor from "component/common/TextEditor/TextEditor";
-import { history } from "helpers";
+import { history } from "component/Dashboard/ProductManagement/helpers";
 import { editContent, updateContent } from "service/Cms";
 import CustomController from "component/common/Controller";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
@@ -71,10 +71,10 @@ const EditContentManagementComp = () => {
       if (response.status === 200) {
         const data = response?.data?.data;
         reset({
-          title:data?.title,
-          content:data?.description,
-        })
-        
+          title: data?.title,
+          content: data?.description,
+        });
+
         setcontentDetails({
           status: data.isActive ? "active" : "inActive",
         });

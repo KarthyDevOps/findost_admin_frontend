@@ -3,7 +3,7 @@ import { BsArrowLeft } from "react-icons/bs";
 import "./style.scss";
 import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
-import { history } from "helpers";
+import { history } from "component/Dashboard/ProductManagement/helpers";
 import CustomController from "component/common/Controller";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import FormErrorMessage from "component/common/ErrorMessage";

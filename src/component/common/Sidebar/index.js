@@ -11,11 +11,11 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import { NavLink } from "react-router-dom";
 import { useTheme } from "@material-ui/core/styles";
-import findostLogo from "assets/images/findostLogo.svg"
+import findostLogo from "assets/images/findostLogo.svg";
 import logout from "assets/icons/logout.svg";
 import { useLocation } from "react-router-dom";
 import { Toast } from "service/toast";
-import { navLink } from "helpers";
+import { navLink } from "component/Dashboard/ProductManagement/helpers";
 
 import "./style.scss";
 
@@ -36,10 +36,7 @@ function Sidebar({ classes, window, privilegesData }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
-  const {
-    dashboard,
-    patientManagement,
-  } = privilegesData ?? {};
+  const { dashboard, patientManagement } = privilegesData ?? {};
 
   const location = useLocation();
   const drawer = (
@@ -53,7 +50,7 @@ function Sidebar({ classes, window, privilegesData }) {
         {React.Children.toArray(
           navLink.map(
             ({ to, label, iconName, inactiveIcon, nestedChild }, index) => {
-              console.log("toooooo", { dashboard, patientManagement, to })
+              console.log("toooooo", { dashboard, patientManagement, to });
               // if (!dashboard?.view && to === "/admin/dashboard") return;
               // if (!patientManagement?.view && to?.includes("/admin/patient-management")) return;
 

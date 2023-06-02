@@ -5,7 +5,7 @@ import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
 import FormErrorMessage from "component/common/ErrorMessage";
 import TextEditor from "component/common/TextEditor/TextEditor";
-import { history } from "helpers";
+import { history } from "component/Dashboard/ProductManagement/helpers";
 import { addTemplate, editTemplate, updateTemplate } from "service/Cms";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import DropDown from "component/common/DropDown/DropDown";
@@ -26,12 +26,11 @@ const AddTempleteManagementcomp = () => {
   } = useForm({
     mode: "onChange",
   });
- 
+
   const [content, setContent] = useState("");
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState(false);
   const [TemplateDetails, setTemplateDetails] = useState({
-   
     type: "",
     status: "",
   });
@@ -68,8 +67,6 @@ const AddTempleteManagementcomp = () => {
       "status",
       status.find((option) => option.value === TemplateDetails.status)
     );
-  
-    
   }, [TemplateDetails, setValue]);
   const getTemplateDetails = async () => {
     try {
@@ -77,14 +74,14 @@ const AddTempleteManagementcomp = () => {
         templateId: templateId,
       };
       let response = await editTemplate(params);
-      
+
       if (response.status === 200) {
         const data = response?.data.data;
-          reset({
-          title:data?.title,
-          content:data?.description,
-        })
-        console.log('data', data)
+        reset({
+          title: data?.title,
+          content: data?.description,
+        });
+        console.log("data", data);
         // setValue("title", data.title);
         // setContent(data.description)
         setTemplateDetails({
@@ -116,7 +113,7 @@ const AddTempleteManagementcomp = () => {
       try {
         let body = {
           title: data.title,
-          description:data.content,
+          description: data.content,
           type: TemplateDetails.type,
         };
         if (TemplateDetails.status === "active") {
@@ -143,7 +140,7 @@ const AddTempleteManagementcomp = () => {
       try {
         let body = {
           title: data.title,
-          description:data.content,
+          description: data.content,
           type: TemplateDetails.type,
         };
         if (TemplateDetails.status === "active") {
@@ -257,8 +254,7 @@ const AddTempleteManagementcomp = () => {
                           // value={value}
                           {...field}
                           name="status"
-                      errors={errors.status}
-
+                          errors={errors.status}
                           placeholder="Active"
                           options={status}
                           onChange={(option) => {
@@ -290,7 +286,7 @@ const AddTempleteManagementcomp = () => {
                       render={({ onChange, ...field }) => {
                         return (
                           <TextEditor
-                           {...field}
+                            {...field}
                             onChange={(content) => {
                               onChange(content);
                             }}

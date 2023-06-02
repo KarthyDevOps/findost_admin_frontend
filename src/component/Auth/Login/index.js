@@ -22,9 +22,9 @@ import NormalButton from "component/common/NormalButton/NormalButton";
 import { LoginAPI } from "service/Auth";
 
 // Helpers
-import { history } from "helpers";
-import Privileges from "helpers/privileges";
-import { Encrypt } from "helpers";
+import { history } from "component/Dashboard/ProductManagement/helpers";
+import Privileges from "component/Dashboard/ProductManagement/helpers/privileges";
+import { Encrypt } from "component/Dashboard/ProductManagement/helpers";
 import InputBox from "component/common/InputBox/InputBox";
 import { adminData } from "reducer/home";
 
