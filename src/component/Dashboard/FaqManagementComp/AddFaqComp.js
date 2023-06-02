@@ -80,7 +80,7 @@ const AddFaqComp = () => {
       status.find((option) => option.value === FAQDetails.status)
     );
   }, [FAQDetails, setValue]);
-  console.log('FAQDetails', FAQDetails)
+  console.log("FAQDetails", FAQDetails);
 
   const getFAQDetails = async () => {
     try {
@@ -90,9 +90,10 @@ const AddFaqComp = () => {
       let response = await editFAQ(params);
       if (response.status === 200) {
         const data = response?.data.data;
-        console.log("data", data);
-        setValue("title", data.title);
-        setContent(data.answer);
+        reset({
+          title: data?.title,
+          content: data?.answer,
+        });
         setFAQDetails({
           category: data.category,
           subcategory: data.subCategory,
@@ -116,11 +117,10 @@ const AddFaqComp = () => {
     setModal(true);
 
     if (!edit) {
-    
       try {
         let body = {
           title: data.title,
-          answer: content,
+          answer: data.content,
           subCategory: FAQDetails.subcategory,
           category: FAQDetails.category,
         };
@@ -148,7 +148,7 @@ const AddFaqComp = () => {
       try {
         let body = {
           title: data.title,
-          answer: content,
+          answer: data.content,
           subcategory: FAQDetails.subcategory,
           category: FAQDetails.category,
         };
@@ -320,9 +320,9 @@ const AddFaqComp = () => {
           <div className="col-12 p-0">
             <label>FAQ Status</label>
             <CustomController
-              name={"TextEditor"}
+              name={"content"}
               control={control}
-              error={errors.TextEditor}
+              error={errors.content}
               // defaultValue={endDate}
               rules={{ required: true }}
               messages={{
@@ -332,9 +332,10 @@ const AddFaqComp = () => {
                 return (
                   <TextEditor
                     {...field}
-                    content={content}
-                    errors={errors.TextEditor}
-                    onChange={(text) => onChange(() => setContent(text))}
+                    onChange={(content) => {
+                      onChange(content);
+                    }}
+                    name={"content"}
                   />
                 );
               }}

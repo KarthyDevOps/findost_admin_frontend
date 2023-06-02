@@ -64,7 +64,6 @@ const AddProductcomp = () => {
       let response = await editProduct(params);
       if (response.status === 200) {
         const data = response?.data?.data;
-        console.log('dataakh :>> ', data);
         reset({
           productName: data?.productName,
           productPlan: data?.productPlan,

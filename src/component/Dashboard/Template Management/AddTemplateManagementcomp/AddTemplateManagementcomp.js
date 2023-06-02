@@ -77,11 +77,16 @@ const AddTempleteManagementcomp = () => {
         templateId: templateId,
       };
       let response = await editTemplate(params);
+      
       if (response.status === 200) {
         const data = response?.data.data;
+          reset({
+          title:data?.title,
+          content:data?.description,
+        })
         console.log('data', data)
-        setValue("title", data.title);
-        setContent(data.description)
+        // setValue("title", data.title);
+        // setContent(data.description)
         setTemplateDetails({
           type: data.type,
           status: data.isActive ? "active" : "inActive",
@@ -111,7 +116,7 @@ const AddTempleteManagementcomp = () => {
       try {
         let body = {
           title: data.title,
-          description:content,
+          description:data.content,
           type: TemplateDetails.type,
         };
         if (TemplateDetails.status === "active") {
@@ -138,7 +143,7 @@ const AddTempleteManagementcomp = () => {
       try {
         let body = {
           title: data.title,
-          description:content,
+          description:data.content,
           type: TemplateDetails.type,
         };
         if (TemplateDetails.status === "active") {
@@ -275,9 +280,9 @@ const AddTempleteManagementcomp = () => {
                   </label>
                   <div className="text_editor">
                     <CustomController
-                      name={"TextEditor"}
+                      name={"content"}
                       control={control}
-                      error={errors.TextEditor}
+                      error={errors.content}
                       rules={{ required: true }}
                       messages={{
                         required: "Template message is Required",
@@ -285,12 +290,11 @@ const AddTempleteManagementcomp = () => {
                       render={({ onChange, ...field }) => {
                         return (
                           <TextEditor
-                            content={content}
-                            {...field}
-                            
-                            onChange={(text) =>
-                              onChange(() => setContent(text))
-                            }
+                           {...field}
+                            onChange={(content) => {
+                              onChange(content);
+                            }}
+                            name={"content"}
                           />
                         );
                       }}

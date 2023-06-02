@@ -27,7 +27,7 @@ const EditContentManagementComp = () => {
   });
 
   const [content, setContent] = useState();
-// console.log(content)
+  // console.log(content)
   const [modal, setModal] = useState(false);
   const [edit, setedit] = useState(false);
   const [contentDetails, setcontentDetails] = useState({
@@ -70,9 +70,11 @@ const EditContentManagementComp = () => {
       let response = await editContent(params);
       if (response.status === 200) {
         const data = response?.data?.data;
-        setValue("title", data.title);
-        console.log(data.isActive, "val");
-        setContent(data.description);
+        reset({
+          title:data?.title,
+          content:data?.description,
+        })
+        
         setcontentDetails({
           status: data.isActive ? "active" : "inActive",
         });
@@ -92,10 +94,10 @@ const EditContentManagementComp = () => {
       try {
         let body = {
           title: data.title,
-          description: content,
+          description: data.content,
         };
         if (contentDetails.status === "active") {
-          body.isActive = true; 
+          body.isActive = true;
         } else {
           body.isActive = false;
         }
@@ -198,9 +200,10 @@ const EditContentManagementComp = () => {
                   </label>
                   <div className="text_editor">
                     <CustomController
-                      name={"TextEditor"}
+                      name={"content"}
                       control={control}
-                      error={errors.TextEditor}
+                      defaultValue={getValues("content")}
+                      error={errors.content}
                       rules={{ required: true }}
                       value={status.find(
                         (option) => option.value === getValues("status")
@@ -211,11 +214,11 @@ const EditContentManagementComp = () => {
                       render={({ onChange, ...field }) => {
                         return (
                           <TextEditor
-                            content={content}
                             {...field}
-                            onChange={(text) =>
-                              onChange(() => setContent(text))
-                            }
+                            onChange={(content) => {
+                              onChange(content);
+                            }}
+                            name={"content"}
                           />
                         );
                       }}
