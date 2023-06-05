@@ -10,49 +10,8 @@ import DeleteModal from "component/common/DeleteModal/DeleteModal";
 const NotificationManagementComp = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [search, setSearch] = useState("");
-  const [templatedata, setTemplateData] = useState([
-    {
-      notificationId: "51322",
-      dateandTime: "2023-05-04T16:06:03.636Z",
-      notificationTitle: "mission-critical",
-      notificationDescription: "Nemo dolorem eum aliquam non.",
-    },
-    {
-      notificationId: "51322",
-      dateandTime: "2023-05-04T16:06:03.636Z",
-      notificationTitle: "cross-platform",
-      notificationDescription: "Nemo dolorem eum aliquam non.",
-    },
-    {
-      notificationId: "51322",
-      dateandTime: "2023-05-04T16:06:03.636Z",
-      notificationTitle: "transparent",
-      notificationDescription: "Nemo dolorem eum aliquam non.",
-    },
-  ]);
-  const [historydata, setHistoryData] = useState([
-    {
-      notificationId: "51322",
-      notificationSentStatus: "Failed",
-      dateandTime: "2023-05-04T16:06:03.636Z",
-      notificationTitle: "mission-critical",
-      notificationContent: "Nemo dolorem eum aliquam non.",
-    },
-    {
-      notificationId: "51322",
-      notificationSentStatus: "Success",
-      dateandTime: "2023-05-04T16:06:03.636Z",
-      notificationTitle: "cross-platform",
-      notificationContent: "Nemo dolorem eum aliquam non.",
-    },
-    {
-      notificationId: "51322",
-      notificationSentStatus: "Success",
-      dateandTime: "2023-05-04T16:06:03.636Z",
-      notificationTitle: "transparent",
-      notificationContent: "Nemo dolorem eum aliquam non.",
-    },
-  ]);
+  const [templatedata, setTemplateData] = useState();
+  const [historydata, setHistoryData] = useState();
 
   const handleTab = (tab) => {
     setActiveTab(tab);

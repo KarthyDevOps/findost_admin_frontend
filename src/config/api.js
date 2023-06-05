@@ -10,8 +10,8 @@ export const cms = `${baseURL}:2274/cms/v1`;
 export const endpoints = {
   auth: {
     LOGIN_USER: `${userUrl}/admin/login`,
-    FORGET_PASSWORD : `${userUrl}/admin/forgotPassword`,
-    RESET_PASSWORD : `${userUrl}/admin/resetPassword`,
+    FORGET_PASSWORD: `${userUrl}/admin/forgotPassword`,
+    RESET_PASSWORD: `${userUrl}/admin/resetPassword`,
     GET_STAFF: `${userUrl}/admin/list`,
     ADD_STAFF: `${userUrl}/admin/addProfile`,
     EDIT_STAFF: `${userUrl}/admin/getProfile`,
@@ -39,6 +39,12 @@ export const endpoints = {
     DELETE_PRODUCT: `${cms}/product-management/delete`,
     EDIT_PRODUCT: `${cms}/product-management/get`,
     UPDATE_PRODUCT: `${cms}/product-management/update`,
-
+  },
+  communication: {
+    NOTIFICATION_TEMPLATE_LIST: `${communicationUrl}/notificationTemplate-management/list`,
+    NOTIFICATION_TEMPLATE_CREATE: `${communicationUrl}/notificationTemplate-management/create`,
+    NOTIFICATION_TEMPLATE_GET: `${communicationUrl}/notificationTemplate-management/get`,
+    NOTIFICATION_TEMPLATE_DELETE: `${communicationUrl}/notificationTemplate-management/delete`,
+    NOTIFICATION_TEMPLATE_UPDATE: `${communicationUrl}/notificationTemplate-management/update`,
   },
 };
