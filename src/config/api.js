@@ -10,6 +10,8 @@ export const cms = `${baseURL}:2274/cms/v1`;
 export const endpoints = {
   auth: {
     LOGIN_USER: `${userUrl}/admin/login`,
+    FORGET_PASSWORD : `${userUrl}/admin/forgotPassword`,
+    RESET_PASSWORD : `${userUrl}/admin/resetPassword`,
     GET_STAFF: `${userUrl}/admin/list`,
     ADD_STAFF: `${userUrl}/admin/addProfile`,
     EDIT_STAFF: `${userUrl}/admin/getProfile`,

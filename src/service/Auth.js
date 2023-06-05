@@ -75,3 +75,27 @@ export const updateStaff = async (body, id) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
+export const forgetPassword = async (body) => {
+  let request = await axios({
+    method: "post",
+    url: endpoints.auth.FORGET_PASSWORD,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body,
+  });
+  return request;
+};
+
+export const resetPassword = async (body) => {
+  let request = await axios({
+    method: "post",
+    url: endpoints.auth.RESET_PASSWORD,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body,
+  });
+  return request;
+};
