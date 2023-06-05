@@ -51,5 +51,10 @@ export const endpoints = {
     NOTIFICATION_TEMPLATE_GET: `${communicationUrl}/notificationTemplate-management/get`,
     NOTIFICATION_TEMPLATE_DELETE: `${communicationUrl}/notificationTemplate-management/delete`,
     NOTIFICATION_TEMPLATE_UPDATE: `${communicationUrl}/notificationTemplate-management/update`,
+    NOTIFICATION_HISTORY_LIST: `${communicationUrl}/notification-management/list`,
+    NOTIFICATION_HISTORY_CREATE: `${communicationUrl}/notification-management/create`,
+    NOTIFICATION_HISTORY_GET: `${communicationUrl}/notification-management/get`,
+    NOTIFICATION_HISTORY_DELETE: `${communicationUrl}/notification-management/delete`,
+    NOTIFICATION_HISTORY_UPDATE: `${communicationUrl}/notification-management/update`,
   },
 };

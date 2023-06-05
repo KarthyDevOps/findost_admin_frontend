@@ -6,12 +6,24 @@ import NormalButton from "component/common/NormalButton/NormalButton";
 import axios from "axios";
 import TableComp from "../../common/TableComp/TableComp";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
+import {
+  getNotificationTemplateList,
+  deleteNotificationTemplate,
+  getNotificationHistoryList,
+} from "service/Communication";
+import { Toast } from "service/toast";
 
 const NotificationManagementComp = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [search, setSearch] = useState("");
   const [templatedata, setTemplateData] = useState();
   const [historydata, setHistoryData] = useState();
+  const [pageCount, setPageCount] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [modalVisible, setModalVisible] = useState({
+    id: null,
+    show: false,
+  });
 
   const handleTab = (tab) => {
     setActiveTab(tab);
@@ -20,31 +32,36 @@ const NotificationManagementComp = () => {
 
   var url = new URL(document.URL);
   const params = url.searchParams;
-  const tabValue = +params.get("tab");
+  const tabValue = +params.get("tab") ?? 0;
 
   useEffect(() => {
-    setActiveTab(tabValue);
+    handleTab(tabValue);
+    // setActiveTab(tabValue);
+    if (tabValue === 1) {
+      getHistoryList();
+    } else {
+      getTemplateList();
+    }
   }, [tabValue]);
 
-  const [pageCount, setPageCount] = useState(1);
-  const [currentPage, setCurrentPage] = useState(1);
+  console.log("tabValue :>> ", tabValue);
 
   const templateKeys = [
     {
       label: "Notification Id",
-      value: "notificationId",
+      value: "notificationTemplateId",
     },
     {
       label: "Date and Time",
-      value: "dateandTime",
+      value: "createdAt",
     },
     {
       label: "Notification Title",
-      value: "notificationTitle",
+      value: "title",
     },
     {
       label: "Notification Description",
-      value: "notificationDescription",
+      value: "description",
     },
   ];
 
@@ -73,6 +90,56 @@ const NotificationManagementComp = () => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+  };
+
+  const getTemplateList = async () => {
+    let params = {
+      page: currentPage,
+      limit: 10,
+      search: "",
+    };
+    let response = await getNotificationTemplateList(params);
+    if (response.status === 200) {
+      setTemplateData(response?.data?.data?.list);
+      setPageCount(response?.data?.data?.pageMeta?.pageCount);
+      setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
+    } else {
+    }
+  };
+
+  const getHistoryList = async () => {
+    let params = {
+      page: currentPage,
+      limit: 10,
+      search: "",
+    };
+    let response = await getNotificationHistoryList(params);
+    if (response.status === 200) {
+      setHistoryData(response?.data?.data?.list);
+      setPageCount(response?.data?.data?.pageMeta?.pageCount);
+      setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
+    }
+  };
+
+  const handleOpenModal = (id) => {
+    setModalVisible({
+      id: id,
+      show: true,
+    });
+  };
+
+  const handleDeleteItem = async () => {
+    if (modalVisible.show && modalVisible.id) {
+      let params = {
+        notificationTemplateId: modalVisible.id,
+      };
+      let response = await deleteNotificationTemplate(params);
+      if (response.status === 200) {
+        Toast({ type: "success", message: response.data.message });
+        getTemplateList();
+      }
+    }
+    setModalVisible({ show: false, id: null });
   };
 
   return (
@@ -124,11 +191,12 @@ const NotificationManagementComp = () => {
               <NormalButton
                 className="loginButton"
                 label={"Create Notification"}
-                onClick={() =>
+                onClick={() => {
+                  localStorage.removeItem("editId");
                   history.push(
                     "/admin/notification-management/create-notification"
-                  )
-                }
+                  );
+                }}
               />
             </div>
           </div>
@@ -156,11 +224,12 @@ const NotificationManagementComp = () => {
               <NormalButton
                 className="loginButton"
                 label={"Send Notification"}
-                onClick={() =>
+                onClick={() => {
+                  localStorage.removeItem("editId");
                   history.push(
                     "/admin/notification-management/send-notification"
-                  )
-                }
+                  );
+                }}
               />
             </div>
           </div>
@@ -178,6 +247,7 @@ const NotificationManagementComp = () => {
             onPageChange={handlePageChange}
             setCurrentPage={setCurrentPage}
             editRouteName={"/admin/notification-management/create-notification"}
+            handleOpenModal={handleOpenModal}
           />
         </div>
       ) : (
@@ -192,10 +262,23 @@ const NotificationManagementComp = () => {
             onPageChange={handlePageChange}
             setCurrentPage={setCurrentPage}
             editRouteName={"/admin/notification-management/send-notification"}
+            handleOpenModal={handleOpenModal}
           />
         </div>
       )}
-      <div></div>
+      <div>
+        {" "}
+        <DeleteModal
+          modalOpen={modalVisible.show}
+          closeModal={() => setModalVisible({ id: null, show: false })}
+          handleDelete={handleDeleteItem}
+          DeleteMessage={
+            activeTab === 0
+              ? "Are you sure you want to delete Notification Template?"
+              : "Are you sure you want to delete Notification History?"
+          }
+        />
+      </div>
     </div>
   );
 };

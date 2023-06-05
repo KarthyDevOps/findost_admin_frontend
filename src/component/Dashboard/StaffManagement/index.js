@@ -140,7 +140,10 @@ const StaffManagementComp = () => {
             <NormalButton
               className="loginButton"
               label={"Add Staff"}
-              onClick={() => history.push("/admin/staff-management/add-staff")}
+              onClick={() => {
+                localStorage.removeItem("editId");
+                history.push("/admin/staff-management/add-staff");
+              }}
             />
           </div>
         </div>

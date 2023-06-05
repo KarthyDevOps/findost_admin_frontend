@@ -8,16 +8,102 @@ import NormalButton from "component/common/NormalButton/NormalButton";
 import { history } from "helpers";
 import FormErrorMessage from "component/common/ErrorMessage";
 import CustomController from "component/common/Controller";
+import {
+  addNotificationTemplate,
+  editNotificationTemplate,
+  updateNotificationTemplate,
+} from "service/Communication";
+import SuccessModal from "component/common/DeleteModal/SuccessModal";
+import { Toast } from "service/toast";
 
 const CreateNotificationComp = () => {
-  const { register, handleSubmit, errors, reset, setError, control } = useForm({
+  const {
+    register,
+    handleSubmit,
+    errors,
+    reset,
+    setError,
+    control,
+    getValues,
+  } = useForm({
     mode: "onChange",
   });
-  const [content, setContent] = useState("");
   const [edit, setEdit] = useState(false);
+  const [modal, setModal] = useState(false);
 
-  const onSubmit = (data) => {
-    console.log("data :>> ", data);
+  const id = localStorage.getItem("editId");
+
+  useEffect(() => {
+    if (id) {
+      setEdit(true);
+      getTemplateDetails();
+    }
+  }, []);
+
+  const getTemplateDetails = async () => {
+    try {
+      let params = {
+        notificationTemplateId: id,
+      };
+      let response = await editNotificationTemplate(params);
+      if (response.status === 200) {
+        console.log("response.data.data :>> ", response?.data?.data?.title);
+        reset({
+          title: response?.data?.data?.title,
+          content: response?.data?.data?.description,
+        });
+      } else {
+        Toast({ type: "error", message: response.data.message });
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
+  };
+
+  const onSubmit = async (data) => {
+    if (!edit) {
+      try {
+        const body = {
+          title: data.title,
+          description: data.content,
+        };
+        let response = await addNotificationTemplate(body);
+        if (response.status === 200) {
+          setModal(true);
+          const timeout = setTimeout(() => {
+            setModal(false);
+            reset({ title: "", content: "" });
+            history.push("/admin/notification-management");
+          }, 1000);
+          return () => clearTimeout(timeout);
+        } else {
+          Toast({ type: "error", message: response.data.message });
+        }
+      } catch (e) {
+        console.log("e :>> ", e);
+      }
+    } else {
+      try {
+        const body = {
+          title: data.title,
+          description: data.content,
+        };
+        let response = await updateNotificationTemplate(body, id);
+        if (response.status === 200) {
+          setModal(true);
+          const timeout = setTimeout(() => {
+            setModal(false);
+            reset({ title: "", content: "" });
+            history.push("/admin/notification-management");
+          }, 1000);
+          return () => clearTimeout(timeout);
+        } else {
+          Toast({ type: "error", message: response.data.message });
+        }
+      } catch (e) {
+        console.log("e :>> ", e);
+      }
+    }
   };
 
   return (
@@ -60,17 +146,18 @@ const CreateNotificationComp = () => {
             <CustomController
               name={"content"}
               control={control}
-              error={errors.content}
+              error={errors?.content}
+              defaultValue={getValues("content")}
               rules={{ required: true }}
-              messages={{
-                required: "Notification Content is Required",
-              }}
-              render={({ onChange, ...field }) => {
+              messages={{ required: "Notification Content is Required" }}
+              render={({ onChange, ...fields }) => {
                 return (
                   <TextEditor
-                    {...field}
-                    content={content}
-                    onChange={(text) => onChange(() => setContent(text))}
+                    {...fields}
+                    onChange={(content) => {
+                      onChange(content);
+                    }}
+                    name={"content"}
                   />
                 );
               }}
@@ -91,6 +178,17 @@ const CreateNotificationComp = () => {
                 onClick={handleSubmit(onSubmit)}
               />
             </div>
+          </div>
+          <div>
+            <SuccessModal
+              modalOpen={modal}
+              onCancel={() => setModal(false)}
+              successMsg={
+                edit
+                  ? "Notification Template Content Updated Successfully"
+                  : "New Notification Template Added Successfully"
+              }
+            />
           </div>
         </div>
       </form>
