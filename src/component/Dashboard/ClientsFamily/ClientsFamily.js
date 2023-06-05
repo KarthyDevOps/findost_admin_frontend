@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.scss";
 import { Toast } from "service/toast";
 import { getClient } from "service/Auth";
@@ -9,7 +9,6 @@ const ClientsFamily = () => {
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState([]);
- 
 
   const includedKeys = [
     {
@@ -40,7 +39,7 @@ const ClientsFamily = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-const getClientList = async () => {
+  const getClientList = async () => {
     try {
       let params = {
         page: currentPage,
@@ -59,7 +58,6 @@ const getClientList = async () => {
   useEffect(() => {
     getClientList();
   }, []);
-  
 
   return (
     <div className="px-5 py-3 clients_family">
@@ -98,21 +96,17 @@ const getClientList = async () => {
         </div>
       </div>
       <div className=" mt-4 p-3">
-        {data.length > 0 ? (
-          <TableComp
-            data={data}
-            isCheck={true}
-            EditAction={true}
-            DeleteAction={false}
-            includedKeys={includedKeys}
-            pageCount={pageCount}
-            onPageChange={handlePageChange}
-            setCurrentPage={setCurrentPage}
-            editRouteName={"/admin/clients-family/edit-client"}
-          />
-        ) : (
-          <p className="text-center mt-5 fs-15">No Data Available</p>
-        )}
+        <TableComp
+          data={data}
+          isCheck={true}
+          EditAction={true}
+          DeleteAction={false}
+          includedKeys={includedKeys}
+          pageCount={pageCount}
+          onPageChange={handlePageChange}
+          setCurrentPage={setCurrentPage}
+          editRouteName={"/admin/clients-family/edit-client"}
+        />
       </div>
     </div>
   );

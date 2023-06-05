@@ -26,11 +26,10 @@ const AddTempleteManagementcomp = () => {
   } = useForm({
     mode: "onChange",
   });
- 
+
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState(false);
   const [TemplateDetails, setTemplateDetails] = useState({
-   
     type: "",
     status: "",
   });
@@ -56,8 +55,8 @@ const AddTempleteManagementcomp = () => {
     },
   ];
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const templateId = urlParams.get("Editid");
+  const templateId = localStorage.getItem("editId");
+
   useEffect(() => {
     setValue(
       "type",
@@ -67,8 +66,6 @@ const AddTempleteManagementcomp = () => {
       "status",
       status.find((option) => option.value === TemplateDetails.status)
     );
-  
-    
   }, [TemplateDetails, setValue]);
   const getTemplateDetails = async () => {
     try {
@@ -76,14 +73,14 @@ const AddTempleteManagementcomp = () => {
         templateId: templateId,
       };
       let response = await editTemplate(params);
-      
+
       if (response.status === 200) {
         const data = response?.data.data;
-          reset({
-          title:data?.title,
-          content:data?.description,
-        })
-        console.log('data', data)
+        reset({
+          title: data?.title,
+          content: data?.description,
+        });
+        console.log("data", data);
         // setValue("title", data.title);
         // setContent(data.description)
         setTemplateDetails({
@@ -99,7 +96,7 @@ const AddTempleteManagementcomp = () => {
   };
 
   useEffect(() => {
-    if (urlParams.has("Editid")) {
+    if (templateId) {
       setEdit(true);
       getTemplateDetails();
     }
@@ -115,7 +112,7 @@ const AddTempleteManagementcomp = () => {
       try {
         let body = {
           title: data.title,
-          description:data.content,
+          description: data.content,
           type: TemplateDetails.type,
         };
         if (TemplateDetails.status === "active") {
@@ -142,7 +139,7 @@ const AddTempleteManagementcomp = () => {
       try {
         let body = {
           title: data.title,
-          description:data.content,
+          description: data.content,
           type: TemplateDetails.type,
         };
         if (TemplateDetails.status === "active") {
@@ -256,8 +253,7 @@ const AddTempleteManagementcomp = () => {
                           // value={value}
                           {...field}
                           name="status"
-                      errors={errors.status}
-
+                          errors={errors.status}
                           placeholder="Active"
                           options={status}
                           onChange={(option) => {
@@ -289,7 +285,7 @@ const AddTempleteManagementcomp = () => {
                       render={({ onChange, ...field }) => {
                         return (
                           <TextEditor
-                           {...field}
+                            {...field}
                             onChange={(content) => {
                               onChange(content);
                             }}

@@ -219,3 +219,25 @@ export const deleteFAQList = async (params) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+export const updateSiteSetting = async (body, id) => {
+  const request = await axios({
+    method: "put",
+    url: `${endpoints.cms.UPDATE_SITE_SETTING}?Id=${id}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+export const editSiteSetting = async (params) => {
+  const request = await axios({
+    method: "get",
+    url: `${endpoints.cms.GET_SITE_SETTING}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
