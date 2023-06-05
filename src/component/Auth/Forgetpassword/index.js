@@ -10,7 +10,7 @@ import loginpage_frame from "../../../assets/images/Frame.svg";
 import FormErrorMessage from "component/common/ErrorMessage";
 import NormalButton from "component/common/NormalButton/NormalButton";
 // Service
-import { forgetPassword } from "service/Auth";
+import { forgotPassword } from "service/Auth";
 // Helpers
 import { history } from "helpers";
 import InputBox from "component/common/InputBox/InputBox";
@@ -24,7 +24,7 @@ const Forgetpassword = () => {
     const body = {
       email: inputs.emailId,
     };
-    let response = await forgetPassword(body);
+    let response = await forgotPassword(body);
     if (response.status === 200) {
       Toast({ type: "success", message: response.data.message });
       reset({ emailId: "" });

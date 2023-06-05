@@ -76,7 +76,6 @@ export const updateStaff = async (body, id) => {
   return request;
 };
 
-
 export const getClient = async (params) => {
   let request = await axios({
     method: "get",
@@ -102,7 +101,7 @@ export const addClient = async (data) => {
 };
 
 export const editClient = async (params) => {
-  console.log('params', params)
+  console.log("params", params);
   const request = await axios({
     method: "get",
     url: endpoints.auth.EDIT_CLIENT,
@@ -135,5 +134,29 @@ export const updateClient = async (body, id) => {
     },
     data: body,
   }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const forgotPassword = async (data) => {
+  let request = await axios({
+    method: "post",
+    url: endpoints.auth.FORGET_PASSWORD,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: data,
+  });
+  return request;
+};
+
+export const resetPassword = async (data) => {
+  let request = await axios({
+    method: "post",
+    url: endpoints.auth.RESET_PASSWORD,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: data,
+  });
   return request;
 };
