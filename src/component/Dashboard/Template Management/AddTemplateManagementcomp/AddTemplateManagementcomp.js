@@ -27,7 +27,6 @@ const AddTempleteManagementcomp = () => {
     mode: "onChange",
   });
  
-  const [content, setContent] = useState("");
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState(false);
   const [TemplateDetails, setTemplateDetails] = useState({

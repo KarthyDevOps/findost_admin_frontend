@@ -1,12 +1,12 @@
-import TemplateManagementComp from 'component/Dashboard/Template Management'
-import React from 'react'
+import TemplateManagementComp from "component/Dashboard/Template Management";
+import React from "react";
 
 const TemplateManagement = () => {
   return (
     <div>
-        <TemplateManagementComp/>
+      <TemplateManagementComp />
     </div>
-  )
-}
+  );
+};
 
-export default TemplateManagement
+export default TemplateManagement;
