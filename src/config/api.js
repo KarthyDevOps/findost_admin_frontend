@@ -17,6 +17,11 @@ export const endpoints = {
     EDIT_STAFF: `${userUrl}/admin/getProfile`,
     DELETE_STAFF: `${userUrl}/admin/delete`,
     UPDATE_STAFF: `${userUrl}/admin/updateProfile`,
+    LIST_CLIENT: `${userUrl}/admin/clientFamily/list`,
+    ADD_CLIENT: `${userUrl}/admin/clientFamily/addProfile`,
+    DELETE_CLIENT: `${userUrl}/admin/clientFamily/delete`,
+    EDIT_CLIENT: `${userUrl}/admin/clientFamily/getProfile`,
+    UPDATE_CLIENT: `${userUrl}/admin/clientFamily/updateProfile`,
   },
 
   cms: {
@@ -39,6 +44,5 @@ export const endpoints = {
     DELETE_PRODUCT: `${cms}/product-management/delete`,
     EDIT_PRODUCT: `${cms}/product-management/get`,
     UPDATE_PRODUCT: `${cms}/product-management/update`,
-
   },
 };

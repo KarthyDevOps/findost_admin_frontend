@@ -1,10 +1,12 @@
-import React from 'react'
-import FaqManagementComp from 'component/Dashboard/FaqManagementComp/FaqManagementComp'
+import React from "react";
+import FaqManagementComp from "component/Dashboard/FaqManagementComp/FaqManagementComp";
 
 const FaqManagement = () => {
   return (
-    <div><FaqManagementComp/></div>
-  )
-}
+    <div>
+      <FaqManagementComp />
+    </div>
+  );
+};
 
-export default FaqManagement
+export default FaqManagement;

@@ -85,6 +85,8 @@ const EditContentManagementComp = () => {
       console.log("e :>> ", e);
     }
   };
+  useEffect(() => getContentList(), []);
+
   // const handleChange = (state) => {
   //   setEditorState(state);
   // };

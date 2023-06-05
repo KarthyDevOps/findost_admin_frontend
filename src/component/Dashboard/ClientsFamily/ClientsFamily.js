@@ -1,63 +1,16 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "./style.scss";
+import { Toast } from "service/toast";
+import { getClient } from "service/Auth";
 import InputBox from "component/common/InputBox/InputBox";
 import DropDown from "component/common/DropDown/DropDown";
 import TableComp from "component/common/TableComp/TableComp";
 const ClientsFamily = () => {
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [data, setData] = useState([
-    {
-      clientId: "51322",
+  const [data, setData] = useState([]);
+ 
 
-      clientName: "Adrienne_Sauer",
-      emailId: "Rowland_Nader@gmail.com",
-      dateOfBirth: " Mar 20 1990",
-
-      relativeName: "Maggie Metz",
-      relationship: "married",
-    },
-    {
-      clientId: "51322",
-
-      clientName: "Ettie.OReilly97",
-      emailId: "Rowland_Nader@gmail.com",
-      dateOfBirth: "Mar 20 1990",
-
-      relativeName: "Maggie",
-      relationship: "married",
-    },
-    {
-      clientId: "51322",
-
-      clientName: "Adrienne_Sauer",
-      emailId: "Rowland_Nader@gmail.com",
-      dateOfBirth: "Mar 20 1990",
-
-      relativeName: " Metz",
-      relationship: "married",
-    },
-    {
-      clientId: "51322",
-
-      clientName: "Carlie_Conn",
-      emailId: "Rowland_Nader@gmail.com",
-      dateOfBirth: " Mar 20 1990",
-
-      relativeName: "Rosie West",
-      relationship: "married",
-    },
-    {
-      clientId: "51322",
-
-      clientName: "Adrienne_Sauer",
-      emailId: "Rowland_Nader@gmail.com",
-      dateOfBirth: "Mar 20 1990",
-
-      relativeName: "Rosie ",
-      relationship: "married",
-    },
-  ]);
   const includedKeys = [
     {
       label: "Client Id",
@@ -69,7 +22,7 @@ const ClientsFamily = () => {
     },
     {
       label: "Email Id",
-      value: "emailId",
+      value: "email",
     },
     {
       label: "Date of Birth",
@@ -81,12 +34,32 @@ const ClientsFamily = () => {
     },
     {
       label: "Relationship",
-      value: "relationship",
+      value: "relationShip",
     },
   ];
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+const getClientList = async () => {
+    try {
+      let params = {
+        page: currentPage,
+        limit: 10,
+        search: "",
+      };
+      let response = await getClient(params);
+      if (response.status === 200) {
+        console.log("response", response?.data?.data);
+        setData(response?.data?.data?.list);
+        setPageCount(response?.data?.data?.pageMeta?.pageCount);
+        setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
+      }
+    } catch (err) {}
+  };
+  useEffect(() => {
+    getClientList();
+  }, []);
+  
 
   return (
     <div className="px-5 py-3 clients_family">

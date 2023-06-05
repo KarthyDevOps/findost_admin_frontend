@@ -67,6 +67,7 @@ const ProductManagementComp = () => {
   useEffect(() => {
     getProductsList();
   }, []);
+  
 
   const handleOpenModal = (id) => {
     setModalVisible({

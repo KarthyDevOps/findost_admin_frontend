@@ -6,30 +6,117 @@ import FormErrorMessage from "component/common/ErrorMessage";
 import DropDown from "component/common/DropDown/DropDown";
 import { useForm } from "react-hook-form";
 import InputBox from "component/common/InputBox/InputBox";
-import DatePick from "component/common/DatePicker";
+import { editClient, updateClient } from "service/Auth";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
 import CustomController from "component/common/Controller";
+import { Toast } from "service/toast";
+
 const EditClientsFamilyComp = () => {
-  const { register, handleSubmit, errors, reset, setError, control } = useForm({
+  const {
+    register,
+    handleSubmit,
+    errors,
+    setValue,
+    reset,
+    setError,
+    control,
+    getValues,
+  } = useForm({
     mode: "onChange",
   });
-  const [date, setdate] = useState("");
-  const onSubmit = () => {};
+  const [modal, setModal] = useState(false);
+
+  const [ClientDetails, setClientDetails] = useState({
+    relationShip: "",
+  });
+
   const options = [
     {
-      label: "ONE",
-      value: "one",
+      label: "Software Enginerr",
+      value: "Software enginerr",
     },
     {
-      label: "TWO",
-      value: "two",
+      label: "Enginerr",
+      value: "enginerr",
     },
     {
-      label: "THREE",
-      value: "three",
+      label: "Software",
+      value: "Software ",
     },
   ];
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get("Editid");
+
+  useEffect(() => {
+    setValue(
+      "relationShip",
+      options.find((option) => option.value === ClientDetails.relationShip)
+    );
+  }, [ClientDetails, setValue]);
+
+  const getClientDetails = async () => {
+    try {
+      const params = {
+        id: id,
+      };
+      console.log("first");
+      let response = await editClient(params);
+
+      if (response.status === 200) {
+        const data = response?.data.data;
+        console.log('datadateOfBirth', data.dateOfBirth)
+        reset({
+          clientName: data?.clientName,
+          email: data?.email,
+          relativeName: data?.relativeName,
+          dateOfBirth: new Date(data?.dateOfBirth),
+        });
+        setClientDetails({
+          relationShip: data.relationShip,
+        });
+      } else {
+        Toast({ type: "error", message: response.data.message });
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
+  };
+
+  useEffect(() => {
+    if (urlParams.has("Editid")) {
+      // setEdit(true);
+
+      getClientDetails();
+    }
+  }, []);
+  const onSubmit = async (data) => {
+    setModal(true);
+    try {
+      let body = {
+        clientName: data?.clientName,
+        email: data?.email,
+        relativeName: data?.relativeName,
+        dateOfBirth: data?.dateOfBirth,
+        relationShip: ClientDetails.relationShip,
+      };
+
+      let response = await updateClient(body, id);
+      if (response.status === 200) {
+        setModal(true);
+        const timeout = setTimeout(() => {
+          setModal(false);
+          reset(ClientDetails);
+          history.push("/admin/clients-family");
+        }, 1000);
+        return () => clearTimeout(timeout);
+      } else {
+        Toast({ type: "error", message: response.data.message });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <div className="px-5 py-3">
@@ -52,21 +139,14 @@ const EditClientsFamilyComp = () => {
                 className="add_staff"
                 type={"text"}
                 placeholder="Enter Client Name"
-                //   errors={errors}
-                name="name"
+                name="clientName"
                 errors={errors}
                 register={register({
                   required: true,
                 })}
-
-                //   value={searchStaff}
-                // onChange={(e) => {
-                //   setsearch(e.target.value);
-                //   setactivePage(1);
-                // }}
               />
               <FormErrorMessage
-                error={errors.name}
+                error={errors.clientName}
                 messages={{
                   required: "Client Name is required",
                 }}
@@ -85,12 +165,6 @@ const EditClientsFamilyComp = () => {
                   required: true,
                   pattern: /\S+@\S+\.\S+/,
                 })}
-
-                //   value={searchStaff}
-                // onChange={(e) => {
-                //   setsearch(e.target.value);
-                //   setactivePage(1);
-                // }}
               />
               <FormErrorMessage
                 error={errors.email}
@@ -104,9 +178,10 @@ const EditClientsFamilyComp = () => {
               <label>Date of Birth</label>
               <div className="date_of_birth">
                 <CustomController
-                  name={"endDate"}
+                  name={"dateOfBirth"}
                   control={control}
-                  error={errors.endDate}
+                  error={errors.dateOfBirth}
+                  defaultValue={getValues("dateOfBirth" || "")}
                   rules={{ required: true }}
                   messages={{
                     required: "DOB is Required",
@@ -114,9 +189,12 @@ const EditClientsFamilyComp = () => {
                   render={({ onChange, ...field }) => {
                     return (
                       <CommonDatePicker
-                        value={date}
+                        name="dateOfBirth"
+                        {...field}
+                        onChange={(date) => {
+                          onChange(date);
+                        }}
                         placeholder="DOB"
-                        onChange={(data) => onChange(() => setdate(data))}
                       />
                     );
                   }}
@@ -129,21 +207,14 @@ const EditClientsFamilyComp = () => {
                 className="add_staff"
                 type={"text"}
                 placeholder="Enter Relative Name"
-                //   errors={errors}
-                name="relativename"
+                name="relativeName"
                 errors={errors}
                 register={register({
                   required: true,
                 })}
-
-                //   value={searchStaff}
-                // onChange={(e) => {
-                //   setsearch(e.target.value);
-                //   setactivePage(1);
-                // }}
               />
               <FormErrorMessage
-                error={errors.relativename}
+                error={errors.relativeName}
                 messages={{
                   required: "Relative Name is required",
                 }}
@@ -152,21 +223,28 @@ const EditClientsFamilyComp = () => {
             <div className="col-md-4 my-3">
               <label>Relationship</label>
               <CustomController
-                name={"select"}
+                name={"relationShip"}
                 control={control}
-                error={errors.select}
-                // defaultValue={role}
+                error={errors.relationShip}
+                value={options.find(
+                  (option) => option.value === getValues("relationShip")
+                )}
                 rules={{ required: true }}
                 messages={{ required: "Select RelationShip is Required" }}
                 render={({ onChange, ...field }) => {
                   return (
                     <DropDown
-                      // value={value}
-                      name="select"
+                      {...field}
+                      name="relationShip"
+                      error={errors.relationShip}
                       placeholder="Select RelationShip"
-                      value={options.value}
                       options={options}
-                      onChange={(option) => onChange(option.value)}
+                      onChange={(option) => {
+                        setClientDetails((prevState) => ({
+                          ...prevState,
+                          relationShip: option.value,
+                        }));
+                      }}
                     />
                   );
                 }}

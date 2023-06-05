@@ -1,11 +1,11 @@
-import React from 'react'
-import ContentManagementComp from 'component/Dashboard/ContentManagement'
+import React from "react";
+import ContentManagementComp from "component/Dashboard/ContentManagement";
 const ContentManagement = () => {
   return (
     <div>
-        <ContentManagementComp/>
+      <ContentManagementComp />
     </div>
-  )
-}
+  );
+};
 
 export default ContentManagement;

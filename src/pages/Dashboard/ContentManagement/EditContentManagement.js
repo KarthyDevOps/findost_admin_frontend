@@ -1,6 +1,6 @@
 import React from "react";
 import EditContentManagementComp from "component/Dashboard/ContentManagement/EditContentManagementcomp/EditContentManagementComp";
-const AddFeedback = () => {
+const EditContentManagement = () => {
   return (
     <div>
       <EditContentManagementComp />
@@ -8,4 +8,4 @@ const AddFeedback = () => {
   );
 };
 
-export default AddFeedback;
+export default EditContentManagement;
