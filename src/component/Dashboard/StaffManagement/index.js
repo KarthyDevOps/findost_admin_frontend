@@ -51,7 +51,7 @@ const StaffManagementComp = () => {
     },
   ];
 
-  const getStaffList = async (page) => {
+  const getStaffListApi = async (page) => {
     let params = {
       page: page,
       limit: 10,
@@ -66,12 +66,12 @@ const StaffManagementComp = () => {
     }
   };
   useEffect(() => {
-    getStaffList(currentPage);
+    getStaffListApi(currentPage);
   }, []);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    getStaffList(page);
+    getStaffListApi(page);
   };
 
   const handleOpenModal = (id) => {
@@ -89,7 +89,7 @@ const StaffManagementComp = () => {
       let response = await deleteStaff(params);
       if (response.status === 200) {
         Toast({ type: "success", message: response.data.message });
-        getStaffList(currentPage);
+        getStaffListApi(currentPage);
       }
     }
     setModalVisible({ show: false, id: null });
