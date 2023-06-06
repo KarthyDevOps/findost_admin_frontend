@@ -12,14 +12,13 @@ import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker
 import CustomController from "component/common/Controller";
 import { Toast } from "service/toast";
 
-const EditClientsFamilyComp = () => {
+const EditClientsFamilyComp = ({ edit, view }) => {
   const {
     register,
     handleSubmit,
     errors,
     setValue,
     reset,
-    setError,
     control,
     getValues,
   } = useForm({
@@ -57,9 +56,8 @@ const EditClientsFamilyComp = () => {
 
   const getClientDetails = async () => {
     try {
-      const params = {
-        id: id,
-      };
+      if (!view) return history.goBack();
+      const params = { id };
       console.log("first");
       let response = await getClient(params);
 
@@ -90,6 +88,7 @@ const EditClientsFamilyComp = () => {
       getClientDetails();
     }
   }, []);
+
   const onSubmit = async (data) => {
     setModal(true);
     try {
@@ -259,14 +258,14 @@ const EditClientsFamilyComp = () => {
                 onClick={() => history.goBack()}
               />
             </div>
-            <div className="col-md-2">
+            {edit && <div className="col-md-2">
               <NormalButton
                 className="loginButton"
                 label={"Update"}
                 onClick={handleSubmit(onSubmit)}
-                //   onClick={DeletBulk}
+              //   onClick={DeletBulk}
               />
-            </div>
+            </div>}
           </div>
         </div>
       </form>

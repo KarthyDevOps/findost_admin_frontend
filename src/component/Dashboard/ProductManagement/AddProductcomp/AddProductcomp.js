@@ -15,7 +15,7 @@ import { Toast } from "service/toast";
 import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
 import { useLocation } from "react-router-dom";
 
-const AddProductcomp = () => {
+const AddProductcomp = ({ create, view, remove }) => {
   const {
     register,
     handleSubmit,

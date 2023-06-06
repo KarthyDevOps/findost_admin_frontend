@@ -6,7 +6,8 @@ import { useForm } from "react-hook-form";
 import TextEditor from "component/common/TextEditor/TextEditor";
 import { history } from "helpers";
 import NormalButton from "component/common/NormalButton/NormalButton";
-const AnswerFeedbackcomp = () => {
+
+const AnswerFeedbackcomp = ({ create, view, edit, remove }) => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
   });

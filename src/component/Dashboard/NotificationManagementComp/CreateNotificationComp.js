@@ -16,7 +16,7 @@ import {
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import { Toast } from "service/toast";
 
-const CreateNotificationComp = () => {
+const CreateNotificationComp = ({ create, view, remove }) => {
   const {
     register,
     handleSubmit,

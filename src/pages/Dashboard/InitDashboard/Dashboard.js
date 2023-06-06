@@ -1,33 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Redirect } from 'react-router-dom';
-import { navLink } from 'helpers';
+import { checkAndReturnViewableComponent } from 'helpers';
 
 import DashboardComp from "component/Dashboard/DashboardComp";
 
-const Dashboard = ({ privilegesData: { dashboard, ...arg } = {} }) => {
+const Dashboard = ({ privilegesData = {} }) => {
+  const { dashboard = {} } = privilegesData || {};
 
-  console.log("dashhh ", dashboard)
-  // if (!dashboard?.view) {
-  //   let data = { dashboard, ...arg };
-
-  //   const viewData = Object.keys(data).filter(item => {
-  //     const { view = false } = data[item] ?? {};
-  //     if (view) return true;
-  //     return false;
-  //   });
-
-  //   if (viewData?.length > 0) {
-  //     const redirectData = navLink.find(o => o.privilegesName === viewData[0]);
-  //     if (redirectData) {
-  //       return <Redirect to={redirectData.to} />;
-  //     }
-  //   }
-  //   return null;
-  // }
+  useEffect(() => {
+    const redirectTo = checkAndReturnViewableComponent(privilegesData, dashboard);
+    if (redirectTo) {
+      console.log("toto", redirectTo)
+      // return <Redirect to={redirectData.to} />;
+    }
+  }, [])
 
   return (
     <div>
-      <DashboardComp />
+      <DashboardComp {...dashboard} />
     </div>
   );
 };

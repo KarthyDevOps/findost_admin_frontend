@@ -1,9 +1,21 @@
-import CreateNotificationComp from 'component/Dashboard/NotificationManagementComp/CreateNotificationComp'
-import React from 'react'
+import React, { useEffect } from 'react';
+import CreateNotificationComp from 'component/Dashboard/NotificationManagementComp/CreateNotificationComp';
+import { Redirect } from 'react-router-dom';
+import { checkAndReturnViewableComponent } from 'helpers';
 
-const CreateNotification = () => {
+const CreateNotification = ({ privilegesData = {} }) => {
+  const { notificationManagement = {} } = privilegesData || {};
+
+  useEffect(() => {
+    const redirectTo = checkAndReturnViewableComponent(privilegesData, notificationManagement);
+    if (redirectTo) {
+      console.log("toto", redirectTo)
+      // return <Redirect to={redirectData.to} />;
+    }
+  }, []);
+
   return (
-    <div><CreateNotificationComp/></div>
+    <div><CreateNotificationComp {...notificationManagement} /></div>
   )
 }
 

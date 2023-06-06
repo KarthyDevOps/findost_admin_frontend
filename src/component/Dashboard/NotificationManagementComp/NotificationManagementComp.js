@@ -14,7 +14,7 @@ import {
 } from "service/Communication";
 import { Toast } from "service/toast";
 
-const NotificationManagementComp = () => {
+const NotificationManagementComp = ({ create, view, edit, remove }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [search, setSearch] = useState("");
   const [templatedata, setTemplateData] = useState();
@@ -34,15 +34,6 @@ const NotificationManagementComp = () => {
   var url = new URL(document.URL);
   const params = url.searchParams;
   const tabValue = +params.get("tab") ?? 0;
-
-  useEffect(() => {
-    handleTab(tabValue);
-    if (tabValue === 1) {
-      getHistoryList(currentPage);
-    } else {
-      getTemplateList(currentPage);
-    }
-  }, [tabValue]);
 
   const templateKeys = [
     {
@@ -85,15 +76,6 @@ const NotificationManagementComp = () => {
       value: "description",
     },
   ];
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-    if (activeTab === 0) {
-      getHistoryList(page);
-    } else {
-      getHistoryList(page);
-    }
-  };
 
   const getTemplateList = async (page) => {
     let params = {
@@ -156,6 +138,24 @@ const NotificationManagementComp = () => {
     setModalVisible({ show: false, id: null });
   };
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    if (activeTab === 0) {
+      getHistoryList(page);
+    } else {
+      getHistoryList(page);
+    }
+  };
+
+  useEffect(() => {
+    handleTab(tabValue);
+    if (tabValue === 1) {
+      getHistoryList(currentPage);
+    } else {
+      getTemplateList(currentPage);
+    }
+  }, [tabValue]);
+
   return (
     <div className="notification_container px-5">
       <p className="m-0 pt-3">Notification Management</p>
@@ -194,14 +194,14 @@ const NotificationManagementComp = () => {
                 Iconic
                 Search
                 value={search}
-                // onChange={(e) => {
-                //   setsearch(e.target.value);
-                //   setactivePage(1);
-                // }}
+              // onChange={(e) => {
+              //   setsearch(e.target.value);
+              //   setactivePage(1);
+              // }}
               />
             </div>
             <div className="col-md-7 p-0"></div>
-            <div className="col-md-2 m-0">
+            {create && <div className="col-md-2 m-0">
               <NormalButton
                 className="loginButton"
                 label={"Create Notification"}
@@ -212,7 +212,7 @@ const NotificationManagementComp = () => {
                   );
                 }}
               />
-            </div>
+            </div>}
           </div>
         </>
       ) : (
@@ -227,14 +227,14 @@ const NotificationManagementComp = () => {
                 Iconic
                 Search
                 value={search}
-                // onChange={(e) => {
-                //   setsearch(e.target.value);
-                //   setactivePage(1);
-                // }}
+              // onChange={(e) => {
+              //   setsearch(e.target.value);
+              //   setactivePage(1);
+              // }}
               />
             </div>
             <div className="col-md-7"></div>
-            <div className="col-md-2 m-0">
+            {create && <div className="col-md-2 m-0">
               <NormalButton
                 className="loginButton"
                 label={"Send Notification"}
@@ -245,7 +245,7 @@ const NotificationManagementComp = () => {
                   );
                 }}
               />
-            </div>
+            </div>}
           </div>
         </>
       )}
@@ -254,8 +254,8 @@ const NotificationManagementComp = () => {
           <TableComp
             data={templatedata}
             isCheck={true}
-            EditAction={true}
-            DeleteAction={true}
+            EditAction={edit}
+            DeleteAction={remove}
             includedKeys={templateKeys}
             pageCount={pageCount}
             onPageChange={handlePageChange}
@@ -269,8 +269,8 @@ const NotificationManagementComp = () => {
           <TableComp
             data={historydata}
             isCheck={true}
-            EditAction={false}
-            DeleteAction={false}
+            EditAction={edit}
+            DeleteAction={remove}
             includedKeys={historyKeys}
             pageCount={pageCount}
             onPageChange={handlePageChange}

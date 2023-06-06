@@ -1,10 +1,21 @@
+import React, { useEffect } from "react";
 import FeedbackManagementComp from "component/Dashboard/FeedbackManagement";
-import React from "react";
+import { Redirect } from 'react-router-dom';
+import { checkAndReturnViewableComponent } from 'helpers';
 
-const FeedbackManagement = () => {
+const FeedbackManagement = ({ privilegesData = {} }) => {
+  const { feedbackManagement = {} } = privilegesData || {};
+
+  useEffect(() => {
+    const redirectTo = checkAndReturnViewableComponent(privilegesData, feedbackManagement);
+    if (redirectTo) {
+      console.log("toto", redirectTo)
+      // return <Redirect to={redirectData.to} />;
+    }
+  }, []);
   return (
     <div>
-      <FeedbackManagementComp />
+      <FeedbackManagementComp {...feedbackManagement} />
     </div>
   );
 };

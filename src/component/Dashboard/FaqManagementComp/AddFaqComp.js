@@ -13,7 +13,7 @@ import FormErrorMessage from "component/common/ErrorMessage";
 import { Toast } from "service/toast";
 import { addFAQ, getFAQ, updateFAQ } from "service/Cms";
 
-const AddFaqComp = () => {
+const AddFaqComp = ({ create, view, remove }) => {
   const {
     register,
     handleSubmit,
@@ -192,14 +192,14 @@ const AddFaqComp = () => {
               <NormalButton
                 className="authButton1"
                 label={"Download Sample"}
-                //   onClick={DeletBulk}
+              //   onClick={DeletBulk}
               />
             </div>
             <div className="">
               <NormalButton
                 className="loginButton"
                 label={"Upload CSV"}
-                //   onClick={DeletBulk}
+              //   onClick={DeletBulk}
               />
             </div>
           </div>
@@ -353,7 +353,7 @@ const AddFaqComp = () => {
                 className="loginButton"
                 onClick={handleSubmit(onSubmit)}
                 label={edit ? "Update" : "Add FAQ"}
-                //   onClick={DeletBulk}
+              //   onClick={DeletBulk}
               />
             </div>
           </div>

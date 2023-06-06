@@ -14,7 +14,7 @@ import { addNotificationHistory } from "service/Communication";
 import { Toast } from "service/toast";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 
-const SendNotificationComp = () => {
+const SendNotificationComp = ({ create, view, edit, remove }) => {
   const {
     register,
     handleSubmit,
@@ -50,14 +50,14 @@ const SendNotificationComp = () => {
       const body = {
         title: data.title,
         description: data.content,
-        userId : data.users.map(user => user.value),
+        userId: data.users.map(user => user.value),
       };
       let response = await addNotificationHistory(body);
       if (response.status === 200) {
         setModal(true);
         const timeout = setTimeout(() => {
           setModal(false);
-          reset({ title: "", content: "", users : [] });
+          reset({ title: "", content: "", users: [] });
           // history.push("/admin/notification-management?tab=1");
         }, 1000);
         return () => clearTimeout(timeout);

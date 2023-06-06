@@ -37,25 +37,35 @@ function Sidebar({ classes, window, privilegesData }) {
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
   const {
-    dashboard,
-    patientManagement,
+    contentManagement,
+    faqManagement,
+    feedbackManagement,
+    knowledgeCenterManagement,
+    mastersManagement,
+    notificationManagement,
+    productManagement,
+    siteSettings,
+    staffManagement,
+    templateManagement
   } = privilegesData ?? {};
 
   const location = useLocation();
   const drawer = (
     <div>
-      {/* <div className={classes.toolbar}>
-        <div className="bg-white text-start p-3 pl-5">
-          <img src={findostLogo} alt="logo" style={{ width: "30%" }}></img>
-        </div>
-      </div> */}
       <List className={classes.nav} style={{ textDecoration: "none" }}>
         {React.Children.toArray(
           navLink.map(
             ({ to, label, iconName, inactiveIcon, nestedChild }, index) => {
-              console.log("toooooo", { dashboard, patientManagement, to })
-              // if (!dashboard?.view && to === "/admin/dashboard") return;
-              // if (!patientManagement?.view && to?.includes("/admin/patient-management")) return;
+              if (!staffManagement?.view && to?.startsWith("/admin/staff-management")) return;
+              if (!productManagement?.view && to?.startsWith("/admin/product-management")) return;
+              if (!feedbackManagement?.view && to?.startsWith("/admin/feedBack-management")) return;
+              if (!notificationManagement?.view && to?.startsWith("/admin/notification-management")) return;
+              if (!contentManagement?.view && to?.startsWith("/admin/content-management")) return;
+              if (!templateManagement?.view && to?.startsWith("/admin/template-management")) return;
+              if (!faqManagement?.view && to?.startsWith("/admin/faq-management")) return;
+              if (!knowledgeCenterManagement?.view && to?.startsWith("/admin/knowledge-center")) return;
+              if (!siteSettings?.view && to?.startsWith("/admin/site-settings")) return;
+              if (!mastersManagement?.view && to?.startsWith("/admin/clients-family")) return;
 
               return (
                 <>

@@ -13,7 +13,7 @@ import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import CustomController from "component/common/Controller";
 import { Toast } from "service/toast";
 
-const AddTempleteManagementcomp = () => {
+const AddTempleteManagementcomp = ({ create, view, remove }) => {
   const {
     register,
     handleSubmit,

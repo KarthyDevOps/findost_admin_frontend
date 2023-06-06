@@ -12,7 +12,8 @@ import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import DropDown from "component/common/DropDown/DropDown";
 import { Toast } from "service/toast";
-const EditContentManagementComp = () => {
+
+const EditContentManagementComp = ({ create, view, remove }) => {
   const {
     register,
     handleSubmit,

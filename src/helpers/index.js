@@ -275,7 +275,7 @@ export const navLink = [
     label: "Feedback Management",
     iconName: Feed_a,
     inactiveIcon: feedBackMt,
-    privilegesName: "feedBackManagement",
+    privilegesName: "feedbackManagement",
   },
   {
     to: "/admin/notification-management",
@@ -310,14 +310,14 @@ export const navLink = [
     label: "Knowledge Center",
     iconName: Kc_a,
     inactiveIcon: knowledgeCenter,
-    privilegesName: "knowledgeCenter",
+    privilegesName: "knowledgeCenterManagement",
   },
   {
     to: "/admin/clients-family",
     label: "Client's Family",
     iconName: Client_a,
     inactiveIcon: clientFamily,
-    privilegesName: "clientsFamily",
+    privilegesName: "mastersManagement",
   },
   {
     to: "/admin/site-settings",
@@ -327,3 +327,17 @@ export const navLink = [
     privilegesName: "siteSettings",
   },
 ];
+
+export const getCompNameByPrivelegeName = name => navLink?.find(a => a?.privilegesName === name)?.label || name;
+
+export const checkAndReturnViewableComponent = (previleges, checkablePrevilege) => {
+  if (!checkablePrevilege?.view) {
+    console.log("previleges - ", { previleges, checkablePrevilege })
+    const nextViewableCompKey = Object?.entries(previleges)?.flatMap?.(([k, v]) => v?.view ? [k] : [])?.[0];
+    if (nextViewableCompKey) {
+      return navLink?.find(a => a?.privilegesName == nextViewableCompKey);
+    } else {
+      // Redirect to 404;
+    }
+  }
+}

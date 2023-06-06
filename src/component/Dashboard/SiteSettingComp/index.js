@@ -13,7 +13,7 @@ import { getSiteSetting, updateSiteSetting } from "service/Cms";
 import { Toast } from "service/toast";
 import Loader from "component/common/Loader/index";
 
-const SiteSettingComp = () => {
+const SiteSettingComp = ({ create, view, edit, remove }) => {
   const { register, handleSubmit, errors, control, reset, setError } = useForm({
     mode: "onChange",
   });
@@ -23,7 +23,6 @@ const SiteSettingComp = () => {
   const [ProfileUrl, setprofileUrl] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const [edit, setEdit] = useState(false);
   console.log("ProfileUrl", ProfileUrl);
   const handleFileDrop = async (droppedimage) => {
     // let body = new FormData();

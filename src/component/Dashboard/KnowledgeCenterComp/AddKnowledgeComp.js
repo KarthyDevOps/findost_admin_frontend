@@ -11,7 +11,8 @@ import Dropzone from "component/common/Dropzone";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import FormErrorMessage from "component/common/ErrorMessage";
 import CustomController from "component/common/Controller";
-const AddKnowledgeComp = () => {
+
+const AddKnowledgeComp = ({ create, view, remove }) => {
   const { register, handleSubmit, errors, reset, setError, control } = useForm({
     mode: "onChange",
   });
@@ -72,11 +73,11 @@ const AddKnowledgeComp = () => {
                 register={register({
                   required: true,
                 })}
-                //   value={searchStaff}
-                // onChange={(e) => {
-                //   setsearch(e.target.value);
-                //   setactivePage(1);
-                // }}
+              //   value={searchStaff}
+              // onChange={(e) => {
+              //   setsearch(e.target.value);
+              //   setactivePage(1);
+              // }}
               />
               <FormErrorMessage
                 error={errors.title}
@@ -226,7 +227,7 @@ const AddKnowledgeComp = () => {
                 className="loginButton"
                 onClick={handleSubmit(onSubmit)}
                 label={edit ? "Update" : "Add Content"}
-                //   onClick={DeletBulk}
+              //   onClick={DeletBulk}
               />
             </div>
           </div>
