@@ -11,6 +11,7 @@ import "./style.scss";
 import { getProductList, deleteProduct } from "../../../service/Cms";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import { Toast } from "service/toast";
+import { history } from "helpers";
 
 const ProductManagementComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
@@ -67,7 +68,6 @@ const ProductManagementComp = () => {
   useEffect(() => {
     getProductsList();
   }, []);
-  
 
   const handleOpenModal = (id) => {
     setModalVisible({
@@ -117,13 +117,14 @@ const ProductManagementComp = () => {
             </div>
           </div>
           <div className="col-md-2 col-12 p-0 m-0">
-            <Link to="/admin/product-management/add-product">
-              <NormalButton
-                className="loginButton"
-                label={"Add Product"}
-                //   onClick={DeletBulk}
-              />
-            </Link>
+            <NormalButton
+              className="loginButton"
+              label={"Add Product"}
+              onClick={() => {
+                localStorage.removeItem("editId");
+                history.push("/admin/product-management/add-product");
+              }}
+            />
           </div>
         </div>
         <div className="">

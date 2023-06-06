@@ -66,7 +66,7 @@ function TableComp(props) {
       )}
       {!loading && (
         <>
-          {data.length === 0 ? (
+          {!data ? (
             <p>No data available</p>
           ) : (
             <>
@@ -109,7 +109,6 @@ function TableComp(props) {
                             <input type="checkbox" className="mt-2 check_box" />
                           </td>
                         )}
-
                         {includedKeys.map((item) => {
                           const key = item.value;
                           // status keys color change
@@ -128,17 +127,21 @@ function TableComp(props) {
                                   </span>
                                 </td>
                               );
+                              // for id
+                            } else if (statusKey.includes("id")) {
+                              return <td key={key}>{value}</td>;
                               // date and time formatter
-                            } else if (statusKey.includes("date")) {
-                              const isDateValid = moment(
+                            } else if (
+                              moment(
                                 value,
-                                moment.ISO_8601
-                              ).isValid();
-                              const formattedValue = isDateValid
-                                ? moment(value).format("MMM DD YYYY hh:mm a")
-                                : value;
-
-                              return <td key={key}>{formattedValue}</td>;
+                                "YYYY-MM-DDTHH:mm:ss.SSSZ"
+                              ).isValid()
+                            ) {
+                              return (
+                                <td key={key}>
+                                  {moment(value).format("MMM DD YYYY hh:mm a")}
+                                </td>
+                              );
                               // for HTML tags
                             } else if (
                               typeof value === "string" &&
@@ -179,11 +182,11 @@ function TableComp(props) {
                               src={editIcon}
                               alt="Edit"
                               style={{ color: "#B4B4B4", cursor: "pointer" }}
-                              onClick={() =>
-                                history.push(
-                                  `${editRouteName}?Editid=${obj._id}`
-                                )
-                              }
+                              onClick={() => {
+                                localStorage.removeItem("editId");
+                                localStorage.setItem("editId", obj._id);
+                                history.push(`${editRouteName}`);
+                              }}
                             />
                           </td>
                         )}

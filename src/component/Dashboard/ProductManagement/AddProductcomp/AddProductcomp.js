@@ -13,6 +13,7 @@ import TextEditor from "component/common/TextEditor/TextEditor";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import { Toast } from "service/toast";
 import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
+import { useLocation } from "react-router-dom";
 
 const AddProductcomp = () => {
   const {
@@ -45,12 +46,10 @@ const AddProductcomp = () => {
       value: "option3",
     },
   ];
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const id = urlParams.get("Editid");
+  const id = localStorage.getItem("editId");
 
   useEffect(() => {
-    if (urlParams.has("Editid")) {
+    if (id) {
       setEdit(true);
       getProductDetails();
     }
@@ -412,7 +411,7 @@ const AddProductcomp = () => {
                   <div className="col-2">
                     <NormalButton
                       addProductbtn
-                      label="Add Product"
+                      label={edit ? "Update" : "Add Product"}
                       onClick={handleSubmit(onsubmit)}
                     />
                   </div>

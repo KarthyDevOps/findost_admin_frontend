@@ -71,11 +71,10 @@ const AddStaff = () => {
     },
   ];
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const id = urlParams.get("Editid");
+  const id = localStorage.getItem("editId");
 
   useEffect(() => {
-    if (urlParams.has("Editid")) {
+    if (id) {
       setEdit(true);
       getStaffDetails();
     }
