@@ -7,7 +7,7 @@ import { history } from "helpers";
 import CustomController from "component/common/Controller";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import FormErrorMessage from "component/common/ErrorMessage";
-import { addProduct, updateProduct, editProduct } from "service/Cms";
+import { addProduct, updateProduct, getProduct } from "service/Cms";
 import NormalMultiSelect from "component/common/NormalMultiSelect";
 import TextEditor from "component/common/TextEditor/TextEditor";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
@@ -60,7 +60,7 @@ const AddProductcomp = () => {
       const params = {
         productId: id,
       };
-      let response = await editProduct(params);
+      let response = await getProduct(params);
       if (response.status === 200) {
         const data = response?.data?.data;
         reset({

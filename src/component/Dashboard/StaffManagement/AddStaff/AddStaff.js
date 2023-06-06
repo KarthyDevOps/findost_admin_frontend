@@ -9,7 +9,7 @@ import { history } from "helpers";
 import DropDown from "component/common/DropDown/DropDown";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import CustomController from "component/common/Controller";
-import { addStaff, editStaff, updateStaff } from "service/Auth";
+import { addStaff, getStaff, updateStaff } from "service/Auth";
 import { Toast } from "service/toast";
 
 const AddStaff = () => {
@@ -105,7 +105,7 @@ const AddStaff = () => {
       const params = {
         id: id,
       };
-      let response = await editStaff(params);
+      let response = await getStaff(params);
       if (response.status === 200) {
         const data = response?.data.data[0];
         setValue("name", data.name);

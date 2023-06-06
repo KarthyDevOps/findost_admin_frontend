@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
 import { Toast } from "service/toast";
-import { getClient } from "service/Auth";
+import { getClientList } from "service/Auth";
 import InputBox from "component/common/InputBox/InputBox";
 import DropDown from "component/common/DropDown/DropDown";
 import TableComp from "component/common/TableComp/TableComp";
@@ -46,7 +46,7 @@ const ClientsFamily = () => {
         limit: 10,
         search: "",
       };
-      let response = await getClient(params);
+      let response = await getClientList(params);
       if (response.status === 200) {
         console.log("response", response?.data?.data);
         setData(response?.data?.data?.list);

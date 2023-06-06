@@ -11,7 +11,7 @@ import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import CustomController from "component/common/Controller";
 import FormErrorMessage from "component/common/ErrorMessage";
 import { Toast } from "service/toast";
-import { addFAQ, editFAQ, updateFAQ } from "service/Cms";
+import { addFAQ, getFAQ, updateFAQ } from "service/Cms";
 
 const AddFaqComp = () => {
   const {
@@ -86,7 +86,7 @@ const AddFaqComp = () => {
       const params = {
         faqId: id,
       };
-      let response = await editFAQ(params);
+      let response = await getFAQ(params);
       if (response.status === 200) {
         const data = response?.data.data;
         reset({

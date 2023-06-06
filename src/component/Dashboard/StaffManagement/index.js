@@ -7,7 +7,7 @@ import "./style.scss";
 import { history } from "helpers";
 import { BsSearch } from "react-icons/bs";
 import DropDown from "component/common/DropDown/DropDown";
-import { getStaff, deleteStaff } from "service/Auth";
+import { getStaffList, deleteStaff } from "service/Auth";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import { Toast } from "service/toast";
 import { useLocation } from "react-router-dom";
@@ -57,7 +57,7 @@ const StaffManagementComp = () => {
       limit: 10,
       search: "",
     };
-    let response = await getStaff(params);
+    let response = await getStaffList(params);
     if (response.status === 200) {
       setIsactive(response?.data?.data?.list[0].isactive);
       setData(response?.data?.data?.list);
