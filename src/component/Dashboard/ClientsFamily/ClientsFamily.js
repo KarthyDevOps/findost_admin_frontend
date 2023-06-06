@@ -41,7 +41,7 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
     setCurrentPage(page);
   };
 
-  const getClientListData = async () => {
+  const getClientList = async () => {
     try {
       let params = {
         page: currentPage,
@@ -59,7 +59,7 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
   };
 
   useEffect(() => {
-    getClientListData();
+    getClientList();
   }, []);
 
   return (
