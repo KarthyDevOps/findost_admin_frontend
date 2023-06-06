@@ -7,7 +7,7 @@ import "./style.scss";
 import { history } from "helpers";
 import { BsSearch } from "react-icons/bs";
 import DropDown from "component/common/DropDown/DropDown";
-import { getStaff, deleteStaff } from "service/Auth";
+import { getStaffList, deleteStaff } from "service/Auth";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import { Toast } from "service/toast";
 import { useLocation } from "react-router-dom";
@@ -51,13 +51,13 @@ const StaffManagementComp = () => {
     },
   ];
 
-  const getStaffList = async (page) => {
+  const getStaffListApi = async (page) => {
     let params = {
       page: page,
       limit: 10,
       search: "",
     };
-    let response = await getStaff(params);
+    let response = await getStaffList(params);
     if (response.status === 200) {
       setIsactive(response?.data?.data?.list[0].isactive);
       setData(response?.data?.data?.list);
@@ -66,12 +66,12 @@ const StaffManagementComp = () => {
     }
   };
   useEffect(() => {
-    getStaffList(currentPage);
+    getStaffListApi(currentPage);
   }, []);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    getStaffList(page);
+    getStaffListApi(page);
   };
 
   const handleOpenModal = (id) => {
@@ -89,7 +89,7 @@ const StaffManagementComp = () => {
       let response = await deleteStaff(params);
       if (response.status === 200) {
         Toast({ type: "success", message: response.data.message });
-        getStaffList(currentPage);
+        getStaffListApi(currentPage);
       }
     }
     setModalVisible({ show: false, id: null });

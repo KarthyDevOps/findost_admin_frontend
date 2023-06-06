@@ -9,7 +9,7 @@ import FormErrorMessage from "component/common/ErrorMessage";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import CustomController from "component/common/Controller";
-import { editSiteSetting, updateSiteSetting } from "service/Cms";
+import { getSiteSetting, updateSiteSetting } from "service/Cms";
 import { Toast } from "service/toast";
 import Loader from "component/common/Loader/index";
 
@@ -43,7 +43,7 @@ const SiteSettingComp = () => {
       const params = {
         id: id,
       };
-      let response = await editSiteSetting(params);
+      let response = await getSiteSetting(params);
 
       if (response.status === 200) {
         const data = response?.data.data;

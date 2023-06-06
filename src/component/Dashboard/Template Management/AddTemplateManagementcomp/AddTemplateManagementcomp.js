@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import FormErrorMessage from "component/common/ErrorMessage";
 import TextEditor from "component/common/TextEditor/TextEditor";
 import { history } from "helpers";
-import { addTemplate, editTemplate, updateTemplate } from "service/Cms";
+import { addTemplate, getTemplate, updateTemplate } from "service/Cms";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import DropDown from "component/common/DropDown/DropDown";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
@@ -72,7 +72,7 @@ const AddTempleteManagementcomp = () => {
       const params = {
         templateId: templateId,
       };
-      let response = await editTemplate(params);
+      let response = await getTemplate(params);
 
       if (response.status === 200) {
         const data = response?.data.data;

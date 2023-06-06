@@ -6,7 +6,7 @@ import FormErrorMessage from "component/common/ErrorMessage";
 import DropDown from "component/common/DropDown/DropDown";
 import { useForm } from "react-hook-form";
 import InputBox from "component/common/InputBox/InputBox";
-import { editClient, updateClient } from "service/Auth";
+import { getClient, updateClient } from "service/Auth";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
 import CustomController from "component/common/Controller";
@@ -61,7 +61,7 @@ const EditClientsFamilyComp = () => {
         id: id,
       };
       console.log("first");
-      let response = await editClient(params);
+      let response = await getClient(params);
 
       if (response.status === 200) {
         const data = response?.data.data;

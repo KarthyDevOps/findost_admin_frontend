@@ -28,7 +28,7 @@ export const addNotificationTemplate = async (data) => {
   return request;
 };
 
-export const editNotificationTemplate = async (params) => {
+export const getNotificationTemplate = async (params) => {
   const request = await axios({
     method: "get",
     url: endpoints.communication.NOTIFICATION_TEMPLATE_GET,
@@ -89,7 +89,7 @@ export const addNotificationHistory = async (data) => {
   return request;
 };
 
-export const editNotificationHistory = async (params) => {
+export const getNotificationHistory = async (params) => {
   const request = await axios({
     method: "get",
     url: endpoints.communication.NOTIFICATION_HISTORY_GET,
