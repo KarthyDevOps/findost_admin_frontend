@@ -44,6 +44,8 @@ export const endpoints = {
     DELETE_PRODUCT: `${cms}/product-management/delete`,
     EDIT_PRODUCT: `${cms}/product-management/get`,
     UPDATE_PRODUCT: `${cms}/product-management/update`,
+    GET_SITE_SETTING:`${cms}/siteSettings-management/get`,
+    UPDATE_SITE_SETTING:`${cms}/siteSettings-management/update`,
   },
   communication: {
     NOTIFICATION_TEMPLATE_LIST: `${communicationUrl}/notificationTemplate-management/list`,
