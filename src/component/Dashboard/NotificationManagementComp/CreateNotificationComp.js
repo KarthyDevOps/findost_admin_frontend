@@ -73,7 +73,7 @@ const CreateNotificationComp = () => {
           const timeout = setTimeout(() => {
             setModal(false);
             reset({ title: "", content: "" });
-            history.push("/admin/notification-management");
+            history.push("/admin/notification-management?tab=0");
           }, 1000);
           return () => clearTimeout(timeout);
         } else {

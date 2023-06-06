@@ -10,6 +10,7 @@ import DropDown from "component/common/DropDown/DropDown";
 import { getStaff, deleteStaff } from "service/Auth";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import { Toast } from "service/toast";
+import { useLocation } from "react-router-dom";
 
 const StaffManagementComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
@@ -25,6 +26,7 @@ const StaffManagementComp = () => {
     id: null,
     show: false,
   });
+  const location = useLocation();
 
   const includedKeys = [
     {
@@ -49,9 +51,9 @@ const StaffManagementComp = () => {
     },
   ];
 
-  const getStaffList = async () => {
+  const getStaffList = async (page) => {
     let params = {
-      page: currentPage,
+      page: page,
       limit: 10,
       search: "",
     };
@@ -64,11 +66,12 @@ const StaffManagementComp = () => {
     }
   };
   useEffect(() => {
-    getStaffList();
+    getStaffList(currentPage);
   }, []);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    getStaffList(page);
   };
 
   const handleOpenModal = (id) => {
@@ -86,7 +89,7 @@ const StaffManagementComp = () => {
       let response = await deleteStaff(params);
       if (response.status === 200) {
         Toast({ type: "success", message: response.data.message });
-        getStaffList();
+        getStaffList(currentPage);
       }
     }
     setModalVisible({ show: false, id: null });
@@ -156,6 +159,7 @@ const StaffManagementComp = () => {
             includedKeys={includedKeys}
             pageCount={pageCount}
             onPageChange={handlePageChange}
+            currentPage={currentPage}
             setCurrentPage={setCurrentPage}
             editRouteName={"/admin/staff-management/add-staff"}
             handleOpenModal={handleOpenModal}
