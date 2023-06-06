@@ -46,6 +46,11 @@ export const endpoints = {
     UPDATE_PRODUCT: `${cms}/product-management/update`,
     GET_SITE_SETTING:`${cms}/siteSettings-management/get`,
     UPDATE_SITE_SETTING:`${cms}/siteSettings-management/update`,
+    LIST_KNOWLEDGE: `${cms}/knowledgeCenter-management/list`,
+    ADD_KNOWLEDGE: `${cms}/knowledgeCenter-management/create`,
+    EDIT_KNOWLEDGE: `${cms}/knowledgeCenter-management/get`,
+    UPDATE_KNOWLEDGE: `${cms}/knowledgeCenter-management/update`,
+    DELETE_KNOWLEDGE: `${cms}/knowledgeCenter-management/delete`,
   },
   communication: {
     NOTIFICATION_TEMPLATE_LIST: `${communicationUrl}/notificationTemplate-management/list`,

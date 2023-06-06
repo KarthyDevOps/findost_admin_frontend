@@ -52,7 +52,9 @@ const ContentManagementComp = () => {
     }
   };
 
-  useEffect(() => fetchData(), []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);

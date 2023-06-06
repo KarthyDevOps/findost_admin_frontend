@@ -1,70 +1,32 @@
+import React, { useState, useEffect } from "react";
 import DropDown from "component/common/DropDown/DropDown";
 import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import { history } from "helpers";
-import React, { useState } from "react";
+import { getKnowledgeList, deleteKnowledgeList } from "service/Cms";
 import "./style.scss";
 import TableComp from "component/common/TableComp/TableComp";
+import { Toast } from "service/toast";
 
 const KnowledgeCenterComp = () => {
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [data, setData] = useState([
-    {
-      templateId: "51322",
-      status: "inactive",
-      title: "real_time",
-      category: "Template Message",
-      subCategory: "open source",
+  const [modalVisible, setModalVisible] = useState({
+    id: null,
+    show: false,
+  });
+  const [active, setIsactive] = useState("");
 
-      description: "Nemo dolorem eum aliquam non.",
-    },
-    {
-      templateId: "51322",
-      status: "active",
-      title: "real_time",
-      category: "Template Message",
-      subCategory: "source",
+  const [data, setData] = useState([]);
 
-      description: "Nemo dolorem eum aliquam non.",
-    },
-    {
-      templateId: "51322",
-      status: "active",
-      title: "real_time",
-      category: "Template Message",
-      subCategory: "open source",
-
-      description: "Nemo dolorem eum aliquam non.",
-    },
-    {
-      templateId: "51322",
-      status: "active",
-
-      title: "real_time",
-      category: "Template Message",
-      subCategory: " edge",
-
-      description: "Nemo dolorem eum aliquam non.",
-    },
-    {
-      templateId: "51322",
-      status: "active",
-      title: "real_time",
-      category: "Template Message",
-      subCategory: "source",
-
-      description: "Nemo dolorem eum aliquam non.",
-    },
-  ]);
   const includedKeys = [
     {
       label: "Id",
-      value: "templateId",
+      value: "knowledgeCenterId",
     },
     {
       label: "Status",
-      value: "status",
+      value: "isActive",
     },
     {
       label: "Title",
@@ -84,8 +46,52 @@ const KnowledgeCenterComp = () => {
       value: "description",
     },
   ];
+
+  const handleOpenModal = (id) => {
+    setModalVisible({
+      id: id,
+      show: true,
+    });
+  };
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
+  };
+
+  const fetchData = async () => {
+    try {
+      let params = {
+        page: currentPage,
+        limit: 10,
+        search: "",
+      };
+      const response = await getKnowledgeList(params);
+      console.log(response.data.data.list, "response");
+      setIsactive(response?.data?.data?.list[0].isactive);
+      setData(response?.data?.data?.list);
+      setPageCount(response?.data?.data?.pageMeta?.pageCount);
+      setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [setData]);
+
+  const handleDeleteItem = async () => {
+    if (modalVisible.show && modalVisible.id) {
+      let params = {
+        faqId: modalVisible.id,
+      };
+      let response = await deleteKnowledgeList(params);
+      if (response.status === 200) {
+        Toast({ type: "success", message: response.data.message });
+        fetchData();
+      }
+    }
+    setModalVisible({ show: false, id: null });
   };
 
   return (
@@ -136,27 +142,25 @@ const KnowledgeCenterComp = () => {
           <NormalButton
             className="loginButton"
             label={"Add New"}
-            onClick={() =>
-              history.push("/admin/knowledge-center/add-knowledge")
-            }
+            onClick={() => {
+              localStorage.removeItem("editId");
+              history.push("/admin/knowledge-center/add-knowledge");
+            }}
           />
         </div>
         <div className=" mt-4 p-3">
-          {data.length > 0 ? (
-            <TableComp
-              data={data}
-              isCheck={true}
-              EditAction={true}
-              DeleteAction={true}
-              includedKeys={includedKeys}
-              pageCount={pageCount}
-              onPageChange={handlePageChange}
-              setCurrentPage={setCurrentPage}
-              editRouteName={"/admin/knowledge-center/add-knowledge"}
-            />
-          ) : (
-            <p className="text-center mt-5 fs-15">No Data Available</p>
-          )}
+          <TableComp
+            data={data}
+            isCheck={true}
+            EditAction={true}
+            DeleteAction={true}
+            includedKeys={includedKeys}
+            pageCount={pageCount}
+            handleOpenModal={handleOpenModal}
+            onPageChange={handlePageChange}
+            setCurrentPage={setCurrentPage}
+            editRouteName={"/admin/knowledge-center/add-knowledge"}
+          />
         </div>
       </div>
     </div>
