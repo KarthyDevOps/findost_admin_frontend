@@ -68,11 +68,12 @@ const ContentManagementComp = () => {
       let params = {
         contentId: modalVisible.id,
       };
-      console.log(params,'gg')
+      console.log(params, "gg");
       let response = await deleteContentList(params);
       if (response.status === 200) {
         Toast({ type: "success", message: response.data.message });
-        // deleteContentList(); 
+        // deleteContentList();
+        fetchData();
       }
     }
     setModalVisible({ show: false, id: null });
@@ -83,23 +84,20 @@ const ContentManagementComp = () => {
       <div className="staff_table px-5 pt-4">
         <p className="staff_title m-0">Content Management</p>
         <div className="">
-          {data.length > 0 ? (
-            <TableComp
-              data={data}
-              isCheck={false}
-              // ReadAction={true}
-              EditAction={true}
-              DeleteAction={true}
-              includedKeys={includedKeys}
-              pageCount={pageCount}
-              onPageChange={handlePageChange}
-              setCurrentPage={setCurrentPage}
-              handleOpenModal={handleOpenModal}
-              editRouteName={"/admin/content-management/editcontent-management"}
-            />
-          ) : (
-            <p className="text-center mt-5 fs-15">No Data Available</p>
-          )}
+          <TableComp
+            data={data}
+            isCheck={false}
+            // ReadAction={true}
+            EditAction={true}
+            DeleteAction={true}
+            includedKeys={includedKeys}
+            pageCount={pageCount}
+            onPageChange={handlePageChange}
+            setCurrentPage={setCurrentPage}
+            handleOpenModal={handleOpenModal}
+            editRouteName={"/admin/content-management/editcontent-management"}
+          />
+
           <div>
             <DeleteModal
               modalOpen={modalVisible.show}

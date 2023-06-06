@@ -27,7 +27,7 @@ const ResetPassword = () => {
   console.log('token :>> ', token);
 
   const onSubmit = async (inputs) => {
-    console.log('inputs :>> ', inputs);
+    console.log('inputs :>> ', inputs); 
     const body = {
       password: inputs.newPassword,
       confirmPassword: inputs.confirmPassword,

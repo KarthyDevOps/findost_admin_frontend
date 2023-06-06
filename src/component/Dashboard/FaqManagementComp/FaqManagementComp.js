@@ -85,6 +85,7 @@ const FaqManagementComp = () => {
       let response = await deleteFAQList(params);
       if (response.status === 200) {
         Toast({ type: "success", message: response.data.message });
+        fetchData();
       }
     }
     setModalVisible({ show: false, id: null });
@@ -122,7 +123,7 @@ const FaqManagementComp = () => {
             // value={value}
             placeholder="Filter by Sub Category"
             // onChange={(e) => {}}
-            // options={options}
+            // options={options}s
           />
         </div>
         <div className="col-2">
@@ -138,26 +139,25 @@ const FaqManagementComp = () => {
           <NormalButton
             className="loginButton"
             label={"Add New FAQ"}
-            onClick={() => history.push("/admin/faq-management/add-faq")}
+            onClick={() => {
+              localStorage.removeItem("editId");
+              history.push("/admin/faq-management/add-faq");
+            }}
           />
         </div>
         <div className=" mt-4 p-3">
-          {data.length > 0 ? (
-            <TableComp
-              data={data}
-              isCheck={true}
-              EditAction={true}
-              DeleteAction={true}
-              includedKeys={includedKeys}
-              pageCount={pageCount}
-              handleOpenModal={handleOpenModal}
-              onPageChange={handlePageChange}
-              setCurrentPage={setCurrentPage}
-              editRouteName={"/admin/faq-management/add-faq"}
-            />
-          ) : (
-            <p className="text-center mt-5 fs-15">No Data Available</p>
-          )}
+          <TableComp
+            data={data}
+            isCheck={true}
+            EditAction={true}
+            DeleteAction={true}
+            includedKeys={includedKeys}
+            pageCount={pageCount}
+            handleOpenModal={handleOpenModal}
+            onPageChange={handlePageChange}
+            setCurrentPage={setCurrentPage}
+            editRouteName={"/admin/faq-management/add-faq"}
+          />
         </div>
         <DeleteModal
           modalOpen={modalVisible.show}

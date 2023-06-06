@@ -7,9 +7,9 @@ import ReactSelect from "react-select";
 // import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import "./style.scss";
-import { getTemplateList,deletetemplateList } from "service/Cms";
+import { getTemplateList, deletetemplateList } from "service/Cms";
 import { history } from "helpers";
-import {BsSearch} from "react-icons/bs"
+import { BsSearch } from "react-icons/bs";
 import DropDown from "component/common/DropDown/DropDown";
 import { Toast } from "service/toast";
 
@@ -75,16 +75,14 @@ const TemplateManagementComp = () => {
       setData(response?.data?.data?.list);
       setPageCount(response?.data?.data?.pageMeta?.pageCount);
       setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
-   
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-  fetchData()
+    fetchData();
   }, [setData]);
-
 
   const handleDeleteItem = async () => {
     if (modalVisible.show && modalVisible.id) {
@@ -94,11 +92,11 @@ const TemplateManagementComp = () => {
       let response = await deletetemplateList(params);
       if (response.status === 200) {
         Toast({ type: "success", message: response.data.message });
+        fetchData();
       }
     }
     setModalVisible({ show: false, id: null });
   };
-
 
   return (
     <Fragment>
@@ -122,48 +120,46 @@ const TemplateManagementComp = () => {
                   //   setactivePage(1);
                   // }}
                 />
-                <i className="search_iconic"><BsSearch size={18} style={{color : "#7E7E7E"}}/></i>
+                <i className="search_iconic">
+                  <BsSearch size={18} style={{ color: "#7E7E7E" }} />
+                </i>
               </div>
               <div className="col-md-3">
-               <DropDown
-                  placeholder={"Filter by Message Type"}
-               />
+                <DropDown placeholder={"Filter by Message Type"} />
               </div>
-
             </div>
           </div>
           <div className="col-md-2 col-12 p-0 m-0">
             <NormalButton
               className="loginButton"
               label={"Add Template "}
-              onClick={() => history.push("/admin/template-management/add-template")}
+              onClick={() => {
+                localStorage.removeItem("editId");
+                history.push("/admin/template-management/add-template");
+              }}
             />
           </div>
         </div>
         <div className="">
-          {data.length > 0 ? (
-             <TableComp
-             data={data}
-             isCheck={true}
-             EditAction={true}
-             DeleteAction={true}
-             includedKeys={includedKeys}
-             pageCount={pageCount}
-             onPageChange={handlePageChange}
-             setCurrentPage={setCurrentPage}
-              handleOpenModal={handleOpenModal}
-             editRouteName={"/admin/template-management/add-template"}
-           />
-          ) : (
-            <p className="text-center mt-5 fs-15">No Data Available</p>
-          )}
+          <TableComp
+            data={data}
+            isCheck={true}
+            EditAction={true}
+            DeleteAction={true}
+            includedKeys={includedKeys}
+            pageCount={pageCount}
+            onPageChange={handlePageChange}
+            setCurrentPage={setCurrentPage}
+            handleOpenModal={handleOpenModal}
+            editRouteName={"/admin/template-management/add-template"}
+          />
         </div>
         <DeleteModal
-            modalOpen={modalVisible.show}
-            closeModal={() => setModalVisible({ id: null, show: false })}
-            handleDelete={handleDeleteItem}
-            DeleteMessage={"Are you sure you want to delete Staff?"}
-          />
+          modalOpen={modalVisible.show}
+          closeModal={() => setModalVisible({ id: null, show: false })}
+          handleDelete={handleDeleteItem}
+          DeleteMessage={"Are you sure you want to delete Staff?"}
+        />
       </div>
     </Fragment>
   );
