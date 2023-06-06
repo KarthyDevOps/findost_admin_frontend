@@ -47,12 +47,13 @@ const ProductManagementComp = () => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    getProductList(page)
   };
 
-  const getProductsList = async () => {
+  const getProductsList = async (page) => {
     try {
       let params = {
-        page: currentPage,
+        page: page,
         limit: 10,
         search: "",
       };
@@ -66,7 +67,7 @@ const ProductManagementComp = () => {
     } catch (err) {}
   };
   useEffect(() => {
-    getProductsList();
+    getProductsList(currentPage);
   }, []);
 
   const handleOpenModal = (id) => {
@@ -84,7 +85,7 @@ const ProductManagementComp = () => {
       let response = await deleteProduct(params);
       if (response.status === 200) {
         Toast({ type: "success", message: response.data.message });
-        getProductsList();
+        getProductsList(currentPage);
       }
     }
     setModalVisible({ show: false, id: null });

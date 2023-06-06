@@ -6,36 +6,72 @@ import { history } from "helpers";
 import DropDown from "component/common/DropDown/DropDown";
 import { useForm } from "react-hook-form";
 import CustomController from "component/common/Controller";
+import NormalMultiSelect from "component/common/NormalMultiSelect";
+import FormErrorMessage from "component/common/ErrorMessage";
+import closeIcon from "assets/images/closeIcon.svg";
+import TextBox from "component/common/TextBox/TextBox";
+import { addNotificationHistory } from "service/Communication";
+import { Toast } from "service/toast";
+import SuccessModal from "component/common/DeleteModal/SuccessModal";
 
 const SendNotificationComp = () => {
-  const { register, handleSubmit, errors, reset, setError, control } = useForm({
+  const {
+    register,
+    handleSubmit,
+    errors,
+    reset,
+    setError,
+    control,
+    getValues,
+  } = useForm({
     mode: "onChange",
   });
-  const [title, setTitle] = useState("");
   const [users, setUsers] = useState([]);
+  const [modal, setModal] = useState(false);
 
   const options = [
     {
-      label: "ONE",
-      value: "one",
+      label: "option1",
+      value: "option1",
     },
     {
-      label: "TWO",
-      value: "two",
+      label: "option2",
+      value: "option2",
     },
     {
-      label: "THREE",
-      value: "three",
+      label: "option3",
+      value: "option3",
     },
   ];
 
-  const onsubmit = (data) => {
+  const onsubmit = async (data) => {
     console.log("data :>> ", data);
+    try {
+      const body = {
+        title: data.title,
+        description: data.content,
+        userId : data.users.map(user => user.value),
+      };
+      let response = await addNotificationHistory(body);
+      if (response.status === 200) {
+        setModal(true);
+        const timeout = setTimeout(() => {
+          setModal(false);
+          reset({ title: "", content: "", users : [] });
+          // history.push("/admin/notification-management?tab=1");
+        }, 1000);
+        return () => clearTimeout(timeout);
+      } else {
+        Toast({ type: "error", message: response.data.message });
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
   };
 
-  const handleUser = (value) => {
-    let updatedUsers = options.filter((user) => user.value !== value);
-    setUsers(updatedUsers);
+  const handleUser = (index) => {
+    users.splice(index, 1);
+    setUsers([...users]);
   };
   return (
     <div className="px-5">
@@ -57,19 +93,20 @@ const SendNotificationComp = () => {
               <CustomController
                 name={"title"}
                 control={control}
-                error={errors.title}
+                error={errors?.title}
+                defaultValue={getValues("title")}
                 rules={{ required: true }}
                 messages={{ required: "Notification Title is Required" }}
-                render={({ onChange, ...field }) => {
+                render={({ onChange, ...fields }) => {
                   return (
-                    <DropDown
-                      {...field}
-                      placeholder="Select Notification Title"
-                      name="title"
-                      value={title}
-                      errors={errors.title}
+                    <NormalMultiSelect
+                      {...fields}
+                      placeholder={"Select Notification Title"}
                       options={options}
-                      onChange={(text) => onChange(() => setTitle(text))}
+                      name="title"
+                      handleChange={(e, { value } = {}) => {
+                        onChange(value);
+                      }}
                     />
                   );
                 }}
@@ -93,13 +130,37 @@ const SendNotificationComp = () => {
                       name="users"
                       value={users}
                       errors={errors.users}
+                      controlShouldRenderValue={false}
                       options={options}
-                      onChange={(user) => onChange(() => setUsers(user))}
+                      onChange={(user) => {
+                        onChange(user);
+                        setUsers(user);
+                      }}
                     />
                   );
                 }}
               />
-              {console.log(users, "users")}
+              {/* <CustomController
+                name={"users"}
+                control={control}
+                error={errors?.users}
+                defaultValue={getValues("users")}
+                rules={{ required: true }}
+                messages={{ required: "Select Users is Required" }}
+                render={({ onChange, ...fields }) => {
+                  return (
+                    <NormalMultiSelect
+                      {...fields}
+                      placeholder={"Select Users"}
+                      options={options}
+                      name="users"
+                      handleChange={(e, { value } = {}) => {
+                        onChange(value);
+                      }}
+                    />
+                  );
+                }}
+              /> */}
             </div>
             <div className="col-1"></div>
           </div>
@@ -107,16 +168,24 @@ const SendNotificationComp = () => {
             <label>Select Users</label>
             <div className=" col-11 users_box p-3">
               {users.length > 0 &&
-                users.map((user) => {
+                users.map((user, index) => {
                   return (
                     <>
                       <span
-                        style={{ background: " #F2F2F2", borderRadius: "6px" }}
+                        style={{
+                          background: " #F2F2F2",
+                          borderRadius: "6px",
+                          padding: "10px",
+                          margin: "10px",
+                        }}
                       >
-                        {user.label}
-                        <small onClick={(e) => handleUser(user.value)}>
-                          &nbsp;&nbsp; X
-                        </small>
+                        {user.label} &nbsp;&nbsp;
+                        <img
+                          src={closeIcon}
+                          alt=""
+                          onClick={(e) => handleUser(index)}
+                          className="cursor-pointer"
+                        />
                       </span>
                     </>
                   );
@@ -127,15 +196,20 @@ const SendNotificationComp = () => {
           <div className="my-3">
             <label>Notification Content</label>
             <div className=" col-11 content_box p-0">
-              <textarea className="noti_content">
-                Lorem ipsum dolor sit amet consectetur. Pellentesque diam
-                facilisis dui felis morbi. Neque libero est vitae tempor.
-                Viverra feugiat in nec et ultrices eros arcu. Venenatis
-                venenatis quam donec nunc massa purus faucibus. Laoreet rhoncus
-                elit suspendisse venenatis pellentesque hendrerit feugiat. Morbi
-                faucibus feugiat sapien habitant at mauris risus. Viverra eu ut
-                egestas bibendum euismod facilisis pellentesque sed.
-              </textarea>
+              <TextBox
+                cols={5}
+                error={errors}
+                name="content"
+                register={register({
+                  required: true,
+                })}
+              />
+              <FormErrorMessage
+                error={errors.content}
+                messages={{
+                  required: "Notification Content is required",
+                }}
+              />
             </div>
             <div className="col-1"></div>
           </div>
@@ -154,6 +228,13 @@ const SendNotificationComp = () => {
                 onClick={handleSubmit(onsubmit)}
               />
             </div>
+          </div>
+          <div>
+            <SuccessModal
+              modalOpen={modal}
+              onCancel={() => setModal(false)}
+              successMsg={"Notification Sent Successfully"}
+            />
           </div>
         </div>
       </form>

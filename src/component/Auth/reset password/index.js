@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import React, { useRef, useState , useEffect} from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Toast } from "service/toast";
 // Styles
@@ -23,11 +23,9 @@ const ResetPassword = () => {
 
   const urlParams = new URLSearchParams(window.location.search);
   const token = urlParams.get("token");
-
-  console.log('token :>> ', token);
+  localStorage.setItem("token", token);
 
   const onSubmit = async (inputs) => {
-    console.log('inputs :>> ', inputs);
     const body = {
       password: inputs.newPassword,
       confirmPassword: inputs.confirmPassword,
@@ -99,8 +97,8 @@ const ResetPassword = () => {
                       maxLength: 16,
                       pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?& ]{8,}$/s,
                       validate: (value) => {
-                        const { password } = getValues();
-                        return password === value;
+                        const { newPassword } = getValues();
+                        return newPassword === value;
                       },
                     })}
                   />

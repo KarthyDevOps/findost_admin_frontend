@@ -22,7 +22,7 @@ function TableComp(props) {
     onPageChange,
     editRouteName,
     setCurrentPage,
-    handleOpenModal,
+    handleOpenModal,currentPage
   } = props;
 
   console.log("data :>> ", data);
@@ -34,7 +34,6 @@ function TableComp(props) {
     onPageChange(selectedPage.selected + 1);
   };
 
-  console.log("includedKeys :>> ", includedKeys);
 
   // Dynamic colors for Status KeyName
   const statusColors = {
@@ -134,7 +133,7 @@ function TableComp(props) {
                             } else if (
                               moment(
                                 value,
-                                "YYYY-MM-DDTHH:mm:ss.SSSZ"
+                                "YYYY-MM-DDTHH:mm:ss.SSSZ",true
                               ).isValid()
                             ) {
                               return (

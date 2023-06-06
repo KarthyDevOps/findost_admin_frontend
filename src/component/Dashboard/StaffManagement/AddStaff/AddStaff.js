@@ -41,8 +41,9 @@ const AddStaff = () => {
     contentManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
     templateManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
     faqManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-    mastersManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-    siteSettings: ["VIEW", "EDIT", "ADD", "DELETE"],
+    knowledgeCenterManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+    siteSettingsManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+    clientFamilyManagement :  ["VIEW", "EDIT", "ADD", "DELETE"],
   });
 
   const options = [
@@ -139,8 +140,9 @@ const AddStaff = () => {
             contentManagement: data.contentManagement,
             templateManagement: data.templateManagement,
             faqManagement: data.faqManagement,
-            mastersManagement: data.mastersManagement,
-            siteSettings: data.siteSettings,
+            knowledgeCenterManagement: data.mastersManagement,
+            siteSettingsManagement: data.siteSettings,
+            clientFamilyManagement : data.clientFamilyManagement
           },
         };
         if (staffDetails.status === "active") {
@@ -178,8 +180,9 @@ const AddStaff = () => {
             contentManagement: data.contentManagement,
             templateManagement: data.templateManagement,
             faqManagement: data.faqManagement,
-            mastersManagement: data.mastersManagement,
-            siteSettings: data.siteSettings,
+            knowledgeCenterManagement: data.mastersManagement,
+            siteSettingsManagement: data.siteSettings,
+            clientFamilyManagement : data.clientFamilyManagement
           },
         };
         if (staffDetails.status === "active") {

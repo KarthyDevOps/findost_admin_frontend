@@ -10,6 +10,7 @@ import {
   getNotificationTemplateList,
   deleteNotificationTemplate,
   getNotificationHistoryList,
+  deleteNotificationHistory,
 } from "service/Communication";
 import { Toast } from "service/toast";
 
@@ -36,15 +37,12 @@ const NotificationManagementComp = () => {
 
   useEffect(() => {
     handleTab(tabValue);
-    // setActiveTab(tabValue);
     if (tabValue === 1) {
-      getHistoryList();
+      getHistoryList(currentPage);
     } else {
-      getTemplateList();
+      getTemplateList(currentPage);
     }
   }, [tabValue]);
-
-  console.log("tabValue :>> ", tabValue);
 
   const templateKeys = [
     {
@@ -70,31 +68,36 @@ const NotificationManagementComp = () => {
       label: "Notification Id",
       value: "notificationId",
     },
-    {
-      label: "Notification Sent Status",
-      value: "notificationSentStatus",
-    },
+    // {
+    //   label: "Notification Sent Status",
+    //   value: "notificationSentStatus",
+    // },
     {
       label: "Date and Time",
-      value: "dateandTime",
+      value: "createdAt",
     },
     {
       label: "Notification Title",
-      value: "notificationTitle",
+      value: "title",
     },
     {
       label: "Notification Content",
-      value: "notificationContent",
+      value: "description",
     },
   ];
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    if (activeTab === 0) {
+      getHistoryList(page);
+    } else {
+      getHistoryList(page);
+    }
   };
 
-  const getTemplateList = async () => {
+  const getTemplateList = async (page) => {
     let params = {
-      page: currentPage,
+      page: page,
       limit: 10,
       search: "",
     };
@@ -107,9 +110,9 @@ const NotificationManagementComp = () => {
     }
   };
 
-  const getHistoryList = async () => {
+  const getHistoryList = async (page) => {
     let params = {
-      page: currentPage,
+      page: page,
       limit: 10,
       search: "",
     };
@@ -130,13 +133,24 @@ const NotificationManagementComp = () => {
 
   const handleDeleteItem = async () => {
     if (modalVisible.show && modalVisible.id) {
-      let params = {
-        notificationTemplateId: modalVisible.id,
-      };
-      let response = await deleteNotificationTemplate(params);
-      if (response.status === 200) {
-        Toast({ type: "success", message: response.data.message });
-        getTemplateList();
+      if (activeTab === 0) {
+        let params = {
+          notificationTemplateId: modalVisible.id,
+        };
+        let response = await deleteNotificationTemplate(params);
+        if (response.status === 200) {
+          Toast({ type: "success", message: response.data.message });
+          getTemplateList(currentPage);
+        }
+      } else {
+        let params = {
+          id: modalVisible.id,
+        };
+        let response = await deleteNotificationHistory(params);
+        if (response.status === 200) {
+          Toast({ type: "success", message: response.data.message });
+          getHistoryList(currentPage);
+        }
       }
     }
     setModalVisible({ show: false, id: null });

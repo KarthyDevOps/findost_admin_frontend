@@ -112,7 +112,7 @@ class NormalMultiSelect extends Component {
       control: (base) => ({
         ...base,
         borderRadius: 10,
-        border: "1px solid #C7C7C7",
+        border: "1px solid #d9d9d9 !important;",
         boxShadow: "0 !important",
         outline: "0 ",
         background: grayed ? "#F1F1F1" : "transparent",
