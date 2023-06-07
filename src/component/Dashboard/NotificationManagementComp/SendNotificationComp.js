@@ -10,11 +10,15 @@ import NormalMultiSelect from "component/common/NormalMultiSelect";
 import FormErrorMessage from "component/common/ErrorMessage";
 import closeIcon from "assets/images/closeIcon.svg";
 import TextBox from "component/common/TextBox/TextBox";
-import { addNotificationHistory } from "service/Communication";
+import {
+  addNotificationHistory,
+  getNotificationHistory,
+  updateNotificationHistory,
+} from "service/Communication";
 import { Toast } from "service/toast";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 
-const SendNotificationComp = ({ create, view, edit, remove }) => {
+const SendNotificationComp = () => {
   const {
     register,
     handleSubmit,
@@ -26,6 +30,7 @@ const SendNotificationComp = ({ create, view, edit, remove }) => {
   } = useForm({
     mode: "onChange",
   });
+  const [edit, setEdit] = useState(false);
   const [users, setUsers] = useState([]);
   const [modal, setModal] = useState(false);
 
@@ -43,29 +48,81 @@ const SendNotificationComp = ({ create, view, edit, remove }) => {
       value: "option3",
     },
   ];
+  const id = localStorage.getItem("editId");
 
-  const onsubmit = async (data) => {
-    console.log("data :>> ", data);
+  useEffect(() => {
+    if (id) {
+      setEdit(true);
+      getHistoryDetails();
+    }
+  }, []);
+
+  const getHistoryDetails = async () => {
     try {
-      const body = {
-        title: data.title,
-        description: data.content,
-        userId: data.users.map(user => user.value),
+      let params = {
+        id: id,
       };
-      let response = await addNotificationHistory(body);
+      let response = await getNotificationHistory(params);
       if (response.status === 200) {
-        setModal(true);
-        const timeout = setTimeout(() => {
-          setModal(false);
-          reset({ title: "", content: "", users: [] });
-          // history.push("/admin/notification-management?tab=1");
-        }, 1000);
-        return () => clearTimeout(timeout);
+        console.log("response.data.data :>> ", response?.data?.data?.title);
+        reset({
+          title: response?.data?.data?.title,
+          content: response?.data?.data?.description,
+          users: response?.data?.data?.userId,
+        });
       } else {
         Toast({ type: "error", message: response.data.message });
       }
     } catch (e) {
       console.log("e :>> ", e);
+    }
+  };
+
+  const onsubmit = async (data) => {
+    if (!edit) {
+      try {
+        const body = {
+          title: data.title,
+          description: data.content,
+          userId: data.users.map((user) => user.value),
+        };
+        let response = await addNotificationHistory(body);
+        if (response.status === 200) {
+          setModal(true);
+          const timeout = setTimeout(() => {
+            setModal(false);
+            reset({ title: "", content: "", users: [] });
+            history.push("/admin/notification-management?tab=1");
+          }, 1000);
+          return () => clearTimeout(timeout);
+        } else {
+          Toast({ type: "error", message: response.data.message });
+        }
+      } catch (e) {
+        console.log("e :>> ", e);
+      }
+    } else {
+      try {
+        const body = {
+          title: data.title,
+          description: data.content,
+          userId: data.users.map((user) => user.value),
+        };
+        let response = await updateNotificationHistory(body);
+        if (response.status === 200) {
+          setModal(true);
+          const timeout = setTimeout(() => {
+            setModal(false);
+            reset({ title: "", content: "", users: [] });
+            history.push("/admin/notification-management?tab=1");
+          }, 1000);
+          return () => clearTimeout(timeout);
+        } else {
+          Toast({ type: "error", message: response.data.message });
+        }
+      } catch (e) {
+        console.log("e :>> ", e);
+      }
     }
   };
 
@@ -140,27 +197,6 @@ const SendNotificationComp = ({ create, view, edit, remove }) => {
                   );
                 }}
               />
-              {/* <CustomController
-                name={"users"}
-                control={control}
-                error={errors?.users}
-                defaultValue={getValues("users")}
-                rules={{ required: true }}
-                messages={{ required: "Select Users is Required" }}
-                render={({ onChange, ...fields }) => {
-                  return (
-                    <NormalMultiSelect
-                      {...fields}
-                      placeholder={"Select Users"}
-                      options={options}
-                      name="users"
-                      handleChange={(e, { value } = {}) => {
-                        onChange(value);
-                      }}
-                    />
-                  );
-                }}
-              /> */}
             </div>
             <div className="col-1"></div>
           </div>

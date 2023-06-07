@@ -89,6 +89,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
       setPageCount(response?.data?.data?.pageMeta?.pageCount);
       setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
     } else {
+      Toast({ type: "error", message: response.data.message });
     }
   };
 
@@ -103,6 +104,8 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
       setHistoryData(response?.data?.data?.list);
       setPageCount(response?.data?.data?.pageMeta?.pageCount);
       setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
+    }else{
+      Toast({ type: "error", message: response.data.message });
     }
   };
 
@@ -113,6 +116,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
     });
   };
 
+  console.log('modalVisible.id,activeTab :>> ', modalVisible.id,activeTab);
   const handleDeleteItem = async () => {
     if (modalVisible.show && modalVisible.id) {
       if (activeTab === 0) {
@@ -125,6 +129,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
           getTemplateList(currentPage);
         }
       } else {
+        alert("1111")
         let params = {
           id: modalVisible.id,
         };
