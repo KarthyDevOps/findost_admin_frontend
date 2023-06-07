@@ -48,13 +48,13 @@ const initialState = {
       "edit": false,
       "remove": false
     },
-    "mastersManagement": {
+    "clientFamilyManagement": {
       "create": false,
       "view": false,
       "edit": false,
       "remove": false
     },
-    "siteSettings": {
+    "siteSettingsManagement": {
       "create": false,
       "view": false,
       "edit": false,

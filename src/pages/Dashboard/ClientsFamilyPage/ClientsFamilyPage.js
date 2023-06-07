@@ -4,10 +4,10 @@ import { Redirect } from 'react-router-dom';
 import { checkAndReturnViewableComponent } from 'helpers';
 
 const ClientsFamilyPage = ({ privilegesData = {} }) => {
-  const { mastersManagement = {} } = privilegesData || {};
+  const { clientFamilyManagement = {} } = privilegesData || {};
 
   useEffect(() => {
-    const redirectTo = checkAndReturnViewableComponent(privilegesData, mastersManagement);
+    const redirectTo = checkAndReturnViewableComponent(privilegesData, clientFamilyManagement);
     if (redirectTo) {
       console.log("toto", redirectTo)
       // return <Redirect to={redirectData.to} />;
@@ -16,7 +16,7 @@ const ClientsFamilyPage = ({ privilegesData = {} }) => {
 
   return (
     <div>
-      <ClientFamily {...mastersManagement} />
+      <ClientFamily {...clientFamilyManagement} />
     </div>
   );
 };

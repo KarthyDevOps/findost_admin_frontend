@@ -41,10 +41,10 @@ function Sidebar({ classes, window, privilegesData }) {
     faqManagement,
     feedbackManagement,
     knowledgeCenterManagement,
-    mastersManagement,
+    clientFamilyManagement,
     notificationManagement,
     productManagement,
-    siteSettings,
+    siteSettingsManagement,
     staffManagement,
     templateManagement
   } = privilegesData ?? {};
@@ -64,8 +64,8 @@ function Sidebar({ classes, window, privilegesData }) {
               if (!templateManagement?.view && to?.startsWith("/admin/template-management")) return;
               if (!faqManagement?.view && to?.startsWith("/admin/faq-management")) return;
               if (!knowledgeCenterManagement?.view && to?.startsWith("/admin/knowledge-center")) return;
-              if (!siteSettings?.view && to?.startsWith("/admin/site-settings")) return;
-              if (!mastersManagement?.view && to?.startsWith("/admin/clients-family")) return;
+              if (!siteSettingsManagement?.view && to?.startsWith("/admin/site-settings")) return;
+              if (!clientFamilyManagement?.view && to?.startsWith("/admin/clients-family")) return;
 
               return (
                 <>

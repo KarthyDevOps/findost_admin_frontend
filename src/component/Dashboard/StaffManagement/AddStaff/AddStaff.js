@@ -38,10 +38,10 @@ const AddStaff = ({ create, view, remove }) => {
     faqManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
     feedbackManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
     knowledgeCenterManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-    mastersManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+    clientFamilyManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
     notificationManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
     productManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-    siteSettings: ["VIEW", "EDIT", "ADD", "DELETE"],
+    siteSettingsManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
     staffManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
     templateManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   });
@@ -141,8 +141,8 @@ const AddStaff = ({ create, view, remove }) => {
             templateManagement: data.templateManagement,
             faqManagement: data.faqManagement,
             knowledgeCenterManagement: data.knowledgeCenterManagement,
-            siteSettings: data.siteSettings,
-            mastersManagement: data.mastersManagement
+            siteSettingsManagement: data.siteSettingsManagement,
+            clientFamilyManagement: data.clientFamilyManagement
           },
         };
         if (staffDetails.status === "active") {
@@ -181,8 +181,8 @@ const AddStaff = ({ create, view, remove }) => {
             templateManagement: data.templateManagement,
             faqManagement: data.faqManagement,
             knowledgeCenterManagement: data.knowledgeCenterManagement,
-            siteSettings: data.siteSettings,
-            mastersManagement: data.mastersManagement
+            siteSettingsManagement: data.siteSettingsManagement,
+            clientFamilyManagement: data.clientFamilyManagement
           },
         };
         if (staffDetails.status === "active") {
