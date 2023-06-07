@@ -317,14 +317,14 @@ export const navLink = [
     label: "Client's Family",
     iconName: Client_a,
     inactiveIcon: clientFamily,
-    privilegesName: "mastersManagement",
+    privilegesName: "clientFamilyManagement",
   },
   {
     to: "/admin/site-settings",
     label: "Site Settings",
     iconName: Site_a,
     inactiveIcon: siteSettings,
-    privilegesName: "siteSettings",
+    privilegesName: "siteSettingsManagement",
   },
 ];
 

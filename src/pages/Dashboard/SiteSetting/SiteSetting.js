@@ -4,10 +4,10 @@ import { Redirect } from 'react-router-dom';
 import { checkAndReturnViewableComponent } from 'helpers';
 
 const StaffManagemnet = ({ privilegesData = {} }) => {
-  const { siteSettings = {} } = privilegesData || {};
+  const { siteSettingsManagement = {} } = privilegesData || {};
 
   useEffect(() => {
-    const redirectTo = checkAndReturnViewableComponent(privilegesData, siteSettings);
+    const redirectTo = checkAndReturnViewableComponent(privilegesData, siteSettingsManagement);
     if (redirectTo) {
       console.log("toto", redirectTo)
       // return <Redirect to={redirectData.to} />;
@@ -16,7 +16,7 @@ const StaffManagemnet = ({ privilegesData = {} }) => {
 
   return (
     <div>
-      <SiteSettingComp {...siteSettings} />
+      <SiteSettingComp {...siteSettingsManagement} />
     </div>
   )
 }

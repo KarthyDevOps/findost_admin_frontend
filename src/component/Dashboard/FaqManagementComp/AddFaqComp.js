@@ -30,9 +30,7 @@ const AddFaqComp = ({ create, view, remove }) => {
   const [edit, setEdit] = useState(false);
   const [content, setContent] = useState("");
   const [FAQDetails, setFAQDetails] = useState({
-    // name: "",
-    // email: "",
-    // password: "",
+
     category: "",
     subcategory: "",
     status: "",
