@@ -166,7 +166,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
             modalOpen={modalVisible.show}
             closeModal={() => setModalVisible({ id: null, show: false })}
             handleDelete={handleDeleteItem}
-            DeleteMessage={"Are you sure you want to delete Knowledge Center Title?"}
+            DeleteMessage={"Are you sure you want to delete?"}
           />
         </div>
       </div>

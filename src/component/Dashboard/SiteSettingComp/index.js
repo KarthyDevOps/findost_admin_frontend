@@ -347,7 +347,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
             <SuccessModal
               modalOpen={modal}
               onCancel={() => setModal(false)}
-              successMsg={"New Staff Updated Successfully"}
+              successMsg={"New SiteSetting Updated Successfully"}
             />
           </div>
         </div>
