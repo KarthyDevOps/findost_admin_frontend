@@ -47,7 +47,9 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
     }
   };
 
-  useEffect(() => fetchData(), []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);

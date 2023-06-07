@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import "./style.scss";
+import { Toast } from "service/toast";
 import { history } from "helpers";
 import { useForm } from "react-hook-form";
 import InputBox from "component/common/InputBox/InputBox";
@@ -11,14 +12,29 @@ import Dropzone from "component/common/Dropzone";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import FormErrorMessage from "component/common/ErrorMessage";
 import CustomController from "component/common/Controller";
+import { addKnowledge, editKnowledge, updateKnowledge } from "service/Cms";
 
 const AddKnowledgeComp = ({ create, view, remove }) => {
-  const { register, handleSubmit, errors, reset, setError, control } = useForm({
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    errors,
+    setValue,
+    reset,
+    setError,
+    control,
+  } = useForm({
     mode: "onChange",
   });
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState(false);
   const [content, setContent] = useState("");
+  const [KnowledgeDetails, setKnowledgeDetails] = useState({
+    category: "",
+    subcategory: "",
+    status: "",
+  });
   const options = [
     {
       label: "ONE",
@@ -33,18 +49,129 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
       value: "three",
     },
   ];
-  const onSubmit = (data) => {
-    // console.log("data :>> ", data);
-    // console.log("data :>> ", managementCheckedItems);
-    // console.log("role :>> ", role);
-    // console.log("status :>> ", status);
+  const status = [
+    {
+      label: "ACTIVE",
+      value: "active",
+    },
+    {
+      label: "InACTIVE",
+      value: "inActive",
+    },
+  ];
+
+  const id = localStorage.getItem("editId");
+  useEffect(() => {
+    setValue(
+      "category",
+      options.find((option) => option.value === KnowledgeDetails.category)
+    );
+    setValue(
+      "subcategory",
+      options.find((option) => option.value === KnowledgeDetails.subcategory)
+    );
+    setValue(
+      "status",
+      status.find((option) => option.value === KnowledgeDetails.status)
+    );
+  }, [KnowledgeDetails, setValue]);
+
+  const getKnowledgeDetails = async () => {
+    try {
+      const params = {
+        knowledgeCenterId: id,
+      };
+      let response = await editKnowledge(params);
+      if (response.status === 200) {
+        const data = response?.data.data;
+        reset({
+          title: data?.title,
+          content: data?.description,
+          contentURL: data?.contentUrlLink,
+        });
+        setKnowledgeDetails({
+          category: data.category,
+          subcategory: data.subCategory,
+          status: data.isActive ? "active" : "inActive",
+        });
+      } else {
+        Toast({ type: "error", message: response.data.message });
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      setEdit(true);
+      getKnowledgeDetails();
+    }
+  }, []);
+
+  const onSubmit = async (data) => {
     setModal(true);
 
-    const timeout = setTimeout(() => {
-      setModal(false);
-    }, 1000);
+    if (!edit) {
+      try {
+        let body = {
+          title: data.title,
+          subCategory: KnowledgeDetails.subcategory,
+          category: KnowledgeDetails.category,
+          description: data?.content,
+          contentUrlLink: data?.contentURL,
 
-    return () => clearTimeout(timeout);
+        };
+        if (KnowledgeDetails.status === "active") {
+          body.isActive = true;
+        } else {
+          body.isActive = false;
+        }
+        let response = await addKnowledge(body);
+        if (response.status === 200) {
+          setModal(true);
+          const timeout = setTimeout(() => {
+            setModal(false);
+            reset(KnowledgeDetails);
+            history.push("/admin/knowledge-center");
+          }, 1000);
+          return () => clearTimeout(timeout);
+        } else {
+          Toast({ type: "error", message: response.data.message });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      try {
+        let body = {
+          title: data.title,
+          contentUrlLink: data?.contentURL,
+          subCategory: KnowledgeDetails.subcategory,
+          category: KnowledgeDetails.category,
+          description: data?.content,
+        };
+        if (KnowledgeDetails.status === "active") {
+          body.isActive = true;
+        } else {
+          body.isActive = false;
+        }
+        let response = await updateKnowledge(body, id);
+        if (response.status === 200) {
+          setModal(true);
+          const timeout = setTimeout(() => {
+            setModal(false);
+            reset(KnowledgeDetails);
+            history.push("/admin/knowledge-center");
+          }, 1000);
+          return () => clearTimeout(timeout);
+        } else {
+          Toast({ type: "error", message: response.data.message });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
   };
   return (
     <div className="px-5 py-3 Add_knowledge">
@@ -92,18 +219,24 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 name={"category"}
                 control={control}
                 error={errors.category}
-                // defaultValue={role}
+                value={options.find(
+                  (option) => option.value === getValues("category")
+                )}
                 rules={{ required: true }}
                 messages={{ required: "category is Required" }}
                 render={({ onChange, ...field }) => {
                   return (
                     <DropDown
-                      // value={value}
+                      {...field}
                       name="category"
                       placeholder="Select Category"
-                      value={options.value}
                       options={options}
-                      onChange={(option) => onChange(option.value)}
+                      onChange={(option) => {
+                        setKnowledgeDetails((prevState) => ({
+                          ...prevState,
+                          category: option.value,
+                        }));
+                      }}
                     />
                   );
                 }}
@@ -114,19 +247,25 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
               <CustomController
                 name={"subcategory"}
                 control={control}
+                value={status.find(
+                  (option) => option.value === getValues("subcategory")
+                )}
                 error={errors.subcategory}
-                // defaultValue={role}
                 rules={{ required: true }}
                 messages={{ required: "Subcategory is Required" }}
                 render={({ onChange, ...field }) => {
                   return (
                     <DropDown
-                      // value={value}
+                      {...field}
                       name="subcategory"
                       placeholder="Select Sub Category"
-                      value={options.value}
                       options={options}
-                      onChange={(option) => onChange(option.value)}
+                      onChange={(option) => {
+                        setKnowledgeDetails((prevState) => ({
+                          ...prevState,
+                          subcategory: option.value,
+                        }));
+                      }}
                     />
                   );
                 }}
@@ -138,8 +277,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 className="add_staff"
                 type={"text"}
                 placeholder="Enter Content URL LinK"
-                //   errors={errors}
-                name="URL"
+                name="contentURL"
                 errors={errors}
                 register={register({
                   required: true,
@@ -148,7 +286,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 })}
               />
               <FormErrorMessage
-                error={errors.URL}
+                error={errors.contentURL}
                 messages={{
                   required: "URL is required",
                   pattern: "Invalid URL",
@@ -174,18 +312,24 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 name={"status"}
                 control={control}
                 error={errors.status}
-                // defaultValue={role}
+                value={status.find(
+                  (option) => option.value === getValues("status")
+                )}
                 rules={{ required: true }}
                 messages={{ required: "Status is Required" }}
                 render={({ onChange, ...field }) => {
                   return (
                     <DropDown
-                      // value={value}
+                    {...field}
                       name="status"
                       placeholder="Select status"
-                      value={options.value}
-                      options={options}
-                      onChange={(option) => onChange(option.value)}
+                      options={status}
+                      onChange={(option) => {
+                        setKnowledgeDetails((prevState) => ({
+                          ...prevState,
+                          status: option.value,
+                        }));
+                      }}
                     />
                   );
                 }}
@@ -195,10 +339,9 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           <div>
             <label>Description</label>
             <CustomController
-              name={"TextEditor"}
+              name={"content"}
               control={control}
-              error={errors.TextEditor}
-              // defaultValue={endDate}
+              error={errors.content}
               rules={{ required: true }}
               messages={{
                 required: "Description is Required",
@@ -206,9 +349,11 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
               render={({ onChange, ...field }) => {
                 return (
                   <TextEditor
-                    content={content}
-                    errors={errors.TextEditor}
-                    onChange={(text) => onChange(() => setContent(text))}
+                    {...field}
+                    name={"content"}
+                    onChange={(content) => {
+                      onChange(content);
+                    }}
                   />
                 );
               }}

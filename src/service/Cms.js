@@ -241,3 +241,60 @@ export const getSiteSetting = async (params) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
+export const getKnowledgeList = async (params) => {
+  let request = await axios({
+    method: "get",
+    url: `${endpoints.cms.LIST_KNOWLEDGE}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params: params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+export const addKnowledge = async (data) => {
+  let request = await axios({
+    method: "post",
+    url: `${endpoints.cms.ADD_KNOWLEDGE}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: data,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+export const updateKnowledge = async (body, id) => {
+  const request = await axios({
+    method: "put",
+    url: `${endpoints.cms.UPDATE_KNOWLEDGE}?knowledgeCenterId=${id}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+export const editKnowledge = async (params) => {
+  const request = await axios({
+    method: "get",
+    url: `${endpoints.cms.EDIT_KNOWLEDGE}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+export const deleteKnowledgeList = async (params) => {
+  let request = await axios({
+    method: "delete",
+    url: `${endpoints.cms.DELETE_KNOWLEDGE}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+

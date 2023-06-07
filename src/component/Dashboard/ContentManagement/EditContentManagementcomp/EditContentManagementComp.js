@@ -45,11 +45,12 @@ const EditContentManagementComp = ({ create, view, remove }) => {
       value: "inActive",
     },
   ];
-  const urlParams = new URLSearchParams(window.location.search);
-  const id = urlParams.get("Editid");
+  // const urlParams = new URLSearchParams(window.location.search);
+  // const id = urlParams.get("Editid");
+  const id = localStorage.getItem("editId");
 
   useEffect(() => {
-    if (urlParams.has("Editid")) {
+    if (id) {
       setedit(true);
       getContentList();
     }
