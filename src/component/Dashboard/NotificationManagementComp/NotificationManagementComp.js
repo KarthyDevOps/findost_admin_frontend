@@ -116,7 +116,6 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
     });
   };
 
-  console.log('modalVisible.id,activeTab :>> ', modalVisible.id,activeTab);
   const handleDeleteItem = async () => {
     if (modalVisible.show && modalVisible.id) {
       if (activeTab === 0) {
@@ -129,9 +128,8 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
           getTemplateList(currentPage);
         }
       } else {
-        alert("1111")
         let params = {
-          id: modalVisible.id,
+          notificationId: modalVisible.id,
         };
         let response = await deleteNotificationHistory(params);
         if (response.status === 200) {

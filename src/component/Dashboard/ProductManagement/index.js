@@ -148,7 +148,7 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
             modalOpen={modalVisible.show}
             closeModal={() => setModalVisible({ id: null, show: false })}
             handleDelete={handleDeleteItem}
-            DeleteMessage={"Are you sure you want to delete Product?"}
+            DeleteMessage={"Are you sure you want to delete?"}
           />
         </div>
       </div>

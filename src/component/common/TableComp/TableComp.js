@@ -22,7 +22,8 @@ function TableComp(props) {
     onPageChange,
     editRouteName,
     setCurrentPage,
-    handleOpenModal,currentPage
+    handleOpenModal,
+    currentPage,
   } = props;
 
   console.log("data :>> ", data);
@@ -33,7 +34,6 @@ function TableComp(props) {
     setCurrentPage(selectedPage.selected);
     onPageChange(selectedPage.selected + 1);
   };
-
 
   // Dynamic colors for Status KeyName
   const statusColors = {
@@ -133,7 +133,8 @@ function TableComp(props) {
                             } else if (
                               moment(
                                 value,
-                                "YYYY-MM-DDTHH:mm:ss.SSSZ",true
+                                "YYYY-MM-DDTHH:mm:ss.SSSZ",
+                                true
                               ).isValid()
                             ) {
                               return (
@@ -195,11 +196,11 @@ function TableComp(props) {
                               src={ReadImg}
                               alt="read"
                               style={{ color: "#B4B4B4", cursor: "pointer" }}
-                              onClick={() =>
-                                history.push(
-                                  `${editRouteName}?Editid=${obj._id}`
-                                )
-                              }
+                              onClick={() => {
+                                localStorage.removeItem("editId");
+                                localStorage.setItem("editId", obj._id);
+                                history.push(`${editRouteName}`);
+                              }}
                             />
                           </td>
                         )}

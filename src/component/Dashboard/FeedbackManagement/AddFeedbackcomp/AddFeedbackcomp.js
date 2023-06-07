@@ -2,27 +2,43 @@ import React, { useState, useEffect, Fragment } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import "./style.scss";
 import { useForm } from "react-hook-form";
-
 import TextEditor from "component/common/TextEditor/TextEditor";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import { history } from "helpers";
 import CustomController from "component/common/Controller";
+import { addFeedback } from "service/Cms";
+import SuccessModal from "component/common/DeleteModal/SuccessModal";
 
 const AddFeedbackcomp = ({ create, view, edit, remove }) => {
-  const { register, handleSubmit, errors, reset, setError, control } = useForm({
-    mode: "onChange",
-  });
+  const { register, handleSubmit, errors, reset, getValues, control } = useForm(
+    {
+      mode: "onChange",
+    }
+  );
 
-  const [content, setContent] = useState("");
+  const [modal, setModal] = useState(false);
 
-  const [editorState, setEditorState] = useState(null);
-
-  const handleChange = (state) => {
-    setEditorState(state);
-  };
-
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log("data :>> ", data);
+    try {
+      let body = {
+        feedback: data.description,
+        userId: "12345",
+        userName: "newUser",
+      };
+      let response = await addFeedback(body);
+      if (response.status === 200) {
+        setModal(true);
+        const timeout = setTimeout(() => {
+          setModal(false);
+          reset();
+          history.push("/admin/feedback-management");
+        }, 1000);
+        return () => clearTimeout(timeout);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
   return (
     <div className="container-fluid">
@@ -47,21 +63,22 @@ const AddFeedbackcomp = ({ create, view, edit, remove }) => {
                 <div className="col">
                   <div className="text_editor">
                     <CustomController
-                      name={"content"}
+                      name={"description"}
                       control={control}
-                      error={errors.content}
+                      error={errors?.description}
+                      defaultValue={getValues("description")}
                       rules={{ required: true }}
                       messages={{
                         required: "Feedback Description is Required",
                       }}
-                      render={({ onChange, ...field }) => {
+                      render={({ onChange, ...fields }) => {
                         return (
                           <TextEditor
-                            {...field}
-                            content={content}
-                            onChange={(text) =>
-                              onChange(() => setContent(text))
-                            }
+                            {...fields}
+                            onChange={(description) => {
+                              onChange(description);
+                            }}
+                            name={"description"}
                           />
                         );
                       }}
@@ -90,6 +107,13 @@ const AddFeedbackcomp = ({ create, view, edit, remove }) => {
             </div>
           </div>
         </form>
+        <div>
+          <SuccessModal
+            modalOpen={modal}
+            onCancel={() => setModal(false)}
+            successMsg={"New Feedback Added Successfully"}
+          />
+        </div>
       </div>
     </div>
   );

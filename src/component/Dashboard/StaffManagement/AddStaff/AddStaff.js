@@ -142,7 +142,7 @@ const AddStaff = ({ create, view, remove }) => {
             faqManagement: data.faqManagement,
             knowledgeCenterManagement: data.knowledgeCenterManagement,
             siteSettingsManagement: data.siteSettingsManagement,
-            clientFamilyManagement: data.clientFamilyManagement
+            clientFamilyManagement: data.clientFamilyManagement,
           },
         };
         if (staffDetails.status === "active") {
@@ -182,7 +182,7 @@ const AddStaff = ({ create, view, remove }) => {
             faqManagement: data.faqManagement,
             knowledgeCenterManagement: data.knowledgeCenterManagement,
             siteSettingsManagement: data.siteSettingsManagement,
-            clientFamilyManagement: data.clientFamilyManagement
+            clientFamilyManagement: data.clientFamilyManagement,
           },
         };
         if (staffDetails.status === "active") {
@@ -219,19 +219,37 @@ const AddStaff = ({ create, view, remove }) => {
       setValue(managementOption, []);
     }
   };
+
   const handleCheckOption = (managementOption, option, event) => {
     const isChecked = event.target.checked;
     const currentValues = control.getValues(managementOption);
+    const allSelected = currentValues.includes("ALL");
 
     if (isChecked) {
-      if (!currentValues.includes(option)) {
-        setValue(managementOption, [...currentValues, option]);
+      let updatedValues = [...currentValues, option];
+      if (
+        (option === "EDIT" || option === "ADD" || option === "DELETE") &&
+        !currentValues.includes("VIEW")
+      ) {
+        updatedValues = [...updatedValues, "VIEW"];
       }
+      if (allSelected) {
+        updatedValues = updatedValues.filter((value) => value !== "ALL");
+      } else if (
+        updatedValues.includes("VIEW") &&
+        updatedValues.includes("EDIT") &&
+        updatedValues.includes("ADD") &&
+        updatedValues.includes("DELETE")
+      ) {
+        updatedValues = ["ALL", ...updatedValues];
+      }
+      setValue(managementOption, updatedValues);
     } else {
-      setValue(
-        managementOption,
-        currentValues.filter((value) => value !== option)
-      );
+      let updatedValues = currentValues.filter((value) => value !== option);
+      if (allSelected) {
+        updatedValues = updatedValues.filter((value) => value !== "ALL");
+      }
+      setValue(managementOption, updatedValues);
     }
   };
 
