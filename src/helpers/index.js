@@ -201,6 +201,7 @@ export const debounceFunction = (fn, delay) => {
   };
 };
 
+
 export const downloadFile = ({ url }) => {
   if (!url) return;
 
@@ -328,16 +329,22 @@ export const navLink = [
   },
 ];
 
-export const getCompNameByPrivelegeName = name => navLink?.find(a => a?.privilegesName === name)?.label || name;
+export const getCompNameByPrivelegeName = (name) =>
+  navLink?.find((a) => a?.privilegesName === name)?.label || name;
 
-export const checkAndReturnViewableComponent = (previleges, checkablePrevilege) => {
+export const checkAndReturnViewableComponent = (
+  previleges,
+  checkablePrevilege
+) => {
   if (!checkablePrevilege?.view) {
-    console.log("previleges - ", { previleges, checkablePrevilege })
-    const nextViewableCompKey = Object?.entries(previleges)?.flatMap?.(([k, v]) => v?.view ? [k] : [])?.[0];
+    console.log("previleges - ", { previleges, checkablePrevilege });
+    const nextViewableCompKey = Object?.entries(
+      previleges
+    )?.flatMap?.(([k, v]) => (v?.view ? [k] : []))?.[0];
     if (nextViewableCompKey) {
-      return navLink?.find(a => a?.privilegesName == nextViewableCompKey);
+      return navLink?.find((a) => a?.privilegesName == nextViewableCompKey);
     } else {
       // Redirect to 404;
     }
   }
-}
+};
