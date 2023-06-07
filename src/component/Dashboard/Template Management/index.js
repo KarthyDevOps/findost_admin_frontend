@@ -15,7 +15,7 @@ import { Toast } from "service/toast";
 
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 
-const TemplateManagementComp = () => {
+const TemplateManagementComp = ({ create, view, edit, remove }) => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
   });
@@ -115,10 +115,10 @@ const TemplateManagementComp = () => {
                   name="search"
                   Iconic
                   value={searchStaff}
-                  // onChange={(e) => {
-                  //   setsearch(e.target.value);
-                  //   setactivePage(1);
-                  // }}
+                // onChange={(e) => {
+                //   setsearch(e.target.value);
+                //   setactivePage(1);
+                // }}
                 />
                 <i className="search_iconic">
                   <BsSearch size={18} style={{ color: "#7E7E7E" }} />
@@ -129,7 +129,7 @@ const TemplateManagementComp = () => {
               </div>
             </div>
           </div>
-          <div className="col-md-2 col-12 p-0 m-0">
+          {create && <div className="col-md-2 col-12 p-0 m-0">
             <NormalButton
               className="loginButton"
               label={"Add Template "}
@@ -138,14 +138,14 @@ const TemplateManagementComp = () => {
                 history.push("/admin/template-management/add-template");
               }}
             />
-          </div>
+          </div>}
         </div>
         <div className="">
           <TableComp
             data={data}
             isCheck={true}
-            EditAction={true}
-            DeleteAction={true}
+            EditAction={edit}
+            DeleteAction={remove}
             includedKeys={includedKeys}
             pageCount={pageCount}
             onPageChange={handlePageChange}

@@ -27,10 +27,10 @@ export const addProduct = async (data) => {
   return request;
 };
 
-export const editProduct = async (params) => {
+export const getProduct = async (params) => {
   const request = await axios({
     method: "get",
-    url: endpoints.cms.EDIT_PRODUCT,
+    url: endpoints.cms.GET_PRODUCT,
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
@@ -87,10 +87,10 @@ export const deleteContentList = async (params) => {
   return request;
 };
 
-export const editContent = async (params) => {
+export const getContent = async (params) => {
   const request = await axios({
     method: "get",
-    url: endpoints.cms.EDIT_CONTENT,
+    url: endpoints.cms.GET_CONTENT,
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
@@ -142,10 +142,10 @@ export const updateTemplate = async (body, templateId) => {
   }).catch(axiosErrorHandler);
   return request;
 };
-export const editTemplate = async (params) => {
+export const getTemplate = async (params) => {
   const request = await axios({
     method: "get",
-    url: `${endpoints.cms.EDIT_TEMPLATE}`,
+    url: `${endpoints.cms.GET_TEMPLATE}`,
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
@@ -197,10 +197,10 @@ export const updateFAQ = async (body, id) => {
   }).catch(axiosErrorHandler);
   return request;
 };
-export const editFAQ = async (params) => {
+export const getFAQ = async (params) => {
   const request = await axios({
     method: "get",
-    url: `${endpoints.cms.EDIT_FAQ}`,
+    url: `${endpoints.cms.GET_FAQ}`,
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
@@ -230,7 +230,7 @@ export const updateSiteSetting = async (body, id) => {
   }).catch(axiosErrorHandler);
   return request;
 };
-export const editSiteSetting = async (params) => {
+export const getSiteSetting = async (params) => {
   const request = await axios({
     method: "get",
     url: `${endpoints.cms.GET_SITE_SETTING}`,

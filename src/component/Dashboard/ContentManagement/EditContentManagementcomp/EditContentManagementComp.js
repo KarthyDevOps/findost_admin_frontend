@@ -6,13 +6,14 @@ import { useForm } from "react-hook-form";
 import FormErrorMessage from "component/common/ErrorMessage";
 import TextEditor from "component/common/TextEditor/TextEditor";
 import { history } from "helpers";
-import { editContent, updateContent } from "service/Cms";
+import { getContent, updateContent } from "service/Cms";
 import CustomController from "component/common/Controller";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import DropDown from "component/common/DropDown/DropDown";
 import { Toast } from "service/toast";
-const EditContentManagementComp = () => {
+
+const EditContentManagementComp = ({ create, view, remove }) => {
   const {
     register,
     handleSubmit,
@@ -68,14 +69,14 @@ const EditContentManagementComp = () => {
       const params = {
         id: id,
       };
-      let response = await editContent(params);
+      let response = await getContent(params);
       if (response.status === 200) {
         const data = response?.data?.data;
         reset({
-          title:data?.title,
-          content:data?.description,
-        })
-        
+          title: data?.title,
+          content: data?.description,
+        });
+
         setcontentDetails({
           status: data.isActive ? "active" : "inActive",
         });

@@ -5,14 +5,14 @@ import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
 import FormErrorMessage from "component/common/ErrorMessage";
 import NormalButton from "component/common/NormalButton/NormalButton";
-import { history } from "helpers";
+import { history, getCompNameByPrivelegeName } from "helpers";
 import DropDown from "component/common/DropDown/DropDown";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import CustomController from "component/common/Controller";
-import { addStaff, editStaff, updateStaff } from "service/Auth";
+import { addStaff, getStaff, updateStaff } from "service/Auth";
 import { Toast } from "service/toast";
 
-const AddStaff = () => {
+const AddStaff = ({ create, view, remove }) => {
   const {
     register,
     handleSubmit,
@@ -34,15 +34,16 @@ const AddStaff = () => {
   });
 
   const [managementOptions, setManagementOptions] = useState({
-    staffManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-    productManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-    feedbackManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-    notificationManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
     contentManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-    templateManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
     faqManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+    feedbackManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+    knowledgeCenterManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
     mastersManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+    notificationManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+    productManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
     siteSettings: ["VIEW", "EDIT", "ADD", "DELETE"],
+    staffManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+    templateManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   });
 
   const options = [
@@ -104,7 +105,7 @@ const AddStaff = () => {
       const params = {
         id: id,
       };
-      let response = await editStaff(params);
+      let response = await getStaff(params);
       if (response.status === 200) {
         const data = response?.data.data[0];
         setValue("name", data.name);
@@ -139,8 +140,9 @@ const AddStaff = () => {
             contentManagement: data.contentManagement,
             templateManagement: data.templateManagement,
             faqManagement: data.faqManagement,
-            mastersManagement: data.mastersManagement,
+            knowledgeCenterManagement: data.knowledgeCenterManagement,
             siteSettings: data.siteSettings,
+            mastersManagement: data.mastersManagement
           },
         };
         if (staffDetails.status === "active") {
@@ -178,8 +180,9 @@ const AddStaff = () => {
             contentManagement: data.contentManagement,
             templateManagement: data.templateManagement,
             faqManagement: data.faqManagement,
-            mastersManagement: data.mastersManagement,
+            knowledgeCenterManagement: data.knowledgeCenterManagement,
             siteSettings: data.siteSettings,
+            mastersManagement: data.mastersManagement
           },
         };
         if (staffDetails.status === "active") {
@@ -401,9 +404,7 @@ const AddStaff = () => {
                   ([managementOption, options]) => (
                     <tr key={managementOption} className="">
                       <td className="row_box">
-                        {managementOption.charAt(0).toUpperCase() +
-                          managementOption.slice(1)}{" "}
-                        {managementOption === "siteSettings" ? "" : ""}
+                        {getCompNameByPrivelegeName(managementOption)}
                       </td>
                       <td className="">
                         <input

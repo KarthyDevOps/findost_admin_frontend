@@ -10,7 +10,8 @@ import NormalButton from "component/common/NormalButton/NormalButton";
 import "./style.scss";
 import DropDown from "component/common/DropDown/DropDown";
 import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
-const FeedbackManagementComp = () => {
+
+const FeedbackManagementComp = ({ create, view, edit, remove }) => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
   });
@@ -20,21 +21,21 @@ const FeedbackManagementComp = () => {
       status: "Open",
       dateandTime: "2023-05-04T16:06:03.636Z",
       userName: "Lauren_Crona",
-      feedbackDescription:"Nemo dolorem eum aliquam non."
+      feedbackDescription: "Nemo dolorem eum aliquam non."
     },
     {
       userId: "51322",
       status: "Accepted",
       dateandTime: "2023-05-04T16:06:03.636Z",
       userName: "Lauren_Crona",
-      feedbackDescription:"Nemo dolorem eum aliquam non."
+      feedbackDescription: "Nemo dolorem eum aliquam non."
     },
     {
       userId: "51322",
       status: "Inprogress",
       dateandTime: "2023-05-04T16:06:03.636Z",
       userName: "Lauren_Crona",
-      feedbackDescription:"Nemo dolorem eum aliquam non."
+      feedbackDescription: "Nemo dolorem eum aliquam non."
     },
   ]);
   const [searchStaff, setSearchStaff] = useState("");
@@ -89,10 +90,10 @@ const FeedbackManagementComp = () => {
                   Iconic
                   Search
                   value={searchStaff}
-                  // onChange={(e) => {
-                  //   setsearch(e.target.value);
-                  //   setactivePage(1);
-                  // }}
+                // onChange={(e) => {
+                //   setsearch(e.target.value);
+                //   setactivePage(1);
+                // }}
                 />
               </div>
               <div className="col-md-3">
@@ -115,22 +116,22 @@ const FeedbackManagementComp = () => {
               </div>
             </div>
           </div>
-          <div className="col-md-2 col-12 p-0 m-0">
+          {create && <div className="col-md-2 col-12 p-0 m-0">
             <Link to="/admin/feedBack-management/add-feedback">
               <NormalButton
                 className="loginButton"
                 label={"Add Feedback"}
-                //   onClick={DeletBulk}
+              //   onClick={DeletBulk}
               />
             </Link>
-          </div>
+          </div>}
         </div>
         <div className="">
           <TableComp
             data={data}
             isCheck={true}
-            ReadAction={true}
-            DeleteAction={true}
+            ReadAction={edit}
+            DeleteAction={remove}
             includedKeys={includedKeys}
             pageCount={pageCount}
             onPageChange={handlePageChange}

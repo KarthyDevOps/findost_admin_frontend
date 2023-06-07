@@ -16,10 +16,10 @@ export const LoginAPI = async (data) => {
   return request;
 };
 
-export const getStaff = async (params) => {
+export const getStaffList = async (params) => {
   let request = await axios({
     method: "get",
-    url: `${endpoints.auth.GET_STAFF}`,
+    url: `${endpoints.auth.GET_STAFF_LIST}`,
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
@@ -40,10 +40,10 @@ export const addStaff = async (data) => {
   return request;
 };
 
-export const editStaff = async (params) => {
+export const getStaff = async (params) => {
   const request = await axios({
     method: "get",
-    url: endpoints.auth.EDIT_STAFF,
+    url: endpoints.auth.GET_STAFF,
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
@@ -76,7 +76,7 @@ export const updateStaff = async (body, id) => {
   return request;
 };
 
-export const getClient = async (params) => {
+export const getClientlist = async (params) => {
   let request = await axios({
     method: "get",
     url: `${endpoints.auth.LIST_CLIENT}`,
@@ -100,11 +100,11 @@ export const addClient = async (data) => {
   return request;
 };
 
-export const editClient = async (params) => {
+export const getClient = async (params) => {
   console.log("params", params);
   const request = await axios({
     method: "get",
-    url: endpoints.auth.EDIT_CLIENT,
+    url: endpoints.auth.GET_CLIENT,
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },

@@ -8,7 +8,7 @@ import "./style.scss";
 import TableComp from "component/common/TableComp/TableComp";
 import { Toast } from "service/toast";
 
-const KnowledgeCenterComp = () => {
+const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [modalVisible, setModalVisible] = useState({
@@ -106,39 +106,39 @@ const KnowledgeCenterComp = () => {
             name="search"
             Iconic
             Search
-            // value={search}
-            // onChange={(e) => {
-            //   setsearch(e.target.value);
-            //   setactivePage(1);
-            // }}
+          // value={search}
+          // onChange={(e) => {
+          //   setsearch(e.target.value);
+          //   setactivePage(1);
+          // }}
           />
         </div>
         <div className="col-2">
           <DropDown
             // value={value}
             placeholder="Filter by Category"
-            // onChange={(e) => {}}
-            // options={options}
+          // onChange={(e) => {}}
+          // options={options}
           />
         </div>
         <div className="col-2">
           <DropDown
             // value={value}
             placeholder="Filter by Sub Category"
-            // onChange={(e) => {}}
-            // options={options}
+          // onChange={(e) => {}}
+          // options={options}
           />
         </div>
         <div className="col-2">
           <DropDown
             // value={value}
             placeholder="Filter by Status"
-            // onChange={(e) => {}}
-            // options={options}
+          // onChange={(e) => {}}
+          // options={options}
           />
         </div>
         <div className="col-1"></div>
-        <div className="col-2">
+        {create && <div className="col-2">
           <NormalButton
             className="loginButton"
             label={"Add New"}
@@ -147,7 +147,7 @@ const KnowledgeCenterComp = () => {
               history.push("/admin/knowledge-center/add-knowledge");
             }}
           />
-        </div>
+        </div>}
         <div className=" mt-4 p-3">
           <TableComp
             data={data}

@@ -10,7 +10,7 @@ import TableComp from "component/common/TableComp/TableComp";
 import { Toast } from "service/toast";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 
-const FaqManagementComp = () => {
+const FaqManagementComp = ({ create, view, edit, remove }) => {
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState([]);
@@ -103,39 +103,39 @@ const FaqManagementComp = () => {
             name="search"
             Iconic
             Search
-            // value={search}
-            // onChange={(e) => {
-            //   setsearch(e.target.value);
-            //   setactivePage(1);
-            // }}
+          // value={search}
+          // onChange={(e) => {
+          //   setsearch(e.target.value);
+          //   setactivePage(1);
+          // }}
           />
         </div>
         <div className="col-2">
           <DropDown
             // value={value}
             placeholder="Filter by Category"
-            // onChange={(e) => {}}
-            // options={options}
+          // onChange={(e) => {}}
+          // options={options}
           />
         </div>
         <div className="col-2">
           <DropDown
             // value={value}
             placeholder="Filter by Sub Category"
-            // onChange={(e) => {}}
-            // options={options}s
+          // onChange={(e) => {}}
+          // options={options}s
           />
         </div>
         <div className="col-2">
           <DropDown
             // value={value}
             placeholder="Filter by Status"
-            // onChange={(e) => {}}
-            // options={options}
+          // onChange={(e) => {}}
+          // options={options}
           />
         </div>
         <div className="col-1"></div>
-        <div className="col-2">
+        {create && <div className="col-2">
           <NormalButton
             className="loginButton"
             label={"Add New FAQ"}
@@ -144,13 +144,13 @@ const FaqManagementComp = () => {
               history.push("/admin/faq-management/add-faq");
             }}
           />
-        </div>
+        </div>}
         <div className=" mt-4 p-3">
           <TableComp
             data={data}
             isCheck={true}
-            EditAction={true}
-            DeleteAction={true}
+            EditAction={edit}
+            DeleteAction={remove}
             includedKeys={includedKeys}
             pageCount={pageCount}
             handleOpenModal={handleOpenModal}

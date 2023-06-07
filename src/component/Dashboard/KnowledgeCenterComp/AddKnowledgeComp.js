@@ -199,11 +199,11 @@ const AddKnowledgeComp = () => {
                 register={register({
                   required: true,
                 })}
-                //   value={searchStaff}
-                // onChange={(e) => {
-                //   setsearch(e.target.value);
-                //   setactivePage(1);
-                // }}
+              //   value={searchStaff}
+              // onChange={(e) => {
+              //   setsearch(e.target.value);
+              //   setactivePage(1);
+              // }}
               />
               <FormErrorMessage
                 error={errors.title}
@@ -371,7 +371,7 @@ const AddKnowledgeComp = () => {
                 className="loginButton"
                 onClick={handleSubmit(onSubmit)}
                 label={edit ? "Update" : "Add Content"}
-                //   onClick={DeletBulk}
+              //   onClick={DeletBulk}
               />
             </div>
           </div>

@@ -1,18 +1,13 @@
 import React, { useState, useEffect, Fragment } from "react";
 import TableComp from "../../common/TableComp/TableComp";
-import axios from "axios";
-import FormErrorMessage from "component/common/ErrorMessage";
-import { useForm } from "react-hook-form";
 
 import "./style.scss";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import { getContentList, deleteContentList } from "service/Cms";
 import { Toast } from "service/toast";
 
-const ContentManagementComp = () => {
-  const { register, handleSubmit, errors, reset, setError } = useForm({
-    mode: "onChange",
-  });
+const ContentManagementComp = ({ create, view, edit, remove }) => {
+
   const [modalVisible, setModalVisible] = useState({
     id: null,
     show: false,
@@ -90,8 +85,8 @@ const ContentManagementComp = () => {
             data={data}
             isCheck={false}
             // ReadAction={true}
-            EditAction={true}
-            DeleteAction={true}
+            EditAction={edit}
+            DeleteAction={remove}
             includedKeys={includedKeys}
             pageCount={pageCount}
             onPageChange={handlePageChange}

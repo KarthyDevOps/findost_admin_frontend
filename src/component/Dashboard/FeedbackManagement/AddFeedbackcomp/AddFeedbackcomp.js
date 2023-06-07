@@ -7,7 +7,8 @@ import TextEditor from "component/common/TextEditor/TextEditor";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import { history } from "helpers";
 import CustomController from "component/common/Controller";
-const AddFeedbackcomp = () => {
+
+const AddFeedbackcomp = ({ create, view, edit, remove }) => {
   const { register, handleSubmit, errors, reset, setError, control } = useForm({
     mode: "onChange",
   });

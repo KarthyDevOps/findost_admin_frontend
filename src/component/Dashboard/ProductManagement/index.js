@@ -13,7 +13,7 @@ import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import { Toast } from "service/toast";
 import { history } from "helpers";
 
-const ProductManagementComp = () => {
+const ProductManagementComp = ({ create, view, edit, remove }) => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
   });
@@ -47,12 +47,13 @@ const ProductManagementComp = () => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    getProductList(page)
   };
 
-  const getProductsList = async () => {
+  const getProductsList = async (page) => {
     try {
       let params = {
-        page: currentPage,
+        page: page,
         limit: 10,
         search: "",
       };
@@ -63,10 +64,10 @@ const ProductManagementComp = () => {
         setPageCount(response?.data?.data?.pageMeta?.pageCount);
         setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
       }
-    } catch (err) {}
+    } catch (err) { }
   };
   useEffect(() => {
-    getProductsList();
+    getProductsList(currentPage);
   }, []);
 
   const handleOpenModal = (id) => {
@@ -84,7 +85,7 @@ const ProductManagementComp = () => {
       let response = await deleteProduct(params);
       if (response.status === 200) {
         Toast({ type: "success", message: response.data.message });
-        getProductsList();
+        getProductsList(currentPage);
       }
     }
     setModalVisible({ show: false, id: null });
@@ -108,15 +109,15 @@ const ProductManagementComp = () => {
                   Iconic
                   Search
                   value={searchStaff}
-                  // onChange={(e) => {
-                  //   setsearch(e.target.value);
-                  //   setactivePage(1);
-                  // }}
+                // onChange={(e) => {
+                //   setsearch(e.target.value);
+                //   setactivePage(1);
+                // }}
                 />
               </div>
             </div>
           </div>
-          <div className="col-md-2 col-12 p-0 m-0">
+          {create && <div className="col-md-2 col-12 p-0 m-0">
             <NormalButton
               className="loginButton"
               label={"Add Product"}
@@ -125,14 +126,14 @@ const ProductManagementComp = () => {
                 history.push("/admin/product-management/add-product");
               }}
             />
-          </div>
+          </div>}
         </div>
         <div className="">
           <TableComp
             data={data}
             isCheck={true}
-            EditAction={true}
-            DeleteAction={true}
+            EditAction={edit}
+            DeleteAction={remove}
             includedKeys={includedKeys}
             pageCount={pageCount}
             onPageChange={handlePageChange}

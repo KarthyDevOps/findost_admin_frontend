@@ -10,13 +10,13 @@ import FormErrorMessage from "component/common/ErrorMessage";
 import CustomController from "component/common/Controller";
 import {
   addNotificationTemplate,
-  editNotificationTemplate,
+  getNotificationTemplate,
   updateNotificationTemplate,
 } from "service/Communication";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import { Toast } from "service/toast";
 
-const CreateNotificationComp = () => {
+const CreateNotificationComp = ({ create, view, remove }) => {
   const {
     register,
     handleSubmit,
@@ -45,7 +45,7 @@ const CreateNotificationComp = () => {
       let params = {
         notificationTemplateId: id,
       };
-      let response = await editNotificationTemplate(params);
+      let response = await getNotificationTemplate(params);
       if (response.status === 200) {
         console.log("response.data.data :>> ", response?.data?.data?.title);
         reset({
@@ -73,7 +73,7 @@ const CreateNotificationComp = () => {
           const timeout = setTimeout(() => {
             setModal(false);
             reset({ title: "", content: "" });
-            history.push("/admin/notification-management");
+            history.push("/admin/notification-management?tab=0");
           }, 1000);
           return () => clearTimeout(timeout);
         } else {

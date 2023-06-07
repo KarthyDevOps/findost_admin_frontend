@@ -9,11 +9,11 @@ import FormErrorMessage from "component/common/ErrorMessage";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import CustomController from "component/common/Controller";
-import { editSiteSetting, updateSiteSetting } from "service/Cms";
+import { getSiteSetting, updateSiteSetting } from "service/Cms";
 import { Toast } from "service/toast";
 import Loader from "component/common/Loader/index";
 
-const SiteSettingComp = () => {
+const SiteSettingComp = ({ create, view, edit, remove }) => {
   const { register, handleSubmit, errors, control, reset, setError } = useForm({
     mode: "onChange",
   });
@@ -23,7 +23,6 @@ const SiteSettingComp = () => {
   const [ProfileUrl, setprofileUrl] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const [edit, setEdit] = useState(false);
   console.log("ProfileUrl", ProfileUrl);
   const handleFileDrop = async (droppedimage) => {
     // let body = new FormData();
@@ -43,7 +42,7 @@ const SiteSettingComp = () => {
       const params = {
         id: id,
       };
-      let response = await editSiteSetting(params);
+      let response = await getSiteSetting(params);
 
       if (response.status === 200) {
         const data = response?.data.data;

@@ -1,36 +1,37 @@
-import { decodeJWT } from "service/helpers";
 import { privilegesData } from "action/home";
-import { getToken } from "service/helpers/utilities";
+import { getStaff } from "service/Auth";
 
-const makeTrue = obj => {
-  if (typeof obj === "object") {
-    obj.create = true;
-    obj.view = true;
-    obj.edit = true;
-    obj.delete = true;
+const getPermissionObj = (arr = []) => {
+  return {
+    create: Boolean(arr?.includes?.("ADD")),
+    view: Boolean(arr?.includes?.("VIEW")),
+    edit: Boolean(arr?.includes?.("EDIT")),
+    remove: Boolean(arr?.includes?.("DELETE"))
   }
-  return obj;
-};
+}
 
 const adminPrivileges = () => async (dispatch, getState) => {
-
   let filteredData = {
-    "patientManagement": {
-      "create": true,
-      "view": true,
-      "edit": true,
-      "delete": true
-    },
     "dashboard": {
       "create": true,
       "view": true,
       "edit": true,
-      "delete": true
+      "remove": true
     },
   };
-
-  dispatch(privilegesData(filteredData));
-  return filteredData;
+  try {
+    let { data: { data = [], status } } = await getStaff();
+    if (data?.[0]?.permissions) {
+      for (let [key, value] of Object.entries(data?.[0]?.permissions)) {
+        filteredData[key] = getPermissionObj(value);
+      }
+    }
+    dispatch(privilegesData(filteredData));
+  } catch (error) {
+    console.log("error in adminPrivileges", error)
+  } finally {
+    return filteredData;
+  }
 };
 
 export default adminPrivileges;

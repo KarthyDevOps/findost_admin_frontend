@@ -3,7 +3,7 @@ import ReactSelect from "react-select";
 import "./style.scss";
 
 const DropDown = (props) => {
-  const { value, onChange, options, placeholder, isMulti } = props;
+  const { value, onChange, options, placeholder, isMulti,controlShouldRenderValue } = props;
 
   const colourStyles = {
     dropdownIndicator: (styles) => ({
@@ -19,6 +19,7 @@ const DropDown = (props) => {
       onChange={onChange}
       options={options}
       isClearable={false}
+      controlShouldRenderValue={controlShouldRenderValue}
       components={{
         IndicatorSeparator: () => null,
       }}

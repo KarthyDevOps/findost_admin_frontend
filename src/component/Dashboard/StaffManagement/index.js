@@ -7,11 +7,12 @@ import "./style.scss";
 import { history } from "helpers";
 import { BsSearch } from "react-icons/bs";
 import DropDown from "component/common/DropDown/DropDown";
-import { getStaff, deleteStaff } from "service/Auth";
+import { getStaffList, deleteStaff } from "service/Auth";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import { Toast } from "service/toast";
+import { useLocation } from "react-router-dom";
 
-const StaffManagementComp = () => {
+const StaffManagementComp = ({ create, view, edit, remove }) => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
   });
@@ -25,6 +26,7 @@ const StaffManagementComp = () => {
     id: null,
     show: false,
   });
+  const location = useLocation();
 
   const includedKeys = [
     {
@@ -49,13 +51,13 @@ const StaffManagementComp = () => {
     },
   ];
 
-  const getStaffList = async () => {
+  const getStaffListApi = async (page) => {
     let params = {
-      page: currentPage,
+      page: page,
       limit: 10,
       search: "",
     };
-    let response = await getStaff(params);
+    let response = await getStaffList(params);
     if (response.status === 200) {
       setIsactive(response?.data?.data?.list[0].isactive);
       setData(response?.data?.data?.list);
@@ -64,11 +66,12 @@ const StaffManagementComp = () => {
     }
   };
   useEffect(() => {
-    getStaffList();
+    getStaffListApi(currentPage);
   }, []);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    getStaffListApi(page);
   };
 
   const handleOpenModal = (id) => {
@@ -86,7 +89,7 @@ const StaffManagementComp = () => {
       let response = await deleteStaff(params);
       if (response.status === 200) {
         Toast({ type: "success", message: response.data.message });
-        getStaffList();
+        getStaffListApi(currentPage);
       }
     }
     setModalVisible({ show: false, id: null });
@@ -108,10 +111,10 @@ const StaffManagementComp = () => {
                   name="search"
                   Iconic
                   value={searchStaff}
-                  // onChange={(e) => {
-                  //   setsearch(e.target.value);
-                  //   setactivePage(1);
-                  // }}
+                // onChange={(e) => {
+                //   setsearch(e.target.value);
+                //   setactivePage(1);
+                // }}
                 />
                 <i className="search_iconic">
                   <BsSearch size={18} style={{ color: "#7E7E7E" }} />
@@ -121,8 +124,8 @@ const StaffManagementComp = () => {
                 <DropDown
                   // value={value}
                   placeholder="Filter by Role"
-                  // onChange={(e) => {}}
-                  // options={options}
+                // onChange={(e) => {}}
+                // options={options}
                 />
               </div>
 
@@ -130,13 +133,13 @@ const StaffManagementComp = () => {
                 <DropDown
                   // value={value}
                   placeholder="Filter by Status"
-                  // onChange={(e) => {}}
-                  // options={options}
+                // onChange={(e) => {}}
+                // options={options}
                 />
               </div>
             </div>
           </div>
-          <div className="col-md-2 col-12 p-0 m-0">
+          {create && <div className="col-md-2 col-12 p-0 m-0">
             <NormalButton
               className="loginButton"
               label={"Add Staff"}
@@ -145,17 +148,18 @@ const StaffManagementComp = () => {
                 history.push("/admin/staff-management/add-staff");
               }}
             />
-          </div>
+          </div>}
         </div>
         <div className="">
           <TableComp
             data={data}
             isCheck={true}
-            EditAction={true}
-            DeleteAction={true}
+            EditAction={edit}
+            DeleteAction={remove}
             includedKeys={includedKeys}
             pageCount={pageCount}
             onPageChange={handlePageChange}
+            currentPage={currentPage}
             setCurrentPage={setCurrentPage}
             editRouteName={"/admin/staff-management/add-staff"}
             handleOpenModal={handleOpenModal}

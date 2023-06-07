@@ -34,13 +34,14 @@ class RoutesClass extends Component {
   }
 
   componentWillMount() {
+    console.log("mounted")
     this.fetchInitialData();
   }
 
   render() {
     const { privilegesData } = this.props;
     const { loading } = this.state;
-
+    console.log("privilegesDataprivilegesData", privilegesData)
     if (loading) return <InitialLoader />;
 
     return (

@@ -6,20 +6,19 @@ import FormErrorMessage from "component/common/ErrorMessage";
 import DropDown from "component/common/DropDown/DropDown";
 import { useForm } from "react-hook-form";
 import InputBox from "component/common/InputBox/InputBox";
-import { editClient, updateClient } from "service/Auth";
+import { getClient, updateClient } from "service/Auth";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
 import CustomController from "component/common/Controller";
 import { Toast } from "service/toast";
 
-const EditClientsFamilyComp = () => {
+const EditClientsFamilyComp = ({ edit, view }) => {
   const {
     register,
     handleSubmit,
     errors,
     setValue,
     reset,
-    setError,
     control,
     getValues,
   } = useForm({
@@ -57,11 +56,10 @@ const EditClientsFamilyComp = () => {
 
   const getClientDetails = async () => {
     try {
-      const params = {
-        id: id,
-      };
+      if (!view) return history.goBack();
+      const params = { id };
       console.log("first");
-      let response = await editClient(params);
+      let response = await getClient(params);
 
       if (response.status === 200) {
         const data = response?.data.data;
@@ -90,6 +88,7 @@ const EditClientsFamilyComp = () => {
       getClientDetails();
     }
   }, []);
+
   const onSubmit = async (data) => {
     setModal(true);
     try {
@@ -259,14 +258,14 @@ const EditClientsFamilyComp = () => {
                 onClick={() => history.goBack()}
               />
             </div>
-            <div className="col-md-2">
+            {edit && <div className="col-md-2">
               <NormalButton
                 className="loginButton"
                 label={"Update"}
                 onClick={handleSubmit(onSubmit)}
-                //   onClick={DeletBulk}
+              //   onClick={DeletBulk}
               />
-            </div>
+            </div>}
           </div>
         </div>
       </form>

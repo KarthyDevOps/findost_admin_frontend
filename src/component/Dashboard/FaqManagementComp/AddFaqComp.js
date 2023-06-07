@@ -11,9 +11,9 @@ import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import CustomController from "component/common/Controller";
 import FormErrorMessage from "component/common/ErrorMessage";
 import { Toast } from "service/toast";
-import { addFAQ, editFAQ, updateFAQ } from "service/Cms";
+import { addFAQ, getFAQ, updateFAQ } from "service/Cms";
 
-const AddFaqComp = () => {
+const AddFaqComp = ({ create, view, remove }) => {
   const {
     register,
     handleSubmit,
@@ -84,7 +84,7 @@ const AddFaqComp = () => {
       const params = {
         faqId: id,
       };
-      let response = await editFAQ(params);
+      let response = await getFAQ(params);
       if (response.status === 200) {
         const data = response?.data.data;
         reset({
@@ -190,14 +190,14 @@ const AddFaqComp = () => {
               <NormalButton
                 className="authButton1"
                 label={"Download Sample"}
-                //   onClick={DeletBulk}
+              //   onClick={DeletBulk}
               />
             </div>
             <div className="">
               <NormalButton
                 className="loginButton"
                 label={"Upload CSV"}
-                //   onClick={DeletBulk}
+              //   onClick={DeletBulk}
               />
             </div>
           </div>
@@ -351,7 +351,7 @@ const AddFaqComp = () => {
                 className="loginButton"
                 onClick={handleSubmit(onSubmit)}
                 label={edit ? "Update" : "Add FAQ"}
-                //   onClick={DeletBulk}
+              //   onClick={DeletBulk}
               />
             </div>
           </div>

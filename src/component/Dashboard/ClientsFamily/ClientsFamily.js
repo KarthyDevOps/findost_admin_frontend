@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-import { Toast } from "service/toast";
-import { getClient } from "service/Auth";
+import { getClientList } from "service/Auth";
 import InputBox from "component/common/InputBox/InputBox";
 import DropDown from "component/common/DropDown/DropDown";
 import TableComp from "component/common/TableComp/TableComp";
-const ClientsFamily = () => {
+
+const ClientsFamily = ({ create, view, edit, remove }) => {
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState([]);
@@ -36,9 +36,11 @@ const ClientsFamily = () => {
       value: "relationShip",
     },
   ];
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+
   const getClientList = async () => {
     try {
       let params = {
@@ -46,15 +48,16 @@ const ClientsFamily = () => {
         limit: 10,
         search: "",
       };
-      let response = await getClient(params);
+      let response = await getClientList(params);
       if (response.status === 200) {
         console.log("response", response?.data?.data);
         setData(response?.data?.data?.list);
         setPageCount(response?.data?.data?.pageMeta?.pageCount);
         setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
       }
-    } catch (err) {}
+    } catch (err) { }
   };
+
   useEffect(() => {
     getClientList();
   }, []);
@@ -71,27 +74,27 @@ const ClientsFamily = () => {
             name="search"
             Iconic
             Search
-            // value={search}
-            // onChange={(e) => {
-            //   setsearch(e.target.value);
-            //   setactivePage(1);
-            // }}
+          // value={search}
+          // onChange={(e) => {
+          //   setsearch(e.target.value);
+          //   setactivePage(1);
+          // }}
           />
         </div>
         <div className="col-2">
           <DropDown
             // value={value}
             placeholder="Filter by Role"
-            // onChange={(e) => {}}
-            // options={options}
+          // onChange={(e) => {}}
+          // options={options}
           />
         </div>
         <div className="col-2">
           <DropDown
             // value={value}
             placeholder="Filter by Status"
-            // onChange={(e) => {}}
-            // options={options}
+          // onChange={(e) => {}}
+          // options={options}
           />
         </div>
       </div>
@@ -99,8 +102,8 @@ const ClientsFamily = () => {
         <TableComp
           data={data}
           isCheck={true}
-          EditAction={true}
-          DeleteAction={false}
+          EditAction={edit}
+          DeleteAction={remove}
           includedKeys={includedKeys}
           pageCount={pageCount}
           onPageChange={handlePageChange}
