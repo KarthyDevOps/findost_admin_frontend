@@ -41,7 +41,7 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
     setCurrentPage(page);
   };
 
-  const getClientList = async () => {
+  const fetchClientList = async () => {
     try {
       let params = {
         page: currentPage,
@@ -55,11 +55,11 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
         setPageCount(response?.data?.data?.pageMeta?.pageCount);
         setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
       }
-    } catch (err) { }
+    } catch (err) {}
   };
 
   useEffect(() => {
-    getClientList();
+    fetchClientList();
   }, []);
 
   return (
@@ -74,27 +74,27 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
             name="search"
             Iconic
             Search
-          // value={search}
-          // onChange={(e) => {
-          //   setsearch(e.target.value);
-          //   setactivePage(1);
-          // }}
+            // value={search}
+            // onChange={(e) => {
+            //   setsearch(e.target.value);
+            //   setactivePage(1);
+            // }}
           />
         </div>
         <div className="col-2">
           <DropDown
             // value={value}
             placeholder="Filter by Role"
-          // onChange={(e) => {}}
-          // options={options}
+            // onChange={(e) => {}}
+            // options={options}
           />
         </div>
         <div className="col-2">
           <DropDown
             // value={value}
             placeholder="Filter by Status"
-          // onChange={(e) => {}}
-          // options={options}
+            // onChange={(e) => {}}
+            // options={options}
           />
         </div>
       </div>

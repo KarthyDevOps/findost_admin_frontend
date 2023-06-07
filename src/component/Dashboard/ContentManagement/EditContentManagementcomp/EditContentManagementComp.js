@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import FormErrorMessage from "component/common/ErrorMessage";
 import TextEditor from "component/common/TextEditor/TextEditor";
 import { history } from "helpers";
-import { getContent, updateContent } from "service/Cms";
+import { addContent, getContent, updateContent } from "service/Cms";
 import CustomController from "component/common/Controller";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import NormalButton from "component/common/NormalButton/NormalButton";
@@ -50,13 +50,6 @@ const EditContentManagementComp = ({ create, view, remove }) => {
   const id = localStorage.getItem("editId");
 
   useEffect(() => {
-    if (id) {
-      setedit(true);
-      getContentList();
-    }
-  }, []);
-
-  useEffect(() => {
     setValue(
       "status",
       status.find((option) => option.value === contentDetails.status)
@@ -87,10 +80,17 @@ const EditContentManagementComp = ({ create, view, remove }) => {
       console.log("e :>> ", e);
     }
   };
-  useEffect(() => getContentList(), []);
+
+  useEffect(() => {
+    if (id) {
+      setedit(true);
+      getContentList();
+    }
+  }, []);
 
   // const handleChange = (state) => {
   //   setEditorState(state);
+
   // };
   const onSubmit = async (data) => {
     console.log("data", data);
@@ -107,6 +107,32 @@ const EditContentManagementComp = ({ create, view, remove }) => {
         }
         console.log(body, id, "hh");
         let response = await updateContent(body, id);
+        if (response.status === 200) {
+          setModal(true);
+          const timeout = setTimeout(() => {
+            setModal(false);
+            reset(contentDetails);
+            history.push("/admin/content-management");
+          }, 1000);
+          return () => clearTimeout(timeout);
+        } else {
+          Toast({ type: "error", message: response.data.message });
+        }
+      } catch (e) {
+        console.log(e, "eee");
+      }
+    }else{
+      try {
+        let body = {
+          title: data.title,
+          description: data.content,
+        };
+        if (contentDetails.status === "active") {
+          body.isActive = true;
+        } else {
+          body.isActive = false;
+        }
+        let response = await addContent (body);
         if (response.status === 200) {
           setModal(true);
           const timeout = setTimeout(() => {
@@ -149,7 +175,7 @@ const EditContentManagementComp = ({ create, view, remove }) => {
                   <InputBox
                     className="login_input"
                     type={"text"}
-                    placeholder="Privacy Policy"
+                    placeholder="Title"
                     name="title"
                     defaultValue={contentDetails.title}
                     errors={errors}
@@ -180,7 +206,7 @@ const EditContentManagementComp = ({ create, view, remove }) => {
                       return (
                         <DropDown
                           {...field}
-                          placeholder="Active"
+                          placeholder="status"
                           name="status"
                           errors={errors.status}
                           options={status}
@@ -245,12 +271,10 @@ const EditContentManagementComp = ({ create, view, remove }) => {
                     <NormalButton
                       addProductbtn
                       onClick={handleSubmit(onSubmit)}
-                      // onClick={alert("jjjjj")}
-                      label="Update"
+                      label={edit ? "Update" : "Add content"}
                     >
                       {" "}
                     </NormalButton>
-                    {/* <NormalButton addProductbtn label='Update'> </NormalButton> */}
                   </div>
                 </div>
               </div>
@@ -261,7 +285,11 @@ const EditContentManagementComp = ({ create, view, remove }) => {
           <SuccessModal
             modalOpen={modal}
             onCancel={() => setModal(false)}
-            successMsg={"Privacy Policy Content Updated Successfully"}
+            successMsg={
+              edit
+                ? "Content Updated Successfully"
+                : "Content Added Successfully"
+            }
           />
         </div>
       </div>

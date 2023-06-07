@@ -44,8 +44,8 @@ const EditClientsFamilyComp = ({ edit, view }) => {
       value: "Software ",
     },
   ];
-  const urlParams = new URLSearchParams(window.location.search);
-  const id = urlParams.get("Editid");
+  const id = localStorage.getItem("editId");
+
 
   useEffect(() => {
     setValue(
@@ -63,7 +63,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
 
       if (response.status === 200) {
         const data = response?.data.data;
-        console.log('datadateOfBirth', data.dateOfBirth)
+        console.log("datadateOfBirth", data.dateOfBirth);
         reset({
           clientName: data?.clientName,
           email: data?.email,
@@ -82,7 +82,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
   };
 
   useEffect(() => {
-    if (urlParams.has("Editid")) {
+    if (id) {
       // setEdit(true);
 
       getClientDetails();
@@ -258,14 +258,16 @@ const EditClientsFamilyComp = ({ edit, view }) => {
                 onClick={() => history.goBack()}
               />
             </div>
-            {edit && <div className="col-md-2">
-              <NormalButton
-                className="loginButton"
-                label={"Update"}
-                onClick={handleSubmit(onSubmit)}
-              //   onClick={DeletBulk}
-              />
-            </div>}
+            {edit && (
+              <div className="col-md-2">
+                <NormalButton
+                  className="loginButton"
+                  label={"Update"}
+                  onClick={handleSubmit(onSubmit)}
+                  //   onClick={DeletBulk}
+                />
+              </div>
+            )}
           </div>
         </div>
       </form>

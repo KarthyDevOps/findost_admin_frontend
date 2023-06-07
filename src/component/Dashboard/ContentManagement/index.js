@@ -1,5 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import TableComp from "../../common/TableComp/TableComp";
+import NormalButton from "component/common/NormalButton/NormalButton";
+import { history } from "helpers";
 
 import "./style.scss";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
@@ -81,6 +83,18 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
       <div className="staff_table px-5 pt-4">
         <p className="staff_title m-0">Content Management</p>
         <div className="">
+        {/* {create && */}
+         <div className="float-right col-2">
+          <NormalButton
+            className="loginButton"
+            label={"Add Content"}
+            onClick={() => {
+              localStorage.removeItem("editId");
+              history.push("/admin/content-management/editcontent-management");
+            }}
+          />
+        </div>
+        {/* } */}
           <TableComp
             data={data}
             isCheck={false}
@@ -100,7 +114,7 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
               modalOpen={modalVisible.show}
               closeModal={() => setModalVisible({ id: null, show: false })}
               handleDelete={handleDeleteItem}
-              DeleteMessage={"Are you sure you want to delete Page Title?"}
+              DeleteMessage={"Are you sure you want to delete?"}
             />
           </div>
         </div>

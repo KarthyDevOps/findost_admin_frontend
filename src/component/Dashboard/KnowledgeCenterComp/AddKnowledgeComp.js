@@ -384,8 +384,8 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           onCancel={() => setModal(false)}
           successMsg={
             !edit
-              ? "Knowledge Center Content Added Successfully"
-              : "Knowledge Center Content update Successfully"
+              ? "Knowledge Center Added Successfully"
+              : "Knowledge Center update Successfully"
           }
         />
       </div>
