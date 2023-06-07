@@ -12,7 +12,7 @@ import Dropzone from "component/common/Dropzone";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import FormErrorMessage from "component/common/ErrorMessage";
 import CustomController from "component/common/Controller";
-import { addKnowledge, editKnowledge, updateKnowledge } from "service/Cms";
+import { addKnowledge, getKnowledge, updateKnowledge } from "service/Cms";
 const AddKnowledgeComp = () => {
   const {
     register,
@@ -80,7 +80,7 @@ const AddKnowledgeComp = () => {
       const params = {
         knowledgeCenterId: id,
       };
-      let response = await editKnowledge(params);
+      let response = await getKnowledge(params);
       if (response.status === 200) {
         const data = response?.data.data;
         reset({
@@ -382,7 +382,7 @@ const AddKnowledgeComp = () => {
           modalOpen={modal}
           onCancel={() => setModal(false)}
           successMsg={
-            edit
+            !edit
               ? "Knowledge Center Content Added Successfully"
               : "Knowledge Center Content update Successfully"
           }

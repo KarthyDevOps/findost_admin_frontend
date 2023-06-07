@@ -3,11 +3,11 @@ import DropDown from "component/common/DropDown/DropDown";
 import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import { history } from "helpers";
-import { getKnowledgeList, deleteKnowledgeList } from "service/Cms";
+import { getKnowledgeList, deleteKnowledge } from "service/Cms";
 import "./style.scss";
 import TableComp from "component/common/TableComp/TableComp";
 import { Toast } from "service/toast";
-
+import DeleteModal from "component/common/DeleteModal/DeleteModal";
 const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -83,9 +83,9 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
   const handleDeleteItem = async () => {
     if (modalVisible.show && modalVisible.id) {
       let params = {
-        faqId: modalVisible.id,
+        knowledgeCenterId: modalVisible.id,
       };
-      let response = await deleteKnowledgeList(params);
+      let response = await deleteKnowledge(params);
       if (response.status === 200) {
         Toast({ type: "success", message: response.data.message });
         fetchData();
@@ -161,6 +161,12 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
             setCurrentPage={setCurrentPage}
             editRouteName={"/admin/knowledge-center/add-knowledge"}
           />
+            <DeleteModal
+          modalOpen={modalVisible.show}
+          closeModal={() => setModalVisible({ id: null, show: false })}
+          handleDelete={handleDeleteItem}
+          DeleteMessage={"Are you sure you want to delete Knowledge Center Title?"}
+        />
         </div>
       </div>
     </div>
