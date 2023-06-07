@@ -52,6 +52,11 @@ export const endpoints = {
     GET_KNOWLEDGE: `${cms}/knowledgeCenter-management/get`,
     UPDATE_KNOWLEDGE: `${cms}/knowledgeCenter-management/update`,
     DELETE_KNOWLEDGE: `${cms}/knowledgeCenter-management/delete`,
+    LIST_FEEDBACK: `${cms}/feedback-management/list`,
+    ADD_FEEDBACK: `${cms}/feedback-management/create`,
+    GET_FEEDBACK: `${cms}/feedback-management/get`,
+    DELETE_FEEDBACK: `${cms}/feedback-management/delete`,
+    UPDATE_FEEDBACK: `${cms}/feedback-management/update`,
   },
   communication: {
     NOTIFICATION_TEMPLATE_LIST: `${communicationUrl}/notificationTemplate-management/list`,

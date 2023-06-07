@@ -89,6 +89,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
       setPageCount(response?.data?.data?.pageMeta?.pageCount);
       setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
     } else {
+      Toast({ type: "error", message: response.data.message });
     }
   };
 
@@ -103,6 +104,8 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
       setHistoryData(response?.data?.data?.list);
       setPageCount(response?.data?.data?.pageMeta?.pageCount);
       setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
+    }else{
+      Toast({ type: "error", message: response.data.message });
     }
   };
 
@@ -126,7 +129,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
         }
       } else {
         let params = {
-          id: modalVisible.id,
+          notificationId: modalVisible.id,
         };
         let response = await deleteNotificationHistory(params);
         if (response.status === 200) {

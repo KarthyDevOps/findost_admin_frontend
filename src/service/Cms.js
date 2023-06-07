@@ -98,6 +98,7 @@ export const getContent = async (params) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
 export const updateContent = async (body, id) => {
   const request = await axios({
     method: "put",
@@ -109,6 +110,7 @@ export const updateContent = async (body, id) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
 export const addContent = async (data) => {
   const request = await axios({
     method: "post",
@@ -120,6 +122,7 @@ export const addContent = async (data) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
 export const getTemplateList = async (params) => {
   let request = await axios({
     method: "get",
@@ -131,6 +134,7 @@ export const getTemplateList = async (params) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
 export const addTemplate = async (data) => {
   let request = await axios({
     method: "post",
@@ -142,6 +146,7 @@ export const addTemplate = async (data) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
 export const updateTemplate = async (body, templateId) => {
   const request = await axios({
     method: "put",
@@ -153,6 +158,7 @@ export const updateTemplate = async (body, templateId) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
 export const getTemplate = async (params) => {
   const request = await axios({
     method: "get",
@@ -164,6 +170,7 @@ export const getTemplate = async (params) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
 export const deletetemplateList = async (params) => {
   let request = await axios({
     method: "delete",
@@ -175,6 +182,7 @@ export const deletetemplateList = async (params) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
 export const getFAQList = async (params) => {
   let request = await axios({
     method: "get",
@@ -186,6 +194,7 @@ export const getFAQList = async (params) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
 export const addFAQ = async (data) => {
   let request = await axios({
     method: "post",
@@ -197,6 +206,7 @@ export const addFAQ = async (data) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
 export const updateFAQ = async (body, id) => {
   const request = await axios({
     method: "put",
@@ -208,6 +218,7 @@ export const updateFAQ = async (body, id) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
 export const getFAQ = async (params) => {
   const request = await axios({
     method: "get",
@@ -219,6 +230,7 @@ export const getFAQ = async (params) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
 export const deleteFAQList = async (params) => {
   let request = await axios({
     method: "delete",
@@ -230,6 +242,7 @@ export const deleteFAQList = async (params) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
 export const updateSiteSetting = async (body, id) => {
   const request = await axios({
     method: "put",
@@ -241,6 +254,7 @@ export const updateSiteSetting = async (body, id) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
 export const getSiteSetting = async (params) => {
   const request = await axios({
     method: "get",
@@ -264,6 +278,7 @@ export const getKnowledgeList = async (params) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
 export const addKnowledge = async (data) => {
   let request = await axios({
     method: "post",
@@ -275,6 +290,7 @@ export const addKnowledge = async (data) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
 export const updateKnowledge = async (body, id) => {
   const request = await axios({
     method: "put",
@@ -286,6 +302,7 @@ export const updateKnowledge = async (body, id) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
 export const getKnowledge = async (params) => {
   const request = await axios({
     method: "get",
@@ -297,6 +314,7 @@ export const getKnowledge = async (params) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
 export const deleteKnowledge = async (params) => {
   let request = await axios({
     method: "delete",
@@ -309,3 +327,62 @@ export const deleteKnowledge = async (params) => {
   return request;
 };
 
+export const getFeedbackList = async (params) => {
+  let request = await axios({
+    method: "get",
+    url: `${endpoints.cms.LIST_FEEDBACK}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params: params,
+  });
+  return request;
+};
+
+export const addFeedback = async (data) => {
+  const request = await axios({
+    method: "post",
+    url: endpoints.cms.ADD_FEEDBACK,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: data,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const getFeedback = async (params) => {
+  const request = await axios({
+    method: "get",
+    url: endpoints.cms.GET_FEEDBACK,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const deleteFeedback = async (params) => {
+  const request = await axios({
+    method: "delete",
+    url: endpoints.cms.DELETE_FEEDBACK,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const updateFeedback = async (body, id) => {
+  const request = await axios({
+    method: "put",
+    url: `${endpoints.cms.UPDATE_FEEDBACK}?feedbackId=${id}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body,
+  }).catch(axiosErrorHandler);
+  return request;
+};
