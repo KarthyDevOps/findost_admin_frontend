@@ -275,10 +275,10 @@ export const updateKnowledge = async (body, id) => {
   }).catch(axiosErrorHandler);
   return request;
 };
-export const editKnowledge = async (params) => {
+export const getKnowledge = async (params) => {
   const request = await axios({
     method: "get",
-    url: `${endpoints.cms.EDIT_KNOWLEDGE}`,
+    url: `${endpoints.cms.GET_KNOWLEDGE}`,
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
@@ -286,7 +286,7 @@ export const editKnowledge = async (params) => {
   }).catch(axiosErrorHandler);
   return request;
 };
-export const deleteKnowledgeList = async (params) => {
+export const deleteKnowledge = async (params) => {
   let request = await axios({
     method: "delete",
     url: `${endpoints.cms.DELETE_KNOWLEDGE}`,

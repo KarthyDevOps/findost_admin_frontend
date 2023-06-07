@@ -12,7 +12,7 @@ import Dropzone from "component/common/Dropzone";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import FormErrorMessage from "component/common/ErrorMessage";
 import CustomController from "component/common/Controller";
-import { addKnowledge, editKnowledge, updateKnowledge } from "service/Cms";
+import { addKnowledge, getKnowledge, updateKnowledge } from "service/Cms";
 
 const AddKnowledgeComp = ({ create, view, remove }) => {
   const {
@@ -81,7 +81,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
       const params = {
         knowledgeCenterId: id,
       };
-      let response = await editKnowledge(params);
+      let response = await getKnowledge(params);
       if (response.status === 200) {
         const data = response?.data.data;
         reset({
@@ -320,7 +320,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 render={({ onChange, ...field }) => {
                   return (
                     <DropDown
-                    {...field}
+                      {...field}
                       name="status"
                       placeholder="Select status"
                       options={status}
@@ -383,7 +383,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           modalOpen={modal}
           onCancel={() => setModal(false)}
           successMsg={
-            edit
+            !edit
               ? "Knowledge Center Content Added Successfully"
               : "Knowledge Center Content update Successfully"
           }
