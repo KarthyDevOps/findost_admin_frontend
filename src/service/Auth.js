@@ -76,7 +76,7 @@ export const updateStaff = async (body, id) => {
   return request;
 };
 
-export const getClientlist = async (params) => {
+export const getClientList = async (params) => {
   let request = await axios({
     method: "get",
     url: `${endpoints.auth.LIST_CLIENT}`,

@@ -115,10 +115,10 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
                   name="search"
                   Iconic
                   value={searchStaff}
-                // onChange={(e) => {
-                //   setsearch(e.target.value);
-                //   setactivePage(1);
-                // }}
+                  // onChange={(e) => {
+                  //   setsearch(e.target.value);
+                  //   setactivePage(1);
+                  // }}
                 />
                 <i className="search_iconic">
                   <BsSearch size={18} style={{ color: "#7E7E7E" }} />
@@ -129,16 +129,18 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
               </div>
             </div>
           </div>
-          {create && <div className="col-md-2 col-12 p-0 m-0">
-            <NormalButton
-              className="loginButton"
-              label={"Add Template "}
-              onClick={() => {
-                localStorage.removeItem("editId");
-                history.push("/admin/template-management/add-template");
-              }}
-            />
-          </div>}
+          {create && (
+            <div className="col-md-2 col-12 p-0 m-0">
+              <NormalButton
+                className="loginButton"
+                label={"Add Template "}
+                onClick={() => {
+                  localStorage.removeItem("editId");
+                  history.push("/admin/template-management/add-template");
+                }}
+              />
+            </div>
+          )}
         </div>
         <div className="">
           <TableComp
@@ -158,7 +160,7 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
           modalOpen={modalVisible.show}
           closeModal={() => setModalVisible({ id: null, show: false })}
           handleDelete={handleDeleteItem}
-          DeleteMessage={"Are you sure you want to delete Staff?"}
+          DeleteMessage={"Are you sure you want to delete ?"}
         />
       </div>
     </Fragment>

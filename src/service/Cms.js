@@ -111,6 +111,18 @@ export const updateContent = async (body, id) => {
   return request;
 };
 
+export const addContent = async (data) => {
+  const request = await axios({
+    method: "post",
+    url: endpoints.cms.ADD_CONTENT,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: data,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
 export const getTemplateList = async (params) => {
   let request = await axios({
     method: "get",

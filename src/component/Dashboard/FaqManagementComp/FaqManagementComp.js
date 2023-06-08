@@ -163,7 +163,7 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
           modalOpen={modalVisible.show}
           closeModal={() => setModalVisible({ id: null, show: false })}
           handleDelete={handleDeleteItem}
-          DeleteMessage={"Are you sure you want to delete Staff?"}
+          DeleteMessage={"Are you sure you want to delete ?"}
         />
       </div>
     </div>
