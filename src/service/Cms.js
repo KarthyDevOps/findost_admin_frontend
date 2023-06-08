@@ -254,6 +254,17 @@ export const deleteFAQList = async (params) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+export const bulkDeleteFaq = async (body) => {
+  const request = await axios({
+    method: "delete",
+    url: endpoints.cms.DELETE_FAQ,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body,
+  }).catch(axiosErrorHandler);
+  return request;
+};
 
 export const updateSiteSetting = async (body, id) => {
   const request = await axios({

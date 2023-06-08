@@ -1,22 +1,37 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import "./style.scss";
+import { useForm } from "react-hook-form";
+
 import InputBox from "component/common/InputBox/InputBox";
 import ReactSelect from "react-select";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import { history, debounceFunction } from "helpers";
-import { getFAQList, deleteFAQList } from "service/Cms";
+import { getFAQList, deleteFAQList, bulkDeleteFaq } from "service/Cms";
 import DropDown from "component/common/DropDown/DropDown";
 import TableComp from "component/common/TableComp/TableComp";
 import { Toast } from "service/toast";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import Loader from "component/common/Loader";
+import { Category } from "@material-ui/icons";
+import CustomController from "component/common/Controller";
+import NormalMultiSelect from "component/common/NormalMultiSelect";
 
 const FaqManagementComp = ({ create, view, edit, remove }) => {
+  const { errors, control } = useForm({
+    mode: "onChange",
+  });
+
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState([]);
+  const [status, setStatus] = useState("");
+  const [bulkDelete, setBulkDelete] = useState(false);
+  const [deleteId, setDeleteId] = useState([]);
+
+  const [SubCategory, setSubCategory] = useState("");
   const [active, setIsactive] = useState("");
   const [searchTitle, setSearch] = useState("");
+  const [Category, setCategory] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState({
     id: null,
@@ -48,6 +63,46 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
       value: "answer",
     },
   ];
+
+  const statusOptions = [
+    {
+      label: "ACTIVE",
+      value: "active",
+    },
+    {
+      label: "InACTIVE",
+      value: "inActive",
+    },
+  ];
+  const CategoryOptions = [
+    {
+      label: "ONE",
+      value: "one",
+    },
+    {
+      label: "TWO",
+      value: "two",
+    },
+    {
+      label: "THREE",
+      value: "three",
+    },
+  ];
+
+  const SubCategoryOptions = [
+    {
+      label: "ONE",
+      value: "one",
+    },
+    {
+      label: "TWO",
+      value: "two",
+    },
+    {
+      label: "THREE",
+      value: "three",
+    },
+  ];
   console.log("data", data);
   const handleOpenModal = (id) => {
     setModalVisible({
@@ -62,9 +117,17 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
         page: page,
         limit: 10,
         search: searchTitle,
+        category: Category,
+        subcategory: SubCategory,
+        // isActive:status,
       };
+      if (status) {
+        status === "active"
+          ? (params.isActive = true)
+          : (params.isActive = false);
+      }
       let response = await getFAQList(params);
-      if (response.status == 200 && response?.data?.data?.list) {
+      if (response.status === 200 && response?.data?.data?.list.length > 0) {
         setIsactive(response?.data?.data?.list[0].isactive);
         setData(response?.data?.data?.list);
         setPageCount(response?.data?.data?.pageMeta?.pageCount);
@@ -86,7 +149,7 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
 
   useEffect(() => {
     fetchData(currentPage);
-  }, [searchTitle]);
+  }, [searchTitle, Category, SubCategory, status]);
 
   const handleDeleteItem = async () => {
     if (modalVisible.show && modalVisible.id) {
@@ -107,12 +170,32 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
     }, 500),
     []
   );
-
+  const handleBulk = async (id) => {
+    if (id.length > 0) {
+      setBulkDelete(true);
+      deleteId.length = 0;
+      deleteId.push(...Object.values(id));
+    } else {
+      setBulkDelete(false);
+    }
+  };
+  const handleBulkDelete = async () => {
+    if (deleteId.length > 0) {
+      let body = {
+        ids: deleteId,
+      };
+      let response = await bulkDeleteFaq(body);
+      if (response.status === 200) {
+        Toast({ type: "success", message: response.data.message });
+        fetchData(currentPage);
+      }
+    }
+  };
   return (
     <div className="faq_head px-5 py-3">
       <h6>FAQ Management</h6>
       <div className="row align-items-center">
-        <div className="col-3">
+        <div className="col-2">
           <InputBox
             className="login_input Notification_input"
             type={"text"}
@@ -125,30 +208,83 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
           />
         </div>
         <div className="col-2">
-          <DropDown
-            // value={value}
-            placeholder="Filter by Category"
-            // onChange={(e) => {}}
-            // options={options}
+          <CustomController
+            name={"Categoty"}
+            control={control}
+            error={errors?.Category}
+            defaultValue={Category}
+            rules={{ required: false }}
+            render={({ onChange, ...fields }) => {
+              return (
+                <NormalMultiSelect
+                  {...fields}
+                  placeholder={"Select Category"}
+                  options={CategoryOptions}
+                  name="Category"
+                  handleChange={(e, { value } = {}) => {
+                    onChange(value);
+                    setCategory(value);
+                  }}
+                />
+              );
+            }}
           />
         </div>
         <div className="col-2">
-          <DropDown
-            // value={value}
-            placeholder="Filter by Sub Category"
-            // onChange={(e) => {}}
-            // options={options}s
+          <CustomController
+            name={"SubCategoty"}
+            control={control}
+            error={errors?.SubCategory}
+            defaultValue={SubCategory}
+            rules={{ required: false }}
+            render={({ onChange, ...fields }) => {
+              return (
+                <NormalMultiSelect
+                  {...fields}
+                  placeholder={"SubCategory"}
+                  options={SubCategoryOptions}
+                  name="SubCategoty"
+                  handleChange={(e, { value } = {}) => {
+                    onChange(value);
+                    setSubCategory(value);
+                  }}
+                />
+              );
+            }}
           />
         </div>
-        <div className="col-2">
-          <DropDown
-            // value={value}
-            placeholder="Filter by Status"
-            // onChange={(e) => {}}
-            // options={options}
+        <div className="col-md-2">
+          <CustomController
+            name={"status"}
+            control={control}
+            error={errors?.status}
+            defaultValue={status}
+            rules={{ required: false }}
+            render={({ onChange, ...fields }) => {
+              return (
+                <NormalMultiSelect
+                  {...fields}
+                  placeholder={"Select Status"}
+                  options={statusOptions}
+                  name="status"
+                  handleChange={(e, { value } = {}) => {
+                    onChange(value);
+                    setStatus(value);
+                  }}
+                />
+              );
+            }}
           />
         </div>
-        <div className="col-1"></div>
+        <div className="col-md-2">
+          {bulkDelete && (
+            <NormalButton
+              className="authButton1"
+              label={"Delete"}
+              onClick={handleBulkDelete}
+            />
+          )}
+        </div>
         {create && (
           <div className="col-2">
             <NormalButton
@@ -179,11 +315,13 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
               handleOpenModal={handleOpenModal}
               onPageChange={handlePageChange}
               setCurrentPage={setCurrentPage}
+              onRowsSelect={handleBulk}
+              setBulkDelete={setBulkDelete}
               editRouteName={"/admin/faq-management/add-faq"}
             />
           ) : (
-            <div className="d-flex align-items-center justify-content-center mt-5 pt-5">
-              No Data Available
+            <div className="d-flex align-items-center justify-content-center ">
+              <p>No Data Available</p>
             </div>
           )}
         </div>
