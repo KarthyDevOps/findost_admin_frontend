@@ -48,16 +48,20 @@ const AddStaff = ({ create, view, remove }) => {
 
   const options = [
     {
-      label: "ADMIN",
-      value: "Admin",
+      label: "SUPER_ADMIN",
+      value: "SUPER ADMIN",
     },
     {
-      label: "SUPER ADMIN",
-      value: "Super Admin",
+      label: "ADMIN",
+      value: "ADMIN",
     },
     {
       label: "STAFF",
-      value: "Staff",
+      value: "STAFF",
+    },
+    {
+      label: "SUB_Admin",
+      value: "SUB ADMIN",
     },
   ];
 
