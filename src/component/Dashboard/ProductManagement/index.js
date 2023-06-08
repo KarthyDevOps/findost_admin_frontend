@@ -67,7 +67,7 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
         search: search,
       };
       let response = await getProductList(params);
-      if (response.status === 200 && response?.data?.data?.list) {
+      if (response.status === 200 && response?.data?.data?.list.length > 0) {
         console.log("response", response?.data?.data);
         setData(response?.data?.data?.list);
         setPageCount(response?.data?.data?.pageMeta?.pageCount);

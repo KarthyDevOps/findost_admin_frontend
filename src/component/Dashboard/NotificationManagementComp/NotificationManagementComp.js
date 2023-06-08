@@ -94,7 +94,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
       };
       let response = await getNotificationTemplateList(params);
       if (response.status === 200) {
-        setTemplateData(response?.data?.data?.list);
+        setTemplateData(response?.data?.data?.list.length > 0);
         setPageCount(response?.data?.data?.pageMeta?.pageCount);
         setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
       } else {
@@ -117,7 +117,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
       };
       let response = await getNotificationHistoryList(params);
       if (response.status === 200) {
-        setHistoryData(response?.data?.data?.list);
+        setHistoryData(response?.data?.data?.list.length > 0);
         setPageCount(response?.data?.data?.pageMeta?.pageCount);
         setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
       } else {

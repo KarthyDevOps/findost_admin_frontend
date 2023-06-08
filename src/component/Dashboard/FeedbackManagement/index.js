@@ -66,7 +66,7 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
         search: search,
       };
       let response = await getFeedbackList(params);
-      if (response.status === 200) {
+      if (response.status === 200 && response?.data?.data?.list.length > 0) {
         setData(response?.data?.data?.list);
         setPageCount(response?.data?.data?.pageMeta?.pageCount);
         setCurrentPage(response?.data?.data?.pageMeta?.currentPage);

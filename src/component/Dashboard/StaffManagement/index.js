@@ -101,7 +101,7 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
           : (params.isActive = false);
       }
       let response = await getStaffList(params);
-      if (response.status === 200 && response?.data?.data?.list) {
+      if (response.status === 200 && response?.data?.data?.list.length > 0) {
         setIsactive(response?.data?.data?.list[0].isactive);
         setData(response?.data?.data?.list);
         setPageCount(response?.data?.data?.pageMeta?.pageCount);
@@ -115,6 +115,8 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
       setIsLoading(false);
     }
   };
+
+  console.log("data :>> ", data);
 
   useEffect(() => {
     getStaffListApi(currentPage);
