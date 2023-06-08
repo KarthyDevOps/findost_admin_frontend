@@ -52,6 +52,18 @@ export const deleteNotificationTemplate = async (params) => {
   return request;
 };
 
+export const bulkDeleteNotificationTemplate = async (body) => {
+  const request = await axios({
+    method: "delete",
+    url: endpoints.communication.NOTIFICATION_TEMPLATE_DELETE,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
 export const updateNotificationTemplate = async (body, id) => {
   const request = await axios({
     method: "put",
@@ -109,6 +121,18 @@ export const deleteNotificationHistory = async (params) => {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
     params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const BulkDeleteNotificationHistory = async (body) => {
+  const request = await axios({
+    method: "delete",
+    url: endpoints.communication.NOTIFICATION_HISTORY_DELETE,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body,
   }).catch(axiosErrorHandler);
   return request;
 };

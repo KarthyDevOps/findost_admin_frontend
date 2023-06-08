@@ -7,7 +7,11 @@ import "./style.scss";
 import DropDown from "component/common/DropDown/DropDown";
 import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
 import { debounceFunction, history } from "helpers";
-import { getFeedbackList, deleteFeedback } from "service/Cms";
+import {
+  getFeedbackList,
+  deleteFeedback,
+  bulkDeleteFeedback,
+} from "service/Cms";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import { Toast } from "service/toast";
 import Loader from "component/common/Loader";
@@ -27,6 +31,8 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
     show: false,
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [bulkDelete, setBulkDelete] = useState(false);
+  const [deleteId, setDeleteId] = useState([]);
 
   const includedKeys = [
     {
@@ -110,15 +116,40 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
     []
   );
 
+  const handleBulk = async (id) => {
+    if (id.length > 0) {
+      setBulkDelete(true);
+      deleteId.length = 0;
+      deleteId.push(...Object.values(id));
+    } else {
+      setBulkDelete(false);
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    if (deleteId.length > 0) {
+      let body = {
+        ids: deleteId,
+      };
+      let response = await bulkDeleteFeedback(body);
+      if (response.status === 200) {
+        Toast({ type: "success", message: response.data.message });
+        getFeedbackListApi(currentPage);
+      } else {
+        Toast({ type: "error", message: response.data.message });
+      }
+    }
+  };
+
   return (
     <Fragment>
       <div className="staff_table px-5 pt-4">
         <p className="staff_title m-0">FeedbackManagement</p>
 
         <div className="row align-items-center px-3">
-          <div className="col-md-10 col-12">
+          <div className="col-md-8 col-12">
             <div className="row align-items-center">
-              <div className="col-md-4 p-0 my-4">
+              <div className="col-md-3 p-0 my-4">
                 <InputBox
                   className="login_input"
                   type={"text"}
@@ -135,14 +166,14 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
                 <DropDown placeholder={"Filter by Status"} />
               </div>
 
-              <div className="col-md-2">
+              <div className="col-md-3">
                 <CommonDatePicker
                   value={startdate}
                   onChange={(text) => setstartdate(text)}
                   placeholder="Start Date"
                 />
               </div>
-              <div className="col-md-2">
+              <div className="col-md-3">
                 <CommonDatePicker
                   value={enddate}
                   onChange={(text) => setenddate(text)}
@@ -150,6 +181,15 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
                 />
               </div>
             </div>
+          </div>
+          <div className="col-md-2">
+            {bulkDelete && (
+              <NormalButton
+                className="authButton1"
+                label={"Delete"}
+                onClick={handleBulkDelete}
+              />
+            )}
           </div>
           {create && (
             <div className="col-md-2 col-12 p-0 m-0">
@@ -183,6 +223,7 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
               setCurrentPage={setCurrentPage}
               editRouteName={"/admin/feedBack-management/answer-feedback"}
               handleOpenModal={handleOpenModal}
+              onRowsSelect={handleBulk}
             />
           </div>
         ) : (

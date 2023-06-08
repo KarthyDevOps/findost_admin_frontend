@@ -8,7 +8,11 @@ import ReactSelect from "react-select";
 import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import "./style.scss";
-import { getProductList, deleteProduct,bulkDeleteProduct } from "../../../service/Cms";
+import {
+  getProductList,
+  deleteProduct,
+  bulkDeleteProduct,
+} from "../../../service/Cms";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import { Toast } from "service/toast";
 import { debounceFunction, history } from "helpers";
@@ -27,6 +31,8 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
     show: false,
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [bulkDelete, setBulkDelete] = useState(false);
+  const [deleteId, setDeleteId] = useState([]);
 
   const includedKeys = [
     {
@@ -107,13 +113,38 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
     []
   );
 
+  const handleBulk = async (id) => {
+    if (id.length > 0) {
+      setBulkDelete(true);
+      deleteId.length = 0;
+      deleteId.push(...Object.values(id));
+    } else {
+      setBulkDelete(false);
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    if (deleteId.length > 0) {
+      let body = {
+        ids: deleteId,
+      };
+      let response = await bulkDeleteProduct(body);
+      if (response.status === 200) {
+        Toast({ type: "success", message: response.data.message });
+        getProductsList(currentPage);
+      } else {
+        Toast({ type: "error", message: response.data.message });
+      }
+    }
+  };
+
   return (
     <Fragment>
       <div className="staff_table px-5 pt-4">
         <p className="staff_title m-0">ProductManagement</p>
 
         <div className="row align-items-center px-3">
-          <div className="col-md-10 col-12">
+          <div className="col-md-8 col-12">
             <div className="row align-items-center">
               <div className="col-md-4 p-0 my-4">
                 <InputBox
@@ -129,6 +160,15 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
                 />
               </div>
             </div>
+          </div>
+          <div className="col-md-2">
+            {bulkDelete && (
+              <NormalButton
+                className="authButton1"
+                label={"Delete"}
+                onClick={handleBulkDelete}
+              />
+            )}
           </div>
           {create && (
             <div className="col-md-2 col-12 p-0 m-0">
@@ -162,6 +202,7 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
               setCurrentPage={setCurrentPage}
               editRouteName={"/admin/product-management/add-product"}
               handleOpenModal={handleOpenModal}
+              onRowsSelect={handleBulk}
             />
           </div>
         ) : (
