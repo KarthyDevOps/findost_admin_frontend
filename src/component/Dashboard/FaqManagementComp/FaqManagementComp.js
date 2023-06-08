@@ -9,12 +9,14 @@ import DropDown from "component/common/DropDown/DropDown";
 import TableComp from "component/common/TableComp/TableComp";
 import { Toast } from "service/toast";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
+import { debounceFunction } from "helpers/debounce";
 
 const FaqManagementComp = ({ create, view, edit, remove }) => {
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState([]);
   const [active, setIsactive] = useState("");
+  const [search, setSearch] = useState("");
 
   const [modalVisible, setModalVisible] = useState({
     id: null,
@@ -26,12 +28,12 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
       show: true,
     });
   };
-  const fetchData = async () => {
+  const fetchData = async (search) => {
     try {
       let params = {
         page: currentPage,
         limit: 10,
-        search: "",
+        search,
       };
       const response = await getFAQList(params);
       setIsactive(response?.data?.data?.list[0].isactive);
@@ -90,6 +92,11 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
     }
     setModalVisible({ show: false, id: null });
   };
+  const searchValues = (e) => {
+    setSearch(e.target.value);
+    debounceFunction(() => fetchData(e.target.value), 1200);
+
+  };
 
   return (
     <div className="faq_head px-5 py-3">
@@ -103,11 +110,10 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
             name="search"
             Iconic
             Search
-          // value={search}
-          // onChange={(e) => {
-          //   setsearch(e.target.value);
-          //   setactivePage(1);
-          // }}
+            value={search}
+            onChange={(e) => {
+              searchValues(e);
+            }}
           />
         </div>
         <div className="col-2">

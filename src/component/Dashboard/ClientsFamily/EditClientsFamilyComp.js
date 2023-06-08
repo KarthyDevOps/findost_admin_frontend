@@ -243,6 +243,8 @@ const EditClientsFamilyComp = ({ edit, view }) => {
                           ...prevState,
                           relationShip: option.value,
                         }));
+                        onChange(option.value);
+
                       }}
                     />
                   );

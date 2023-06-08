@@ -9,7 +9,6 @@ import { getContentList, deleteContentList } from "service/Cms";
 import { Toast } from "service/toast";
 
 const ContentManagementComp = ({ create, view, edit, remove }) => {
-
   const [modalVisible, setModalVisible] = useState({
     id: null,
     show: false,
@@ -83,18 +82,20 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
       <div className="staff_table px-5 pt-4">
         <p className="staff_title m-0">Content Management</p>
         <div className="">
-        {/* {create && */}
-         <div className="float-right col-2">
-          <NormalButton
-            className="loginButton"
-            label={"Add Content"}
-            onClick={() => {
-              localStorage.removeItem("editId");
-              history.push("/admin/content-management/editcontent-management");
-            }}
-          />
-        </div>
-        {/* } */}
+          {/* {create && */}
+          <div className="float-right col-2">
+            <NormalButton
+              className="loginButton"
+              label={"Add Content"}
+              onClick={() => {
+                localStorage.removeItem("editId");
+                history.push(
+                  "/admin/content-management/editcontent-management"
+                );
+              }}
+            />
+          </div>
+          {/* } */}
           <TableComp
             data={data}
             isCheck={false}

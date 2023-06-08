@@ -248,6 +248,8 @@ const AddFaqComp = ({ create, view, remove }) => {
                           ...prevState,
                           category: option.value,
                         }));
+                        onChange(option.value);
+
                       }}
                     />
                   );
@@ -277,6 +279,8 @@ const AddFaqComp = ({ create, view, remove }) => {
                           ...prevState,
                           subcategory: option.value,
                         }));
+                        onChange(option.value);
+
                       }}
                     />
                   );
@@ -307,6 +311,8 @@ const AddFaqComp = ({ create, view, remove }) => {
                           ...prevState,
                           status: option.value,
                         }));
+                        onChange(option.value);
+
                       }}
                     />
                   );

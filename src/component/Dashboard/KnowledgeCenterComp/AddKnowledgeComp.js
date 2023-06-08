@@ -120,7 +120,6 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           category: KnowledgeDetails.category,
           description: data?.content,
           contentUrlLink: data?.contentURL,
-
         };
         if (KnowledgeDetails.status === "active") {
           body.isActive = true;
@@ -200,11 +199,11 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 register={register({
                   required: true,
                 })}
-              //   value={searchStaff}
-              // onChange={(e) => {
-              //   setsearch(e.target.value);
-              //   setactivePage(1);
-              // }}
+                //   value={searchStaff}
+                // onChange={(e) => {
+                //   setsearch(e.target.value);
+                //   setactivePage(1);
+                // }}
               />
               <FormErrorMessage
                 error={errors.title}
@@ -236,6 +235,8 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                           ...prevState,
                           category: option.value,
                         }));
+                        onChange(option.value);
+
                       }}
                     />
                   );
@@ -265,6 +266,8 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                           ...prevState,
                           subcategory: option.value,
                         }));
+                        onChange(option.value);
+
                       }}
                     />
                   );
@@ -312,6 +315,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 name={"status"}
                 control={control}
                 error={errors.status}
+                defaultValue={KnowledgeDetails.status}
                 value={status.find(
                   (option) => option.value === getValues("status")
                 )}
@@ -329,6 +333,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                           ...prevState,
                           status: option.value,
                         }));
+                        onChange(option.value);
                       }}
                     />
                   );
@@ -372,7 +377,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 className="loginButton"
                 onClick={handleSubmit(onSubmit)}
                 label={edit ? "Update" : "Add Content"}
-              //   onClick={DeletBulk}
+                //   onClick={DeletBulk}
               />
             </div>
           </div>
