@@ -1,50 +1,27 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import "./style.scss";
 import InputBox from "component/common/InputBox/InputBox";
 import ReactSelect from "react-select";
 import NormalButton from "component/common/NormalButton/NormalButton";
-import { history } from "helpers";
+import { history, debounceFunction } from "helpers";
 import { getFAQList, deleteFAQList } from "service/Cms";
 import DropDown from "component/common/DropDown/DropDown";
 import TableComp from "component/common/TableComp/TableComp";
 import { Toast } from "service/toast";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
-import { debounceFunction } from "helpers/debounce";
+import Loader from "component/common/Loader";
 
 const FaqManagementComp = ({ create, view, edit, remove }) => {
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState([]);
   const [active, setIsactive] = useState("");
-  const [search, setSearch] = useState("");
-
+  const [searchTitle, setSearch] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState({
     id: null,
     show: false,
   });
-  const handleOpenModal = (id) => {
-    setModalVisible({
-      id: id,
-      show: true,
-    });
-  };
-  const fetchData = async (search) => {
-    try {
-      let params = {
-        page: currentPage,
-        limit: 10,
-        search,
-      };
-      const response = await getFAQList(params);
-      setIsactive(response?.data?.data?.list[0].isactive);
-      setData(response?.data?.data?.list);
-      setPageCount(response?.data?.data?.pageMeta?.pageCount);
-      setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const includedKeys = [
     {
       label: "Id",
@@ -71,13 +48,45 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
       value: "answer",
     },
   ];
+  console.log("data", data);
+  const handleOpenModal = (id) => {
+    setModalVisible({
+      id: id,
+      show: true,
+    });
+  };
+  const fetchData = async (page) => {
+    try {
+      setIsLoading(true);
+      let params = {
+        page: page,
+        limit: 10,
+        search: searchTitle,
+      };
+      let response = await getFAQList(params);
+      if (response.status == 200 && response?.data?.data?.list) {
+        setIsactive(response?.data?.data?.list[0].isactive);
+        setData(response?.data?.data?.list);
+        setPageCount(response?.data?.data?.pageMeta?.pageCount);
+        setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
+      } else {
+        setData([]);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handlePageChange = (page) => {
-    setCurrentPage(page);
+    setCurrentPage(page.selected);
+    fetchData(page);
   };
 
   useEffect(() => {
-    fetchData();
-  }, [setData]);
+    fetchData(currentPage);
+  }, [searchTitle]);
 
   const handleDeleteItem = async () => {
     if (modalVisible.show && modalVisible.id) {
@@ -92,11 +101,12 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
     }
     setModalVisible({ show: false, id: null });
   };
-  const searchValues = (e) => {
-    setSearch(e.target.value);
-    debounceFunction(() => fetchData(e.target.value), 1200);
-
-  };
+  const handleSearchChange = useCallback(
+    debounceFunction((value) => {
+      setSearch(value);
+    }, 500),
+    []
+  );
 
   return (
     <div className="faq_head px-5 py-3">
@@ -110,60 +120,72 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
             name="search"
             Iconic
             Search
-            value={search}
-            onChange={(e) => {
-              searchValues(e);
-            }}
+            value={searchTitle}
+            onChange={(e) => handleSearchChange(e.target.value)}
           />
         </div>
         <div className="col-2">
           <DropDown
             // value={value}
             placeholder="Filter by Category"
-          // onChange={(e) => {}}
-          // options={options}
+            // onChange={(e) => {}}
+            // options={options}
           />
         </div>
         <div className="col-2">
           <DropDown
             // value={value}
             placeholder="Filter by Sub Category"
-          // onChange={(e) => {}}
-          // options={options}s
+            // onChange={(e) => {}}
+            // options={options}s
           />
         </div>
         <div className="col-2">
           <DropDown
             // value={value}
             placeholder="Filter by Status"
-          // onChange={(e) => {}}
-          // options={options}
+            // onChange={(e) => {}}
+            // options={options}
           />
         </div>
         <div className="col-1"></div>
-        {create && <div className="col-2">
-          <NormalButton
-            className="loginButton"
-            label={"Add New FAQ"}
-            onClick={() => {
-              localStorage.removeItem("editId");
-              history.push("/admin/faq-management/add-faq");
-            }}
-          />
-        </div>}
+        {create && (
+          <div className="col-2">
+            <NormalButton
+              className="loginButton"
+              label={"Add New FAQ"}
+              onClick={() => {
+                localStorage.removeItem("editId");
+                history.push("/admin/faq-management/add-faq");
+              }}
+            />
+          </div>
+        )}
         <div className=" mt-4 p-3">
-          <TableComp
-            data={data}
-            isCheck={true}
-            EditAction={edit}
-            DeleteAction={remove}
-            includedKeys={includedKeys}
-            pageCount={pageCount}
-            handleOpenModal={handleOpenModal}
-            onPageChange={handlePageChange}
-            setCurrentPage={setCurrentPage}
-            editRouteName={"/admin/faq-management/add-faq"}
-          />
+          {isLoading ? (
+            <Loader
+              loading={isLoading}
+              className="d-flex align-items-center justify-content-center"
+            />
+          ) : data?.length > 0 ? (
+            <TableComp
+              data={data}
+              isCheck={true}
+              EditAction={edit}
+              DeleteAction={remove}
+              includedKeys={includedKeys}
+              pageCount={pageCount}
+              currentPage={currentPage}
+              handleOpenModal={handleOpenModal}
+              onPageChange={handlePageChange}
+              setCurrentPage={setCurrentPage}
+              editRouteName={"/admin/faq-management/add-faq"}
+            />
+          ) : (
+            <div className="d-flex align-items-center justify-content-center mt-5 pt-5">
+              No Data Available
+            </div>
+          )}
         </div>
         <DeleteModal
           modalOpen={modalVisible.show}

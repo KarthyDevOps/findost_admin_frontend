@@ -1,15 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useCallback } from "react";
 import "./style.scss";
 import { getClientList } from "service/Auth";
+import Loader from "component/common/Loader";
+import { debounceFunction } from "helpers";
+
 import InputBox from "component/common/InputBox/InputBox";
 import DropDown from "component/common/DropDown/DropDown";
 import TableComp from "component/common/TableComp/TableComp";
-import { debounceFunction } from "helpers/debounce";
+// import { debounceFunction } from "helpers/debounce";
 const ClientsFamily = ({ create, view, edit, remove }) => {
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState([]);
-  const [search, setSearch] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [searchStaff, setSearchStaff] = useState("");
+
 
   const includedKeys = [
     {
@@ -38,16 +43,17 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
     },
   ];
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
 
-  const fetchClientList = async (search) => {
+
+  const fetchClientList = async (page) => {
+    setIsLoading(true);
+
     try {
       let params = {
-        page: currentPage,
+        page: page,
         limit: 10,
-        search,
+        search: searchStaff,
+
       };
       let response = await getClientList(params);
       if (response.status === 200) {
@@ -56,16 +62,28 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
         setPageCount(response?.data?.data?.pageMeta?.pageCount);
         setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
       }
-    } catch (err) {}
+    } catch (err) {
+      console.log('err', err)
+    }
+    finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
-    fetchClientList();
-  }, []);
-  const searchValues = (e) => {
-    setSearch(e.target.value);
-    debounceFunction(() => fetchClientList(e.target.value), 1200);
+    fetchClientList(currentPage);
+  }, [searchStaff]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page.selected);
+    fetchClientList(page);
   };
+  const handleSearchChange = useCallback(
+    debounceFunction((value) => {
+      setSearchStaff(value);
+    }, 500),
+    []
+  );
 
   return (
     <div className="px-5 py-3 clients_family">
@@ -75,10 +93,9 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
           <InputBox
             className="login_input Notification_input"
             type={"text"}
-            value={search}
-            onChange={(e) => {
-              searchValues(e);
-            }}
+            value={searchStaff}
+            onChange={(e) => handleSearchChange(e.target.value)}
+         
             placeholder="Search by Id, Username, Email"
             name="search"
             Iconic
@@ -103,6 +120,12 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
         </div>
       </div>
       <div className=" mt-4 p-3">
+      {isLoading ? (
+          <Loader
+            loading={isLoading}
+            className="d-flex align-items-center justify-content-center"
+          />
+        ) : data.length > 0 ? (
         <TableComp
           data={data}
           isCheck={true}
@@ -111,9 +134,15 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
           includedKeys={includedKeys}
           pageCount={pageCount}
           onPageChange={handlePageChange}
+
           setCurrentPage={setCurrentPage}
           editRouteName={"/admin/clients-family/edit-client"}
         />
+        ) : (
+          <div className="d-flex align-items-center justify-content-center mt-5 pt-5">
+            No Data Available
+          </div>
+        )}
       </div>
     </div>
   );
