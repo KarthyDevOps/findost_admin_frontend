@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, useCallback } from "react";
 import TableComp from "../../common/TableComp/TableComp";
 import { useForm } from "react-hook-form";
 import InputBox from "component/common/InputBox/InputBox";
@@ -6,17 +6,18 @@ import NormalButton from "component/common/NormalButton/NormalButton";
 import "./style.scss";
 import DropDown from "component/common/DropDown/DropDown";
 import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
-import { history } from "helpers";
+import { debounceFunction, history } from "helpers";
 import { getFeedbackList, deleteFeedback } from "service/Cms";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import { Toast } from "service/toast";
+import Loader from "component/common/Loader";
 
 const FeedbackManagementComp = ({ create, view, edit, remove }) => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
   });
   const [data, setData] = useState([]);
-  const [searchStaff, setSearchStaff] = useState("");
+  const [search, setSearch] = useState("");
   const [startdate, setstartdate] = useState("");
   const [enddate, setenddate] = useState("");
   const [pageCount, setPageCount] = useState(1);
@@ -25,6 +26,7 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
     id: null,
     show: false,
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const includedKeys = [
     {
@@ -50,21 +52,30 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
   ];
 
   const getFeedbackListApi = async (page) => {
-    let params = {
-      page: page,
-      limit: 10,
-      search: "",
-    };
-    let response = await getFeedbackList(params);
-    if (response.status === 200) {
-      setData(response?.data?.data?.list);
-      setPageCount(response?.data?.data?.pageMeta?.pageCount);
-      setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
+    try {
+      setIsLoading(true);
+      let params = {
+        page: page,
+        limit: 10,
+        search: search,
+      };
+      let response = await getFeedbackList(params);
+      if (response.status === 200) {
+        setData(response?.data?.data?.list);
+        setPageCount(response?.data?.data?.pageMeta?.pageCount);
+        setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
+      } else {
+        setData([]);
+      }
+    } catch (err) {
+      console.log("err :>> ", err);
+    } finally {
+      setIsLoading(false);
     }
   };
   useEffect(() => {
     getFeedbackListApi(currentPage);
-  }, []);
+  }, [search]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -92,6 +103,13 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
     setModalVisible({ show: false, id: null });
   };
 
+  const handleSearchChange = useCallback(
+    debounceFunction((value) => {
+      setSearch(value);
+    }, 500),
+    []
+  );
+
   return (
     <Fragment>
       <div className="staff_table px-5 pt-4">
@@ -109,11 +127,8 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
                   name="search"
                   Iconic
                   Search
-                  value={searchStaff}
-                  // onChange={(e) => {
-                  //   setsearch(e.target.value);
-                  //   setactivePage(1);
-                  // }}
+                  value={search}
+                  onChange={(e) => handleSearchChange(e.target.value)}
                 />
               </div>
               <div className="col-md-3">
@@ -149,20 +164,32 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
             </div>
           )}
         </div>
-        <div className="">
-          <TableComp
-            data={data}
-            isCheck={true}
-            ReadAction={edit}
-            DeleteAction={remove}
-            includedKeys={includedKeys}
-            pageCount={pageCount}
-            onPageChange={handlePageChange}
-            setCurrentPage={setCurrentPage}
-            editRouteName={"/admin/feedBack-management/answer-feedback"}
-            handleOpenModal={handleOpenModal}
+        {isLoading ? (
+          <Loader
+            loading={isLoading}
+            className="d-flex align-items-center justify-content-center"
           />
-        </div>
+        ) : data.length > 0 ? (
+          <div className="">
+            <TableComp
+              data={data}
+              isCheck={true}
+              ReadAction={edit}
+              DeleteAction={remove}
+              includedKeys={includedKeys}
+              pageCount={pageCount}
+              onPageChange={handlePageChange}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              editRouteName={"/admin/feedBack-management/answer-feedback"}
+              handleOpenModal={handleOpenModal}
+            />
+          </div>
+        ) : (
+          <div className="d-flex align-items-center justify-content-center mt-5 pt-5">
+            No Data Available
+          </div>
+        )}
         <div>
           {" "}
           <DeleteModal

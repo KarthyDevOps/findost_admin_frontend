@@ -6,8 +6,7 @@ import NormalButton from "component/common/NormalButton/NormalButton";
 import "./style.scss";
 import { history, debounceFunction } from "helpers";
 import { BsSearch } from "react-icons/bs";
-import DropDown from "component/common/DropDown/DropDown";
-import { getStaffList, deleteStaff } from "service/Auth";
+import { getStaffList, deleteStaff,bulkDeleteStaff } from "service/Auth";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import { Toast } from "service/toast";
 import Loader from "component/common/Loader";
@@ -31,6 +30,8 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
     show: false,
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [bulkDelete, setBulkDelete] = useState(false);
+  const [deleteId, setDeleteId] = useState([]);
 
   const statusOptions = [
     {
@@ -120,7 +121,7 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
   }, [searchStaff, role, status]);
 
   const handlePageChange = (page) => {
-    setCurrentPage(page.selected);
+    setCurrentPage(page);
     getStaffListApi(page);
   };
 
@@ -152,12 +153,36 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
     []
   );
 
+  const handleBulk = async (id) => {
+    if(id.length > 0){
+      setBulkDelete(true);
+      deleteId.length = 0;
+      deleteId.push(...Object.values(id));
+    }else{
+      setBulkDelete(false);
+    }
+   
+  };
+
+  const handleBulkDelete = async () => {
+    if (deleteId.length > 0) {
+      let body = {
+        ids: deleteId,
+      };
+      let response = await bulkDeleteStaff(body);
+      if (response.status === 200) {
+        Toast({ type: "success", message: response.data.message });
+        getStaffListApi(currentPage);
+      }
+    }
+  };
+
   return (
     <Fragment>
       <div className="staff_table px-5 pt-2">
         <p className="staff_title m-0">Staff Management</p>
         <div className="row align-items-center px-3">
-          <div className="col-md-10 col-12">
+          <div className="col-md-8 col-12">
             <div className="row align-items-center">
               <div className="col-md-4 p-0 my-4 staff_Search">
                 <InputBox
@@ -222,6 +247,16 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
               </div>
             </div>
           </div>
+
+          <div className="col-md-2">
+            {bulkDelete && (
+              <NormalButton
+                className="authButton1"
+                label={"Delete"}
+                onClick={handleBulkDelete}
+              />
+            )}
+          </div>
           {create && (
             <div className="col-md-2 col-12 p-0 m-0">
               <NormalButton
@@ -255,6 +290,8 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
               setCurrentPage={setCurrentPage}
               editRouteName={"/admin/staff-management/add-staff"}
               handleOpenModal={handleOpenModal}
+              onRowsSelect={handleBulk}
+              setBulkDelete={setBulkDelete}
             />
           </div>
         ) : (
