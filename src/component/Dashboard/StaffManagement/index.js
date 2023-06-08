@@ -6,7 +6,7 @@ import NormalButton from "component/common/NormalButton/NormalButton";
 import "./style.scss";
 import { history, debounceFunction } from "helpers";
 import { BsSearch } from "react-icons/bs";
-import { getStaffList, deleteStaff,bulkDeleteStaff } from "service/Auth";
+import { getStaffList, deleteStaff, bulkDeleteStaff } from "service/Auth";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import { Toast } from "service/toast";
 import Loader from "component/common/Loader";
@@ -101,7 +101,7 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
           : (params.isActive = false);
       }
       let response = await getStaffList(params);
-      if (response.status === 200 && response?.data?.data?.list) {
+      if (response.status === 200 && response?.data?.data?.list.length > 0) {
         setIsactive(response?.data?.data?.list[0].isactive);
         setData(response?.data?.data?.list);
         setPageCount(response?.data?.data?.pageMeta?.pageCount);
@@ -115,6 +115,8 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
       setIsLoading(false);
     }
   };
+
+  console.log("data :>> ", data);
 
   useEffect(() => {
     getStaffListApi(currentPage);
@@ -154,14 +156,13 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
   );
 
   const handleBulk = async (id) => {
-    if(id.length > 0){
+    if (id.length > 0) {
       setBulkDelete(true);
       deleteId.length = 0;
       deleteId.push(...Object.values(id));
-    }else{
+    } else {
       setBulkDelete(false);
     }
-   
   };
 
   const handleBulkDelete = async () => {
@@ -173,6 +174,8 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
       if (response.status === 200) {
         Toast({ type: "success", message: response.data.message });
         getStaffListApi(currentPage);
+      } else {
+        Toast({ type: "error", message: response.data.message });
       }
     }
   };
@@ -270,7 +273,6 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
             </div>
           )}
         </div>
-        {console.log("data :>> ", data)}
         {isLoading ? (
           <Loader
             loading={isLoading}
@@ -291,7 +293,6 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
               editRouteName={"/admin/staff-management/add-staff"}
               handleOpenModal={handleOpenModal}
               onRowsSelect={handleBulk}
-              setBulkDelete={setBulkDelete}
             />
           </div>
         ) : (

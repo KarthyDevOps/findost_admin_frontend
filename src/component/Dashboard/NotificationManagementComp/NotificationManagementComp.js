@@ -10,7 +10,9 @@ import {
   getNotificationTemplateList,
   deleteNotificationTemplate,
   getNotificationHistoryList,
+  BulkDeleteNotificationHistory,
   deleteNotificationHistory,
+  bulkDeleteNotificationTemplate,
 } from "service/Communication";
 import { Toast } from "service/toast";
 import Loader from "component/common/Loader";
@@ -28,6 +30,8 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
     show: false,
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [bulkDelete, setBulkDelete] = useState(false);
+  const [deleteId, setDeleteId] = useState([]);
 
   const handleTab = (tab) => {
     setActiveTab(tab);
@@ -90,7 +94,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
       };
       let response = await getNotificationTemplateList(params);
       if (response.status === 200) {
-        setTemplateData(response?.data?.data?.list);
+        setTemplateData(response?.data?.data?.list.length > 0);
         setPageCount(response?.data?.data?.pageMeta?.pageCount);
         setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
       } else {
@@ -113,7 +117,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
       };
       let response = await getNotificationHistoryList(params);
       if (response.status === 200) {
-        setHistoryData(response?.data?.data?.list);
+        setHistoryData(response?.data?.data?.list.length > 0);
         setPageCount(response?.data?.data?.pageMeta?.pageCount);
         setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
       } else {
@@ -174,7 +178,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
     } else {
       getTemplateList(currentPage);
     }
-  }, [tabValue,search]);
+  }, [tabValue, search]);
 
   const handleSearchChange = useCallback(
     debounceFunction((value) => {
@@ -182,6 +186,46 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
     }, 500),
     []
   );
+
+  const handleBulk = async (id) => {
+    if (id.length > 0) {
+      setBulkDelete(true);
+      deleteId.length = 0;
+      deleteId.push(...Object.values(id));
+    } else {
+      setBulkDelete(false);
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    if (activeTab === 0) {
+      if (deleteId.length > 0) {
+        let body = {
+          ids: deleteId,
+        };
+        let response = await bulkDeleteNotificationTemplate(body);
+        if (response.status === 200) {
+          Toast({ type: "success", message: response.data.message });
+          getTemplateList(currentPage);
+        } else {
+          Toast({ type: "error", message: response.data.message });
+        }
+      }
+    } else {
+      if (deleteId.length > 0) {
+        let body = {
+          ids: deleteId,
+        };
+        let response = await BulkDeleteNotificationHistory(body);
+        if (response.status === 200) {
+          Toast({ type: "success", message: response.data.message });
+          getHistoryList(currentPage);
+        } else {
+          Toast({ type: "error", message: response.data.message });
+        }
+      }
+    }
+  };
 
   return (
     <div className="notification_container px-5">
@@ -226,7 +270,16 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
                 onChange={(e) => handleSearchChange(e.target.value)}
               />
             </div>
-            <div className="col-md-7 p-0"></div>
+            <div className="col-md-5 p-0"></div>
+            <div className="col-md-2">
+              {bulkDelete && (
+                <NormalButton
+                  className="authButton1"
+                  label={"Delete"}
+                  onClick={handleBulkDelete}
+                />
+              )}
+            </div>
             {create && (
               <div className="col-md-2 m-0">
                 <NormalButton
@@ -258,7 +311,16 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
                 onChange={(e) => handleSearchChange(e.target.value)}
               />
             </div>
-            <div className="col-md-7"></div>
+            <div className="col-md-5"></div>
+            <div className="col-md-2">
+              {bulkDelete && (
+                <NormalButton
+                  className="authButton1"
+                  label={"Delete"}
+                  onClick={handleBulkDelete}
+                />
+              )}
+            </div>
             {create && (
               <div className="col-md-2 m-0">
                 <NormalButton
@@ -296,6 +358,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
               setCurrentPage={setCurrentPage}
               editRouteName="/admin/notification-management/create-notification"
               handleOpenModal={handleOpenModal}
+              onRowsSelect={handleBulk}
             />
           ) : (
             activeTab === 0 && (
@@ -318,6 +381,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
               setCurrentPage={setCurrentPage}
               editRouteName="/admin/notification-management/send-notification"
               handleOpenModal={handleOpenModal}
+              onRowsSelect={handleBulk}
             />
           ) : (
             activeTab === 1 && (
