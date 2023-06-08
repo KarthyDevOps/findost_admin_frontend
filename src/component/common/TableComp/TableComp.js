@@ -2,13 +2,11 @@ import React, { useState } from "react";
 import ReactPaginate from "react-paginate";
 import "./style.scss";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
-import { useEffect } from "react";
 import moment from "moment";
 import editIcon from "assets/images/editIcon.svg";
 import deleteIcon from "assets/images/deleteIcon.svg";
 import ReadImg from "assets/images/ReadImg.svg";
 import { history } from "helpers";
-import Loader from "component/common/Loader";
 
 function TableComp(props) {
   const {
@@ -24,14 +22,36 @@ function TableComp(props) {
     setCurrentPage,
     handleOpenModal,
     currentPage,
+    onRowsSelect,
   } = props;
 
   console.log("data :>> ", data);
+  const [selectedRows, setSelectedRows] = useState([]);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const handleRowSelect = (rowId) => {
+    let updatedRows;
+    if (selectedRows.includes(rowId)) {
+      updatedRows = selectedRows.filter((id) => id !== rowId);
+    } else {
+      updatedRows = [...selectedRows, rowId];
+    }
+    setSelectedRows(updatedRows);
+    onRowsSelect(updatedRows);
+  };
+
+  const handleSelectAll = () => {
+    let updatedRows;
+    if (selectedRows.length === data.length) {
+      updatedRows = [];
+    } else {
+      const allRowIds = data.map((obj) => obj._id);
+      updatedRows = allRowIds;
+    }
+    setSelectedRows(updatedRows);
+    onRowsSelect(updatedRows);
+  };
 
   const handlePageChange = (selectedPage) => {
-    console.log('selectedPage :>> ', selectedPage);
     setCurrentPage(selectedPage.selected + 1);
     onPageChange(selectedPage.selected + 1);
   };
@@ -55,7 +75,12 @@ function TableComp(props) {
           <tr>
             {isCheck ? (
               <th className="checkBox_place">
-                <input type="checkbox" className="mt-2 check_box" />
+                <input
+                  type="checkbox"
+                  onChange={handleSelectAll}
+                  checked={selectedRows.length === data.length}
+                  className="mt-2 check_box"
+                />
               </th>
             ) : (
               <></>
@@ -87,7 +112,12 @@ function TableComp(props) {
               <tr key={obj.id}>
                 {isCheck && (
                   <td className="checkBox_place">
-                    <input type="checkbox" className="mt-2 check_box" />
+                    <input
+                      type="checkbox"
+                      onChange={() => handleRowSelect(obj._id)}
+                      checked={selectedRows.includes(obj._id)}
+                      className="mt-2 check_box"
+                    />
                   </td>
                 )}
                 {includedKeys.map((item) => {
@@ -151,7 +181,10 @@ function TableComp(props) {
                     <img
                       src={editIcon}
                       alt="Edit"
-                      style={{ color: "#B4B4B4", cursor: "pointer" }}
+                      style={{
+                        color: "#B4B4B4",
+                        cursor: "pointer",
+                      }}
                       onClick={() => {
                         localStorage.removeItem("editId");
                         localStorage.setItem("editId", obj._id);
@@ -165,7 +198,10 @@ function TableComp(props) {
                     <img
                       src={ReadImg}
                       alt="read"
-                      style={{ color: "#B4B4B4", cursor: "pointer" }}
+                      style={{
+                        color: "#B4B4B4",
+                        cursor: "pointer",
+                      }}
                       onClick={() => {
                         localStorage.removeItem("editId");
                         localStorage.setItem("editId", obj._id);
@@ -179,7 +215,10 @@ function TableComp(props) {
                     <img
                       src={deleteIcon}
                       alt="delete"
-                      style={{ color: "#B4B4B4", cursor: "pointer" }}
+                      style={{
+                        color: "#B4B4B4",
+                        cursor: "pointer",
+                      }}
                     />
                   </td>
                 )}
@@ -189,23 +228,21 @@ function TableComp(props) {
         </tbody>
       </table>
 
-      {data.length > 0 && (
-        <div className="my-4">
-          <ReactPaginate
-            previousLabel={<FaCaretLeft />}
-            nextLabel={<FaCaretRight />}
-            pageCount={pageCount}
-            onPageChange={handlePageChange}
-            forcePage={currentPage - 1}
-            containerClassName={"pagination"}
-            previousClassName={"pagination-previous"}
-            nextClassName={"pagination-next"}
-            pageClassName={"pagination-item"}
-            breakClassName={"pagination-item"}
-            activeClassName={"active_page"}
-          />
-        </div>
-      )}
+      <div className="my-4">
+        <ReactPaginate
+          previousLabel={<FaCaretLeft />}
+          nextLabel={<FaCaretRight />}
+          pageCount={pageCount}
+          onPageChange={handlePageChange}
+          forcePage={currentPage - 1}
+          containerClassName={"pagination"}
+          previousClassName={"pagination-previous"}
+          nextClassName={"pagination-next"}
+          pageClassName={"pagination-item"}
+          breakClassName={"pagination-item"}
+          activeClassName={"active_page"}
+        />
+      </div>
     </div>
   );
 }

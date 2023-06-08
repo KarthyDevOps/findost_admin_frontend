@@ -64,6 +64,19 @@ export const deleteStaff = async (params) => {
   return request;
 };
 
+
+export const bulkDeleteStaff = async (body) => {
+  const request = await axios({
+    method: "delete",
+    url: endpoints.auth.DELETE_STAFF,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
 export const updateStaff = async (body, id) => {
   const request = await axios({
     method: "put",
