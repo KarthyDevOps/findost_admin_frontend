@@ -51,6 +51,18 @@ export const deleteProduct = async (params) => {
   return request;
 };
 
+export const bulkDeleteProduct = async (body) => {
+  const request = await axios({
+    method: "delete",
+    url: endpoints.cms.DELETE_PRODUCT,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
 export const updateProduct = async (body, id) => {
   const request = await axios({
     method: "put",
@@ -371,6 +383,18 @@ export const deleteFeedback = async (params) => {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
     params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const bulkDeleteFeedback = async (body) => {
+  const request = await axios({
+    method: "delete",
+    url: endpoints.cms.DELETE_FEEDBACK,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body,
   }).catch(axiosErrorHandler);
   return request;
 };

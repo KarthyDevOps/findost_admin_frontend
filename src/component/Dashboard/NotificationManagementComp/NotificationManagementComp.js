@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-import { history } from "helpers";
+import { debounceFunction, history } from "helpers";
 import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import axios from "axios";
@@ -13,6 +13,8 @@ import {
   deleteNotificationHistory,
 } from "service/Communication";
 import { Toast } from "service/toast";
+import Loader from "component/common/Loader";
+import { useCallback } from "react";
 
 const NotificationManagementComp = ({ create, view, edit, remove }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -25,6 +27,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
     id: null,
     show: false,
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleTab = (tab) => {
     setActiveTab(tab);
@@ -78,34 +81,48 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
   ];
 
   const getTemplateList = async (page) => {
-    let params = {
-      page: page,
-      limit: 10,
-      search: "",
-    };
-    let response = await getNotificationTemplateList(params);
-    if (response.status === 200) {
-      setTemplateData(response?.data?.data?.list);
-      setPageCount(response?.data?.data?.pageMeta?.pageCount);
-      setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
-    } else {
-      Toast({ type: "error", message: response.data.message });
+    try {
+      setIsLoading(true);
+      let params = {
+        page: page,
+        limit: 10,
+        search: search,
+      };
+      let response = await getNotificationTemplateList(params);
+      if (response.status === 200) {
+        setTemplateData(response?.data?.data?.list);
+        setPageCount(response?.data?.data?.pageMeta?.pageCount);
+        setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
+      } else {
+        setTemplateData([]);
+      }
+    } catch (err) {
+      console.log("err :>> ", err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const getHistoryList = async (page) => {
-    let params = {
-      page: page,
-      limit: 10,
-      search: "",
-    };
-    let response = await getNotificationHistoryList(params);
-    if (response.status === 200) {
-      setHistoryData(response?.data?.data?.list);
-      setPageCount(response?.data?.data?.pageMeta?.pageCount);
-      setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
-    }else{
-      Toast({ type: "error", message: response.data.message });
+    try {
+      setIsLoading(true);
+      let params = {
+        page: page,
+        limit: 10,
+        search: search,
+      };
+      let response = await getNotificationHistoryList(params);
+      if (response.status === 200) {
+        setHistoryData(response?.data?.data?.list);
+        setPageCount(response?.data?.data?.pageMeta?.pageCount);
+        setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
+      } else {
+        setTemplateData([]);
+      }
+    } catch (err) {
+      console.log("err :>> ", err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -144,7 +161,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
     if (activeTab === 0) {
-      getHistoryList(page);
+      getTemplateList(page);
     } else {
       getHistoryList(page);
     }
@@ -157,7 +174,14 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
     } else {
       getTemplateList(currentPage);
     }
-  }, [tabValue]);
+  }, [tabValue,search]);
+
+  const handleSearchChange = useCallback(
+    debounceFunction((value) => {
+      setSearch(value);
+    }, 500),
+    []
+  );
 
   return (
     <div className="notification_container px-5">
@@ -169,6 +193,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
           }
           onClick={() => {
             handleTab(0);
+            setCurrentPage(1);
           }}
         >
           Notification Template
@@ -180,6 +205,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
           }
           onClick={() => {
             handleTab(1);
+            setCurrentPage(1);
           }}
         >
           Notification History
@@ -197,25 +223,24 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
                 Iconic
                 Search
                 value={search}
-              // onChange={(e) => {
-              //   setsearch(e.target.value);
-              //   setactivePage(1);
-              // }}
+                onChange={(e) => handleSearchChange(e.target.value)}
               />
             </div>
             <div className="col-md-7 p-0"></div>
-            {create && <div className="col-md-2 m-0">
-              <NormalButton
-                className="loginButton"
-                label={"Create Notification"}
-                onClick={() => {
-                  localStorage.removeItem("editId");
-                  history.push(
-                    "/admin/notification-management/create-notification"
-                  );
-                }}
-              />
-            </div>}
+            {create && (
+              <div className="col-md-2 m-0">
+                <NormalButton
+                  className="loginButton"
+                  label={"Create Notification"}
+                  onClick={() => {
+                    localStorage.removeItem("editId");
+                    history.push(
+                      "/admin/notification-management/create-notification"
+                    );
+                  }}
+                />
+              </div>
+            )}
           </div>
         </>
       ) : (
@@ -230,57 +255,77 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
                 Iconic
                 Search
                 value={search}
-              // onChange={(e) => {
-              //   setsearch(e.target.value);
-              //   setactivePage(1);
-              // }}
+                onChange={(e) => handleSearchChange(e.target.value)}
               />
             </div>
             <div className="col-md-7"></div>
-            {create && <div className="col-md-2 m-0">
-              <NormalButton
-                className="loginButton"
-                label={"Send Notification"}
-                onClick={() => {
-                  localStorage.removeItem("editId");
-                  history.push(
-                    "/admin/notification-management/send-notification"
-                  );
-                }}
-              />
-            </div>}
+            {create && (
+              <div className="col-md-2 m-0">
+                <NormalButton
+                  className="loginButton"
+                  label={"Send Notification"}
+                  onClick={() => {
+                    localStorage.removeItem("editId");
+                    history.push(
+                      "/admin/notification-management/send-notification"
+                    );
+                  }}
+                />
+              </div>
+            )}
           </div>
         </>
       )}
-      {activeTab === 0 ? (
-        <div className="">
-          <TableComp
-            data={templatedata}
-            isCheck={true}
-            EditAction={edit}
-            DeleteAction={remove}
-            includedKeys={templateKeys}
-            pageCount={pageCount}
-            onPageChange={handlePageChange}
-            setCurrentPage={setCurrentPage}
-            editRouteName={"/admin/notification-management/create-notification"}
-            handleOpenModal={handleOpenModal}
-          />
-        </div>
+      {isLoading ? (
+        <Loader
+          loading={isLoading}
+          className="d-flex align-items-center justify-content-center"
+        />
       ) : (
-        <div className="">
-          <TableComp
-            data={historydata}
-            isCheck={true}
-            EditAction={edit}
-            DeleteAction={remove}
-            includedKeys={historyKeys}
-            pageCount={pageCount}
-            onPageChange={handlePageChange}
-            setCurrentPage={setCurrentPage}
-            editRouteName={"/admin/notification-management/send-notification"}
-            handleOpenModal={handleOpenModal}
-          />
+        <div>
+          {activeTab === 0 && templatedata && templatedata.length > 0 ? (
+            <TableComp
+              data={templatedata}
+              isCheck={true}
+              EditAction={edit}
+              DeleteAction={remove}
+              includedKeys={templateKeys}
+              pageCount={pageCount}
+              onPageChange={handlePageChange}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              editRouteName="/admin/notification-management/create-notification"
+              handleOpenModal={handleOpenModal}
+            />
+          ) : (
+            activeTab === 0 && (
+              <div className="d-flex align-items-center justify-content-center mt-5 pt-5">
+                No Data Available
+              </div>
+            )
+          )}
+
+          {activeTab === 1 && historydata && historydata.length > 0 ? (
+            <TableComp
+              data={historydata}
+              isCheck={true}
+              EditAction={edit}
+              DeleteAction={remove}
+              includedKeys={historyKeys}
+              pageCount={pageCount}
+              onPageChange={handlePageChange}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              editRouteName="/admin/notification-management/send-notification"
+              handleOpenModal={handleOpenModal}
+            />
+          ) : (
+            activeTab === 1 && (
+              <div className="d-flex align-items-center justify-content-center mt-5 pt-5">
+                No Data Available
+              </div>
+            )
+          )}
         </div>
       )}
       <div>
