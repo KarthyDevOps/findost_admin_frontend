@@ -217,18 +217,16 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                     render={({ onChange, ...field }) => {
                       return (
                         <DropDown
-                          // value={value}
                           {...field}
                           name="type"
                           placeholder="Active"
-                          // errors={errors.status}
                           options={options}
                           onChange={(option) => {
                             setTemplateDetails((prevState) => ({
                               ...prevState,
                               type: option.value,
                             }));
-                            // onChange(option.value);
+                            onChange(option.value);
                           }}
                         />
                       );
@@ -250,7 +248,6 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                     render={({ onChange, ...field }) => {
                       return (
                         <DropDown
-                          // value={value}
                           {...field}
                           name="status"
                           errors={errors.status}
@@ -261,6 +258,8 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                               ...prevState,
                               status: option.value,
                             }));
+                            onChange(option.value);
+
                           }}
                         />
                       );

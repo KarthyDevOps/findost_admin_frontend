@@ -215,7 +215,7 @@ const EditContentManagementComp = ({ create, view, remove }) => {
                               ...prevState,
                               status: option.value,
                             }));
-                            // onChange(option.value);
+                            onChange(option.value);
                           }}
                         />
                       );

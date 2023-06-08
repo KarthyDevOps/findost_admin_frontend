@@ -8,6 +8,7 @@ import "./style.scss";
 import TableComp from "component/common/TableComp/TableComp";
 import { Toast } from "service/toast";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
+import { debounceFunction } from "helpers/debounce";
 
 const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
   const [pageCount, setPageCount] = useState(1);
@@ -17,7 +18,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
     show: false,
   });
   const [active, setIsactive] = useState("");
-
+  const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
 
   const includedKeys = [
@@ -59,12 +60,12 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
     setCurrentPage(page);
   };
 
-  const fetchData = async () => {
+  const fetchData = async (search) => {
     try {
       let params = {
         page: currentPage,
         limit: 10,
-        search: "",
+        search,
       };
       const response = await getKnowledgeList(params);
       console.log(response.data.data.list, "response");
@@ -94,7 +95,11 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
     }
     setModalVisible({ show: false, id: null });
   };
+  const searchValues = (e) => {
+    setSearch(e.target.value);
+    debounceFunction(() => fetchData(e.target.value), 1200);
 
+  };
   return (
     <div className="px-5 py-3 knowledge_center">
       <h6>Knowledge Center</h6>
@@ -107,48 +112,48 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
             name="search"
             Iconic
             Search
-          // value={search}
-          // onChange={(e) => {
-          //   setsearch(e.target.value);
-          //   setactivePage(1);
-          // }}
+            onChange={(e) => {
+              searchValues(e);
+            }}
           />
         </div>
         <div className="col-2">
           <DropDown
             // value={value}
             placeholder="Filter by Category"
-          // onChange={(e) => {}}
-          // options={options}
+            // onChange={(e) => {}}
+            // options={options}
           />
         </div>
         <div className="col-2">
           <DropDown
             // value={value}
             placeholder="Filter by Sub Category"
-          // onChange={(e) => {}}
-          // options={options}
+            // onChange={(e) => {}}
+            // options={options}
           />
         </div>
         <div className="col-2">
           <DropDown
             // value={value}
             placeholder="Filter by Status"
-          // onChange={(e) => {}}
-          // options={options}
+            // onChange={(e) => {}}
+            // options={options}
           />
         </div>
         <div className="col-1"></div>
-        {create && <div className="col-2">
-          <NormalButton
-            className="loginButton"
-            label={"Add New"}
-            onClick={() => {
-              localStorage.removeItem("editId");
-              history.push("/admin/knowledge-center/add-knowledge");
-            }}
-          />
-        </div>}
+        {create && (
+          <div className="col-2">
+            <NormalButton
+              className="loginButton"
+              label={"Add New"}
+              onClick={() => {
+                localStorage.removeItem("editId");
+                history.push("/admin/knowledge-center/add-knowledge");
+              }}
+            />
+          </div>
+        )}
         <div className=" mt-4 p-3">
           <TableComp
             data={data}

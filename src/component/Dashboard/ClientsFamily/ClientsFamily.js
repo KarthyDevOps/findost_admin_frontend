@@ -4,11 +4,12 @@ import { getClientList } from "service/Auth";
 import InputBox from "component/common/InputBox/InputBox";
 import DropDown from "component/common/DropDown/DropDown";
 import TableComp from "component/common/TableComp/TableComp";
-
+import { debounceFunction } from "helpers/debounce";
 const ClientsFamily = ({ create, view, edit, remove }) => {
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState([]);
+  const [search, setSearch] = useState("");
 
   const includedKeys = [
     {
@@ -41,12 +42,12 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
     setCurrentPage(page);
   };
 
-  const fetchClientList = async () => {
+  const fetchClientList = async (search) => {
     try {
       let params = {
         page: currentPage,
         limit: 10,
-        search: "",
+        search,
       };
       let response = await getClientList(params);
       if (response.status === 200) {
@@ -61,6 +62,10 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
   useEffect(() => {
     fetchClientList();
   }, []);
+  const searchValues = (e) => {
+    setSearch(e.target.value);
+    debounceFunction(() => fetchClientList(e.target.value), 1200);
+  };
 
   return (
     <div className="px-5 py-3 clients_family">
@@ -70,15 +75,14 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
           <InputBox
             className="login_input Notification_input"
             type={"text"}
+            value={search}
+            onChange={(e) => {
+              searchValues(e);
+            }}
             placeholder="Search by Id, Username, Email"
             name="search"
             Iconic
             Search
-            // value={search}
-            // onChange={(e) => {
-            //   setsearch(e.target.value);
-            //   setactivePage(1);
-            // }}
           />
         </div>
         <div className="col-2">
