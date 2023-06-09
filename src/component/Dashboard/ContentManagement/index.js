@@ -1,9 +1,8 @@
 import React, { useState, useEffect, Fragment } from "react";
+import "./style.scss";
 import TableComp from "../../common/TableComp/TableComp";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import { history } from "helpers";
-
-import "./style.scss";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import { getContentList, deleteContentList } from "service/Cms";
 import { Toast } from "service/toast";
@@ -16,10 +15,8 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
   });
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
   const includedKeys = [
     {
       label: "Page Id",
@@ -34,18 +31,15 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
       value: "title",
     },
   ];
-
   const fetchData = async () => {
     try {
       setIsLoading(true);
-
       let params = {
         page: currentPage,
         limit: 10,
         search: "",
       };
       const response = await getContentList(params);
-      console.log(response.data.data.list, "response");
       setData(response?.data?.data?.list);
     } catch (error) {
       console.log(error);
@@ -53,7 +47,6 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
       setIsLoading(false);
     }
   };
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -72,23 +65,19 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
       let params = {
         contentId: modalVisible.id,
       };
-      console.log(params, "gg");
       let response = await deleteContentList(params);
       if (response.status === 200) {
         Toast({ type: "success", message: response.data.message });
-        // deleteContentList();
         fetchData();
       }
     }
     setModalVisible({ show: false, id: null });
   };
-
   return (
     <Fragment>
       <div className="staff_table px-5 pt-4">
         <p className="staff_title m-0">Content Management</p>
         <div className="">
-          {/* {create && */}
           <div className="float-right col-2">
             <NormalButton
               className="loginButton"
@@ -109,8 +98,6 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
           ) : data.length > 0 ? (
             <TableComp
               data={data}
-              isCheck={false}
-              // ReadAction={true}
               EditAction={edit}
               DeleteAction={remove}
               includedKeys={includedKeys}

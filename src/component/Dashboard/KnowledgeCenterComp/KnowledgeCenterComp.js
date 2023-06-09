@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import DropDown from "component/common/DropDown/DropDown";
+import "./style.scss";
 import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import { history, debounceFunction } from "helpers";
@@ -9,7 +9,6 @@ import {
   deleteKnowledge,
   bulkDeleteKnowledge,
 } from "service/Cms";
-import "./style.scss";
 import TableComp from "component/common/TableComp/TableComp";
 import { Toast } from "service/toast";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
@@ -21,7 +20,6 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
   const { errors, control } = useForm({
     mode: "onChange",
   });
-
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTitle, setSearch] = useState("");
@@ -31,14 +29,12 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
   const [SubCategory, setSubCategory] = useState("");
   const [status, setStatus] = useState("");
   const [bulkDelete, setBulkDelete] = useState(false);
-
   const [modalVisible, setModalVisible] = useState({
     id: null,
     show: false,
   });
   const [active, setIsactive] = useState("");
   const [data, setData] = useState([]);
-
   const includedKeys = [
     {
       label: "Id",
@@ -60,7 +56,6 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
       label: "Sub Category",
       value: "subCategory",
     },
-
     {
       label: "Description",
       value: "description",
@@ -90,7 +85,6 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
       value: "three",
     },
   ];
-
   const SubCategoryOptions = [
     {
       label: "ONE",
@@ -105,21 +99,8 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
       value: "three",
     },
   ];
-
-  const handleOpenModal = (id) => {
-    setModalVisible({
-      id: id,
-      show: true,
-    });
-  };
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page.selected);
-    fetchData(page);
-  };
   const fetchData = async (page) => {
     setIsLoading(true);
-
     try {
       let params = {
         page: page,
@@ -135,7 +116,6 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
       }
       let response = await getKnowledgeList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
-        console.log(response.data.data.list, "response");
         setIsactive(response?.data?.data?.list[0].isactive);
         setData(response?.data?.data?.list);
         setPageCount(response?.data?.data?.pageMeta?.pageCount);
@@ -149,11 +129,19 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
       setIsLoading(false);
     }
   };
-
   useEffect(() => {
     fetchData(currentPage);
   }, [searchTitle, Category, SubCategory, status]);
-
+  const handleOpenModal = (id) => {
+    setModalVisible({
+      id: id,
+      show: true,
+    });
+  };
+  const handlePageChange = (page) => {
+    setCurrentPage(page.selected);
+    fetchData(page);
+  };
   const handleDeleteItem = async () => {
     if (modalVisible.show && modalVisible.id) {
       let params = {
@@ -280,13 +268,13 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
           />
         </div>
         <div className="col-2">
-          {bulkDelete && (
-            <NormalButton
-              className="authButton1"
-              label={"Delete"}
-              onClick={handleBulkDelete}
-            />
-          )}
+        {bulkDelete && remove && (
+              <NormalButton
+                className="authButton1"
+                label={"Delete"}
+                onClick={handleBulkDelete}
+              />
+            )}
         </div>
         {create && (
           <div className="col-2">
@@ -309,7 +297,6 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
           ) : data.length > 0 ? (
             <TableComp
               data={data}
-              isCheck={true}
               EditAction={edit}
               DeleteAction={remove}
               includedKeys={includedKeys}

@@ -1,9 +1,9 @@
-import React, { useState, useEffect, Fragment } from "react";
-import { BsArrowLeft } from "react-icons/bs";
+import React, { useState, useEffect } from "react";
 import "./style.scss";
 import { history } from "helpers";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import InputBox from "component/common/InputBox/InputBox";
+import { BsArrowLeft } from "react-icons/bs";
 import { useForm } from "react-hook-form";
 import TextEditor from "component/common/TextEditor/TextEditor";
 import DropDown from "component/common/DropDown/DropDown";
@@ -28,15 +28,11 @@ const AddFaqComp = ({ create, view, remove }) => {
   });
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [content, setContent] = useState("");
   const [FAQDetails, setFAQDetails] = useState({
-
     category: "",
     subcategory: "",
     status: "",
   });
-  console.log("FAQDetails", FAQDetails);
-
   const options = [
     {
       label: "ONE",
@@ -61,7 +57,6 @@ const AddFaqComp = ({ create, view, remove }) => {
       value: "inActive",
     },
   ];
-
   const id = localStorage.getItem("editId");
   useEffect(() => {
     setValue(
@@ -77,8 +72,6 @@ const AddFaqComp = ({ create, view, remove }) => {
       status.find((option) => option.value === FAQDetails.status)
     );
   }, [FAQDetails, setValue]);
-  console.log("FAQDetails", FAQDetails);
-
   const getFAQDetails = async () => {
     try {
       const params = {
@@ -103,7 +96,6 @@ const AddFaqComp = ({ create, view, remove }) => {
       console.log("e :>> ", e);
     }
   };
-
   useEffect(() => {
     if (id) {
       setEdit(true);
@@ -112,7 +104,6 @@ const AddFaqComp = ({ create, view, remove }) => {
   }, []);
   const onSubmit = async (data) => {
     setModal(true);
-
     if (!edit) {
       try {
         let body = {
@@ -187,18 +178,10 @@ const AddFaqComp = ({ create, view, remove }) => {
           </div>
           <div className="row gap-3 my-3">
             <div className="pr-3">
-              <NormalButton
-                className="authButton1"
-                label={"Download Sample"}
-              //   onClick={DeletBulk}
-              />
+              <NormalButton className="authButton1" label={"Download Sample"} />
             </div>
             <div className="">
-              <NormalButton
-                className="loginButton"
-                label={"Upload CSV"}
-              //   onClick={DeletBulk}
-              />
+              <NormalButton className="loginButton" label={"Upload CSV"} />
             </div>
           </div>
         </div>
@@ -249,7 +232,6 @@ const AddFaqComp = ({ create, view, remove }) => {
                           category: option.value,
                         }));
                         onChange(option.value);
-
                       }}
                     />
                   );
@@ -280,7 +262,6 @@ const AddFaqComp = ({ create, view, remove }) => {
                           subcategory: option.value,
                         }));
                         onChange(option.value);
-
                       }}
                     />
                   );
@@ -304,7 +285,6 @@ const AddFaqComp = ({ create, view, remove }) => {
                       {...field}
                       name="status"
                       placeholder="Select Status"
-                      // errors={errors.status}
                       options={status}
                       onChange={(option) => {
                         setFAQDetails((prevState) => ({
@@ -312,7 +292,6 @@ const AddFaqComp = ({ create, view, remove }) => {
                           status: option.value,
                         }));
                         onChange(option.value);
-
                       }}
                     />
                   );
@@ -326,7 +305,6 @@ const AddFaqComp = ({ create, view, remove }) => {
               name={"content"}
               control={control}
               error={errors.content}
-              // defaultValue={endDate}
               rules={{ required: true }}
               messages={{
                 required: "FAQ status is Required",
@@ -357,7 +335,6 @@ const AddFaqComp = ({ create, view, remove }) => {
                 className="loginButton"
                 onClick={handleSubmit(onSubmit)}
                 label={edit ? "Update" : "Add FAQ"}
-              //   onClick={DeletBulk}
               />
             </div>
           </div>

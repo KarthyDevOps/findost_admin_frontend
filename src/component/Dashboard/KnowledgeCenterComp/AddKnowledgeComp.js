@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { BsArrowLeft } from "react-icons/bs";
 import "./style.scss";
+import { BsArrowLeft } from "react-icons/bs";
 import { Toast } from "service/toast";
 import { history } from "helpers";
 import { useForm } from "react-hook-form";
@@ -22,14 +22,12 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
     errors,
     setValue,
     reset,
-    setError,
     control,
   } = useForm({
     mode: "onChange",
   });
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [content, setContent] = useState("");
   const [KnowledgeDetails, setKnowledgeDetails] = useState({
     category: "",
     subcategory: "",
@@ -59,7 +57,6 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
       value: "inActive",
     },
   ];
-
   const id = localStorage.getItem("editId");
   useEffect(() => {
     setValue(
@@ -75,7 +72,6 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
       status.find((option) => option.value === KnowledgeDetails.status)
     );
   }, [KnowledgeDetails, setValue]);
-
   const getKnowledgeDetails = async () => {
     try {
       const params = {
@@ -101,7 +97,6 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
       console.log("e :>> ", e);
     }
   };
-
   useEffect(() => {
     if (id) {
       setEdit(true);
@@ -111,7 +106,6 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
 
   const onSubmit = async (data) => {
     setModal(true);
-
     if (!edit) {
       try {
         let body = {
@@ -193,17 +187,11 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 className="add_staff"
                 type={"text"}
                 placeholder="Enter Title"
-                //   errors={errors}
                 name="title"
                 errors={errors}
                 register={register({
                   required: true,
                 })}
-                //   value={searchStaff}
-                // onChange={(e) => {
-                //   setsearch(e.target.value);
-                //   setactivePage(1);
-                // }}
               />
               <FormErrorMessage
                 error={errors.title}
@@ -236,7 +224,6 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                           category: option.value,
                         }));
                         onChange(option.value);
-
                       }}
                     />
                   );
@@ -267,7 +254,6 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                           subcategory: option.value,
                         }));
                         onChange(option.value);
-
                       }}
                     />
                   );
@@ -284,7 +270,6 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 errors={errors}
                 register={register({
                   required: true,
-
                   pattern: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
                 })}
               />
@@ -298,10 +283,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
             </div>
             <div className="col-4 mt-3">
               <label className="Product_description">Upload Document</label>
-
-              <Dropzone
-              // onFileDrop={handleFileDrop}
-              >
+              <Dropzone>
                 {({ getRootProps, getInputProps }) => (
                   <div {...getRootProps({ className: "dropzone" })}>
                     <input {...getInputProps()} multiple={false} required />
@@ -377,7 +359,6 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 className="loginButton"
                 onClick={handleSubmit(onSubmit)}
                 label={edit ? "Update" : "Add Content"}
-                //   onClick={DeletBulk}
               />
             </div>
           </div>

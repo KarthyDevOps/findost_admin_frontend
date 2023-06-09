@@ -9,15 +9,10 @@ import { useForm } from "react-hook-form";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import { Toast } from "service/toast";
 import NormalButton from "component/common/NormalButton/NormalButton";
-
 import InputBox from "component/common/InputBox/InputBox";
 import TableComp from "component/common/TableComp/TableComp";
 // import { debounceFunction } from "helpers/debounce";
 const ClientsFamily = ({ create, view, edit, remove }) => {
-  const { register, handleSubmit, errors, reset, control } = useForm({
-    mode: "onChange",
-  });
-
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState([]);
@@ -57,40 +52,8 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
       value: "relationShip",
     },
   ];
-
-  const statusOptions = [
-    {
-      label: "ACTIVE",
-      value: "active",
-    },
-    {
-      label: "InACTIVE",
-      value: "inActive",
-    },
-  ];
-
-  const roleOptions = [
-    {
-      label: "SUPER_ADMIN",
-      value: "SUPER ADMIN",
-    },
-    {
-      label: "ADMIN",
-      value: "ADMIN",
-    },
-    {
-      label: "STAFF",
-      value: "STAFF",
-    },
-    {
-      label: "SUB_Admin",
-      value: "SUB ADMIN",
-    },
-  ];
-
   const fetchClientList = async (page) => {
     setIsLoading(true);
-
     try {
       let params = {
         page: page,
@@ -112,10 +75,6 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchClientList(currentPage);
-  }, [searchStaff, role, status]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page.selected);
@@ -171,6 +130,10 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
       }
     }
   };
+
+  useEffect(() => {
+    fetchClientList(currentPage);
+  }, [searchStaff, role, status]);
 
   return (
     <div className="px-5 py-3 clients_family">
@@ -236,14 +199,14 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
         </div> */}
         <div className="col-2"></div>
         <div className="col-md-2">
-            {bulkDelete && (
-              <NormalButton
-                className="authButton1"
-                label={"Delete"}
-                onClick={handleBulkDelete}
-              />
-            )}
-          </div>
+          {bulkDelete && (
+            <NormalButton
+              className="authButton1"
+              label={"Delete"}
+              onClick={handleBulkDelete}
+            />
+          )}
+        </div>
       </div>
       <div className=" mt-4 p-3">
         {isLoading ? (
@@ -254,7 +217,7 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
         ) : data.length > 0 ? (
           <TableComp
             data={data}
-            isCheck={true}
+            // isCheck={true}
             EditAction={edit}
             DeleteAction={remove}
             includedKeys={includedKeys}
@@ -274,7 +237,6 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
         )}
       </div>
       <div>
-        {" "}
         <DeleteModal
           modalOpen={modalVisible.show}
           closeModal={() => setModalVisible({ id: null, show: false })}

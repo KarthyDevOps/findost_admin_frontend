@@ -1,10 +1,6 @@
 import React, { useState, useEffect, Fragment, useCallback } from "react";
 import TableComp from "../../common/TableComp/TableComp";
-import axios from "axios";
-import FormErrorMessage from "component/common/ErrorMessage";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom/cjs/react-router-dom";
-import ReactSelect from "react-select";
 import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import "./style.scss";
@@ -19,21 +15,15 @@ import { debounceFunction, history } from "helpers";
 import Loader from "component/common/Loader";
 
 const ProductManagementComp = ({ create, view, edit, remove }) => {
-  const { register, handleSubmit, errors, reset, setError } = useForm({
-    mode: "onChange",
-  });
+  const { errors } = useForm({ mode: "onChange" });
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [modalVisible, setModalVisible] = useState({
-    id: null,
-    show: false,
-  });
+  const [modalVisible, setModalVisible] = useState({ id: null, show: false });
   const [isLoading, setIsLoading] = useState(false);
   const [bulkDelete, setBulkDelete] = useState(false);
   const [deleteId, setDeleteId] = useState([]);
-
   const includedKeys = [
     {
       label: "Product Id",
@@ -41,27 +31,18 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
     },
     {
       label: "Product Icon",
-      value: "productDescription",
+      value: "productIcon",
     },
-    // {
-    //   label: "Product Status",
-    //   value: "isActive",
-    // },
+
     {
       label: "Product Name",
       value: "productName",
     },
     {
       label: "Product Type",
-      value: "productDescription",
+      value: "productType",
     },
   ];
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-    getProductsList(page);
-  };
-
   const getProductsList = async (page) => {
     try {
       setIsLoading(true);
@@ -72,7 +53,6 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
       };
       let response = await getProductList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
-        console.log("response", response?.data?.data);
         setData(response?.data?.data?.list);
         setPageCount(response?.data?.data?.pageMeta?.pageCount);
         setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
@@ -88,14 +68,16 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
   useEffect(() => {
     getProductsList(currentPage);
   }, [search]);
-
   const handleOpenModal = (id) => {
     setModalVisible({
       id: id,
       show: true,
     });
   };
-
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    getProductsList(page);
+  };
   const handleDeleteItem = async () => {
     if (modalVisible.show && modalVisible.id) {
       let params = {
@@ -109,14 +91,12 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
     }
     setModalVisible({ show: false, id: null });
   };
-
   const handleSearchChange = useCallback(
     debounceFunction((value) => {
       setSearch(value);
     }, 500),
     []
   );
-
   const handleBulk = async (id) => {
     if (id.length > 0) {
       setBulkDelete(true);
@@ -126,7 +106,6 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
       setBulkDelete(false);
     }
   };
-
   const handleBulkDelete = async () => {
     if (deleteId.length > 0) {
       let body = {
@@ -146,7 +125,6 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
     <Fragment>
       <div className="staff_table px-5 pt-4">
         <p className="staff_title m-0">ProductManagement</p>
-
         <div className="row align-items-center px-3">
           <div className="col-md-8 col-12">
             <div className="row align-items-center">

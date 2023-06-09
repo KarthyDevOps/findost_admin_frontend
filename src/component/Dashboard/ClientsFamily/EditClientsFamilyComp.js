@@ -25,11 +25,9 @@ const EditClientsFamilyComp = ({ edit, view }) => {
     mode: "onChange",
   });
   const [modal, setModal] = useState(false);
-
   const [ClientDetails, setClientDetails] = useState({
     relationShip: "",
   });
-
   const options = [
     {
       label: "Software Enginerr",
@@ -45,25 +43,20 @@ const EditClientsFamilyComp = ({ edit, view }) => {
     },
   ];
   const id = localStorage.getItem("editId");
-
-
   useEffect(() => {
     setValue(
       "relationShip",
       options.find((option) => option.value === ClientDetails.relationShip)
     );
   }, [ClientDetails, setValue]);
-
   const getClientDetails = async () => {
     try {
       if (!view) return history.goBack();
       const params = { id };
-      console.log("first");
       let response = await getClient(params);
-
       if (response.status === 200) {
-        const data = response?.data.data;
-        console.log("datadateOfBirth", data.dateOfBirth);
+        const data = response?.data?.data?.data;
+        console.log("datadateOfBirth", data);
         reset({
           clientName: data?.clientName,
           email: data?.email,
@@ -80,15 +73,11 @@ const EditClientsFamilyComp = ({ edit, view }) => {
       console.log("e :>> ", e);
     }
   };
-
   useEffect(() => {
     if (id) {
-      // setEdit(true);
-
       getClientDetails();
     }
   }, []);
-
   const onSubmit = async (data) => {
     setModal(true);
     try {
@@ -99,7 +88,6 @@ const EditClientsFamilyComp = ({ edit, view }) => {
         dateOfBirth: data?.dateOfBirth,
         relationShip: ClientDetails.relationShip,
       };
-
       let response = await updateClient(body, id);
       if (response.status === 200) {
         setModal(true);
@@ -244,7 +232,6 @@ const EditClientsFamilyComp = ({ edit, view }) => {
                           relationShip: option.value,
                         }));
                         onChange(option.value);
-
                       }}
                     />
                   );
@@ -266,7 +253,6 @@ const EditClientsFamilyComp = ({ edit, view }) => {
                   className="loginButton"
                   label={"Update"}
                   onClick={handleSubmit(onSubmit)}
-                  //   onClick={DeletBulk}
                 />
               </div>
             )}

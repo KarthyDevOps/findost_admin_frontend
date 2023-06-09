@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import "./style.scss";
 import InputBox from "component/common/InputBox/InputBox";
@@ -26,15 +26,11 @@ const EditContentManagementComp = ({ create, view, remove }) => {
   } = useForm({
     mode: "onChange",
   });
-
-  const [content, setContent] = useState();
-  // console.log(content)
   const [modal, setModal] = useState(false);
   const [edit, setedit] = useState(false);
   const [contentDetails, setcontentDetails] = useState({
     status: "",
   });
-
   const status = [
     {
       label: "ACTIVE",
@@ -45,18 +41,13 @@ const EditContentManagementComp = ({ create, view, remove }) => {
       value: "inActive",
     },
   ];
-  // const urlParams = new URLSearchParams(window.location.search);
-  // const id = urlParams.get("Editid");
   const id = localStorage.getItem("editId");
-
   useEffect(() => {
     setValue(
       "status",
       status.find((option) => option.value === contentDetails.status)
     );
   }, [contentDetails, setValue]);
-  console.log("contentDetails :>> ", contentDetails);
-
   const getContentList = async () => {
     try {
       const params = {
@@ -69,7 +60,6 @@ const EditContentManagementComp = ({ create, view, remove }) => {
           title: data?.title,
           content: data?.description,
         });
-
         setcontentDetails({
           status: data.isActive ? "active" : "inActive",
         });
@@ -80,18 +70,12 @@ const EditContentManagementComp = ({ create, view, remove }) => {
       console.log("e :>> ", e);
     }
   };
-
   useEffect(() => {
     if (id) {
       setedit(true);
       getContentList();
     }
   }, []);
-
-  // const handleChange = (state) => {
-  //   setEditorState(state);
-
-  // };
   const onSubmit = async (data) => {
     console.log("data", data);
     if (edit) {
@@ -105,7 +89,6 @@ const EditContentManagementComp = ({ create, view, remove }) => {
         } else {
           body.isActive = false;
         }
-        console.log(body, id, "hh");
         let response = await updateContent(body, id);
         if (response.status === 200) {
           setModal(true);
@@ -121,7 +104,7 @@ const EditContentManagementComp = ({ create, view, remove }) => {
       } catch (e) {
         console.log(e, "eee");
       }
-    }else{
+    } else {
       try {
         let body = {
           title: data.title,
@@ -132,7 +115,7 @@ const EditContentManagementComp = ({ create, view, remove }) => {
         } else {
           body.isActive = false;
         }
-        let response = await addContent (body);
+        let response = await addContent(body);
         if (response.status === 200) {
           setModal(true);
           const timeout = setTimeout(() => {
@@ -164,8 +147,6 @@ const EditContentManagementComp = ({ create, view, remove }) => {
             <p className="add_products_title m-0">Content Management</p>
           </div>
         </div>
-        {/* <div> */}
-
         <form>
           <div className="d-flex col-12   boder_box align-items-center">
             <div class="container ">
@@ -197,7 +178,6 @@ const EditContentManagementComp = ({ create, view, remove }) => {
                     control={control}
                     error={errors.status}
                     rules={{ required: true }}
-                    // defaultValue={staffDetails.role}
                     value={status.find(
                       (option) => option.value === getValues("status")
                     )}
@@ -272,9 +252,7 @@ const EditContentManagementComp = ({ create, view, remove }) => {
                       addProductbtn
                       onClick={handleSubmit(onSubmit)}
                       label={edit ? "Update" : "Add content"}
-                    >
-                      {" "}
-                    </NormalButton>
+                    ></NormalButton>
                   </div>
                 </div>
               </div>

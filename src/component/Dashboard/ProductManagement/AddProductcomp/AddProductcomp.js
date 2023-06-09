@@ -92,10 +92,7 @@ const AddProductcomp = ({ create, view, remove }) => {
       console.log("errrr :>> ", e);
     }
   };
-
   const onsubmit = async (data) => {
-    console.log("data :>> ", data);
-
     // if (!edit) {
     //   try {
     //     let body = {
@@ -120,6 +117,8 @@ const AddProductcomp = ({ create, view, remove }) => {
       let body = {
         productName: data?.productName,
         productType: data?.productType,
+        productIcon:
+          "https://www.google.com/url?sa=i&url=https%3A%2F%2Fsproutsocial.com%2Finsights%2Fsocial-media-image-sizes-guide%2F&psig=AOvVaw3OE3VZtCQYw7dP0_vPw4an&ust=1686391401219000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCLD82tX3tf8CFQAAAAAdAAAAABAJ",
       };
       let response = await updateProduct(body, id);
       if (response.status === 200) {
@@ -135,7 +134,6 @@ const AddProductcomp = ({ create, view, remove }) => {
       console.log(e);
     }
   };
-  // };
 
   const handleFileDrop = async (droppedimage) => {
     // let body = new FormData();
