@@ -1,36 +1,40 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, useCallback, Fragment } from "react";
 import TableComp from "../../common/TableComp/TableComp";
-import axios from "axios";
 import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
-import ReactSelect from "react-select";
-// import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import "./style.scss";
-import { getTemplateList, deletetemplateList } from "service/Cms";
-import { history } from "helpers";
+import {
+  bulkDeletetemplateList,
+  deletetemplateList,
+  getTemplateList,
+} from "service/Cms";
+import { history, debounceFunction } from "helpers";
 import { BsSearch } from "react-icons/bs";
-import DropDown from "component/common/DropDown/DropDown";
 import { Toast } from "service/toast";
-import { debounceFunction } from "helpers/debounce";
-
+import Loader from "component/common/Loader";
+import CustomController from "component/common/Controller";
+import NormalMultiSelect from "component/common/NormalMultiSelect";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 
 const TemplateManagementComp = ({ create, view, edit, remove }) => {
-  const { register, handleSubmit, errors, reset, setError } = useForm({
+  const { register, handleSubmit, errors, control, reset, setError } = useForm({
     mode: "onChange",
   });
   const [pageCount, setPageCount] = useState(1);
-  const [search, setSearch] = useState("");
-
+  const [searchTitle, setSearch] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState([]);
+  const [FilterType, setFilterType] = useState("");
+  const [deleteId, setDeleteId] = useState([]);
+  const [bulkDelete, setBulkDelete] = useState(false);
+
   const [active, setIsactive] = useState("");
   const [modalVisible, setModalVisible] = useState({
     id: null,
     show: false,
   });
-  const [searchStaff, setSearchStaff] = useState("");
   const includedKeys = [
     {
       label: "Template Id",
@@ -53,6 +57,16 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
       value: "description",
     },
   ];
+  const FilterOption = [
+    {
+      label: " PRE Template Message",
+      value: "pre template message",
+    },
+    {
+      label: " POST Template Message",
+      value: "post template message",
+    },
+  ];
 
   const handleOpenModal = (id) => {
     setModalVisible({
@@ -62,30 +76,39 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
   };
 
   const handlePageChange = (page) => {
-    setCurrentPage(page);
+    setCurrentPage(page.selected);
+    fetchData(page);
   };
 
-  const fetchData = async (search) => {
+  const fetchData = async (page) => {
+    setIsLoading(true);
+
     try {
       let params = {
-        page: currentPage,
+        page: page,
         limit: 10,
-        search,
+        search: searchTitle,
+        messageType:FilterType,
       };
-      const response = await getTemplateList(params);
-      console.log(response.data.data.list, "response");
-      setIsactive(response?.data?.data?.list[0].isactive);
-      setData(response?.data?.data?.list);
-      setPageCount(response?.data?.data?.pageMeta?.pageCount);
-      setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
+      let response = await getTemplateList(params);
+      if (response.status === 200 && response?.data?.data?.list.length > 0) {
+        console.log(response.data.data.list, "response");
+        setIsactive(response?.data?.data?.list[0].isactive);
+        setData(response?.data?.data?.list);
+        setPageCount(response?.data?.data?.pageMeta?.pageCount);
+        setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
+      } else {
+        setData([]);
+      }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
-
   useEffect(() => {
-    fetchData();
-  }, [setData]);
+    fetchData(currentPage);
+  }, [searchTitle,FilterType]);
 
   const handleDeleteItem = async () => {
     if (modalVisible.show && modalVisible.id) {
@@ -100,9 +123,32 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
     }
     setModalVisible({ show: false, id: null });
   };
-  const searchValues = (e) => {
-    setSearch(e.target.value);
-    debounceFunction(() => fetchData(e.target.value), 1200);
+  const handleSearchChange = useCallback(
+    debounceFunction((value) => {
+      setSearch(value);
+    }, 500),
+    []
+  );
+  const handleBulk = async (id) => {
+    if (id.length > 0) {
+      setBulkDelete(true);
+      deleteId.length = 0;
+      deleteId.push(...Object.values(id));
+    } else {
+      setBulkDelete(false);
+    }
+  };
+  const handleBulkDelete = async () => {
+    if (deleteId.length > 0) {
+      let body = {
+        ids: deleteId,
+      };
+      let response = await bulkDeletetemplateList(body);
+      if (response.status === 200) {
+        Toast({ type: "success", message: response.data.message });
+        fetchData(currentPage);
+      }
+    }
   };
   return (
     <Fragment>
@@ -110,7 +156,7 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
         <p className="staff_title m-0">Template Management</p>
 
         <div className="row align-items-center px-3">
-          <div className="col-md-10 col-12">
+          <div className="col-md-12 col-12">
             <div className="row align-items-center">
               <div className="col-md-4 p-0 my-4 staff_Search">
                 <InputBox
@@ -120,46 +166,88 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
                   errors={errors}
                   name="search"
                   Iconic
-                  value={search}
-                  onChange={(e) => {
-                    searchValues(e);
-                  }}
+                  value={searchTitle}
+                  onChange={(e) => handleSearchChange(e.target.value)}
                 />
                 <i className="search_iconic">
                   <BsSearch size={18} style={{ color: "#7E7E7E" }} />
                 </i>
               </div>
-              <div className="col-md-3">
-                <DropDown placeholder={"Filter by Message Type"} />
+              <div className="col-3">
+                <CustomController
+                  name={"SubCategoty"}
+                  control={control}
+                  error={errors?.SubCategory}
+                  defaultValue={FilterType}
+                  rules={{ required: false }}
+                  render={({ onChange, ...fields }) => {
+                    return (
+                      <NormalMultiSelect
+                        {...fields}
+                        placeholder={"Filter by Message Type"}
+                        options={FilterOption}
+                        name="SubCategoty"
+                        handleChange={(e, { value } = {}) => {
+                          onChange(value);
+                          setFilterType(value);
+                        }}
+                      />
+                    );
+                  }}
+                />
               </div>
+              <div className="col-1"></div>
+              <div className="col-2">
+                {bulkDelete && (
+                  <NormalButton
+                    className="authButton1"
+                    label={"Delete"}
+                    onClick={handleBulkDelete}
+                  />
+                )}
+              </div>
+              {create && (
+                <div className="col-2 p-0 m-0">
+                  <NormalButton
+                    className="loginButton"
+                    label={"Add Template "}
+                    onClick={() => {
+                      localStorage.removeItem("editId");
+                      history.push("/admin/template-management/add-template");
+                    }}
+                  />
+                </div>
+              )}
             </div>
           </div>
-          {create && (
-            <div className="col-md-2 col-12 p-0 m-0">
-              <NormalButton
-                className="loginButton"
-                label={"Add Template "}
-                onClick={() => {
-                  localStorage.removeItem("editId");
-                  history.push("/admin/template-management/add-template");
-                }}
-              />
+        </div>
+
+        <div className="">
+          {isLoading ? (
+            <Loader
+              loading={isLoading}
+              className="d-flex align-items-center justify-content-center"
+            />
+          ) : data.length > 0 ? (
+            <TableComp
+              data={data}
+              isCheck={true}
+              EditAction={edit}
+              DeleteAction={remove}
+              includedKeys={includedKeys}
+              pageCount={pageCount}
+              onRowsSelect={handleBulk}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
+              setCurrentPage={setCurrentPage}
+              handleOpenModal={handleOpenModal}
+              editRouteName={"/admin/template-management/add-template"}
+            />
+          ) : (
+            <div className="d-flex align-items-center justify-content-center mt-5 pt-5">
+              No Data Available
             </div>
           )}
-        </div>
-        <div className="">
-          <TableComp
-            data={data}
-            isCheck={true}
-            EditAction={edit}
-            DeleteAction={remove}
-            includedKeys={includedKeys}
-            pageCount={pageCount}
-            onPageChange={handlePageChange}
-            setCurrentPage={setCurrentPage}
-            handleOpenModal={handleOpenModal}
-            editRouteName={"/admin/template-management/add-template"}
-          />
         </div>
         <DeleteModal
           modalOpen={modalVisible.show}

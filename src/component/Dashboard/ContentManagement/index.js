@@ -7,6 +7,7 @@ import "./style.scss";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import { getContentList, deleteContentList } from "service/Cms";
 import { Toast } from "service/toast";
+import Loader from "component/common/Loader";
 
 const ContentManagementComp = ({ create, view, edit, remove }) => {
   const [modalVisible, setModalVisible] = useState({
@@ -17,6 +18,7 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const includedKeys = [
     {
@@ -35,6 +37,8 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
 
   const fetchData = async () => {
     try {
+      setIsLoading(true);
+
       let params = {
         page: currentPage,
         limit: 10,
@@ -45,6 +49,8 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
       setData(response?.data?.data?.list);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -95,21 +101,30 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
               }}
             />
           </div>
-          {/* } */}
-          <TableComp
-            data={data}
-            isCheck={false}
-            // ReadAction={true}
-            EditAction={edit}
-            DeleteAction={remove}
-            includedKeys={includedKeys}
-            pageCount={pageCount}
-            onPageChange={handlePageChange}
-            setCurrentPage={setCurrentPage}
-            handleOpenModal={handleOpenModal}
-            editRouteName={"/admin/content-management/editcontent-management"}
-          />
-
+          {isLoading ? (
+            <Loader
+              loading={isLoading}
+              className="d-flex align-items-center justify-content-center"
+            />
+          ) : data.length > 0 ? (
+            <TableComp
+              data={data}
+              isCheck={false}
+              // ReadAction={true}
+              EditAction={edit}
+              DeleteAction={remove}
+              includedKeys={includedKeys}
+              pageCount={pageCount}
+              onPageChange={handlePageChange}
+              setCurrentPage={setCurrentPage}
+              handleOpenModal={handleOpenModal}
+              editRouteName={"/admin/content-management/editcontent-management"}
+            />
+          ) : (
+            <div className="d-flex align-items-center justify-content-center mt-5 pt-5">
+              No Data Available
+            </div>
+          )}
           <div>
             <DeleteModal
               modalOpen={modalVisible.show}

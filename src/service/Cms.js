@@ -194,6 +194,17 @@ export const deletetemplateList = async (params) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+export const bulkDeletetemplateList = async (body) => {
+  let request = await axios({
+    method: "delete",
+    url: `${endpoints.cms.DELETE_TEMPLATE}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body,
+  }).catch(axiosErrorHandler);
+  return request;
+};
 
 export const getFAQList = async (params) => {
   let request = await axios({
@@ -251,6 +262,17 @@ export const deleteFAQList = async (params) => {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
     params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+export const bulkDeleteFaq = async (body) => {
+  const request = await axios({
+    method: "delete",
+    url: endpoints.cms.DELETE_FAQ,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body,
   }).catch(axiosErrorHandler);
   return request;
 };
@@ -335,6 +357,17 @@ export const deleteKnowledge = async (params) => {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
     params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+export const bulkDeleteKnowledge = async (body) => {
+  let request = await axios({
+    method: "delete",
+    url: `${endpoints.cms.DELETE_KNOWLEDGE}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body,
   }).catch(axiosErrorHandler);
   return request;
 };
