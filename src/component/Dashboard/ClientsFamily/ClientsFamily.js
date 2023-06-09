@@ -188,7 +188,7 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
             Search
           />
         </div>
-        <div className="col-md-2">
+        {/* <div className="col-md-2">
           <CustomController
             name={"role"}
             control={control}
@@ -233,7 +233,7 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
               );
             }}
           />
-        </div>
+        </div> */}
         <div className="col-2"></div>
         <div className="col-md-2">
             {bulkDelete && (
