@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import "./style.scss";
 import { useForm } from "react-hook-form";
-
 import InputBox from "component/common/InputBox/InputBox";
 import ReactSelect from "react-select";
 import NormalButton from "component/common/NormalButton/NormalButton";
@@ -119,7 +118,6 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
         search: searchTitle,
         category: Category,
         subcategory: SubCategory,
-        // isActive:status,
       };
       if (status) {
         status === "active"

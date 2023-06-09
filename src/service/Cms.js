@@ -194,6 +194,17 @@ export const deletetemplateList = async (params) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+export const bulkDeletetemplateList = async (body) => {
+  let request = await axios({
+    method: "delete",
+    url: `${endpoints.cms.DELETE_TEMPLATE}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body,
+  }).catch(axiosErrorHandler);
+  return request;
+};
 
 export const getFAQList = async (params) => {
   let request = await axios({
@@ -346,6 +357,17 @@ export const deleteKnowledge = async (params) => {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
     params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+export const bulkDeleteKnowledge = async (body) => {
+  let request = await axios({
+    method: "delete",
+    url: `${endpoints.cms.DELETE_KNOWLEDGE}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body,
   }).catch(axiosErrorHandler);
   return request;
 };

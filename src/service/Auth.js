@@ -64,7 +64,6 @@ export const deleteStaff = async (params) => {
   return request;
 };
 
-
 export const bulkDeleteStaff = async (body) => {
   const request = await axios({
     method: "delete",
@@ -137,7 +136,17 @@ export const deleteClient = async (params) => {
   }).catch(axiosErrorHandler);
   return request;
 };
-
+export const bulkDeleteClient = async (body) => {
+  const request = await axios({
+    method: "delete",
+    url: endpoints.auth.DELETE_CLIENT,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body,
+  }).catch(axiosErrorHandler);
+  return request;
+};
 export const updateClient = async (body, id) => {
   const request = await axios({
     method: "put",
