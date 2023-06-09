@@ -40,15 +40,19 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
       value: "productId",
     },
     {
-      label: "Product Status",
-      value: "isActive",
+      label: "Product Icon",
+      value: "productDescription",
     },
+    // {
+    //   label: "Product Status",
+    //   value: "isActive",
+    // },
     {
       label: "Product Name",
       value: "productName",
     },
     {
-      label: "Product Description",
+      label: "Product Type",
       value: "productDescription",
     },
   ];
@@ -170,7 +174,7 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
               />
             )}
           </div>
-          {create && (
+          {/* {create && (
             <div className="col-md-2 col-12 p-0 m-0">
               <NormalButton
                 className="loginButton"
@@ -181,7 +185,7 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
                 }}
               />
             </div>
-          )}
+          )} */}
         </div>
         {isLoading ? (
           <Loader
@@ -194,7 +198,7 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
               data={data}
               isCheck={true}
               EditAction={edit}
-              DeleteAction={remove}
+              // DeleteAction={remove}
               includedKeys={includedKeys}
               pageCount={pageCount}
               onPageChange={handlePageChange}
