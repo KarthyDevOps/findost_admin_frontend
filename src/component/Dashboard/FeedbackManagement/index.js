@@ -1,23 +1,27 @@
 import React, { useState, useEffect, Fragment, useCallback } from "react";
+// styles
+import "./style.scss";
+// internal component
 import TableComp from "../../common/TableComp/TableComp";
-import { useForm } from "react-hook-form";
 import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
-import "./style.scss";
 import DropDown from "component/common/DropDown/DropDown";
 import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
-import { debounceFunction, history } from "helpers";
+import DeleteModal from "component/common/DeleteModal/DeleteModal";
+import Loader from "component/common/Loader";
+// services
+import { useForm } from "react-hook-form";
 import {
   getFeedbackList,
   deleteFeedback,
   bulkDeleteFeedback,
 } from "service/Cms";
-import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import { Toast } from "service/toast";
-import Loader from "component/common/Loader";
+// helpers
+import { debounceFunction, history } from "helpers";
 
 const FeedbackManagementComp = ({ create, view, edit, remove }) => {
-  const { register, handleSubmit, errors, reset, setError } = useForm({
+  const { errors } = useForm({
     mode: "onChange",
   });
   const [data, setData] = useState([]);
@@ -26,13 +30,13 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
   const [enddate, setenddate] = useState("");
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [bulkDelete, setBulkDelete] = useState(false);
+  const [deleteId, setDeleteId] = useState([]);
   const [modalVisible, setModalVisible] = useState({
     id: null,
     show: false,
   });
-  const [isLoading, setIsLoading] = useState(false);
-  const [bulkDelete, setBulkDelete] = useState(false);
-  const [deleteId, setDeleteId] = useState([]);
 
   const includedKeys = [
     {
@@ -79,9 +83,6 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
       setIsLoading(false);
     }
   };
-  useEffect(() => {
-    getFeedbackListApi(currentPage);
-  }, [search]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -96,17 +97,21 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
   };
 
   const handleDeleteItem = async () => {
-    if (modalVisible.show && modalVisible.id) {
-      let params = {
-        feedbackId: modalVisible.id,
-      };
-      let response = await deleteFeedback(params);
-      if (response.status === 200) {
-        Toast({ type: "success", message: response.data.message });
-        getFeedbackListApi(currentPage);
+    try {
+      if (modalVisible.show && modalVisible.id) {
+        let params = {
+          feedbackId: modalVisible.id,
+        };
+        let response = await deleteFeedback(params);
+        if (response.status === 200) {
+          Toast({ type: "success", message: response.data.message });
+          getFeedbackListApi(currentPage);
+        }
       }
+      setModalVisible({ show: false, id: null });
+    } catch (e) {
+      console.log("e :>> ", e);
     }
-    setModalVisible({ show: false, id: null });
   };
 
   const handleSearchChange = useCallback(
@@ -116,7 +121,7 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
     []
   );
 
-  const handleBulk = async (id) => {
+  const handleBulk = (id) => {
     if (id.length > 0) {
       setBulkDelete(true);
       deleteId.length = 0;
@@ -127,25 +132,32 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
   };
 
   const handleBulkDelete = async () => {
-    if (deleteId.length > 0) {
-      let body = {
-        ids: deleteId,
-      };
-      let response = await bulkDeleteFeedback(body);
-      if (response.status === 200) {
-        Toast({ type: "success", message: response.data.message });
-        getFeedbackListApi(currentPage);
-      } else {
-        Toast({ type: "error", message: response.data.message });
+    try {
+      if (deleteId.length > 0) {
+        let body = {
+          ids: deleteId,
+        };
+        let response = await bulkDeleteFeedback(body);
+        if (response.status === 200) {
+          Toast({ type: "success", message: response.data.message });
+          getFeedbackListApi(currentPage);
+        } else {
+          Toast({ type: "error", message: response.data.message });
+        }
       }
+    } catch (e) {
+      console.log("e :>> ", e);
     }
   };
+
+  useEffect(() => {
+    getFeedbackListApi(currentPage);
+  }, [search]);
 
   return (
     <Fragment>
       <div className="staff_table px-5 pt-4">
-        <p className="staff_title m-0">FeedbackManagement</p>
-
+        <p className="staff-title m-0">FeedbackManagement</p>
         <div className="row align-items-center px-3">
           <div className="col-md-8 col-12">
             <div className="row align-items-center">
@@ -165,7 +177,6 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
               <div className="col-md-3">
                 <DropDown placeholder={"Filter by Status"} />
               </div>
-
               <div className="col-md-3">
                 <CommonDatePicker
                   value={startdate}
@@ -183,7 +194,7 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
             </div>
           </div>
           <div className="col-md-2">
-            {bulkDelete && (
+            {bulkDelete && remove && (
               <NormalButton
                 className="authButton1"
                 label={"Delete"}
@@ -213,7 +224,6 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
           <div className="">
             <TableComp
               data={data}
-              isCheck={true}
               ReadAction={edit}
               DeleteAction={remove}
               includedKeys={includedKeys}

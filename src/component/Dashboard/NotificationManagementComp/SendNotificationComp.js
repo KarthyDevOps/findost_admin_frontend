@@ -1,61 +1,38 @@
-import React, { useState, useEffect, Fragment } from "react";
-import { BsArrowLeft } from "react-icons/bs";
+import React, { useState, useEffect } from "react";
+// styles
 import "./style.scss";
+// images
+import closeIcon from "assets/images/closeIcon.svg";
+// internal components
 import NormalButton from "component/common/NormalButton/NormalButton";
-import { history } from "helpers";
 import DropDown from "component/common/DropDown/DropDown";
-import { useForm } from "react-hook-form";
 import CustomController from "component/common/Controller";
 import NormalMultiSelect from "component/common/NormalMultiSelect";
 import FormErrorMessage from "component/common/ErrorMessage";
-import closeIcon from "assets/images/closeIcon.svg";
 import TextBox from "component/common/TextBox/TextBox";
+import SuccessModal from "component/common/DeleteModal/SuccessModal";
+// services
+import { BsArrowLeft } from "react-icons/bs";
+import { useForm } from "react-hook-form";
 import {
   addNotificationHistory,
   getNotificationHistory,
   updateNotificationHistory,
 } from "service/Communication";
 import { Toast } from "service/toast";
-import SuccessModal from "component/common/DeleteModal/SuccessModal";
+// helpers
+import { history, options } from "helpers";
 
 const SendNotificationComp = () => {
-  const {
-    register,
-    handleSubmit,
-    errors,
-    reset,
-    setError,
-    control,
-    getValues,
-  } = useForm({
-    mode: "onChange",
-  });
+  const { register, handleSubmit, errors, reset, control, getValues } = useForm(
+    {
+      mode: "onChange",
+    }
+  );
   const [edit, setEdit] = useState(false);
   const [users, setUsers] = useState([]);
   const [modal, setModal] = useState(false);
-
-  const options = [
-    {
-      label: "option1",
-      value: "option1",
-    },
-    {
-      label: "option2",
-      value: "option2",
-    },
-    {
-      label: "option3",
-      value: "option3",
-    },
-  ];
   const id = localStorage.getItem("editId");
-
-  useEffect(() => {
-    if (id) {
-      setEdit(true);
-      getHistoryDetails();
-    }
-  }, []);
 
   const getHistoryDetails = async () => {
     try {
@@ -130,6 +107,14 @@ const SendNotificationComp = () => {
     users.splice(index, 1);
     setUsers([...users]);
   };
+
+  useEffect(() => {
+    if (id) {
+      setEdit(true);
+      getHistoryDetails();
+    }
+  }, []);
+
   return (
     <div className="px-5">
       <div className="Noti_header d-flex my-3 align-items-center ">

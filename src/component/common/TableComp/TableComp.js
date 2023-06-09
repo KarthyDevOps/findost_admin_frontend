@@ -1,17 +1,20 @@
 import React, { useState } from "react";
-import ReactPaginate from "react-paginate";
+// styles
 import "./style.scss";
-import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
-import moment from "moment";
+// images
 import editIcon from "assets/images/editIcon.svg";
 import deleteIcon from "assets/images/deleteIcon.svg";
 import ReadImg from "assets/images/ReadImg.svg";
+// services
+import ReactPaginate from "react-paginate";
+import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
+import moment from "moment";
+// helpers
 import { history } from "helpers";
 
 function TableComp(props) {
   const {
     data,
-    isCheck,
     EditAction,
     DeleteAction,
     ReadAction,
@@ -25,8 +28,23 @@ function TableComp(props) {
     onRowsSelect,
   } = props;
 
-  console.log("data :>> ", data);
   const [selectedRows, setSelectedRows] = useState([]);
+  // Dynamic colors for Status KeyName
+  const statusColors = {
+    active: "#27AE60",
+    inactive: "#EB5757",
+    open: "#EB5757",
+    accepted: "#2F80ED",
+    inprogress: "#F2C94C",
+    closed: "#27AE60",
+    failed: "#EB5757",
+    success: "#27AE60",
+  };
+
+  const handlePageChange = (selectedPage) => {
+    setCurrentPage(selectedPage.selected + 1);
+    onPageChange(selectedPage.selected + 1);
+  };
 
   const handleRowSelect = (rowId) => {
     let updatedRows;
@@ -51,29 +69,12 @@ function TableComp(props) {
     onRowsSelect(updatedRows);
   };
 
-  const handlePageChange = (selectedPage) => {
-    setCurrentPage(selectedPage.selected + 1);
-    onPageChange(selectedPage.selected + 1);
-  };
-
-  // Dynamic colors for Status KeyName
-  const statusColors = {
-    active: "#27AE60",
-    inactive: "#EB5757",
-    open: "#EB5757",
-    accepted: "#2F80ED",
-    inprogress: "#F2C94C",
-    closed: "#27AE60",
-    failed: "#EB5757",
-    success: "#27AE60",
-  };
-
   return (
     <div className="table-container">
       <table className="data-table">
         <thead>
           <tr>
-            {isCheck ? (
+            {DeleteAction ? (
               <th className="checkBox_place">
                 <input
                   type="checkbox"
@@ -110,7 +111,7 @@ function TableComp(props) {
           {data.map((obj) => {
             return (
               <tr key={obj.id}>
-                {isCheck && (
+                {DeleteAction && (
                   <td className="checkBox_place">
                     <input
                       type="checkbox"

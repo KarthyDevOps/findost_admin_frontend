@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+// styles
 import "./style.scss";
-import { debounceFunction, history } from "helpers";
+// internal component
 import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
-import axios from "axios";
 import TableComp from "../../common/TableComp/TableComp";
+import Loader from "component/common/Loader";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
+// services
 import {
   getNotificationTemplateList,
   deleteNotificationTemplate,
@@ -15,8 +17,8 @@ import {
   bulkDeleteNotificationTemplate,
 } from "service/Communication";
 import { Toast } from "service/toast";
-import Loader from "component/common/Loader";
-import { useCallback } from "react";
+// helpers
+import { debounceFunction, history } from "helpers";
 
 const NotificationManagementComp = ({ create, view, edit, remove }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -25,22 +27,22 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
   const [historydata, setHistoryData] = useState();
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [bulkDelete, setBulkDelete] = useState(false);
+  const [deleteId, setDeleteId] = useState([]);
   const [modalVisible, setModalVisible] = useState({
     id: null,
     show: false,
   });
-  const [isLoading, setIsLoading] = useState(false);
-  const [bulkDelete, setBulkDelete] = useState(false);
-  const [deleteId, setDeleteId] = useState([]);
+
+  var url = new URL(document.URL);
+  const params = url.searchParams;
+  const tabValue = +params.get("tab") ?? 0;
 
   const handleTab = (tab) => {
     setActiveTab(tab);
     history.push(`notification-management?tab=${tab}`);
   };
-
-  var url = new URL(document.URL);
-  const params = url.searchParams;
-  const tabValue = +params.get("tab") ?? 0;
 
   const templateKeys = [
     {
@@ -171,15 +173,6 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
     }
   };
 
-  useEffect(() => {
-    handleTab(tabValue);
-    if (tabValue === 1) {
-      getHistoryList(currentPage);
-    } else {
-      getTemplateList(currentPage);
-    }
-  }, [tabValue, search]);
-
   const handleSearchChange = useCallback(
     debounceFunction((value) => {
       setSearch(value);
@@ -227,6 +220,15 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
     }
   };
 
+  useEffect(() => {
+    handleTab(tabValue);
+    if (tabValue === 1) {
+      getHistoryList(currentPage);
+    } else {
+      getTemplateList(currentPage);
+    }
+  }, [tabValue, search]);
+
   return (
     <div className="notification_container px-5">
       <p className="m-0 pt-3">Notification Management</p>
@@ -272,7 +274,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
             </div>
             <div className="col-md-5 p-0"></div>
             <div className="col-md-2">
-              {bulkDelete && (
+              {bulkDelete && remove && (
                 <NormalButton
                   className="authButton1"
                   label={"Delete"}
@@ -313,7 +315,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
             </div>
             <div className="col-md-5"></div>
             <div className="col-md-2">
-              {bulkDelete && (
+              {bulkDelete && remove && (
                 <NormalButton
                   className="authButton1"
                   label={"Delete"}
@@ -348,7 +350,6 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
           {activeTab === 0 && templatedata && templatedata.length > 0 ? (
             <TableComp
               data={templatedata}
-              isCheck={true}
               EditAction={edit}
               DeleteAction={remove}
               includedKeys={templateKeys}
@@ -371,7 +372,6 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
           {activeTab === 1 && historydata && historydata.length > 0 ? (
             <TableComp
               data={historydata}
-              isCheck={true}
               EditAction={edit}
               DeleteAction={remove}
               includedKeys={historyKeys}

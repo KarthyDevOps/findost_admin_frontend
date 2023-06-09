@@ -1,9 +1,6 @@
 import { createStore, applyMiddleware } from "redux";
-import { reducers } from "../reducer";
 import thunk from "redux-thunk";
-import routers from "routes/routes";
-import { Toast } from "service/toast";
-import moment from "moment";
+// images
 import dashBoardImg from "assets/images/dashBoardImg.svg";
 import Dashboard_ia from "assets/images/Dashboard_ia.svg";
 import clientFamily from "assets/images/clientFamily.svg";
@@ -26,7 +23,12 @@ import Noti_a from "assets/images/Noti_a.svg";
 import Product_a from "assets/images/Product_a.svg";
 import Site_a from "assets/images/Site_a.svg";
 import Temp_a from "assets/images/Temp_a.svg";
-
+// internal components
+import { reducers } from "../reducer";
+import routers from "routes/routes";
+// sevices
+import { Toast } from "service/toast";
+import moment from "moment";
 import CryptoJS from "crypto-js";
 
 export const store = createStore(
@@ -201,7 +203,6 @@ export const debounceFunction = (fn, delay) => {
   };
 };
 
-
 export const downloadFile = ({ url }) => {
   if (!url) return;
 
@@ -348,3 +349,61 @@ export const checkAndReturnViewableComponent = (
     }
   }
 };
+
+export const statusOptions = [
+  {
+    label: "ACTIVE",
+    value: "active",
+  },
+  {
+    label: "InACTIVE",
+    value: "inActive",
+  },
+];
+
+export const roleOptions = [
+  {
+    label: "SUPER_ADMIN",
+    value: "SUPER ADMIN",
+  },
+  {
+    label: "ADMIN",
+    value: "ADMIN",
+  },
+  {
+    label: "STAFF",
+    value: "STAFF",
+  },
+  {
+    label: "SUB_Admin",
+    value: "SUB ADMIN",
+  },
+];
+
+export const managementOptions = {
+  contentManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+  faqManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+  feedbackManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+  knowledgeCenterManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+  clientFamilyManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+  notificationManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+  productManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+  siteSettingsManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+  staffManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+  templateManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+};
+
+export const options = [
+  {
+    label: "option1",
+    value: "option1",
+  },
+  {
+    label: "option2",
+    value: "option2",
+  },
+  {
+    label: "option3",
+    value: "option3",
+  },
+];

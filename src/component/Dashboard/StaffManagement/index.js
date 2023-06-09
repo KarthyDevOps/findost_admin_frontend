@@ -1,20 +1,24 @@
-import React, { useState, useEffect, Fragment, useCallback } from "react";
-import TableComp from "../../common/TableComp/TableComp";
-import InputBox from "component/common/InputBox/InputBox";
-import { useForm } from "react-hook-form";
-import NormalButton from "component/common/NormalButton/NormalButton";
+import React, { useState, useEffect, useCallback } from "react";
+// styles
 import "./style.scss";
-import { history, debounceFunction } from "helpers";
-import { BsSearch } from "react-icons/bs";
-import { getStaffList, deleteStaff, bulkDeleteStaff } from "service/Auth";
-import DeleteModal from "component/common/DeleteModal/DeleteModal";
-import { Toast } from "service/toast";
+// internal components
 import Loader from "component/common/Loader";
 import CustomController from "component/common/Controller";
 import NormalMultiSelect from "component/common/NormalMultiSelect";
+import TableComp from "../../common/TableComp/TableComp";
+import InputBox from "component/common/InputBox/InputBox";
+import DeleteModal from "component/common/DeleteModal/DeleteModal";
+import NormalButton from "component/common/NormalButton/NormalButton";
+// services
+import { useForm } from "react-hook-form";
+import { BsSearch } from "react-icons/bs";
+import { getStaffList, deleteStaff, bulkDeleteStaff } from "service/Auth";
+// helpers
+import { history, debounceFunction, statusOptions, roleOptions } from "helpers";
+import { Toast } from "service/toast";
 
 const StaffManagementComp = ({ create, view, edit, remove }) => {
-  const { register, handleSubmit, errors, reset, control } = useForm({
+  const { errors, control } = useForm({
     mode: "onChange",
   });
 
@@ -25,43 +29,13 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [active, setIsactive] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [bulkDelete, setBulkDelete] = useState(false);
+  const [deleteId, setDeleteId] = useState([]);
   const [modalVisible, setModalVisible] = useState({
     id: null,
     show: false,
   });
-  const [isLoading, setIsLoading] = useState(false);
-  const [bulkDelete, setBulkDelete] = useState(false);
-  const [deleteId, setDeleteId] = useState([]);
-
-  const statusOptions = [
-    {
-      label: "ACTIVE",
-      value: "active",
-    },
-    {
-      label: "InACTIVE",
-      value: "inActive",
-    },
-  ];
-
-  const roleOptions = [
-    {
-      label: "SUPER_ADMIN",
-      value: "SUPER ADMIN",
-    },
-    {
-      label: "ADMIN",
-      value: "ADMIN",
-    },
-    {
-      label: "STAFF",
-      value: "STAFF",
-    },
-    {
-      label: "SUB_Admin",
-      value: "SUB ADMIN",
-    },
-  ];
 
   const includedKeys = [
     {
@@ -116,12 +90,6 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
     }
   };
 
-  console.log("data :>> ", data);
-
-  useEffect(() => {
-    getStaffListApi(currentPage);
-  }, [searchStaff, role, status]);
-
   const handlePageChange = (page) => {
     setCurrentPage(page);
     getStaffListApi(page);
@@ -135,17 +103,21 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
   };
 
   const handleDeleteItem = async () => {
-    if (modalVisible.show && modalVisible.id) {
-      let params = {
-        id: modalVisible.id,
-      };
-      let response = await deleteStaff(params);
-      if (response.status === 200) {
-        Toast({ type: "success", message: response.data.message });
-        getStaffListApi(currentPage);
+    try {
+      if (modalVisible.show && modalVisible.id) {
+        let params = {
+          id: modalVisible.id,
+        };
+        let response = await deleteStaff(params);
+        if (response.status === 200) {
+          Toast({ type: "success", message: response.data.message });
+          getStaffListApi(currentPage);
+        }
       }
+      setModalVisible({ show: false, id: null });
+    } catch (e) {
+      console.log("e :>> ", e);
     }
-    setModalVisible({ show: false, id: null });
   };
 
   const handleSearchChange = useCallback(
@@ -155,7 +127,7 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
     []
   );
 
-  const handleBulk = async (id) => {
+  const handleBulk = (id) => {
     if (id.length > 0) {
       setBulkDelete(true);
       deleteId.length = 0;
@@ -166,22 +138,30 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
   };
 
   const handleBulkDelete = async () => {
-    if (deleteId.length > 0) {
-      let body = {
-        ids: deleteId,
-      };
-      let response = await bulkDeleteStaff(body);
-      if (response.status === 200) {
-        Toast({ type: "success", message: response.data.message });
-        getStaffListApi(currentPage);
-      } else {
-        Toast({ type: "error", message: response.data.message });
+    try {
+      if (deleteId.length > 0) {
+        let body = {
+          ids: deleteId,
+        };
+        let response = await bulkDeleteStaff(body);
+        if (response.status === 200) {
+          Toast({ type: "success", message: response.data.message });
+          getStaffListApi(currentPage);
+        } else {
+          Toast({ type: "error", message: response.data.message });
+        }
       }
+    } catch (e) {
+      console.log("e :>> ", e);
     }
   };
 
+  useEffect(() => {
+    getStaffListApi(currentPage);
+  }, [searchStaff, role, status]);
+
   return (
-    <Fragment>
+    <>
       <div className="staff_table px-5 pt-2">
         <p className="staff_title m-0">Staff Management</p>
         <div className="row align-items-center px-3">
@@ -252,7 +232,7 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
           </div>
 
           <div className="col-md-2">
-            {bulkDelete && (
+            {bulkDelete && remove && (
               <NormalButton
                 className="authButton1"
                 label={"Delete"}
@@ -282,7 +262,6 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
           <div className="">
             <TableComp
               data={data}
-              isCheck={true}
               EditAction={edit}
               DeleteAction={remove}
               includedKeys={includedKeys}
@@ -310,7 +289,7 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
           />
         </div>
       </div>
-    </Fragment>
+    </>
   );
 };
 

@@ -1,44 +1,34 @@
-import React, { useState, useEffect, Fragment } from "react";
-import { BsArrowLeft } from "react-icons/bs";
+import React, { useState, useEffect } from "react";
+// styles
 import "./style.scss";
+// internal components
 import InputBox from "component/common/InputBox/InputBox";
-import { useForm } from "react-hook-form";
 import TextEditor from "component/common/TextEditor/TextEditor";
 import NormalButton from "component/common/NormalButton/NormalButton";
-import { history } from "helpers";
 import FormErrorMessage from "component/common/ErrorMessage";
 import CustomController from "component/common/Controller";
+import SuccessModal from "component/common/DeleteModal/SuccessModal";
+// services
+import { BsArrowLeft } from "react-icons/bs";
+import { useForm } from "react-hook-form";
 import {
   addNotificationTemplate,
   getNotificationTemplate,
   updateNotificationTemplate,
 } from "service/Communication";
-import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import { Toast } from "service/toast";
+// helpers
+import { history } from "helpers";
 
 const CreateNotificationComp = ({ create, view, remove }) => {
-  const {
-    register,
-    handleSubmit,
-    errors,
-    reset,
-    setError,
-    control,
-    getValues,
-  } = useForm({
-    mode: "onChange",
-  });
+  const { register, handleSubmit, errors, reset, control, getValues } = useForm(
+    {
+      mode: "onChange",
+    }
+  );
   const [edit, setEdit] = useState(false);
   const [modal, setModal] = useState(false);
-
   const id = localStorage.getItem("editId");
-
-  useEffect(() => {
-    if (id) {
-      setEdit(true);
-      getTemplateDetails();
-    }
-  }, []);
 
   const getTemplateDetails = async () => {
     try {
@@ -105,6 +95,13 @@ const CreateNotificationComp = ({ create, view, remove }) => {
       }
     }
   };
+
+  useEffect(() => {
+    if (id) {
+      setEdit(true);
+      getTemplateDetails();
+    }
+  }, []);
 
   return (
     <div className="px-5">

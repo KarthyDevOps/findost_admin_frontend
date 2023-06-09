@@ -1,16 +1,26 @@
-import React, { useState, useEffect, Fragment } from "react";
-import { BsArrowLeft } from "react-icons/bs";
-import "./style.scss";
+import React, { useState, useEffect } from "react";
+// styles
+import "./AddStaff.scss";
+// internal components
 import InputBox from "component/common/InputBox/InputBox";
-import { useForm } from "react-hook-form";
 import FormErrorMessage from "component/common/ErrorMessage";
 import NormalButton from "component/common/NormalButton/NormalButton";
-import { history, getCompNameByPrivelegeName } from "helpers";
 import DropDown from "component/common/DropDown/DropDown";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import CustomController from "component/common/Controller";
-import { addStaff, getStaff, updateStaff } from "service/Auth";
+// services
+import { BsArrowLeft } from "react-icons/bs";
+import { useForm } from "react-hook-form";
 import { Toast } from "service/toast";
+import { addStaff, getStaff, updateStaff } from "service/Auth";
+// helpers
+import {
+  history,
+  getCompNameByPrivelegeName,
+  roleOptions,
+  statusOptions,
+  managementOptions,
+} from "helpers";
 
 const AddStaff = ({ create, view, remove }) => {
   const {
@@ -18,7 +28,6 @@ const AddStaff = ({ create, view, remove }) => {
     handleSubmit,
     errors,
     reset,
-    setError,
     control,
     setValue,
     getValues,
@@ -33,76 +42,7 @@ const AddStaff = ({ create, view, remove }) => {
     permissions: {},
   });
 
-  const [managementOptions, setManagementOptions] = useState({
-    contentManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-    faqManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-    feedbackManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-    knowledgeCenterManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-    clientFamilyManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-    notificationManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-    productManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-    siteSettingsManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-    staffManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-    templateManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-  });
-
-  const options = [
-    {
-      label: "SUPER_ADMIN",
-      value: "SUPER ADMIN",
-    },
-    {
-      label: "ADMIN",
-      value: "ADMIN",
-    },
-    {
-      label: "STAFF",
-      value: "STAFF",
-    },
-    {
-      label: "SUB_Admin",
-      value: "SUB ADMIN",
-    },
-  ];
-
-  const status = [
-    {
-      label: "ACTIVE",
-      value: "active",
-    },
-    {
-      label: "InACTIVE",
-      value: "inActive",
-    },
-  ];
-
   const id = localStorage.getItem("editId");
-
-  useEffect(() => {
-    if (id) {
-      setEdit(true);
-      getStaffDetails();
-    }
-  }, []);
-
-  useEffect(() => {
-    setValue(
-      "role",
-      options.find((option) => option.value === staffDetails.role)
-    );
-    setValue(
-      "status",
-      status.find((option) => option.value === staffDetails.status)
-    );
-    if (staffDetails.permissions) {
-      Object.entries(staffDetails.permissions).forEach(
-        ([managementOption, values]) => {
-          setValue(managementOption, values);
-        }
-      );
-    }
-  }, [staffDetails, setValue]);
-  console.log("staffDetails :>> ", staffDetails);
 
   const getStaffDetails = async () => {
     try {
@@ -257,6 +197,31 @@ const AddStaff = ({ create, view, remove }) => {
     }
   };
 
+  useEffect(() => {
+    if (id) {
+      setEdit(true);
+      getStaffDetails();
+    }
+  }, []);
+
+  useEffect(() => {
+    setValue(
+      "role",
+      roleOptions.find((option) => option.value === staffDetails.role)
+    );
+    setValue(
+      "status",
+      statusOptions.find((option) => option.value === staffDetails.status)
+    );
+    if (staffDetails.permissions) {
+      Object.entries(staffDetails.permissions).forEach(
+        ([managementOption, values]) => {
+          setValue(managementOption, values);
+        }
+      );
+    }
+  }, [staffDetails, setValue]);
+
   return (
     <div className="AddStaff px-5">
       <div className="add-staff d-flex my-3 align-items-center ">
@@ -350,7 +315,7 @@ const AddStaff = ({ create, view, remove }) => {
                 error={errors.role}
                 rules={{ required: true }}
                 defaultValue={staffDetails.role}
-                value={options.find(
+                value={roleOptions.find(
                   (option) => option.value === getValues("role")
                 )}
                 messages={{ required: "Role is Required" }}
@@ -360,7 +325,7 @@ const AddStaff = ({ create, view, remove }) => {
                       {...field}
                       placeholder="Select Role"
                       name="role"
-                      options={options}
+                      options={roleOptions}
                       onChange={(option) => {
                         setStaffDetails((prevState) => ({
                           ...prevState,
@@ -381,7 +346,7 @@ const AddStaff = ({ create, view, remove }) => {
                 error={errors.status}
                 rules={{ required: true }}
                 defaultValue={staffDetails.status}
-                value={status.find(
+                value={statusOptions.find(
                   (option) => option.value === getValues("status")
                 )}
                 messages={{ required: "Status is Required" }}
@@ -392,7 +357,7 @@ const AddStaff = ({ create, view, remove }) => {
                       placeholder="Select Status"
                       name="status"
                       errors={errors.status}
-                      options={status}
+                      options={statusOptions}
                       onChange={(option) => {
                         setStaffDetails((prevState) => ({
                           ...prevState,
@@ -406,9 +371,7 @@ const AddStaff = ({ create, view, remove }) => {
               />
             </div>
           </div>
-
           <p className="m-0 py-3">Staff Permissions</p>
-
           <div className="col-12 col-md-12 p-0 m-0">
             <table style={{ width: "100%" }}>
               <thead className="Row_Class">
