@@ -63,6 +63,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
   useEffect(() => {
     getSiteDetails();
   }, []);
+ 
   const onSubmit = async (data) => {
     try {
       let body = {

@@ -11,7 +11,7 @@ import { Toast } from "service/toast";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import InputBox from "component/common/InputBox/InputBox";
 import TableComp from "component/common/TableComp/TableComp";
-// import { debounceFunction } from "helpers/debounce";
+
 const ClientsFamily = ({ create, view, edit, remove }) => {
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -52,6 +52,7 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
       value: "relationShip",
     },
   ];
+
   const fetchClientList = async (page) => {
     setIsLoading(true);
     try {
@@ -80,6 +81,7 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
     setCurrentPage(page.selected);
     fetchClientList(page);
   };
+
   const handleOpenModal = (id) => {
     setModalVisible({
       id: id,
@@ -130,6 +132,7 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
       }
     }
   };
+
   useEffect(() => {
     fetchClientList(currentPage);
   }, [searchStaff, role, status]);

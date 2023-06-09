@@ -95,12 +95,14 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
       value: "three",
     },
   ];
+
   const handleOpenModal = (id) => {
     setModalVisible({
       id: id,
       show: true,
     });
   };
+
   const fetchData = async (page) => {
     try {
       setIsLoading(true);
@@ -136,6 +138,7 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
     setCurrentPage(page.selected);
     fetchData(page);
   };
+
   useEffect(() => {
     fetchData(currentPage);
   }, [searchTitle, Category, SubCategory, status]);
@@ -153,12 +156,14 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
     }
     setModalVisible({ show: false, id: null });
   };
+
   const handleSearchChange = useCallback(
     debounceFunction((value) => {
       setSearch(value);
     }, 500),
     []
   );
+
   const handleBulk = async (id) => {
     if (id.length > 0) {
       setBulkDelete(true);
@@ -168,6 +173,7 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
       setBulkDelete(false);
     }
   };
+
   const handleBulkDelete = async () => {
     if (deleteId.length > 0) {
       let body = {
@@ -180,6 +186,7 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
       }
     }
   };
+
   return (
     <div className="faq_head px-5 py-3">
       <h6>FAQ Management</h6>
@@ -266,13 +273,13 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
           />
         </div>
         <div className="col-md-2">
-        {bulkDelete && remove && (
-              <NormalButton
-                className="authButton1"
-                label={"Delete"}
-                onClick={handleBulkDelete}
-              />
-            )}
+          {bulkDelete && remove && (
+            <NormalButton
+              className="authButton1"
+              label={"Delete"}
+              onClick={handleBulkDelete}
+            />
+          )}
         </div>
         {create && (
           <div className="col-2">

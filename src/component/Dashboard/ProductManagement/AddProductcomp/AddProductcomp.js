@@ -67,12 +67,14 @@ const AddProductcomp = ({ create, view, remove }) => {
     },
   ];
   const id = localStorage.getItem("editId");
+
   useEffect(() => {
     if (id) {
       setEdit(true);
       getProductDetails();
     }
   }, []);
+
   const getProductDetails = async () => {
     try {
       const params = {
@@ -92,6 +94,7 @@ const AddProductcomp = ({ create, view, remove }) => {
       console.log("errrr :>> ", e);
     }
   };
+
   const onsubmit = async (data) => {
     // if (!edit) {
     //   try {

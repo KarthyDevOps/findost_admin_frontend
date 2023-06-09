@@ -31,6 +31,7 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
       value: "title",
     },
   ];
+ 
   const fetchData = async () => {
     try {
       setIsLoading(true);
@@ -47,6 +48,7 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
       setIsLoading(false);
     }
   };
+ 
   useEffect(() => {
     fetchData();
   }, []);
@@ -54,12 +56,14 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+ 
   const handleOpenModal = (id) => {
     setModalVisible({
       id: id,
       show: true,
     });
   };
+ 
   const handleDeleteItem = async () => {
     if (modalVisible.show) {
       let params = {
@@ -73,6 +77,7 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
     }
     setModalVisible({ show: false, id: null });
   };
+ 
   return (
     <Fragment>
       <div className="staff_table px-5 pt-4">

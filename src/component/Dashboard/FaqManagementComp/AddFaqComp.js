@@ -58,6 +58,7 @@ const AddFaqComp = ({ create, view, remove }) => {
     },
   ];
   const id = localStorage.getItem("editId");
+ 
   useEffect(() => {
     setValue(
       "category",
@@ -72,6 +73,7 @@ const AddFaqComp = ({ create, view, remove }) => {
       status.find((option) => option.value === FAQDetails.status)
     );
   }, [FAQDetails, setValue]);
+ 
   const getFAQDetails = async () => {
     try {
       const params = {
@@ -96,12 +98,14 @@ const AddFaqComp = ({ create, view, remove }) => {
       console.log("e :>> ", e);
     }
   };
+ 
   useEffect(() => {
     if (id) {
       setEdit(true);
       getFAQDetails();
     }
   }, []);
+ 
   const onSubmit = async (data) => {
     setModal(true);
     if (!edit) {
@@ -162,6 +166,7 @@ const AddFaqComp = ({ create, view, remove }) => {
       }
     }
   };
+ 
   return (
     <div className="add_faq px-5 py-3">
       <form>
@@ -356,3 +361,4 @@ const AddFaqComp = ({ create, view, remove }) => {
 };
 
 export default AddFaqComp;
+

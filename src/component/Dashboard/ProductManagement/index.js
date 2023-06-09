@@ -43,6 +43,7 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
       value: "productType",
     },
   ];
+ 
   const getProductsList = async (page) => {
     try {
       setIsLoading(true);
@@ -65,19 +66,23 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
       setIsLoading(false);
     }
   };
+ 
   useEffect(() => {
     getProductsList(currentPage);
   }, [search]);
+ 
   const handleOpenModal = (id) => {
     setModalVisible({
       id: id,
       show: true,
     });
   };
+ 
   const handlePageChange = (page) => {
     setCurrentPage(page);
     getProductsList(page);
   };
+ 
   const handleDeleteItem = async () => {
     if (modalVisible.show && modalVisible.id) {
       let params = {
@@ -91,12 +96,14 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
     }
     setModalVisible({ show: false, id: null });
   };
+ 
   const handleSearchChange = useCallback(
     debounceFunction((value) => {
       setSearch(value);
     }, 500),
     []
   );
+ 
   const handleBulk = async (id) => {
     if (id.length > 0) {
       setBulkDelete(true);
@@ -106,6 +113,7 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
       setBulkDelete(false);
     }
   };
+ 
   const handleBulkDelete = async () => {
     if (deleteId.length > 0) {
       let body = {
