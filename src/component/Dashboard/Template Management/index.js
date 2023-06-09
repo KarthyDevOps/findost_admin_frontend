@@ -88,6 +88,7 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
         page: page,
         limit: 10,
         search: searchTitle,
+        messageType:FilterType,
       };
       let response = await getTemplateList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
@@ -107,7 +108,7 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
   };
   useEffect(() => {
     fetchData(currentPage);
-  }, [searchTitle]);
+  }, [searchTitle,FilterType]);
 
   const handleDeleteItem = async () => {
     if (modalVisible.show && modalVisible.id) {

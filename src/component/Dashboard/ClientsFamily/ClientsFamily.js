@@ -268,7 +268,7 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
             editRouteName={"/admin/clients-family/edit-client"}
           />
         ) : (
-          <div className="d-flex align-items-center justify-content-center mt-5 pt-5">
+          <div className="d-flex align-items-center justify-content-center ">
             No Data Available
           </div>
         )}

@@ -9,11 +9,9 @@ import NormalButton from "component/common/NormalButton/NormalButton";
 import FormErrorMessage from "component/common/ErrorMessage";
 import { addProduct, updateProduct, getProduct } from "service/Cms";
 import NormalMultiSelect from "component/common/NormalMultiSelect";
-import TextEditor from "component/common/TextEditor/TextEditor";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import { Toast } from "service/toast";
-import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
-import { useLocation } from "react-router-dom";
+import Dropzone from "component/common/Dropzone";
 
 const AddProductcomp = ({ create, view, remove }) => {
   const {
@@ -21,40 +19,60 @@ const AddProductcomp = ({ create, view, remove }) => {
     handleSubmit,
     errors,
     reset,
-    setError,
     control,
     getValues,
     setValue,
-    clearErrors,
   } = useForm({
     mode: "onChange",
   });
   const [edit, setEdit] = useState(false);
   const [modal, setModal] = useState(false);
-
+  const [ProfileUrl, setprofileUrl] = useState(null);
   const options = [
     {
-      label: "option1",
-      value: "option1",
+      label: "Mutual Funds",
+      value: "mutualFunds",
     },
     {
-      label: "option2",
-      value: "option2",
+      label: "IPO",
+      value: "ipo",
     },
     {
-      label: "option3",
-      value: "option3",
+      label: "Sovereign Gold Bonds",
+      value: "sovereign gold bonds",
+    },
+    {
+      label: "Insurance",
+      value: "insurance",
+    },
+    {
+      label: "Fixed Income",
+      value: "fixedIncome",
+    },
+    {
+      label: "Loan",
+      value: "loan",
+    },
+    {
+      label: "Portfolio Management System",
+      value: "portfolioManagementSystem",
+    },
+    {
+      label: " Portfolio Analyser & Optimizer",
+      value: " portfolioAnalyserAndOptimizer",
+    },
+    {
+      label: "Algo Trading Platform",
+      value: "AlgoTradingPlatform",
     },
   ];
   const id = localStorage.getItem("editId");
-
   useEffect(() => {
     if (id) {
       setEdit(true);
       getProductDetails();
     }
   }, []);
-
   const getProductDetails = async () => {
     try {
       const params = {
@@ -65,14 +83,7 @@ const AddProductcomp = ({ create, view, remove }) => {
         const data = response?.data?.data;
         reset({
           productName: data?.productName,
-          productPlan: data?.productPlan,
-          content: data?.productDescription,
-          subProductName: data?.subProduct?.productName,
-          productMapped: data?.subProduct?.productMappedDetais,
-          startDate: new Date(data?.subProduct?.startDate),
-          endDate: new Date(data?.subProduct?.endDate),
-          city: data?.subProduct?.city,
-          country: data?.subProduct?.country,
+          productType: data?.productType,
         });
       } else {
         Toast({ type: "error", message: response.data.message });
@@ -85,59 +96,57 @@ const AddProductcomp = ({ create, view, remove }) => {
   const onsubmit = async (data) => {
     console.log("data :>> ", data);
 
-    if (!edit) {
-      try {
-        let body = {
-          productName: data.productName,
-          productPlan: data.productPlan,
-          productDescription: data.content,
-          subProductName: data.subProductName,
-          SubProductMappedDetails: data.productMapped,
-          SubProductDurationStartDate: data.startDate,
-          SubProductDurationEndDate: data.endDate,
-          subProductCity: data.city,
-          subProductCountry: data.country,
-        };
-        let response = await addProduct(body);
-        if (response.status === 200) {
-          setModal(true);
-          const timeout = setTimeout(() => {
-            setModal(false);
-            reset();
-            history.push("/admin/product-management");
-          }, 1000);
-          return () => clearTimeout(timeout);
-        }
-      } catch (e) {
-        console.log(e);
+    // if (!edit) {
+    //   try {
+    //     let body = {
+    //       productName: data?.productName,
+    //       productType: data?.productType,
+    //     };
+    //     let response = await addProduct(body);
+    //     if (response.status === 200) {
+    //       setModal(true);
+    //       const timeout = setTimeout(() => {
+    //         setModal(false);
+    //         reset();
+    //         history.push("/admin/product-management");
+    //       }, 1000);
+    //       return () => clearTimeout(timeout);
+    //     }
+    //   } catch (e) {
+    //     console.log(e);
+    //   }
+    // } else {
+    try {
+      let body = {
+        productName: data?.productName,
+        productType: data?.productType,
+      };
+      let response = await updateProduct(body, id);
+      if (response.status === 200) {
+        setModal(true);
+        const timeout = setTimeout(() => {
+          setModal(false);
+          reset();
+          history.push("/admin/product-management");
+        }, 1000);
+        return () => clearTimeout(timeout);
       }
-    } else {
-      try {
-        let body = {
-          productName: data.productName,
-          productPlan: data.productPlan,
-          productDescription: data.content,
-          subProductName: data.subProductName,
-          SubProductMappedDetails: data.productMapped,
-          SubProductDurationStartDate: data.startDate,
-          SubProductDurationEndDate: data.endDate,
-          subProductCity: data.city,
-          subProductCountry: data.country,
-        };
-        let response = await updateProduct(body, id);
-        if (response.status === 200) {
-          setModal(true);
-          const timeout = setTimeout(() => {
-            setModal(false);
-            reset();
-            history.push("/admin/product-management");
-          }, 1000);
-          return () => clearTimeout(timeout);
-        }
-      } catch (e) {
-        console.log(e);
-      }
+    } catch (e) {
+      console.log(e);
     }
+  };
+  // };
+
+  const handleFileDrop = async (droppedimage) => {
+    // let body = new FormData();
+    // for (let index = 0; index < droppedimage.length; index++) {
+    //   const file = droppedimage[index];
+    //   body.append("image", file);
+    //   let response = await updateSiteSetting(body);
+    //   if (response.status == 200) {
+    //     setprofileUrl(response?.data?.siteFavIcon);
+    //   }
+    // }
   };
 
   return (
@@ -161,7 +170,7 @@ const AddProductcomp = ({ create, view, remove }) => {
           <div className="d-flex col-12   boder_box align-items-center">
             <div className="container ">
               <p className="title_product">Product Details</p>
-              <div className="row gx-5">
+              <div className="row px-3 gx-5">
                 <div className="col-4">
                   <label className="Product_description"> Product Name</label>
                   <InputBox
@@ -182,12 +191,12 @@ const AddProductcomp = ({ create, view, remove }) => {
                   />
                 </div>
                 <div class="col-4">
-                  <label className="Product_description">Product Plan</label>
+                  <label className="Product_description">Product Type</label>
                   <CustomController
-                    name={"productPlan"}
+                    name={"productType"}
                     control={control}
                     error={errors?.productPlan}
-                    defaultValue={getValues("productPlan")}
+                    defaultValue={getValues("productType")}
                     rules={{ required: true }}
                     messages={{ required: "Product Plan is Required" }}
                     render={({ onChange, ...fields }) => {
@@ -196,7 +205,7 @@ const AddProductcomp = ({ create, view, remove }) => {
                           {...fields}
                           placeholder={"Select Product Plan"}
                           options={options}
-                          name="productPlan"
+                          name="productType"
                           handleChange={(e, { value } = {}) => {
                             onChange(value);
                           }}
@@ -206,7 +215,31 @@ const AddProductcomp = ({ create, view, remove }) => {
                   />
                 </div>
               </div>
-              <div className="row gx-5">
+              <div className="col-4 mt-4">
+                <label className="Product_description">Product Icon</label>
+                {/* 
+                  <CustomController
+                    name={"drop"}
+                    control={control}
+                    error={errors.drop}
+                    // defaultValue={role}
+                    rules={{ required: true }}
+                    messages={{ required: "site logo is Required" }}
+                    render={({ onChange, ...field }) => {
+                      return ( */}
+                <Dropzone onFileDrop={handleFileDrop} name="drop">
+                  {({ getRootProps, getInputProps }) => (
+                    <div {...getRootProps({ className: "dropzone" })}>
+                      <input {...getInputProps()} multiple={false} required />
+                    </div>
+                  )}
+                </Dropzone>
+                {/* );
+                    }}
+                  /> */}
+              </div>
+
+              {/* <div className="row gx-5">
                 <div className="col">
                   <label className="Product_description ms-3">
                     Product Description
@@ -233,8 +266,8 @@ const AddProductcomp = ({ create, view, remove }) => {
                     />
                   </div>
                 </div>
-              </div>
-              <p className="title_product mt-5">Sub Product Details</p>
+              </div> */}
+              {/* <p className="title_product mt-5">Sub Product Details</p>
 
               <div className="row gx-5 mt-30">
                 <div className="col-md-4">
@@ -398,7 +431,7 @@ const AddProductcomp = ({ create, view, remove }) => {
                     }}
                   />
                 </div>
-              </div>
+              </div> */}
               <div className="row mt-4">
                 <div className="col-12  d-flex justify-content-end">
                   <div className="col-2">

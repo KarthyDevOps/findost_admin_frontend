@@ -117,7 +117,7 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
         limit: 10,
         search: searchTitle,
         category: Category,
-        subcategory: SubCategory,
+        subCategory: SubCategory,
       };
       if (status) {
         status === "active"

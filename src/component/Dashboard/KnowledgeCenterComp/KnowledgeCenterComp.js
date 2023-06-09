@@ -126,7 +126,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
         limit: 10,
         search: searchTitle,
         category: Category,
-        subcategory: SubCategory,
+        subCategory: SubCategory,
       };
       if (status) {
         status === "active"
@@ -322,7 +322,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
               editRouteName={"/admin/knowledge-center/add-knowledge"}
             />
           ) : (
-            <div className="d-flex align-items-center justify-content-center mt-5 pt-5">
+            <div className="d-flex align-items-center justify-content-center ">
               No Data Available
             </div>
           )}
