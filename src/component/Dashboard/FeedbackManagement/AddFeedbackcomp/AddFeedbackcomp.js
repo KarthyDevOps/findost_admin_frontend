@@ -1,25 +1,26 @@
-import React, { useState, useEffect, Fragment } from "react";
-import { BsArrowLeft } from "react-icons/bs";
-import "./style.scss";
-import { useForm } from "react-hook-form";
+import React, { useState } from "react";
+// styles
+import "./AddFeedBackcomp.scss";
+// internal components
 import TextEditor from "component/common/TextEditor/TextEditor";
 import NormalButton from "component/common/NormalButton/NormalButton";
-import { history } from "helpers";
 import CustomController from "component/common/Controller";
-import { addFeedback } from "service/Cms";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
+// services
+import { BsArrowLeft } from "react-icons/bs";
+import { useForm } from "react-hook-form";
+import { addFeedback } from "service/Cms";
+// helpers
+import { history } from "helpers";
 
 const AddFeedbackcomp = ({ create, view, edit, remove }) => {
-  const { register, handleSubmit, errors, reset, getValues, control } = useForm(
-    {
-      mode: "onChange",
-    }
-  );
+  const { handleSubmit, errors, reset, getValues, control } = useForm({
+    mode: "onChange",
+  });
 
   const [modal, setModal] = useState(false);
 
   const onSubmit = async (data) => {
-    console.log("data :>> ", data);
     try {
       let body = {
         feedback: data.description,
@@ -40,6 +41,7 @@ const AddFeedbackcomp = ({ create, view, edit, remove }) => {
       console.log(e);
     }
   };
+
   return (
     <div className="container-fluid">
       <div className="addProduct col-12">

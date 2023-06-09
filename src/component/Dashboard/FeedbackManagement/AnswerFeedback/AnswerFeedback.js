@@ -1,34 +1,29 @@
-import React, { useState, useEffect, Fragment } from "react";
-import { BsArrowLeft } from "react-icons/bs";
-import "./style.scss";
-import { useForm } from "react-hook-form";
-import TextEditor from "component/common/TextEditor/TextEditor";
-import { history } from "helpers";
+import React, { useState, useEffect } from "react";
+// styles
+import "./AnswerFeedback.scss";
+// internal component
 import NormalButton from "component/common/NormalButton/NormalButton";
+import TextEditor from "component/common/TextEditor/TextEditor";
 import CustomController from "component/common/Controller";
+import SuccessModal from "component/common/DeleteModal/SuccessModal";
+// services
+import { BsArrowLeft } from "react-icons/bs";
+import { useForm } from "react-hook-form";
 import { getFeedback, updateFeedback } from "service/Cms";
 import { Toast } from "service/toast";
-import SuccessModal from "component/common/DeleteModal/SuccessModal";
+// helpers
+import { history } from "helpers";
 
 const AnswerFeedbackcomp = ({ create, view, edit, remove }) => {
-  const { register, handleSubmit, errors, reset, control, getValues } = useForm(
-    {
-      mode: "onChange",
-    }
-  );
+  const { handleSubmit, errors, reset, control, getValues } = useForm({
+    mode: "onChange",
+  });
 
   const [userName, setUsername] = useState("");
   const [userId, setUserId] = useState("");
   const [feedback, setFeedback] = useState("");
   const [modal, setModal] = useState(false);
-
   const id = localStorage.getItem("editId");
-
-  useEffect(() => {
-    if (id) {
-      getFeedbackDetails();
-    }
-  }, []);
 
   const getFeedbackDetails = async () => {
     try {
@@ -69,6 +64,13 @@ const AnswerFeedbackcomp = ({ create, view, edit, remove }) => {
       console.log(e);
     }
   };
+
+  useEffect(() => {
+    if (id) {
+      getFeedbackDetails();
+    }
+  }, []);
+
   return (
     <div className="container-fluid">
       <div className="addProduct col-12">
@@ -85,7 +87,7 @@ const AnswerFeedbackcomp = ({ create, view, edit, remove }) => {
           </div>
         </div>
         <form>
-          <div className="d-flex col-12   boder_box align-items-center">
+          <div className="d-flex col-12 boder_box align-items-center">
             <div class="container ">
               <div class="row gx-5">
                 <div class="col-3">
