@@ -88,7 +88,7 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
         page: page,
         limit: 10,
         search: searchTitle,
-        messageType:FilterType,
+        messageType: FilterType,
       };
       let response = await getTemplateList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
@@ -108,7 +108,7 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
   };
   useEffect(() => {
     fetchData(currentPage);
-  }, [searchTitle,FilterType]);
+  }, [searchTitle, FilterType]);
 
   const handleDeleteItem = async () => {
     if (modalVisible.show && modalVisible.id) {
@@ -198,7 +198,7 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
               </div>
               <div className="col-1"></div>
               <div className="col-2">
-                {bulkDelete && (
+                {bulkDelete && remove && (
                   <NormalButton
                     className="authButton1"
                     label={"Delete"}
@@ -231,7 +231,6 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
           ) : data.length > 0 ? (
             <TableComp
               data={data}
-              isCheck={true}
               EditAction={edit}
               DeleteAction={remove}
               includedKeys={includedKeys}

@@ -1,17 +1,14 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./style.scss";
 import { useForm } from "react-hook-form";
 import InputBox from "component/common/InputBox/InputBox";
-import ReactSelect from "react-select";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import { history, debounceFunction } from "helpers";
 import { getFAQList, deleteFAQList, bulkDeleteFaq } from "service/Cms";
-import DropDown from "component/common/DropDown/DropDown";
 import TableComp from "component/common/TableComp/TableComp";
 import { Toast } from "service/toast";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import Loader from "component/common/Loader";
-import { Category } from "@material-ui/icons";
 import CustomController from "component/common/Controller";
 import NormalMultiSelect from "component/common/NormalMultiSelect";
 
@@ -19,14 +16,12 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
   const { errors, control } = useForm({
     mode: "onChange",
   });
-
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState([]);
   const [status, setStatus] = useState("");
   const [bulkDelete, setBulkDelete] = useState(false);
   const [deleteId, setDeleteId] = useState([]);
-
   const [SubCategory, setSubCategory] = useState("");
   const [active, setIsactive] = useState("");
   const [searchTitle, setSearch] = useState("");
@@ -62,7 +57,6 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
       value: "answer",
     },
   ];
-
   const statusOptions = [
     {
       label: "ACTIVE",
@@ -87,7 +81,6 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
       value: "three",
     },
   ];
-
   const SubCategoryOptions = [
     {
       label: "ONE",
@@ -102,7 +95,6 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
       value: "three",
     },
   ];
-  console.log("data", data);
   const handleOpenModal = (id) => {
     setModalVisible({
       id: id,
@@ -144,7 +136,6 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
     setCurrentPage(page.selected);
     fetchData(page);
   };
-
   useEffect(() => {
     fetchData(currentPage);
   }, [searchTitle, Category, SubCategory, status]);
@@ -275,13 +266,13 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
           />
         </div>
         <div className="col-md-2">
-          {bulkDelete && (
-            <NormalButton
-              className="authButton1"
-              label={"Delete"}
-              onClick={handleBulkDelete}
-            />
-          )}
+        {bulkDelete && remove && (
+              <NormalButton
+                className="authButton1"
+                label={"Delete"}
+                onClick={handleBulkDelete}
+              />
+            )}
         </div>
         {create && (
           <div className="col-2">
@@ -304,7 +295,7 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
           ) : data?.length > 0 ? (
             <TableComp
               data={data}
-              isCheck={true}
+              // isCheck={true}
               EditAction={edit}
               DeleteAction={remove}
               includedKeys={includedKeys}

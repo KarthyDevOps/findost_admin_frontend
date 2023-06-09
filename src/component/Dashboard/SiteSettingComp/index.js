@@ -12,18 +12,13 @@ import CustomController from "component/common/Controller";
 import { getSiteSetting, updateSiteSetting } from "service/Cms";
 import { Toast } from "service/toast";
 import Loader from "component/common/Loader/index";
-
 const SiteSettingComp = ({ create, view, edit, remove }) => {
   const { register, handleSubmit, errors, control, reset, setError } = useForm({
     mode: "onChange",
   });
-
-  const [content, setContent] = useState("");
   const [modal, setModal] = useState(false);
   const [ProfileUrl, setprofileUrl] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  console.log("ProfileUrl", ProfileUrl);
   const handleFileDrop = async (droppedimage) => {
     // let body = new FormData();
     // for (let index = 0; index < droppedimage.length; index++) {
@@ -43,22 +38,18 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
         id: id,
       };
       let response = await getSiteSetting(params);
-
       if (response.status === 200) {
         const data = response?.data.data;
-
         if (data.length > 0) {
           setLoading(false);
         } else {
           setLoading(true);
         }
-
         reset({
           siteUrl: data?.siteUrl,
           emailId: data?.supportEmail,
           supportNumber: data?.supportNumber,
           content: data?.copyrightsText,
-          // siteFavIcon: data?.siteFavIcon,
         });
         console.log("sitedata", data);
       } else {
@@ -69,14 +60,6 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (data && data.length > 0) {
-  //     setLoading(false);
-  //   } else {
-  //     setLoading(true);
-  //   }
-  // }, [data]);
-
   useEffect(() => {
     getSiteDetails();
   }, []);
@@ -86,11 +69,8 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
         copyrightsText: data.content,
         supportEmail: data.emailId,
         supportNumber: data.supportNumber,
-
         siteUrl: data.siteUrl,
-        // siteFavIcon: ProfileUrl,
       };
-
       let response = await updateSiteSetting(body);
       if (response.status === 200) {
         setModal(true);
@@ -243,50 +223,6 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                     }}
                   /> */}
                   </div>
-
-                  {/* <div className="col-4 mt-4">
-                <label className="Product_description">Site Fav Logo</label>
-
-                <div
-                  {...getRootGalleryProps()}
-                  className={`dropzone ${isDragActive ? "active" : ""}`}
-                  >
-                  <span className="cloud_icon">
-                    <img src={cloudIcon}></img>
-                  </span>
-                  <input {...getInputfavProps()} />
-                  {SiteFavimageSrc ? (
-                    <>
-                      <img
-                        //  src={SiteFavimageSrc}
-                        src={SiteFavimageSrc.preview}
-                        alt="Dropped"
-                        className="preview_image"
-                      />
-
-                      <span
-                        style={{ position: "absolute", top: "0", right: "0" }}
-                        // className={styles.removeOverlay}
-                        onClick={() => setsitefavImageSrc(null)}
-                      >
-                        <AiOutlineCloseCircle
-                          size={24}
-                          style={{ color: "red" }}
-                        />
-                      </span>
-                    </>
-                  ) : (
-                    <div className="drag_text">
-                    <>
-                        <p>Drag your files here to start uploading or</p>
-                        <div className=" drag_btn ">
-                          <NormalButton addProductbtn label="Browse" />
-                        </div>
-                      </>
-                    </div>
-                  )}
-                </div>
-              </div> */}
                 </div>
                 <div className="row gx-5 mt-3">
                   <div className="col">
@@ -336,7 +272,6 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                       >
                         {" "}
                       </NormalButton>
-                      {/* <NormalButton addProductbtn label='Update'> </NormalButton> */}
                     </div>
                   </div>
                 </div>
