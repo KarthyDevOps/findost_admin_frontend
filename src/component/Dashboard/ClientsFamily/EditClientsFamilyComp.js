@@ -1,16 +1,20 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { BsArrowLeft } from "react-icons/bs";
-import { history } from "helpers";
-import "./style.scss";
-import FormErrorMessage from "component/common/ErrorMessage";
-import DropDown from "component/common/DropDown/DropDown";
 import { useForm } from "react-hook-form";
+import { BsArrowLeft } from "react-icons/bs";
+// styles
+import "./style.scss";
+//internal components
+import CustomController from "component/common/Controller";
+import FormErrorMessage from "component/common/ErrorMessage";
 import InputBox from "component/common/InputBox/InputBox";
-import { getClient, updateClient } from "service/Auth";
+import DropDown from "component/common/DropDown/DropDown";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
-import CustomController from "component/common/Controller";
+//service
+import { getClient, updateClient } from "service/Auth";
 import { Toast } from "service/toast";
+//helper
+import { history } from "helpers";
 
 const EditClientsFamilyComp = ({ edit, view }) => {
   const {
@@ -24,6 +28,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
   } = useForm({
     mode: "onChange",
   });
+
   const [modal, setModal] = useState(false);
   const [ClientDetails, setClientDetails] = useState({ relationShip: "" });
   const options = [
@@ -40,6 +45,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
       value: "Software ",
     },
   ];
+
   const id = localStorage.getItem("editId");
 
   useEffect(() => {
@@ -147,7 +153,6 @@ const EditClientsFamilyComp = ({ edit, view }) => {
                 className="add_staff"
                 type={"text"}
                 placeholder="Enter Email Id"
-                //   errors={errors}
                 name="email"
                 errors={errors}
                 register={register({

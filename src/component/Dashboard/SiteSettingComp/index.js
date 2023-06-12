@@ -1,17 +1,21 @@
-import React, { useState, useEffect, Fragment } from "react";
-import "./style.scss";
-import InputBox from "component/common/InputBox/InputBox";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+//styles
+import "./style.scss";
+//internal components
+import InputBox from "component/common/InputBox/InputBox";
 import TextEditor from "component/common/TextEditor/TextEditor";
-import { history } from "helpers";
 import Dropzone from "component/common/Dropzone";
 import FormErrorMessage from "component/common/ErrorMessage";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
+import Loader from "component/common/Loader/index";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import CustomController from "component/common/Controller";
+//service
 import { getSiteSetting, updateSiteSetting } from "service/Cms";
 import { Toast } from "service/toast";
-import Loader from "component/common/Loader/index";
+//helpers
+import { history } from "helpers";
 const SiteSettingComp = ({ create, view, edit, remove }) => {
   const { register, handleSubmit, errors, control, reset, setError } = useForm({
     mode: "onChange",
@@ -63,7 +67,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
   useEffect(() => {
     getSiteDetails();
   }, []);
- 
+
   const onSubmit = async (data) => {
     try {
       let body = {

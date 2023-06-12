@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { BsArrowLeft } from "react-icons/bs";
-import "./style.scss";
-import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
+//styles
+import "./style.scss";
+//internal components
+import InputBox from "component/common/InputBox/InputBox";
 import FormErrorMessage from "component/common/ErrorMessage";
 import TextEditor from "component/common/TextEditor/TextEditor";
-import { history } from "helpers";
-import { addContent, getContent, updateContent } from "service/Cms";
 import CustomController from "component/common/Controller";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import DropDown from "component/common/DropDown/DropDown";
+//service
+import { addContent, getContent, updateContent } from "service/Cms";
 import { Toast } from "service/toast";
+//helpers
+import { history } from "helpers";
 
 const EditContentManagementComp = ({ create, view, remove }) => {
   const {

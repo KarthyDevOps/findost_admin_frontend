@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useCallback } from "react";
+//styles
 import "./style.scss";
-import { bulkDeleteClient, deleteClient, getClientList } from "service/Auth";
-import Loader from "component/common/Loader";
-import { debounceFunction } from "helpers";
-import NormalMultiSelect from "component/common/NormalMultiSelect";
-import CustomController from "component/common/Controller";
-import { useForm } from "react-hook-form";
-import DeleteModal from "component/common/DeleteModal/DeleteModal";
-import { Toast } from "service/toast";
-import NormalButton from "component/common/NormalButton/NormalButton";
+//internal components
 import InputBox from "component/common/InputBox/InputBox";
 import TableComp from "component/common/TableComp/TableComp";
+import Loader from "component/common/Loader";
+import DeleteModal from "component/common/DeleteModal/DeleteModal";
+import NormalButton from "component/common/NormalButton/NormalButton";
+//service
+import { bulkDeleteClient, deleteClient, getClientList } from "service/Auth";
+import { Toast } from "service/toast";
+//helper
+import { debounceFunction } from "helpers";
 
 const ClientsFamily = ({ create, view, edit, remove }) => {
   const [pageCount, setPageCount] = useState(1);
@@ -219,7 +220,6 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
         ) : data.length > 0 ? (
           <TableComp
             data={data}
-            // isCheck={true}
             EditAction={edit}
             DeleteAction={remove}
             includedKeys={includedKeys}

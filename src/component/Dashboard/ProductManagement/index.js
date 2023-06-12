@@ -1,18 +1,22 @@
 import React, { useState, useEffect, Fragment, useCallback } from "react";
-import TableComp from "../../common/TableComp/TableComp";
 import { useForm } from "react-hook-form";
+//styles
+import "./style.scss";
+//internal components
 import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
-import "./style.scss";
+import TableComp from "../../common/TableComp/TableComp";
+import DeleteModal from "component/common/DeleteModal/DeleteModal";
+import Loader from "component/common/Loader";
+//service
 import {
   getProductList,
   deleteProduct,
   bulkDeleteProduct,
 } from "../../../service/Cms";
-import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import { Toast } from "service/toast";
-import { debounceFunction, history } from "helpers";
-import Loader from "component/common/Loader";
+//helpers
+import { debounceFunction } from "helpers";
 
 const ProductManagementComp = ({ create, view, edit, remove }) => {
   const { errors } = useForm({ mode: "onChange" });
@@ -43,7 +47,7 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
       value: "productType",
     },
   ];
- 
+
   const getProductsList = async (page) => {
     try {
       setIsLoading(true);
@@ -66,23 +70,23 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
       setIsLoading(false);
     }
   };
- 
+
   useEffect(() => {
     getProductsList(currentPage);
   }, [search]);
- 
+
   const handleOpenModal = (id) => {
     setModalVisible({
       id: id,
       show: true,
     });
   };
- 
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
     getProductsList(page);
   };
- 
+
   const handleDeleteItem = async () => {
     if (modalVisible.show && modalVisible.id) {
       let params = {
@@ -96,14 +100,14 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
     }
     setModalVisible({ show: false, id: null });
   };
- 
+
   const handleSearchChange = useCallback(
     debounceFunction((value) => {
       setSearch(value);
     }, 500),
     []
   );
- 
+
   const handleBulk = async (id) => {
     if (id.length > 0) {
       setBulkDelete(true);
@@ -113,7 +117,7 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
       setBulkDelete(false);
     }
   };
- 
+
   const handleBulkDelete = async () => {
     if (deleteId.length > 0) {
       let body = {
@@ -184,7 +188,6 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
               data={data}
               isCheck={true}
               EditAction={edit}
-              // DeleteAction={remove}
               includedKeys={includedKeys}
               pageCount={pageCount}
               onPageChange={handlePageChange}

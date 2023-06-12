@@ -1,16 +1,20 @@
 import React, { useState, useEffect, useCallback } from "react";
-import "./style.scss";
 import { useForm } from "react-hook-form";
+//styles
+import "./style.scss";
+//internal components
 import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
-import { history, debounceFunction } from "helpers";
-import { getFAQList, deleteFAQList, bulkDeleteFaq } from "service/Cms";
 import TableComp from "component/common/TableComp/TableComp";
-import { Toast } from "service/toast";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import Loader from "component/common/Loader";
 import CustomController from "component/common/Controller";
 import NormalMultiSelect from "component/common/NormalMultiSelect";
+//service
+import { getFAQList, deleteFAQList, bulkDeleteFaq } from "service/Cms";
+import { Toast } from "service/toast";
+//helpers
+import { history, debounceFunction } from "helpers";
 
 const FaqManagementComp = ({ create, view, edit, remove }) => {
   const { errors, control } = useForm({
