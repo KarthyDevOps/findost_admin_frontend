@@ -58,6 +58,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
     },
   ];
   const id = localStorage.getItem("editId");
+
   useEffect(() => {
     setValue(
       "category",
@@ -72,6 +73,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
       status.find((option) => option.value === KnowledgeDetails.status)
     );
   }, [KnowledgeDetails, setValue]);
+
   const getKnowledgeDetails = async () => {
     try {
       const params = {
@@ -97,6 +99,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
       console.log("e :>> ", e);
     }
   };
+
   useEffect(() => {
     if (id) {
       setEdit(true);
@@ -166,6 +169,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
       }
     }
   };
+
   return (
     <div className="px-5 py-3 Add_knowledge">
       <div className="d-flex my-3 align-items-center">

@@ -25,9 +25,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
     mode: "onChange",
   });
   const [modal, setModal] = useState(false);
-  const [ClientDetails, setClientDetails] = useState({
-    relationShip: "",
-  });
+  const [ClientDetails, setClientDetails] = useState({ relationShip: "" });
   const options = [
     {
       label: "Software Enginerr",
@@ -43,12 +41,14 @@ const EditClientsFamilyComp = ({ edit, view }) => {
     },
   ];
   const id = localStorage.getItem("editId");
+
   useEffect(() => {
     setValue(
       "relationShip",
       options.find((option) => option.value === ClientDetails.relationShip)
     );
   }, [ClientDetails, setValue]);
+
   const getClientDetails = async () => {
     try {
       if (!view) return history.goBack();
@@ -73,11 +73,13 @@ const EditClientsFamilyComp = ({ edit, view }) => {
       console.log("e :>> ", e);
     }
   };
+
   useEffect(() => {
     if (id) {
       getClientDetails();
     }
   }, []);
+
   const onSubmit = async (data) => {
     setModal(true);
     try {

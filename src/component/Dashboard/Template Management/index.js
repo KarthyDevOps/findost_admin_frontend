@@ -29,7 +29,6 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
   const [FilterType, setFilterType] = useState("");
   const [deleteId, setDeleteId] = useState([]);
   const [bulkDelete, setBulkDelete] = useState(false);
-
   const [active, setIsactive] = useState("");
   const [modalVisible, setModalVisible] = useState({
     id: null,
@@ -106,6 +105,7 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
       setIsLoading(false);
     }
   };
+
   useEffect(() => {
     fetchData(currentPage);
   }, [searchTitle, FilterType]);
@@ -123,12 +123,14 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
     }
     setModalVisible({ show: false, id: null });
   };
+
   const handleSearchChange = useCallback(
     debounceFunction((value) => {
       setSearch(value);
     }, 500),
     []
   );
+
   const handleBulk = async (id) => {
     if (id.length > 0) {
       setBulkDelete(true);
@@ -138,6 +140,7 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
       setBulkDelete(false);
     }
   };
+
   const handleBulkDelete = async () => {
     if (deleteId.length > 0) {
       let body = {
@@ -150,6 +153,7 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
       }
     }
   };
+
   return (
     <Fragment>
       <div className="staff_table px-5 pt-2">

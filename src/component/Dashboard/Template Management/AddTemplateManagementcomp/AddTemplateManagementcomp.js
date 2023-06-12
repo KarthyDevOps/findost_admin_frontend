@@ -67,6 +67,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
       status.find((option) => option.value === TemplateDetails.status)
     );
   }, [TemplateDetails, setValue]);
+
   const getTemplateDetails = async () => {
     try {
       const params = {
@@ -81,8 +82,6 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
           content: data?.description,
         });
         console.log("data", data);
-        // setValue("title", data.title);
-        // setContent(data.description)
         setTemplateDetails({
           type: data.type,
           status: data.isActive ? "active" : "inActive",
@@ -102,12 +101,8 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
     }
   }, []);
 
-  // const handleChange = (state) => {
-  //   setEditorState(state);
-  // };
   const onSubmit = async (data) => {
     setModal(true);
-
     if (!edit) {
       try {
         let body = {
@@ -164,6 +159,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
       }
     }
   };
+
   return (
     <div className="container-fluid">
       <div className="addProduct col-12">
@@ -259,7 +255,6 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                               status: option.value,
                             }));
                             onChange(option.value);
-
                           }}
                         />
                       );

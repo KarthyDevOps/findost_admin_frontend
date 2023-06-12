@@ -99,6 +99,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
       value: "three",
     },
   ];
+
   const fetchData = async (page) => {
     setIsLoading(true);
     try {
@@ -129,23 +130,27 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
       setIsLoading(false);
     }
   };
+
   useEffect(() => {
     fetchData(currentPage);
   }, [searchTitle, Category, SubCategory, status]);
+
   const handleOpenModal = (id) => {
     setModalVisible({
       id: id,
       show: true,
     });
   };
+
   const handlePageChange = (page) => {
     setCurrentPage(page.selected);
     fetchData(page);
   };
+
   const handleDeleteItem = async () => {
     if (modalVisible.show && modalVisible.id) {
       let params = {
-        knowledgeCenterId: modalVisible.id,
+        id: modalVisible.id,
       };
       let response = await deleteKnowledge(params);
       if (response.status === 200) {
@@ -155,12 +160,14 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
     }
     setModalVisible({ show: false, id: null });
   };
+
   const handleSearchChange = useCallback(
     debounceFunction((value) => {
       setSearch(value);
     }, 500),
     []
   );
+
   const handleBulk = async (id) => {
     if (id.length > 0) {
       setBulkDelete(true);
@@ -170,6 +177,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
       setBulkDelete(false);
     }
   };
+
   const handleBulkDelete = async () => {
     if (deleteId.length > 0) {
       let body = {
@@ -182,6 +190,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
       }
     }
   };
+
   return (
     <div className="px-5 py-3 knowledge_center">
       <h6>Knowledge Center</h6>
@@ -268,13 +277,13 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
           />
         </div>
         <div className="col-2">
-        {bulkDelete && remove && (
-              <NormalButton
-                className="authButton1"
-                label={"Delete"}
-                onClick={handleBulkDelete}
-              />
-            )}
+          {bulkDelete && remove && (
+            <NormalButton
+              className="authButton1"
+              label={"Delete"}
+              onClick={handleBulkDelete}
+            />
+          )}
         </div>
         {create && (
           <div className="col-2">

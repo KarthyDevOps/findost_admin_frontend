@@ -42,12 +42,14 @@ const EditContentManagementComp = ({ create, view, remove }) => {
     },
   ];
   const id = localStorage.getItem("editId");
+
   useEffect(() => {
     setValue(
       "status",
       status.find((option) => option.value === contentDetails.status)
     );
   }, [contentDetails, setValue]);
+
   const getContentList = async () => {
     try {
       const params = {
@@ -70,12 +72,14 @@ const EditContentManagementComp = ({ create, view, remove }) => {
       console.log("e :>> ", e);
     }
   };
+
   useEffect(() => {
     if (id) {
       setedit(true);
       getContentList();
     }
   }, []);
+
   const onSubmit = async (data) => {
     console.log("data", data);
     if (edit) {
@@ -132,6 +136,7 @@ const EditContentManagementComp = ({ create, view, remove }) => {
       }
     }
   };
+
   return (
     <div className="container-fluid">
       <div className="addProduct col-12">
