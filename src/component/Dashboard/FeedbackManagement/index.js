@@ -100,7 +100,7 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
     try {
       if (modalVisible.show && modalVisible.id) {
         let params = {
-          feedbackId: modalVisible.id,
+          id: modalVisible.id,
         };
         let response = await deleteFeedback(params);
         if (response.status === 200) {
