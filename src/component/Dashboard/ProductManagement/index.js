@@ -81,7 +81,7 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
   const handleDeleteItem = async () => {
     if (modalVisible.show && modalVisible.id) {
       let params = {
-        productId: modalVisible.id,
+        id: modalVisible.id,
       };
       let response = await deleteProduct(params);
       if (response.status === 200) {

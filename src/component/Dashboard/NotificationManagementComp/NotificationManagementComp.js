@@ -143,7 +143,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
     if (modalVisible.show && modalVisible.id) {
       if (activeTab === 0) {
         let params = {
-          notificationTemplateId: modalVisible.id,
+          id: modalVisible.id,
         };
         let response = await deleteNotificationTemplate(params);
         if (response.status === 200) {
@@ -152,7 +152,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
         }
       } else {
         let params = {
-          notificationId: modalVisible.id,
+          id: modalVisible.id,
         };
         let response = await deleteNotificationHistory(params);
         if (response.status === 200) {
