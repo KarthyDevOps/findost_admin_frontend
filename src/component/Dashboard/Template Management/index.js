@@ -1,21 +1,25 @@
 import React, { useState, useEffect, useCallback, Fragment } from "react";
-import TableComp from "../../common/TableComp/TableComp";
-import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
-import NormalButton from "component/common/NormalButton/NormalButton";
+import { BsSearch } from "react-icons/bs";
+//styles
 import "./style.scss";
+//internal components
+import NormalButton from "component/common/NormalButton/NormalButton";
+import InputBox from "component/common/InputBox/InputBox";
+import TableComp from "../../common/TableComp/TableComp";
+import Loader from "component/common/Loader";
+import CustomController from "component/common/Controller";
+import NormalMultiSelect from "component/common/NormalMultiSelect";
+import DeleteModal from "component/common/DeleteModal/DeleteModal";
+//services
 import {
   bulkDeletetemplateList,
   deletetemplateList,
   getTemplateList,
 } from "service/Cms";
-import { history, debounceFunction } from "helpers";
-import { BsSearch } from "react-icons/bs";
 import { Toast } from "service/toast";
-import Loader from "component/common/Loader";
-import CustomController from "component/common/Controller";
-import NormalMultiSelect from "component/common/NormalMultiSelect";
-import DeleteModal from "component/common/DeleteModal/DeleteModal";
+//helpers
+import { history, debounceFunction } from "helpers";
 
 const TemplateManagementComp = ({ create, view, edit, remove }) => {
   const { register, handleSubmit, errors, control, reset, setError } = useForm({
@@ -113,7 +117,7 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
   const handleDeleteItem = async () => {
     if (modalVisible.show && modalVisible.id) {
       let params = {
-        templateId: modalVisible.id,
+        id: modalVisible.id,
       };
       let response = await deletetemplateList(params);
       if (response.status === 200) {
@@ -158,7 +162,6 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
     <Fragment>
       <div className="staff_table px-5 pt-2">
         <p className="staff_title m-0">Template Management</p>
-
         <div className="row align-items-center px-3">
           <div className="col-md-12 col-12">
             <div className="row align-items-center">

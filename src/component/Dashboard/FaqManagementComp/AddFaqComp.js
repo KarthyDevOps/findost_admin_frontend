@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { BsArrowLeft } from "react-icons/bs";
+//styles
 import "./style.scss";
-import { history } from "helpers";
+//internal components
 import NormalButton from "component/common/NormalButton/NormalButton";
 import InputBox from "component/common/InputBox/InputBox";
-import { BsArrowLeft } from "react-icons/bs";
-import { useForm } from "react-hook-form";
 import TextEditor from "component/common/TextEditor/TextEditor";
 import DropDown from "component/common/DropDown/DropDown";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import CustomController from "component/common/Controller";
 import FormErrorMessage from "component/common/ErrorMessage";
+//service
 import { Toast } from "service/toast";
 import { addFAQ, getFAQ, updateFAQ } from "service/Cms";
+//helpers
+import { history } from "helpers";
 
 const AddFaqComp = ({ create, view, remove }) => {
   const {
@@ -58,7 +62,7 @@ const AddFaqComp = ({ create, view, remove }) => {
     },
   ];
   const id = localStorage.getItem("editId");
- 
+
   useEffect(() => {
     setValue(
       "category",
@@ -73,7 +77,7 @@ const AddFaqComp = ({ create, view, remove }) => {
       status.find((option) => option.value === FAQDetails.status)
     );
   }, [FAQDetails, setValue]);
- 
+
   const getFAQDetails = async () => {
     try {
       const params = {
@@ -98,14 +102,14 @@ const AddFaqComp = ({ create, view, remove }) => {
       console.log("e :>> ", e);
     }
   };
- 
+
   useEffect(() => {
     if (id) {
       setEdit(true);
       getFAQDetails();
     }
   }, []);
- 
+
   const onSubmit = async (data) => {
     setModal(true);
     if (!edit) {
@@ -166,7 +170,7 @@ const AddFaqComp = ({ create, view, remove }) => {
       }
     }
   };
- 
+
   return (
     <div className="add_faq px-5 py-3">
       <form>
@@ -361,4 +365,3 @@ const AddFaqComp = ({ create, view, remove }) => {
 };
 
 export default AddFaqComp;
-

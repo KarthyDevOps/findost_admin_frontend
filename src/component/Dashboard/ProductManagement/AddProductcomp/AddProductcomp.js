@@ -1,17 +1,21 @@
-import React, { useState, useEffect, Fragment } from "react";
-import { BsArrowLeft } from "react-icons/bs";
-import "./style.scss";
-import InputBox from "component/common/InputBox/InputBox";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { history } from "helpers";
+import { BsArrowLeft } from "react-icons/bs";
+//service
+import "./style.scss";
+//internal components
+import InputBox from "component/common/InputBox/InputBox";
 import CustomController from "component/common/Controller";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import FormErrorMessage from "component/common/ErrorMessage";
-import { addProduct, updateProduct, getProduct } from "service/Cms";
 import NormalMultiSelect from "component/common/NormalMultiSelect";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
-import { Toast } from "service/toast";
 import Dropzone from "component/common/Dropzone";
+//service
+import { updateProduct, getProduct } from "service/Cms";
+import { Toast } from "service/toast";
+//helpers
+import { history } from "helpers";
 
 const AddProductcomp = ({ create, view, remove }) => {
   const {

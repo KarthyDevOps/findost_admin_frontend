@@ -1,17 +1,21 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { BsArrowLeft } from "react-icons/bs";
-import "./style.scss";
-import InputBox from "component/common/InputBox/InputBox";
 import { useForm } from "react-hook-form";
+//styles
+import "./style.scss";
+//internal components
+import InputBox from "component/common/InputBox/InputBox";
 import FormErrorMessage from "component/common/ErrorMessage";
 import TextEditor from "component/common/TextEditor/TextEditor";
-import { history } from "helpers";
-import { addTemplate, getTemplate, updateTemplate } from "service/Cms";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import DropDown from "component/common/DropDown/DropDown";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
+//services
+import { addTemplate, getTemplate, updateTemplate } from "service/Cms";
 import CustomController from "component/common/Controller";
 import { Toast } from "service/toast";
+//helpers
+import { history } from "helpers";
 
 const AddTempleteManagementcomp = ({ create, view, remove }) => {
   const {

@@ -1,16 +1,20 @@
 import React, { useState, useEffect, Fragment } from "react";
+//styles
 import "./style.scss";
+//internal components
 import TableComp from "../../common/TableComp/TableComp";
 import NormalButton from "component/common/NormalButton/NormalButton";
-import { history } from "helpers";
+import Loader from "component/common/Loader";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
+//service
 import {
   getContentList,
   deleteContentList,
   bulkDeleteContentList,
 } from "service/Cms";
 import { Toast } from "service/toast";
-import Loader from "component/common/Loader";
+//helpers
+import { history } from "helpers";
 
 const ContentManagementComp = ({ create, view, edit, remove }) => {
   const [modalVisible, setModalVisible] = useState({

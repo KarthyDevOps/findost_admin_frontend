@@ -1,9 +1,9 @@
-import React, { useState, useEffect, Fragment } from "react";
-import "./style.scss";
+import React, { useState, useEffect } from "react";
 import { BsArrowLeft } from "react-icons/bs";
-import { Toast } from "service/toast";
-import { history } from "helpers";
 import { useForm } from "react-hook-form";
+//styles
+import "./style.scss";
+//internal components
 import InputBox from "component/common/InputBox/InputBox";
 import DropDown from "component/common/DropDown/DropDown";
 import TextEditor from "component/common/TextEditor/TextEditor";
@@ -12,7 +12,11 @@ import Dropzone from "component/common/Dropzone";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import FormErrorMessage from "component/common/ErrorMessage";
 import CustomController from "component/common/Controller";
+//service
 import { addKnowledge, getKnowledge, updateKnowledge } from "service/Cms";
+import { Toast } from "service/toast";
+//helpers
+import { history } from "helpers";
 
 const AddKnowledgeComp = ({ create, view, remove }) => {
   const {
