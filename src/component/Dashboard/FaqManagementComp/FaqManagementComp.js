@@ -266,13 +266,13 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
           />
         </div>
         <div className="col-md-2">
-        {bulkDelete && remove && (
-              <NormalButton
-                className="authButton1"
-                label={"Delete"}
-                onClick={handleBulkDelete}
-              />
-            )}
+          {bulkDelete && remove && (
+            <NormalButton
+              className="authButton1"
+              label={"Delete"}
+              onClick={handleBulkDelete}
+            />
+          )}
         </div>
         {create && (
           <div className="col-2">
@@ -286,16 +286,15 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
             />
           </div>
         )}
-        <div className=" mt-4 p-3">
-          {isLoading ? (
-            <Loader
-              loading={isLoading}
-              className="d-flex align-items-center justify-content-center"
-            />
-          ) : data?.length > 0 ? (
+        {isLoading ? (
+          <Loader
+            loading={isLoading}
+            className="d-flex align-items-center justify-content-center mx-auto mt-5 pt-5"
+          />
+        ) : data?.length > 0 ? (
+          <div className="mt-4 px-3">
             <TableComp
               data={data}
-              // isCheck={true}
               EditAction={edit}
               DeleteAction={remove}
               includedKeys={includedKeys}
@@ -308,12 +307,12 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
               setBulkDelete={setBulkDelete}
               editRouteName={"/admin/faq-management/add-faq"}
             />
-          ) : (
-            <div className="d-flex align-items-center justify-content-center ">
-              <p>No Data Available</p>
-            </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          <div className="d-flex align-items-center justify-content-center mx-auto mt-5 pt-5">
+            <p>No Data Available</p>
+          </div>
+        )}
         <DeleteModal
           modalOpen={modalVisible.show}
           closeModal={() => setModalVisible({ id: null, show: false })}
