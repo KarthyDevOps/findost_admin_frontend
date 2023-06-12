@@ -48,9 +48,8 @@ const SendNotificationComp = () => {
         });
         setUsers(
           options.filter((user) => {
-            return Object.values(response?.data?.data?.userId).map(
-              (x) => x === user.value
-            );
+            const userValues = Object.values(response?.data?.data?.userId);
+            return userValues.includes(user.value);
           })
         );
         console.log("users :>> ", users);
@@ -90,7 +89,7 @@ const SendNotificationComp = () => {
         const body = {
           title: data.title,
           description: data.content,
-          userId: users.map(x => x.value),
+          userId: users.map((x) => x.value),
         };
         let response = await updateNotificationHistory(body, id);
         if (response.status === 200) {
