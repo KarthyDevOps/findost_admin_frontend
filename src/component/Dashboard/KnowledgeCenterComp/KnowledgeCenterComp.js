@@ -150,7 +150,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
   const handleDeleteItem = async () => {
     if (modalVisible.show && modalVisible.id) {
       let params = {
-        knowledgeCenterId: modalVisible.id,
+        id: modalVisible.id,
       };
       let response = await deleteKnowledge(params);
       if (response.status === 200) {

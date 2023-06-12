@@ -146,7 +146,7 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
   const handleDeleteItem = async () => {
     if (modalVisible.show && modalVisible.id) {
       let params = {
-        faqId: modalVisible.id,
+        id: modalVisible.id,
       };
       let response = await deleteFAQList(params);
       if (response.status === 200) {

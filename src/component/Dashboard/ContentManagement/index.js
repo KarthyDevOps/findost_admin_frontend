@@ -4,7 +4,11 @@ import TableComp from "../../common/TableComp/TableComp";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import { history } from "helpers";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
-import { getContentList, deleteContentList } from "service/Cms";
+import {
+  getContentList,
+  deleteContentList,
+  bulkDeleteContentList,
+} from "service/Cms";
 import { Toast } from "service/toast";
 import Loader from "component/common/Loader";
 
@@ -16,7 +20,11 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState([]);
+  const [bulkDelete, setBulkDelete] = useState(false);
+  const [active, setIsactive] = useState("");
+  const [deleteId, setDeleteId] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
   const includedKeys = [
     {
       label: "Page Id",
@@ -31,43 +39,51 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
       value: "title",
     },
   ];
- 
-  const fetchData = async () => {
+
+  const fetchData = async (page) => {
     try {
       setIsLoading(true);
       let params = {
-        page: currentPage,
+        page: page,
         limit: 10,
         search: "",
       };
-      const response = await getContentList(params);
-      setData(response?.data?.data?.list);
+      let response = await getContentList(params);
+      if (response.status === 200 && response?.data?.data?.list.length > 0) {
+        setIsactive(response?.data?.data?.list[0].isactive);
+        setData(response?.data?.data?.list);
+        setPageCount(response?.data?.data?.pageMeta?.pageCount);
+        setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
+      } else {
+        setData([]);
+      }
     } catch (error) {
       console.log(error);
     } finally {
       setIsLoading(false);
     }
   };
- 
+
   useEffect(() => {
     fetchData();
   }, []);
 
   const handlePageChange = (page) => {
-    setCurrentPage(page);
+    setCurrentPage(page.selected);
+    fetchData(page);
   };
- 
+
   const handleOpenModal = (id) => {
     setModalVisible({
       id: id,
       show: true,
     });
   };
- 
+
   const handleDeleteItem = async () => {
     if (modalVisible.show) {
       let params = {
-        contentId: modalVisible.id,
+        id: modalVisible.id,
       };
       let response = await deleteContentList(params);
       if (response.status === 200) {
@@ -77,23 +93,56 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
     }
     setModalVisible({ show: false, id: null });
   };
- 
+  const handleBulk = async (id) => {
+    if (id.length > 0) {
+      setBulkDelete(true);
+      deleteId.length = 0;
+      deleteId.push(...Object.values(id));
+    } else {
+      setBulkDelete(false);
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    if (deleteId.length > 0) {
+      let body = {
+        ids: deleteId,
+      };
+      let response = await bulkDeleteContentList(body);
+      if (response.status === 200) {
+        Toast({ type: "success", message: response.data.message });
+        fetchData(currentPage);
+      }
+    }
+  };
+
   return (
     <Fragment>
       <div className="staff_table px-5 pt-4">
         <p className="staff_title m-0">Content Management</p>
-        <div className="">
-          <div className="float-right col-2">
-            <NormalButton
-              className="loginButton"
-              label={"Add Content"}
-              onClick={() => {
-                localStorage.removeItem("editId");
-                history.push(
-                  "/admin/content-management/editcontent-management"
-                );
-              }}
-            />
+        <>
+          <div className="row mb-4 align-items-center justify-content-end">
+            <div className=" col-2">
+              {bulkDelete && remove && (
+                <NormalButton
+                  className="authButton1"
+                  label={"Delete"}
+                  onClick={handleBulkDelete}
+                />
+              )}
+            </div>
+            <div className="col-2">
+              <NormalButton
+                className="loginButton"
+                label={"Add Content"}
+                onClick={() => {
+                  localStorage.removeItem("editId");
+                  history.push(
+                    "/admin/content-management/editcontent-management"
+                  );
+                }}
+              />
+            </div>
           </div>
           {isLoading ? (
             <Loader
@@ -107,6 +156,8 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
               DeleteAction={remove}
               includedKeys={includedKeys}
               pageCount={pageCount}
+              currentPage={currentPage}
+              onRowsSelect={handleBulk}
               onPageChange={handlePageChange}
               setCurrentPage={setCurrentPage}
               handleOpenModal={handleOpenModal}
@@ -125,7 +176,7 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
               DeleteMessage={"Are you sure you want to delete?"}
             />
           </div>
-        </div>
+        </>
       </div>{" "}
     </Fragment>
   );

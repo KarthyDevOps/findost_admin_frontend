@@ -98,6 +98,17 @@ export const deleteContentList = async (params) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+export const bulkDeleteContentList = async (body) => {
+  let request = await axios({
+    method: "delete",
+    url: `${endpoints.cms.DELETE_CONTENT}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body,
+  }).catch(axiosErrorHandler);
+  return request;
+};
 
 export const getContent = async (params) => {
   const request = await axios({
