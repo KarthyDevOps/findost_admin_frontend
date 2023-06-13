@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { useForm } from "react-hook-form";
+import Dropzone from "react-dropzone";
+import { AiOutlineCloseCircle } from "react-icons/ai";
+import { useHistory } from "react-router-dom";
 //styles
 import "./style.scss";
+//assets
+import cloudIcon from "../../../assets/images/uploadcloud.svg";
 //internal components
 import InputBox from "component/common/InputBox/InputBox";
 import DropDown from "component/common/DropDown/DropDown";
 import TextEditor from "component/common/TextEditor/TextEditor";
 import NormalButton from "component/common/NormalButton/NormalButton";
-import Dropzone from "component/common/Dropzone";
+// import Dropzone from "component/common/Dropzone";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import FormErrorMessage from "component/common/ErrorMessage";
 import CustomController from "component/common/Controller";
@@ -17,6 +22,7 @@ import { addKnowledge, getKnowledge, updateKnowledge } from "service/Cms";
 import { Toast } from "service/toast";
 //helpers
 import { history } from "helpers";
+import { uploadImage } from "service/Auth";
 
 const AddKnowledgeComp = ({ create, view, remove }) => {
   const {
@@ -30,8 +36,12 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
   } = useForm({
     mode: "onChange",
   });
+  const history = useHistory();
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState(false);
+  const [newDoc, setNewDoc] = useState(null);
+  const [DocURL, setDocURL] = useState("");
+  const [DocFileName, setDocFileName] = useState("");
   const [KnowledgeDetails, setKnowledgeDetails] = useState({
     category: "",
     subcategory: "",
@@ -81,7 +91,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
   const getKnowledgeDetails = async () => {
     try {
       const params = {
-        knowledgeCenterId: id,
+        id: id,
       };
       let response = await getKnowledge(params);
       if (response.status === 200) {
@@ -91,6 +101,8 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           content: data?.description,
           contentURL: data?.contentUrlLink,
         });
+        setDocURL(data?.documentPathS3);
+        setDocFileName(data?.documentPath);
         setKnowledgeDetails({
           category: data.category,
           subcategory: data.subCategory,
@@ -121,6 +133,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           category: KnowledgeDetails.category,
           description: data?.content,
           contentUrlLink: data?.contentURL,
+          documentPath: newDoc ? newDoc : DocURL,
         };
         if (KnowledgeDetails.status === "active") {
           body.isActive = true;
@@ -150,6 +163,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           subCategory: KnowledgeDetails.subcategory,
           category: KnowledgeDetails.category,
           description: data?.content,
+          documentPath: newDoc ? newDoc : DocURL,
         };
         if (KnowledgeDetails.status === "active") {
           body.isActive = true;
@@ -172,6 +186,32 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
         console.log(e);
       }
     }
+  };
+
+  const handleDrop = async (droppedimage) => {
+    let body = new FormData();
+    for (let index = 0; index < droppedimage.length; index++) {
+      const file = droppedimage[index];
+      body.append("data", file);
+      // console.log("File name:", file.name);
+      setDocFileName(file.name);
+      let response = await uploadImage(body);
+      if (response.status == 200) {
+        setNewDoc(response?.data?.data?.data?.key);
+        setDocURL(response?.data?.data?.data?.s3URL);
+      }
+    }
+  };
+
+  const cancelImg = (e) => {
+    e.stopPropagation();
+    setDocURL(null);
+  };
+
+  // Redirect to document
+  const handleRedirect = (e) => {
+    e.stopPropagation();
+    history.push("#");
   };
 
   return (
@@ -291,10 +331,62 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
             </div>
             <div className="col-4 mt-3">
               <label className="Product_description">Upload Document</label>
-              <Dropzone>
+              <Dropzone
+                onDrop={handleDrop}
+                accept=".png, .jpeg, .jpg,.pdf "
+                maxSize={3072000}
+                errors={errors}
+                // {...register("dropZoneField", {
+                //   required: ProductUrl || newDoc ? false : true,
+                // })}
+              >
                 {({ getRootProps, getInputProps }) => (
                   <div {...getRootProps({ className: "dropzone" })}>
-                    <input {...getInputProps()} multiple={false} required />
+                    <div className=" border border-secondary-subtle   ">
+                      <input {...getInputProps()} multiple={false} />
+                      {DocURL ? (
+                        <div className="doc_name_display">
+                          <img
+                            src="https://windowsfileviewer.com/images/types/docx.png"
+                            alt="DocURL"
+                            className="preview_image"
+                          ></img>
+                          {/* <p onClick={handleRedirect}>{newDoc}</p> */}
+
+                          <p onClick={handleRedirect}>{DocFileName}</p>
+                        </div>
+                      ) : (
+                        <>
+                          <span className="cloud_icon">
+                            <img src={cloudIcon} alt="icon"></img>
+                          </span>
+                          <div className="drag_text">
+                            <p>Drag your files here to start uploading or</p>
+                          </div>
+                          <div className=" drag_btn ">
+                            <NormalButton addProductbtn label="Browse" />
+                          </div>
+                        </>
+                      )}
+                      {DocURL && (
+                        <span
+                          style={{
+                            position: "absolute",
+                            top: "10px",
+                            right: "10px",
+                            cursor: "pointer",
+                            // zIndex: 1000,
+                          }}
+                          // className={styles.removeOverlay}
+                          onClick={cancelImg}
+                        >
+                          <AiOutlineCloseCircle
+                            size={24}
+                            style={{ color: "red" }}
+                          />
+                        </span>
+                      )}
+                    </div>
                   </div>
                 )}
               </Dropzone>

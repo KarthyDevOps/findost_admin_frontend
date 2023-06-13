@@ -14,9 +14,8 @@ import NormalButton from "component/common/NormalButton/NormalButton";
 import FormErrorMessage from "component/common/ErrorMessage";
 import NormalMultiSelect from "component/common/NormalMultiSelect";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
-// import Dropzone from "component/common/Dropzone";
 //service
-import { updateProduct, getProduct, addProduct } from "service/Cms";
+import { updateProduct, getProduct } from "service/Cms";
 import { uploadImage } from "service/Auth";
 import { Toast } from "service/toast";
 //helpers
@@ -36,8 +35,6 @@ const AddProductcomp = ({ create, view, remove }) => {
   });
   const [edit, setEdit] = useState(false);
   const [modal, setModal] = useState(false);
-  const [ProductUrl, setProductUrl] = useState("");
-  console.log("first", ProductUrl);
   const [newProductImg, setNewProductImg] = useState(null);
   const [ProductIcon, setProductIcon] = useState("");
   const options = [
@@ -218,7 +215,7 @@ const AddProductcomp = ({ create, view, remove }) => {
 
                 <Dropzone
                   onDrop={handleDrop}
-                  accept="image/png, image/jpeg, image/jpg"
+                  accept=".png, .jpeg, .jpg, "
                   maxSize={3072000}
                   errors={errors}
                   // {...register("dropZoneField", {
@@ -254,8 +251,8 @@ const AddProductcomp = ({ create, view, remove }) => {
                           <span
                             style={{
                               position: "absolute",
-                              top: "0",
-                              right: "0",
+                              top: "10px",
+                              right: "10px",
                               cursor: "pointer",
                               zIndex: 1000,
                             }}

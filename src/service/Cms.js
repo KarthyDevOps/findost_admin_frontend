@@ -339,7 +339,7 @@ export const addKnowledge = async (data) => {
 export const updateKnowledge = async (body, id) => {
   const request = await axios({
     method: "put",
-    url: `${endpoints.cms.UPDATE_KNOWLEDGE}?knowledgeCenterId=${id}`,
+    url: `${endpoints.cms.UPDATE_KNOWLEDGE}?id=${id}`,
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
