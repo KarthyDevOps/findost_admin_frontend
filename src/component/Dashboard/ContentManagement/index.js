@@ -17,31 +17,18 @@ import { Toast } from "service/toast";
 import { history } from "helpers";
 
 const ContentManagementComp = ({ create, view, edit, remove }) => {
-  const [modalVisible, setModalVisible] = useState({
-    id: null,
-    show: false,
-  });
+  const [modalVisible, setModalVisible] = useState({ id: null, show: false });
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState([]);
   const [bulkDelete, setBulkDelete] = useState(false);
-  const [active, setIsactive] = useState("");
   const [deleteId, setDeleteId] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const includedKeys = [
-    {
-      label: "Page Id",
-      value: "contentId",
-    },
-    {
-      label: "Page Status",
-      value: "isActive",
-    },
-    {
-      label: "Page Title",
-      value: "title",
-    },
+    { label: "Page Id", value: "contentId" },
+    { label: "Page Status", value: "isActive" },
+    { label: "Page Title", value: "title" },
   ];
 
   const fetchData = async (page) => {
@@ -50,11 +37,9 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
       let params = {
         page: page,
         limit: 10,
-        search: "",
       };
       let response = await getContentList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
-        setIsactive(response?.data?.data?.list[0].isactive);
         setData(response?.data?.data?.list);
         setPageCount(response?.data?.data?.pageMeta?.pageCount);
         setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
@@ -67,10 +52,6 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const handlePageChange = (page) => {
     setCurrentPage(page.selected);
@@ -120,6 +101,10 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
     }
   };
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <Fragment>
       <div className="staff_table px-5 py-3">
@@ -165,7 +150,7 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
               onPageChange={handlePageChange}
               setCurrentPage={setCurrentPage}
               handleOpenModal={handleOpenModal}
-              editRouteName={"/admin/content-management/editcontent-management"}
+              editRouteName={"/admin/content-management/editContent-management"}
             />
           ) : (
             <div className="d-flex align-items-center justify-content-center mt-5 pt-5">

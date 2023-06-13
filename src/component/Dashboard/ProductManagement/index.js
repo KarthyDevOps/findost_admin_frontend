@@ -35,7 +35,7 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
     },
     {
       label: "Product Icon",
-      value: "productIcon",
+      value: "productIconS3",
     },
 
     {
