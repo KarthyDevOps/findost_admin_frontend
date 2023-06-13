@@ -74,34 +74,39 @@ function TableComp(props) {
       <table className="data-table">
         <thead>
           <tr>
-            {DeleteAction ? (
-              <th className="checkBox_place">
-                <input
-                  type="checkbox"
-                  onChange={handleSelectAll}
-                  checked={selectedRows.length === data.length}
-                  className="mt-2 check_box"
-                />
-              </th>
-            ) : (
-              <></>
+            {DeleteAction && (
+              <>
+                <th className="empty_place"></th>
+                <th className="checkBox_place">
+                  <input
+                    type="checkbox"
+                    onChange={handleSelectAll}
+                    checked={selectedRows.length === data.length}
+                    className="mt-2 check_box"
+                  />
+                </th>
+              </>
             )}
             {includedKeys.map((key) => {
               return (
                 <>
-                  <th className="absorbing-column" key={key}>
+                  <th className="" key={key}>
                     {key.label}
                   </th>
                 </>
               );
             })}
 
-            {!DeleteAction && !EditAction ? null : !DeleteAction ? (
-              <th className="checkBox_place"></th>
+            {!DeleteAction && !ReadAction ? (
+              <>
+                <th className="checkBox_place"> Actions</th>
+                <th className="checkBox_place"></th>
+              </>
             ) : (
               <>
-                <th className="checkBox_place">Actions</th>
-                <th className="checkBox_place"></th>
+                <th className="checkBox_place">&nbsp;&nbsp;Actions</th>
+                <th className="empty_place"></th>
+                <th className="empty_place"></th>
               </>
             )}
           </tr>
@@ -112,14 +117,17 @@ function TableComp(props) {
             return (
               <tr key={obj.id}>
                 {DeleteAction && (
-                  <td className="checkBox_place">
-                    <input
-                      type="checkbox"
-                      onChange={() => handleRowSelect(obj._id)}
-                      checked={selectedRows.includes(obj._id)}
-                      className="mt-2 check_box"
-                    />
-                  </td>
+                  <>
+                    <td className="empty_place"></td>
+                    <td className="checkBox_place">
+                      <input
+                        type="checkbox"
+                        onChange={() => handleRowSelect(obj._id)}
+                        checked={selectedRows.includes(obj._id)}
+                        className="mt-2 check_box"
+                      />
+                    </td>
+                  </>
                 )}
                 {includedKeys.map((item) => {
                   const key = item.value;
@@ -141,6 +149,13 @@ function TableComp(props) {
                       // for id
                     } else if (statusKey.includes("id")) {
                       return <td key={key}>{value}</td>;
+                      // date and time formatter
+                    } else if (statusKey.includes("ProductIcon")) {
+                      return (
+                        <td key={key}>
+                          <img src={value} alt="" />{" "}
+                        </td>
+                      );
                       // date and time formatter
                     } else if (
                       moment(value, "YYYY-MM-DDTHH:mm:ss.SSSZ", true).isValid()
@@ -165,7 +180,7 @@ function TableComp(props) {
                             value ? (
                               <span style={{ color: "#1D9E00" }}>Active</span>
                             ) : (
-                              <span style={{ color: "#DD2025" }}>Inactive</span>
+                              <span style={{ color: "#DD2025" }}>InActive</span>
                             )
                           ) : (
                             value
@@ -179,7 +194,7 @@ function TableComp(props) {
 
                 {EditAction && (
                   <td>
-                    <img
+                   &nbsp;<img
                       src={editIcon}
                       alt="Edit"
                       style={{
@@ -212,23 +227,28 @@ function TableComp(props) {
                   </td>
                 )}
                 {DeleteAction && (
-                  <td onClick={() => handleOpenModal(obj._id)}>
-                    <img
-                      src={deleteIcon}
-                      alt="delete"
-                      style={{
-                        color: "#B4B4B4",
-                        cursor: "pointer",
-                      }}
-                    />
-                  </td>
+                  <>
+                    <td
+                      onClick={() => handleOpenModal(obj._id)}
+                      className="mx-3"
+                    >
+                      <img
+                        src={deleteIcon}
+                        alt="delete"
+                        style={{
+                          color: "#B4B4B4",
+                          cursor: "pointer",
+                        }}
+                      />
+                    </td>
+                    <td className="empty_place"></td>
+                  </>
                 )}
               </tr>
             );
           })}
         </tbody>
       </table>
-
       <div className="my-4">
         <ReactPaginate
           previousLabel={<FaCaretLeft />}

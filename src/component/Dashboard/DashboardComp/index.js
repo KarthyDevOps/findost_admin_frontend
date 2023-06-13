@@ -14,12 +14,12 @@ const DashboardComp = () => {
       value: "563 k",
     },
     {
-      name: "Lorem ipsam",
-      value: "563 k",
+      name: "Active AP",
+      value: "83.2 k",
     },
     {
-      name: "Lorem ipsam",
-      value: "563 k",
+      name: "Product Lead Count",
+      value: "94.6 k",
     },
     {
       name: "Lorem ipsam",
@@ -150,6 +150,9 @@ const DashboardComp = () => {
       type: "pie",
     },
     labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+    tooltip : {
+      enabled: false,
+    },
     responsive: [
       {
         breakpoint: 480,
@@ -168,6 +171,9 @@ const DashboardComp = () => {
   const donutOptions = {
     chart: {
       type: "donut",
+    },
+    tooltip : {
+      enabled: false,
     },
     responsive: [
       {
@@ -198,7 +204,7 @@ const DashboardComp = () => {
         })}
       </div>
       <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 my-5">
-        <div className="chart_background2 p-4">
+        <div className="chart_background2">
           <Chart
             options={columnOptions}
             series={columnSeries}

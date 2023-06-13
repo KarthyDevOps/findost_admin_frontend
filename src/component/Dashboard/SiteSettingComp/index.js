@@ -96,7 +96,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
   };
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid px-5 py-3">
       {loading ? (
         <div className="addProduct col-12">
           <div className="row">

@@ -10,7 +10,7 @@
     color: #000000;
   }
   .section_scroll {
-    min-width: 10rem;
+    min-width: 13rem;
   }
 }
 
@@ -19,7 +19,6 @@
   box-shadow: 0px 0px 19.4413px rgba(0, 0, 0, 0.05);
   border-radius: 8.26229px;
   text-align: center;
-  margin-right: 28px;
   p {
     font-family: "Helvetica";
     font-style: normal;
@@ -27,6 +26,7 @@
     font-size: 42.8066px;
     line-height: 49px;
     letter-spacing: 0.04em;
+    text-align: center;
     color: #292929;
   }
   span {
@@ -132,4 +132,11 @@
 
     color: #d2b200;
   }
+}
+.apexcharts-tooltip-series-group {
+  max-height: 100px;
+  max-width: 100px;
+  font-size: 12px!important;
+  display: flex;
+  align-items: center;
 }

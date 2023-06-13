@@ -122,19 +122,16 @@ form {
   position: relative;
   height: 45px;
   width: 400px;
-
   border-radius: 10px;
 }
 .userbox_icon img {
+  width: 21px;
+  height: 21px;
   position: absolute;
-  top: 10px;
-  right: 90%;
+  top: 20%;
+  left: 5%;
 }
-.passwordbox_icon {
-  position: absolute;
-  top: 10px;
-  right: 90%;
-}
+
 .login {
   font-family: Helvetica;
   font-size: 30px;
@@ -161,10 +158,8 @@ form {
   font-size: 25px;
   font-weight: 800;
   text-align: center;
-  // margin-left: 30px;
   color: black;
   margin-top: 20px;
-
   p {
     margin-left: 40px;
   }
@@ -172,7 +167,7 @@ form {
 .social_logo img {
   width: 45px;
   height: 45px;
-  margin: 0px 35px;
+  margin: 0px 25px;
 }
 .social_logo {
   text-align: center;
@@ -210,9 +205,9 @@ form {
 
 .login_frame {
   position: relative;
-height: 100vh;
+  height: 100vh;
 }
-.login_filed{
+.login_filed {
   display: flex;
   align-items: center;
 }
@@ -235,4 +230,3 @@ height: 100vh;
   left: 0%;
   right: 0%;
 }
-

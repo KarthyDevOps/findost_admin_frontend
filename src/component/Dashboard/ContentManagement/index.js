@@ -107,7 +107,7 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
 
   return (
     <Fragment>
-      <div className="staff_table px-5 pt-4">
+      <div className="staff_table px-5 py-3">
         <p className="staff_title m-0">Content Management</p>
         <>
           <div className="row mb-4 align-items-center justify-content-end">

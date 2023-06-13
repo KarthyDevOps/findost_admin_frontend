@@ -8,7 +8,8 @@ import InputBox from "component/common/InputBox/InputBox";
 import DropDown from "component/common/DropDown/DropDown";
 import TextEditor from "component/common/TextEditor/TextEditor";
 import NormalButton from "component/common/NormalButton/NormalButton";
-import Dropzone from "component/common/Dropzone";
+// import Dropzone from "component/common/Dropzone";
+import Dropzone from "react-dropzone";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import FormErrorMessage from "component/common/ErrorMessage";
 import CustomController from "component/common/Controller";
@@ -32,6 +33,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
   });
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState(false);
+  const [upload, setUpload] = useState("");
   const [KnowledgeDetails, setKnowledgeDetails] = useState({
     category: "",
     subcategory: "",
@@ -291,13 +293,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
             </div>
             <div className="col-4 mt-3">
               <label className="Product_description">Upload Document</label>
-              <Dropzone>
-                {({ getRootProps, getInputProps }) => (
-                  <div {...getRootProps({ className: "dropzone" })}>
-                    <input {...getInputProps()} multiple={false} required />
-                  </div>
-                )}
-              </Dropzone>
+           
             </div>
             <div className="col-4 my-3">
               <label>Status</label>

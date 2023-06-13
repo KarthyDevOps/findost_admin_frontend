@@ -156,12 +156,12 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
 
   return (
     <Fragment>
-      <div className="staff_table px-5 pt-4">
+      <div className="staff_table px-5 py-3">
         <p className="staff-title m-0">FeedbackManagement</p>
         <div className="row align-items-center px-3">
           <div className="col-md-8 col-12">
             <div className="row align-items-center">
-              <div className="col-md-3 p-0 my-4">
+              <div className="col-md-4 pl-0 my-4">
                 <InputBox
                   className="login_input"
                   type={"text"}
@@ -174,7 +174,7 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
                   onChange={(e) => handleSearchChange(e.target.value)}
                 />
               </div>
-              <div className="col-md-3">
+              <div className="col-md-2">
                 <DropDown placeholder={"Filter by Status"} />
               </div>
               <div className="col-md-3">

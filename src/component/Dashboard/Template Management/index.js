@@ -158,7 +158,7 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
 
   return (
     <Fragment>
-      <div className="staff_table px-5 pt-2">
+      <div className="staff_table px-5 py-3">
         <p className="staff_title m-0">Template Management</p>
         <div className="row align-items-center px-3">
           <div className="col-md-12 col-12">

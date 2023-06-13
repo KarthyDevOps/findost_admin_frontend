@@ -1,6 +1,4 @@
 import axios from "axios";
-
-import { history } from "helpers";
 import { endpoints } from "config/api";
 import { axiosErrorHandler } from "./helpers/axiosHelpers";
 
@@ -136,6 +134,7 @@ export const deleteClient = async (params) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
 export const bulkDeleteClient = async (body) => {
   const request = await axios({
     method: "delete",
@@ -182,6 +181,7 @@ export const resetPassword = async (data) => {
   });
   return request;
 };
+
 export const uploadImage = (formData) => {
   let request = axios({
     method: "post",
