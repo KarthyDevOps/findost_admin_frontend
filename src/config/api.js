@@ -22,6 +22,7 @@ export const endpoints = {
     DELETE_CLIENT: `${userUrl}/clientFamily/delete`,
     GET_CLIENT: `${userUrl}/clientFamily/getProfile`,
     UPDATE_CLIENT: `${userUrl}/clientFamily/updateProfile`,
+    IMAGE_UPLOAD: `${userUrl}/upload/image`,
   },
 
   cms: {

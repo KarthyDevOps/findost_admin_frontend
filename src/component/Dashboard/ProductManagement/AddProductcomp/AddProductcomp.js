@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { BsArrowLeft } from "react-icons/bs";
+import Dropzone from "react-dropzone";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 //service
 import "./style.scss";
+//assets
+import cloudIcon from "../../../../assets/images/uploadcloud.svg";
 //internal components
 import InputBox from "component/common/InputBox/InputBox";
 import CustomController from "component/common/Controller";
@@ -10,9 +14,10 @@ import NormalButton from "component/common/NormalButton/NormalButton";
 import FormErrorMessage from "component/common/ErrorMessage";
 import NormalMultiSelect from "component/common/NormalMultiSelect";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
-import Dropzone from "component/common/Dropzone";
+// import Dropzone from "component/common/Dropzone";
 //service
-import { updateProduct, getProduct } from "service/Cms";
+import { updateProduct, getProduct, addProduct } from "service/Cms";
+import { uploadImage } from "service/Auth";
 import { Toast } from "service/toast";
 //helpers
 import { history } from "helpers";
@@ -31,7 +36,10 @@ const AddProductcomp = ({ create, view, remove }) => {
   });
   const [edit, setEdit] = useState(false);
   const [modal, setModal] = useState(false);
-  const [ProfileUrl, setprofileUrl] = useState(null);
+  const [ProductUrl, setProductUrl] = useState("");
+  console.log("first", ProductUrl);
+  const [newProductImg, setNewProductImg] = useState(null);
+  const [ProductIcon, setProductIcon] = useState("");
   const options = [
     {
       label: "Mutual Funds",
@@ -91,6 +99,7 @@ const AddProductcomp = ({ create, view, remove }) => {
           productName: data?.productName,
           productType: data?.productType,
         });
+        setProductIcon(data?.productIconS3);
       } else {
         Toast({ type: "error", message: response.data.message });
       }
@@ -100,32 +109,11 @@ const AddProductcomp = ({ create, view, remove }) => {
   };
 
   const onsubmit = async (data) => {
-    // if (!edit) {
-    //   try {
-    //     let body = {
-    //       productName: data?.productName,
-    //       productType: data?.productType,
-    //     };
-    //     let response = await addProduct(body);
-    //     if (response.status === 200) {
-    //       setModal(true);
-    //       const timeout = setTimeout(() => {
-    //         setModal(false);
-    //         reset();
-    //         history.push("/admin/product-management");
-    //       }, 1000);
-    //       return () => clearTimeout(timeout);
-    //     }
-    //   } catch (e) {
-    //     console.log(e);
-    //   }
-    // } else {
     try {
       let body = {
         productName: data?.productName,
         productType: data?.productType,
-        productIcon:
-          "https://www.google.com/url?sa=i&url=https%3A%2F%2Fsproutsocial.com%2Finsights%2Fsocial-media-image-sizes-guide%2F&psig=AOvVaw3OE3VZtCQYw7dP0_vPw4an&ust=1686391401219000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCLD82tX3tf8CFQAAAAAdAAAAABAJ",
+        productIcon: newProductImg ? newProductImg : ProductIcon,
       };
       let response = await updateProduct(body, id);
       if (response.status === 200) {
@@ -142,16 +130,21 @@ const AddProductcomp = ({ create, view, remove }) => {
     }
   };
 
-  const handleFileDrop = async (droppedimage) => {
-    // let body = new FormData();
-    // for (let index = 0; index < droppedimage.length; index++) {
-    //   const file = droppedimage[index];
-    //   body.append("image", file);
-    //   let response = await updateSiteSetting(body);
-    //   if (response.status == 200) {
-    //     setprofileUrl(response?.data?.siteFavIcon);
-    //   }
-    // }
+  const handleDrop = async (droppedimage) => {
+    let body = new FormData();
+    for (let index = 0; index < droppedimage.length; index++) {
+      const file = droppedimage[index];
+      body.append("data", file);
+      let response = await uploadImage(body);
+      if (response.status == 200) {
+        setNewProductImg(response?.data?.data?.data?.key);
+        setProductIcon(response?.data?.data?.data?.s3URL);
+      }
+    }
+  };
+  const cancelImg = (e) => {
+    e.stopPropagation();
+    setProductIcon(null);
   };
 
   return (
@@ -222,26 +215,63 @@ const AddProductcomp = ({ create, view, remove }) => {
               </div>
               <div className="col-4 mt-4">
                 <label className="Product_description">Product Icon</label>
-                {/* 
-                  <CustomController
-                    name={"drop"}
-                    control={control}
-                    error={errors.drop}
-                    // defaultValue={role}
-                    rules={{ required: true }}
-                    messages={{ required: "site logo is Required" }}
-                    render={({ onChange, ...field }) => {
-                      return ( */}
-                <Dropzone onFileDrop={handleFileDrop} name="drop">
+
+                <Dropzone
+                  onDrop={handleDrop}
+                  accept="image/png, image/jpeg, image/jpg"
+                  maxSize={3072000}
+                  errors={errors}
+                  // {...register("dropZoneField", {
+                  //   required: ProductUrl || newProductImg ? false : true,
+                  // })}
+                >
                   {({ getRootProps, getInputProps }) => (
                     <div {...getRootProps({ className: "dropzone" })}>
-                      <input {...getInputProps()} multiple={false} required />
+                      <div className=" border border-secondary-subtle   ">
+                        <input {...getInputProps()} multiple={false} />
+                        {ProductIcon ? (
+                          <>
+                            <img
+                              src={ProductIcon}
+                              alt="ProductIcon"
+                              className="preview_image"
+                            ></img>
+                          </>
+                        ) : (
+                          <>
+                            <span className="cloud_icon">
+                              <img src={cloudIcon} alt="icon"></img>
+                            </span>
+                            <p className="drag_text">
+                              Drag your files here to start uploading or
+                            </p>
+                            <div className=" drag_btn ">
+                              <NormalButton addProductbtn label="Browse" />
+                            </div>
+                          </>
+                        )}
+                        {ProductIcon && (
+                          <span
+                            style={{
+                              position: "absolute",
+                              top: "0",
+                              right: "0",
+                              cursor: "pointer",
+                              zIndex: 1000,
+                            }}
+                            // className={styles.removeOverlay}
+                            onClick={cancelImg}
+                          >
+                            <AiOutlineCloseCircle
+                              size={24}
+                              style={{ color: "red" }}
+                            />
+                          </span>
+                        )}
+                      </div>
                     </div>
                   )}
                 </Dropzone>
-                {/* );
-                    }}
-                  /> */}
               </div>
 
               {/* <div className="row gx-5">

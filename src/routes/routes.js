@@ -149,7 +149,7 @@ const routers = [
       },
       {
         component: "EditContentManagement",
-        path: "/content-management/editcontent-management",
+        path: "/content-management/editContent-management",
         componentPath: "pages/Dashboard/ContentManagement/EditContentManagement",
         name: "EditContentManagement",
         auth: false,

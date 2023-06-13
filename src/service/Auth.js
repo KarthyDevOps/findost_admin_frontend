@@ -182,3 +182,14 @@ export const resetPassword = async (data) => {
   });
   return request;
 };
+export const uploadImage = (formData) => {
+  let request = axios({
+    method: "post",
+    url: endpoints.auth.IMAGE_UPLOAD,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: formData,
+  });
+  return request;
+};
