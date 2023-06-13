@@ -28,7 +28,6 @@ const Forgetpassword = () => {
     if (response.status === 200) {
       Toast({ type: "success", message: response.data.message });
       reset({ emailId: "" });
-     
     } else {
       Toast({ type: "error", message: response.data.message });
     }
@@ -51,7 +50,7 @@ const Forgetpassword = () => {
                     Please provide registed email id to send reset link
                   </p>
                 </div>
-                <div className="userbox">
+                <div className="userbox mt-3">
                   <InputBox
                     className="login_input"
                     placeholder="Email Id"
@@ -76,7 +75,7 @@ const Forgetpassword = () => {
                 </div>
                 <div className="forget ">
                   <span
-                    onClick={() => history.push("/auth/resetpassword")}
+                    onClick={() => history.push("/auth/login")}
                     className="forget cursor-pointer"
                   >
                     Login Instead

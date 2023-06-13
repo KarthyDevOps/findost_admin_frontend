@@ -230,8 +230,8 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
   }, [tabValue, search]);
 
   return (
-    <div className="notification_container px-5">
-      <p className="m-0 pt-3">Notification Management</p>
+    <div className="notification_container px-5 py-3">
+      <p className="m-0">Notification Management</p>
       <div className="Tab_design pt-3 p-0">
         <div
           className={

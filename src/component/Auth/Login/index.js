@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import rectangle from "../../../assets/images/Rectangle.svg";
 // Styles
 import "./style.scss";
+// Images
 import instagram_logo from "../../../assets/images/instagram_icon.svg";
 import facebook_logo from "../../../assets/images/facebook_icon.svg";
 import twitter_logo from "../../../assets/images/twitter_icon.svg";
@@ -67,12 +68,13 @@ const LoginComp = () => {
                   <img
                     className="mx-auto my-auto d-block"
                     src={login_logo}
-                  ></img>
+                    alt="Login-logo"
+                  />
 
-                  <h6 className="login ">Login </h6>
+                  <h6 className="login">Login </h6>
                 </div>
                 <>
-                  <div className="userbox">
+                  <div className="userbox mt-2">
                     <InputBox
                       className="login_input"
                       type={"email"}
@@ -94,12 +96,12 @@ const LoginComp = () => {
                       }}
                     />
                     <span className="userbox_icon">
-                      <img src={username_icon}></img>
+                      <img src={username_icon} alt="icon"></img>
                     </span>
                   </div>
                 </>
 
-                <div className="passwordbox ">
+                <div className="passwordbox my-3">
                   <InputBox
                     className="login_input"
                     placeholder="Password"
@@ -125,12 +127,12 @@ const LoginComp = () => {
                       pattern: "Password must contain a special character",
                     }}
                   />
-                  <span className="passwordbox_icon">
-                    <img src={password_icon}></img>
+                  <span className="userbox_icon">
+                    <img src={password_icon} alt="icon"></img>
                   </span>
                 </div>
 
-                <div className="forget ">
+                <div className="forget my-2">
                   <Link to="/auth/forget">
                     <span className="forget">Forget Password ?</span>
                   </Link>
@@ -143,13 +145,31 @@ const LoginComp = () => {
                     />
                   </div>
 
-                  <div className="social col-lg-10 ">
+                  <div className="social col-lg-10 p-0 mt-3">
                     <p className=" "> Follow Us On </p>
                   </div>
                   <div className="social_logo">
-                    <img src={twitter_logo}></img>
-                    <img src={instagram_logo}></img>
-                    <img src={facebook_logo}></img>
+                    <a
+                      href="https://twitter.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img src={twitter_logo} alt="twitter-logo" />
+                    </a>
+                    <a
+                      href="https://www.facebook.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img src={instagram_logo} alt="instagram-logo" />
+                    </a>
+                    <a
+                      href="https://www.instagram.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img src={facebook_logo} alt="facebook-logo" />
+                    </a>
                   </div>
                 </div>
               </div>
@@ -158,7 +178,11 @@ const LoginComp = () => {
             <div className="login_frame   col-lg-7">
               <div className="clip"></div>
               <div className="bg_slide">
-                <img className=" d-block mx-auto" src={loginpage_frame}></img>
+                <img
+                  className=" d-block mx-auto"
+                  src={loginpage_frame}
+                  alt=""
+                ></img>
               </div>
             </div>
           </div>

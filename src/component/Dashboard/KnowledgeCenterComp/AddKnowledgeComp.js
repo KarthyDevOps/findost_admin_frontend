@@ -8,12 +8,14 @@ import InputBox from "component/common/InputBox/InputBox";
 import DropDown from "component/common/DropDown/DropDown";
 import TextEditor from "component/common/TextEditor/TextEditor";
 import NormalButton from "component/common/NormalButton/NormalButton";
-import Dropzone from "component/common/Dropzone";
+// import Dropzone from "component/common/Dropzone";
+import Dropzone from "react-dropzone";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import FormErrorMessage from "component/common/ErrorMessage";
 import CustomController from "component/common/Controller";
 //service
 import { addKnowledge, getKnowledge, updateKnowledge } from "service/Cms";
+import { UploadDocument } from "service/Auth";
 import { Toast } from "service/toast";
 //helpers
 import { history } from "helpers";
@@ -32,6 +34,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
   });
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState(false);
+  const [upload, setUpload] = useState("");
   const [KnowledgeDetails, setKnowledgeDetails] = useState({
     category: "",
     subcategory: "",
@@ -174,6 +177,19 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
     }
   };
 
+  const handleDrop = async (droppedimage) => {
+    let body = new FormData();
+    for (let index = 0; index < droppedimage.length; index++) {
+      const file = droppedimage[index];
+      body.append("data", file);
+      let response = await UploadDocument(body);
+      if (response.status == 200) {
+        setUpload(response?.data?.data);
+        // console.log("profileUrl", ProfileUrl);
+      }
+    }
+  };
+
   return (
     <div className="px-5 py-3 Add_knowledge">
       <div className="d-flex my-3 align-items-center">
@@ -291,13 +307,28 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
             </div>
             <div className="col-4 mt-3">
               <label className="Product_description">Upload Document</label>
-              <Dropzone>
-                {({ getRootProps, getInputProps }) => (
-                  <div {...getRootProps({ className: "dropzone" })}>
-                    <input {...getInputProps()} multiple={false} required />
-                  </div>
-                )}
-              </Dropzone>
+              <Dropzone
+                  onDrop={handleDrop}
+                  accept=".xlsx, .xls"
+                  maxSize={3072000}
+                  errors={errors}
+                  {...register("dropZoneField", {
+                    required: upload ? false : true,
+                  })}
+                >
+                  {({ getRootProps, getInputProps }) => (
+                    <div {...getRootProps({ className: "dropzone" })}>
+                      <div className=" border border-secondary-subtle   ">
+                        <input {...getInputProps()} multiple={false} />
+                        <p className="text-center m-0 p-3 fw-light">
+                          Drag & Drop or Browse file
+                        </p>
+                        {/* <p>or</p>
+                    <p>Browse file</p> */}
+                      </div>
+                    </div>
+                  )}
+                </Dropzone>
             </div>
             <div className="col-4 my-3">
               <label>Status</label>
