@@ -301,13 +301,13 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
             />
           </div>
         )}
-        <div className=" mt-4 p-3">
-          {isLoading ? (
-            <Loader
-              loading={isLoading}
-              className="d-flex align-items-center justify-content-center"
-            />
-          ) : data.length > 0 ? (
+        {isLoading ? (
+          <Loader
+            loading={isLoading}
+            className="d-flex align-items-center justify-content-center mx-auto mt-5 pt-5"
+          />
+        ) : data.length > 0 ? (
+          <div className="mt-4 p-3">
             <TableComp
               data={data}
               EditAction={edit}
@@ -321,11 +321,13 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
               setCurrentPage={setCurrentPage}
               editRouteName={"/admin/knowledge-center/add-knowledge"}
             />
-          ) : (
-            <div className="d-flex align-items-center justify-content-center ">
-              No Data Available
-            </div>
-          )}
+          </div>
+        ) : (
+          <div className="d-flex align-items-center justify-content-center mx-auto mt-5 pt-5">
+            No Data Available
+          </div>
+        )}
+        <div className=" mt-4 p-3">
           <DeleteModal
             modalOpen={modalVisible.show}
             closeModal={() => setModalVisible({ id: null, show: false })}

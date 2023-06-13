@@ -45,8 +45,14 @@ const SendNotificationComp = () => {
         reset({
           title: response?.data?.data?.title,
           content: response?.data?.data?.description,
-          users: response?.data?.data?.userId,
         });
+        setUsers(
+          options.filter((user) => {
+            const userValues = Object.values(response?.data?.data?.userId);
+            return userValues.includes(user.value);
+          })
+        );
+        console.log("users :>> ", users);
       } else {
         Toast({ type: "error", message: response.data.message });
       }
@@ -83,9 +89,9 @@ const SendNotificationComp = () => {
         const body = {
           title: data.title,
           description: data.content,
-          userId: data.users.map((user) => user.value),
+          userId: users.map((x) => x.value),
         };
-        let response = await updateNotificationHistory(body);
+        let response = await updateNotificationHistory(body, id);
         if (response.status === 200) {
           setModal(true);
           const timeout = setTimeout(() => {
@@ -162,6 +168,7 @@ const SendNotificationComp = () => {
                 control={control}
                 error={errors.users}
                 rules={{ required: true }}
+                defaultValue={users}
                 messages={{ required: "Select Users is Required" }}
                 render={({ onChange, ...field }) => {
                   return (
@@ -200,7 +207,7 @@ const SendNotificationComp = () => {
                           margin: "10px",
                         }}
                       >
-                        {user.label} &nbsp;&nbsp;
+                        {user.value} &nbsp;&nbsp;
                         <img
                           src={closeIcon}
                           alt=""

@@ -84,9 +84,8 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
   };
 
   const fetchData = async (page) => {
-    setIsLoading(true);
-
     try {
+      setIsLoading(true);
       let params = {
         page: page,
         limit: 10,
@@ -95,7 +94,6 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
       };
       let response = await getTemplateList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
-        console.log(response.data.data.list, "response");
         setIsactive(response?.data?.data?.list[0].isactive);
         setData(response?.data?.data?.list);
         setPageCount(response?.data?.data?.pageMeta?.pageCount);
@@ -122,7 +120,7 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
       let response = await deletetemplateList(params);
       if (response.status === 200) {
         Toast({ type: "success", message: response.data.message });
-        fetchData();
+        fetchData(currentPage);
       }
     }
     setModalVisible({ show: false, id: null });
