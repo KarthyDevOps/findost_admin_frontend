@@ -15,7 +15,6 @@ import { getClient, updateClient } from "service/Auth";
 import { Toast } from "service/toast";
 //helper
 import { history } from "helpers";
-import NormalMultiSelect from "component/common/NormalMultiSelect";
 
 const EditClientsFamilyComp = ({ edit, view }) => {
   const {
@@ -229,7 +228,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
                 messages={{ required: "Select RelationShip is Required" }}
                 render={({ onChange, ...field }) => {
                   return (
-                    <NormalMultiSelect
+                    <DropDown
                       {...field}
                       name="relationShip"
                       error={errors.relationShip}
