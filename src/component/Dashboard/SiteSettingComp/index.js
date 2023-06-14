@@ -19,9 +19,9 @@ import CustomController from "component/common/Controller";
 //service
 import { getSiteSetting, updateSiteSetting } from "service/Cms";
 import { Toast } from "service/toast";
+import { uploadImage } from "service/Auth";
 //helpers
 import { history } from "helpers";
-import { uploadImage } from "service/Auth";
 const SiteSettingComp = ({ create, view, edit, remove }) => {
   const { register, handleSubmit, errors, control, reset, setError } = useForm({
     mode: "onChange",

@@ -352,30 +352,30 @@ export const checkAndReturnViewableComponent = (
 
 export const statusOptions = [
   {
-    label: "ACTIVE",
+    label: "Active",
     value: "active",
   },
   {
-    label: "InACTIVE",
+    label: "InActive",
     value: "inActive",
   },
 ];
 
 export const roleOptions = [
   {
-    label: "SUPER_ADMIN",
+    label: "Super Admin",
     value: "SUPER ADMIN",
   },
   {
-    label: "ADMIN",
+    label: "Admin",
     value: "ADMIN",
   },
   {
-    label: "STAFF",
+    label: "Staff",
     value: "STAFF",
   },
   {
-    label: "SUB_Admin",
+    label: "Sub Admin",
     value: "SUB ADMIN",
   },
 ];
@@ -395,15 +395,15 @@ export const managementOptions = {
 
 export const options = [
   {
-    label: "option1",
+    label: "Option 1",
     value: "option1",
   },
   {
-    label: "option2",
+    label: "Option 2",
     value: "option2",
   },
   {
-    label: "option3",
+    label: "Option 3",
     value: "option3",
   },
 ];

@@ -40,21 +40,21 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
   // console.log('first', TemplateDetails)
   const options = [
     {
-      label: " PRE Template Message",
+      label: " Pre Template Message",
       value: "pre template message",
     },
     {
-      label: " POST Template Message",
+      label: " Post Template Message",
       value: "post template message",
     },
   ];
   const status = [
     {
-      label: "ACTIVE",
+      label: "Active",
       value: "active",
     },
     {
-      label: "InACTIVE",
+      label: "InActive",
       value: "inActive",
     },
   ];

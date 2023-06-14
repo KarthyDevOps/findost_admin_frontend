@@ -39,22 +39,22 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
     {
       label: "Id",
       value: "faqId",
-      width: "50%"
+      width: "50%",
     },
     {
       label: "Status",
       value: "isActive",
-      width: "50%"
+      width: "50%",
     },
     {
       label: "Category",
       value: "category",
-      width: "60%"
+      width: "60%",
     },
     {
       label: "Sub Category",
       value: "subCategory",
-      width: "60%"
+      width: "60%",
     },
     {
       label: "FAQ Title",
@@ -114,6 +114,7 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
   const fetchData = async (page) => {
     try {
       setIsLoading(true);
+      setBulkDelete(false);
       let params = {
         page: page,
         limit: 10,
@@ -193,6 +194,7 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
         fetchData(currentPage);
       }
     }
+    setModalVisible({ show: false, id: null });
   };
 
   return (
@@ -288,7 +290,7 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
               <NormalButton
                 className="authButton1"
                 label={"Delete"}
-                onClick={handleBulkDelete}
+                onClick={handleOpenModal}
               />
             )}
           </div>
@@ -337,7 +339,9 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
         <DeleteModal
           modalOpen={modalVisible.show}
           closeModal={() => setModalVisible({ id: null, show: false })}
-          handleDelete={handleDeleteItem}
+          handleDelete={
+            deleteId.length > 0 ? handleBulkDelete : handleDeleteItem
+          }
           DeleteMessage={"Are you sure you want to delete ?"}
         />
       </div>

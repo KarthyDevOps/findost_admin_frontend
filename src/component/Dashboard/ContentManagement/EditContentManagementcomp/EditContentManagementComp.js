@@ -37,11 +37,11 @@ const EditContentManagementComp = ({ create, view, remove }) => {
   });
   const status = [
     {
-      label: "ACTIVE",
+      label: "Active",
       value: "active",
     },
     {
-      label: "InACTIVE",
+      label: "InActive",
       value: "inActive",
     },
   ];
