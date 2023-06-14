@@ -5,7 +5,8 @@ import "./style.scss";
 import TableComp from "../../common/TableComp/TableComp";
 import InputBox from "component/common/InputBox/InputBox";
 import NormalButton from "component/common/NormalButton/NormalButton";
-import DropDown from "component/common/DropDown/DropDown";
+import CustomController from "component/common/Controller";
+import NormalMultiSelect from "component/common/NormalMultiSelect";
 import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import Loader from "component/common/Loader";
@@ -18,14 +19,15 @@ import {
 } from "service/Cms";
 import { Toast } from "service/toast";
 // helpers
-import { debounceFunction, history } from "helpers";
+import { debounceFunction, history, statusOptions } from "helpers";
 
 const FeedbackManagementComp = ({ create, view, edit, remove }) => {
-  const { errors } = useForm({
+  const { errors, control } = useForm({
     mode: "onChange",
   });
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
+  const [status, setStatus] = useState("");
   const [startdate, setstartdate] = useState("");
   const [enddate, setenddate] = useState("");
   const [pageCount, setPageCount] = useState(1);
@@ -182,7 +184,27 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
               />
             </div>
             <div style={{ minWidth: "150px" }}>
-              <DropDown placeholder={"Filter by Status"} />
+              <CustomController
+                name={"status"}
+                control={control}
+                error={errors?.status}
+                defaultValue={status}
+                rules={{ required: false }}
+                render={({ onChange, ...fields }) => {
+                  return (
+                    <NormalMultiSelect
+                      {...fields}
+                      placeholder={"Filter by Status"}
+                      options={statusOptions}
+                      name="status"
+                      handleChange={(e, { value } = {}) => {
+                        onChange(value);
+                        setStatus(value);
+                      }}
+                    />
+                  );
+                }}
+              />
             </div>
             <div style={{ minWidth: "120px" }}>
               <CommonDatePicker
