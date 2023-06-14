@@ -75,7 +75,7 @@
 
 .data-table thead .checkBox_place {
   width: 40px;
-  text-align: center!important;
+  text-align: center !important;
 }
 
 .data-table thead .empty_place {
@@ -134,4 +134,9 @@
   border-right-style: solid rgba(216, 220, 230, 0.52);
   border-bottom-right-radius: 8px;
   border-top-right-radius: 8px;
+}
+
+.img {
+  max-height: 50px;
+  object-fit: cover;
 }

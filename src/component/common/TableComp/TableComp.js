@@ -150,10 +150,10 @@ function TableComp(props) {
                     } else if (statusKey.includes("id")) {
                       return <td key={key}>{value}</td>;
                       // date and time formatter
-                    } else if (statusKey.includes("ProductIcon")) {
+                    } else if (statusKey.includes("producticons3")) {
                       return (
                         <td key={key}>
-                          <img src={value} alt="" />{" "}
+                          <a href={value} target="_blank"><img src={value} alt={value} className="img" />{" "}</a>
                         </td>
                       );
                       // date and time formatter
