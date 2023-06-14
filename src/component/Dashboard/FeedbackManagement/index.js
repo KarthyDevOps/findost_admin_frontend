@@ -44,7 +44,7 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
     {
       label: "User Id",
       value: "userId",
-      width: "50%"
+      width: "50%",
     },
     // {
     //   label: "Status",
@@ -53,12 +53,12 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
     {
       label: "Date and Time",
       value: "createdAt",
-      width: "50%"
+      width: "50%",
     },
     {
       label: "Username",
       value: "userName",
-      width: "50%"
+      width: "50%",
     },
     {
       label: "Feedback Description",
@@ -69,6 +69,7 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
   const getFeedbackListApi = async (page) => {
     try {
       setIsLoading(true);
+      setBulkDelete(false);
       let params = {
         page: page,
         limit: 10,
@@ -153,6 +154,7 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
     } catch (e) {
       console.log("e :>> ", e);
     }
+    setModalVisible({ show: false, id: null });
   };
 
   useEffect(() => {
@@ -165,7 +167,10 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
         <p className="staff-title m-0">Feedback Management</p>
         <div className="flex align-items-center justify-content-between">
           <div className="flex align-items-center" style={{ gap: "1em" }}>
-            <div className="pl-0 my-4 cursor-pointer" style={{ maxWidth: "230px" }}>
+            <div
+              className="pl-0 my-4 cursor-pointer"
+              style={{ maxWidth: "230px" }}
+            >
               <InputBox
                 className="login_input"
                 type={"text"}
@@ -224,7 +229,7 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
                 <NormalButton
                   className="authButton1"
                   label={"Delete"}
-                  onClick={handleBulkDelete}
+                  onClick={handleOpenModal}
                 />
               )}
             </div>
@@ -273,7 +278,9 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
           <DeleteModal
             modalOpen={modalVisible.show}
             closeModal={() => setModalVisible({ id: null, show: false })}
-            handleDelete={handleDeleteItem}
+            handleDelete={
+              deleteId.length > 0 ? handleBulkDelete : handleDeleteItem
+            }
             DeleteMessage={"Are you sure you want to delete?"}
           />
         </div>

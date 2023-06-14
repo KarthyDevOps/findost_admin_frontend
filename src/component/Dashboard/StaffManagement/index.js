@@ -63,6 +63,8 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
   const getStaffListApi = async (page) => {
     try {
       setIsLoading(true);
+      setBulkDelete(false);
+
       let params = {
         page: page,
         limit: 10,
@@ -154,6 +156,7 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
     } catch (e) {
       console.log("e :>> ", e);
     }
+    setModalVisible({ show: false, id: null });
   };
 
   useEffect(() => {
@@ -166,7 +169,10 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
         <p className="staff_title m-0">Staff Management</p>
         <div className="flex align-items-center justify-content-between">
           <div className="flex align-items-center" style={{ gap: "1em" }}>
-            <div className="pl-0 my-4 staff_Search cursor-pointer" style={{ width: "300px" }}>
+            <div
+              className="pl-0 my-4 staff_Search cursor-pointer"
+              style={{ width: "300px" }}
+            >
               <InputBox
                 className="login_input"
                 type={"text"}
@@ -234,7 +240,7 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
                 <NormalButton
                   className="authButton1"
                   label={"Delete"}
-                  onClick={handleBulkDelete}
+                    onClick={handleOpenModal}
                 />
               )}
             </div>
@@ -283,7 +289,9 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
           <DeleteModal
             modalOpen={modalVisible.show}
             closeModal={() => setModalVisible({ id: null, show: false })}
-            handleDelete={handleDeleteItem}
+            handleDelete={
+              deleteId.length > 0 ? handleBulkDelete : handleDeleteItem
+            }
             DeleteMessage={"Are you sure you want to delete Staff?"}
           />
         </div>

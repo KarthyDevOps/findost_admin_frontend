@@ -48,12 +48,12 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
     {
       label: "Notification Id",
       value: "notificationTemplateId",
-      width: "50%"
+      width: "50%",
     },
     {
       label: "Date and Time",
       value: "createdAt",
-      width: "50%"
+      width: "50%",
     },
     {
       label: "Notification Title",
@@ -69,7 +69,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
     {
       label: "Notification Id",
       value: "notificationId",
-      width: "50%"
+      width: "50%",
     },
     // {
     //   label: "Notification Sent Status",
@@ -78,7 +78,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
     {
       label: "Date and Time",
       value: "createdAt",
-      width: "50%"
+      width: "50%",
     },
     {
       label: "Notification Title",
@@ -93,6 +93,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
   const getTemplateList = async (page) => {
     try {
       setIsLoading(true);
+      setBulkDelete(false);
       let params = {
         page: page,
         limit: 10,
@@ -222,6 +223,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
         }
       }
     }
+    setModalVisible({ show: false, id: null });
   };
 
   useEffect(() => {
@@ -282,7 +284,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
                 <NormalButton
                   className="authButton1"
                   label={"Delete"}
-                  onClick={handleBulkDelete}
+                  onClick={handleOpenModal}
                 />
               )}
             </div>
@@ -323,7 +325,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
                 <NormalButton
                   className="authButton1"
                   label={"Delete"}
-                  onClick={handleBulkDelete}
+                  onClick={handleOpenModal}
                 />
               )}
             </div>
@@ -401,7 +403,9 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
         <DeleteModal
           modalOpen={modalVisible.show}
           closeModal={() => setModalVisible({ id: null, show: false })}
-          handleDelete={handleDeleteItem}
+          handleDelete={
+            deleteId.length > 0 ? handleBulkDelete : handleDeleteItem
+          }
           DeleteMessage={
             activeTab === 0
               ? "Are you sure you want to delete Notification Template?"

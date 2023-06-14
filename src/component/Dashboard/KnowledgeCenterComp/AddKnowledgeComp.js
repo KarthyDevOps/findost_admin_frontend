@@ -49,25 +49,25 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
   });
   const options = [
     {
-      label: "ONE",
+      label: "One",
       value: "one",
     },
     {
-      label: "TWO",
+      label: "Two",
       value: "two",
     },
     {
-      label: "THREE",
+      label: "Three",
       value: "three",
     },
   ];
   const status = [
     {
-      label: "ACTIVE",
+      label: "Active",
       value: "active",
     },
     {
-      label: "InACTIVE",
+      label: "InActive",
       value: "inActive",
     },
   ];
@@ -333,7 +333,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
               <label className="Product_description">Upload Document</label>
               <Dropzone
                 onDrop={handleDrop}
-                accept=".png, .jpeg, .jpg,.pdf "
+                accept=".pdf,xl,.xls,doc"
                 maxSize={3072000}
                 errors={errors}
                 // {...register("dropZoneField", {

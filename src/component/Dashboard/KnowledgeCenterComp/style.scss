@@ -82,7 +82,7 @@
   left: 0%;
   right: 0%;
   width: 100%;
-  height: 100%;
+  height: 90%;
 }
 .doc_name_display {
   width: 100%;
@@ -92,12 +92,12 @@
   color: #4a4a4a;
   background-color: #ffffff;
   position: absolute;
-  text-overflow: ellipsis;
+  overflow: hidden;
   bottom: 0%;
-  right: 10px;
+  text-overflow: ellipsis;
+  right: 0px;
   top: 90%;
-  left: 10px;
+  left: 0px;
   margin: 0%;
-
   width: 100%;
 }

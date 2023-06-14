@@ -39,25 +39,25 @@ const AddFaqComp = ({ create, view, remove }) => {
   });
   const options = [
     {
-      label: "ONE",
+      label: "one",
       value: "one",
     },
     {
-      label: "TWO",
+      label: "Two",
       value: "two",
     },
     {
-      label: "THREE",
+      label: "Three",
       value: "three",
     },
   ];
   const status = [
     {
-      label: "ACTIVE",
+      label: "Active",
       value: "active",
     },
     {
-      label: "InACTIVE",
+      label: "InActive",
       value: "inActive",
     },
   ];
@@ -185,14 +185,14 @@ const AddFaqComp = ({ create, view, remove }) => {
             </i>
             <p className="m-0">{edit ? "Edit FAQ" : "Add New FAQ"}</p>
           </div>
-          <div className="row gap-3 my-3">
+          {/* <div className="row gap-3 my-3">
             <div className="pr-3">
               <NormalButton className="authButton1" label={"Download Sample"} />
             </div>
             <div className="">
               <NormalButton className="loginButton" label={"Upload CSV"} />
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="Add_faq p-5">
           <div className="row">

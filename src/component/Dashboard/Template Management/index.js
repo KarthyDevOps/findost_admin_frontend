@@ -42,17 +42,17 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
     {
       label: "Template Id",
       value: "templateId",
-      width: "50%"
+      width: "50%",
     },
     {
       label: "Status",
       value: "isActive",
-      width: "50%"
+      width: "50%",
     },
     {
       label: "Message Type",
       value: "type",
-      width: "80%"
+      width: "80%",
     },
     {
       label: "Message Title",
@@ -89,6 +89,7 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
   const fetchData = async (page) => {
     try {
       setIsLoading(true);
+      setBulkDelete(false);
       let params = {
         page: page,
         limit: 10,
@@ -115,6 +116,13 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
     fetchData(currentPage);
   }, [searchTitle, FilterType]);
 
+  const handleSearchChange = useCallback(
+    debounceFunction((value) => {
+      setSearch(value);
+    }, 500),
+    []
+  );
+
   const handleDeleteItem = async () => {
     if (modalVisible.show && modalVisible.id) {
       let params = {
@@ -128,13 +136,6 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
     }
     setModalVisible({ show: false, id: null });
   };
-
-  const handleSearchChange = useCallback(
-    debounceFunction((value) => {
-      setSearch(value);
-    }, 500),
-    []
-  );
 
   const handleBulk = async (id) => {
     if (id.length > 0) {
@@ -157,6 +158,7 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
         fetchData(currentPage);
       }
     }
+    setModalVisible({ show: false, id: null });
   };
 
   return (
@@ -210,7 +212,7 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
                   <NormalButton
                     className="authButton1"
                     label={"Delete"}
-                    onClick={handleBulkDelete}
+                    onClick={handleOpenModal}
                   />
                 )}
               </div>
@@ -259,7 +261,9 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
         <DeleteModal
           modalOpen={modalVisible.show}
           closeModal={() => setModalVisible({ id: null, show: false })}
-          handleDelete={handleDeleteItem}
+          handleDelete={
+            deleteId.length > 0 ? handleBulkDelete : handleDeleteItem
+          }
           DeleteMessage={"Are you sure you want to delete ?"}
         />
       </div>

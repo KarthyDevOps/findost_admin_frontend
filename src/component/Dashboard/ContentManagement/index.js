@@ -34,6 +34,7 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
   const fetchData = async (page) => {
     try {
       setIsLoading(true);
+      setBulkDelete(false);
       let params = {
         page: page,
         limit: 10,
@@ -100,6 +101,7 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
         fetchData(currentPage);
       }
     }
+    setModalVisible({ show: false, id: null });
   };
 
   useEffect(() => {
@@ -117,7 +119,7 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
                 <NormalButton
                   className="authButton1"
                   label={"Delete"}
-                  onClick={handleBulkDelete}
+                  onClick={handleOpenModal}
                 />
               )}
             </div>
@@ -162,7 +164,9 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
             <DeleteModal
               modalOpen={modalVisible.show}
               closeModal={() => setModalVisible({ id: null, show: false })}
-              handleDelete={handleDeleteItem}
+              handleDelete={
+                deleteId.length > 0 ? handleBulkDelete : handleDeleteItem
+              }
               DeleteMessage={"Are you sure you want to delete?"}
             />
           </div>

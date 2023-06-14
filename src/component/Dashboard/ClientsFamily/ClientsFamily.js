@@ -55,8 +55,10 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
   ];
 
   const fetchClientList = async (page) => {
-    setIsLoading(true);
     try {
+      setIsLoading(true);
+      setBulkDelete(false);
+
       let params = {
         page: page,
         limit: 10,
