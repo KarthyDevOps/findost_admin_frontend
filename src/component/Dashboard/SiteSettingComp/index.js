@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import Dropzone from "react-dropzone";
+import { AiOutlineCloseCircle } from "react-icons/ai";
+
 //styles
 import "./style.scss";
+//assets
+import cloudIcon from "../../../assets/images/uploadcloud.svg";
 //internal components
 import InputBox from "component/common/InputBox/InputBox";
 import TextEditor from "component/common/TextEditor/TextEditor";
-import Dropzone from "component/common/Dropzone";
+// import Dropzone from "component/common/Dropzone";x
 import FormErrorMessage from "component/common/ErrorMessage";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import Loader from "component/common/Loader/index";
@@ -16,24 +21,18 @@ import { getSiteSetting, updateSiteSetting } from "service/Cms";
 import { Toast } from "service/toast";
 //helpers
 import { history } from "helpers";
+import { uploadImage } from "service/Auth";
 const SiteSettingComp = ({ create, view, edit, remove }) => {
   const { register, handleSubmit, errors, control, reset, setError } = useForm({
     mode: "onChange",
   });
   const [modal, setModal] = useState(false);
-  const [ProfileUrl, setprofileUrl] = useState(null);
   const [loading, setLoading] = useState(false);
-  const handleFileDrop = async (droppedimage) => {
-    // let body = new FormData();
-    // for (let index = 0; index < droppedimage.length; index++) {
-    //   const file = droppedimage[index];
-    //   body.append("image", file);
-    //   let response = await updateSiteSetting(body);
-    //   if (response.status == 200) {
-    //     setprofileUrl(response?.data?.siteFavIcon);
-    //   }
-    // }
-  };
+  const [SiteFavLogoUrl, setSiteFavLogoUrl] = useState(null);
+  const [SiteFavLogo, setSiteFavLogo] = useState("");
+  const [SiteLogoUrl, setSiteLogoUrl] = useState(null);
+  const [SiteLogo, setSiteLogo] = useState("");
+
   const id = localStorage.getItem("editId");
 
   const getSiteDetails = async () => {
@@ -55,6 +54,9 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
           supportNumber: data?.supportNumber,
           content: data?.copyrightsText,
         });
+        setSiteFavLogo(data?.siteFavIconS3);
+        setSiteLogo(data?.sitelogoS3);
+
         console.log("sitedata", data);
       } else {
         Toast({ type: "error", message: response.data.message });
@@ -75,6 +77,8 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
         supportEmail: data.emailId,
         supportNumber: data.supportNumber,
         siteUrl: data.siteUrl,
+        siteFavIcon: SiteFavLogoUrl ? SiteFavLogoUrl : SiteFavLogo,
+        sitelogo: SiteLogoUrl ? SiteLogoUrl : SiteLogo,
       };
       let response = await updateSiteSetting(body);
       if (response.status === 200) {
@@ -93,6 +97,38 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
     } catch (e) {
       console.log(e);
     }
+  };
+  const handleDrop = async (droppedimage) => {
+    let body = new FormData();
+    for (let index = 0; index < droppedimage.length; index++) {
+      const file = droppedimage[index];
+      body.append("data", file);
+      let response = await uploadImage(body);
+      if (response.status == 200) {
+        setSiteFavLogoUrl(response?.data?.data?.data?.key);
+        setSiteFavLogo(response?.data?.data?.data?.s3URL);
+      }
+    }
+  };
+  const handleDropLogo = async (droppedimage) => {
+    let body = new FormData();
+    for (let index = 0; index < droppedimage.length; index++) {
+      const file = droppedimage[index];
+      body.append("data", file);
+      let response = await uploadImage(body);
+      if (response.status == 200) {
+        setSiteLogoUrl(response?.data?.data?.data?.key);
+        setSiteLogo(response?.data?.data?.data?.s3URL);
+      }
+    }
+  };
+  const deleteFavLogo = (e) => {
+    e.stopPropagation();
+    setSiteFavLogo(null);
+  };
+  const deleteLogo = (e) => {
+    e.stopPropagation();
+    setSiteLogo(null);
   };
 
   return (
@@ -176,57 +212,123 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                   </div>
 
                   <div className="col-4 mt-4">
-                    <label className="Product_description">Site Fav Logo</label>
-                    {/* <CustomController
-                    name={"logo"}
-                    control={control}
-                    error={errors.logo}
-                    // defaultValue={role}
-                    rules={{ required: true }}
-                    messages={{ required: "site logo is Required" }}
-                    render={({ onChange, ...field }) => {
-                      return ( */}
-                    <Dropzone onFileDrop={handleFileDrop} name="logo">
+                    <label className="Product_description">Site Logo</label>
+
+                    <Dropzone
+                      onDrop={handleDrop}
+                      accept=".png, .jpeg, .jpg, "
+                      maxSize={3072000}
+                      errors={errors}
+                      // {...register("dropZoneField", {
+                      //   required: ProductUrl || SiteFavLogoUrl ? false : true,
+                      // })}
+                    >
                       {({ getRootProps, getInputProps }) => (
                         <div {...getRootProps({ className: "dropzone" })}>
-                          <input
-                            {...getInputProps()}
-                            multiple={false}
-                            required
-                          />
+                          <div className=" border border-secondary-subtle   ">
+                            <input {...getInputProps()} multiple={false} />
+                            {SiteFavLogo ? (
+                              <>
+                                <img
+                                  src={SiteFavLogo}
+                                  alt="SiteFavLogo"
+                                  className="preview_image"
+                                ></img>
+                              </>
+                            ) : (
+                              <>
+                                <span className="cloud_icon">
+                                  <img src={cloudIcon} alt="icon"></img>
+                                </span>
+                                <p className="drag_text">
+                                  Drag your files here to start uploading or
+                                </p>
+                                <div className=" drag_btn ">
+                                  <NormalButton addProductbtn label="Browse" />
+                                </div>
+                              </>
+                            )}
+                            {SiteFavLogo && (
+                              <span
+                                style={{
+                                  position: "absolute",
+                                  top: "10px",
+                                  right: "10px",
+                                  cursor: "pointer",
+                                  zIndex: 1000,
+                                }}
+                                // className={styles.removeOverlay}
+                                onClick={deleteFavLogo}
+                              >
+                                <AiOutlineCloseCircle
+                                  size={24}
+                                  style={{ color: "red" }}
+                                />
+                              </span>
+                            )}
+                          </div>
                         </div>
                       )}
                     </Dropzone>
-                    {/* );
-                    }}
-                  /> */}
                   </div>
                   <div className="col-4 mt-4">
-                    <label className="Product_description">Site Logo</label>
-                    {/* 
-                  <CustomController
-                    name={"drop"}
-                    control={control}
-                    error={errors.drop}
-                    // defaultValue={role}
-                    rules={{ required: true }}
-                    messages={{ required: "site logo is Required" }}
-                    render={({ onChange, ...field }) => {
-                      return ( */}
-                    <Dropzone onFileDrop={handleFileDrop} name="drop">
+                    <label className="Product_description">Site Fav Logo</label>
+                    <Dropzone
+                      onDrop={handleDropLogo}
+                      accept=".png, .jpeg, .jpg, "
+                      maxSize={3072000}
+                      errors={errors}
+                      // {...register("dropZoneField", {
+                      //   required: ProductUrl || SiteFavLogoUrl ? false : true,
+                      // })}
+                    >
                       {({ getRootProps, getInputProps }) => (
                         <div {...getRootProps({ className: "dropzone" })}>
-                          <input
-                            {...getInputProps()}
-                            multiple={false}
-                            required
-                          />
+                          <div className=" border border-secondary-subtle   ">
+                            <input {...getInputProps()} multiple={false} />
+                            {SiteLogo ? (
+                              <>
+                                <img
+                                  src={SiteLogo}
+                                  alt="SiteFavLogo"
+                                  className="preview_image"
+                                ></img>
+                              </>
+                            ) : (
+                              <>
+                                <span className="cloud_icon">
+                                  <img src={cloudIcon} alt="icon"></img>
+                                </span>
+                                <p className="drag_text">
+                                  Drag your files here to start uploading or
+                                </p>
+                                <div className=" drag_btn ">
+                                  <NormalButton addProductbtn label="Browse" />
+                                </div>
+                              </>
+                            )}
+                            {SiteLogo && (
+                              <span
+                                style={{
+                                  position: "absolute",
+                                  top: "10px",
+                                  right: "10px",
+                                  cursor: "pointer",
+                                  zIndex: 1000,
+                                }}
+                                // className={styles.removeOverlay}
+                                onClick={deleteLogo}
+                              >
+                                <AiOutlineCloseCircle
+                                  size={24}
+                                  style={{ color: "red" }}
+                                />
+                              </span>
+                            )}
+                          </div>
                         </div>
                       )}
                     </Dropzone>
-                    {/* );
-                    }}
-                  /> */}
                   </div>
                 </div>
                 <div className="row gx-5 mt-3">
