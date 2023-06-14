@@ -288,7 +288,7 @@ const AddStaff = ({ create, view, remove }) => {
                 placeholder="Enter Password"
                 name="password"
                 errors={errors}
-                disabled={edit}
+                // disabled={edit}
                 defaultValue={staffDetails.password}
                 register={register({
                   required: edit ? false : true,

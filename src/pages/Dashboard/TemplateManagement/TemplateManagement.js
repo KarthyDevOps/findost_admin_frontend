@@ -1,18 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+// Internal Component
 import TemplateManagementComp from "component/Dashboard/Template Management";
-import { Redirect } from 'react-router-dom';
-import { checkAndReturnViewableComponent } from 'helpers';
+// Helpers
+import { checkAndReturnViewableComponent, history } from 'helpers';
+import { getadminPrivileges } from "helpers/privileges";
 
 const TemplateManagement = ({ privilegesData = {} }) => {
+  const dispatch = useDispatch();
   const { templateManagement = {} } = privilegesData || {};
 
   useEffect(() => {
-    const redirectTo = checkAndReturnViewableComponent(privilegesData, templateManagement);
-    if (redirectTo) {
-      console.log("toto", redirectTo)
-      // return <Redirect to={redirectData.to} />;
-    }
+    getadminPrivileges(dispatch);
   }, []);
+
+  useEffect(() => {
+    const redirectTo = checkAndReturnViewableComponent(privilegesData, templateManagement);
+    if (redirectTo) return history.push(redirectTo?.to);
+  }, [privilegesData]);
 
   return (
     <div>

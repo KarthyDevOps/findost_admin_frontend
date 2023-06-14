@@ -20,6 +20,32 @@ const adminPrivileges = () => async (dispatch, getState) => {
     },
   };
   try {
+    console.log("toto privelage Callll")
+    let { data: { data = [], status } } = await getStaff();
+    if (data?.[0]?.permissions) {
+      for (let [key, value] of Object.entries(data?.[0]?.permissions)) {
+        filteredData[key] = getPermissionObj(value);
+      }
+    }
+    dispatch(privilegesData(filteredData));
+  } catch (error) {
+    console.log("error in adminPrivileges", error)
+  } finally {
+    return filteredData;
+  }
+};
+
+export const getadminPrivileges = async (dispatch) => {
+  let filteredData = {
+    "dashboard": {
+      "create": true,
+      "view": true,
+      "edit": true,
+      "remove": true
+    },
+  };
+  try {
+    console.log("toto privelage gettttt")
     let { data: { data = [], status } } = await getStaff();
     if (data?.[0]?.permissions) {
       for (let [key, value] of Object.entries(data?.[0]?.permissions)) {

@@ -1,23 +1,12 @@
-import React, { useEffect } from "react";
-import { Redirect } from 'react-router-dom';
-import { checkAndReturnViewableComponent } from 'helpers';
+import React from "react";
 
 import DashboardComp from "component/Dashboard/DashboardComp";
 
-const Dashboard = ({ privilegesData = {} }) => {
-  const { dashboard = {} } = privilegesData || {};
-
-  useEffect(() => {
-    const redirectTo = checkAndReturnViewableComponent(privilegesData, dashboard);
-    if (redirectTo) {
-      console.log("toto", redirectTo)
-      // return <Redirect to={redirectData.to} />;
-    }
-  }, [])
+const Dashboard = () => {
 
   return (
     <div>
-      <DashboardComp {...dashboard} />
+      <DashboardComp />
     </div>
   );
 };
