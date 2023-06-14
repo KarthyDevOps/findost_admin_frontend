@@ -157,7 +157,7 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
   return (
     <Fragment>
       <div className="staff_table px-5 py-3">
-        <p className="staff-title m-0">FeedbackManagement</p>
+        <p className="staff-title m-0">Feedback Management</p>
         <div className="row align-items-center px-3">
           <div className="col-md-8 col-12">
             <div className="row align-items-center">
