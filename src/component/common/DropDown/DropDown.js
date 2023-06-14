@@ -3,19 +3,26 @@ import ReactSelect from "react-select";
 import "./style.scss";
 
 const DropDown = (props) => {
-  const { value, onChange, options, placeholder, isMulti, controlShouldRenderValue } = props;
+  const {
+    value,
+    onChange,
+    options,
+    placeholder,
+    isMulti,
+    controlShouldRenderValue,
+  } = props;
 
   const colourStyles = {
     dropdownIndicator: (styles) => ({
       ...styles,
       color: "#000000",
-      cursor: "pointer"
-    }),
-    control: (base) => ({
-      ...base,
       cursor: "pointer",
-      fontFamily: "Helvetica"
     }),
+    // control: (base) => ({
+    //   ...base,
+    //   cursor: "pointer",
+    //   fontFamily: "Helvetica",
+    // }),
   };
 
   return (
