@@ -141,67 +141,20 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
   return (
     <div className="px-5 py-3 clients_family">
       <h6>Client’s Family</h6>
-      <div className="row align-items-center">
-        <div className="col-4">
+      <div className="flex justify-content-between align-items-center">
+        <div className="cursor-pointer" style={{ width: "300px" }}>
           <InputBox
             className="login_input Notification_input"
             type={"text"}
             value={searchStaff}
             onChange={(e) => handleSearchChange(e.target.value)}
-            placeholder="Search by Id, Username, Email"
+            placeholder="Search by Id, Name, Email"
             name="search"
             Iconic
             Search
           />
         </div>
-        {/* <div className="col-md-2">
-          <CustomController
-            name={"role"}
-            control={control}
-            error={errors?.role}
-            defaultValue={role}
-            rules={{ required: false }}
-            render={({ onChange, ...fields }) => {
-              return (
-                <NormalMultiSelect
-                  {...fields}
-                  placeholder={"Filter by Role"}
-                  options={roleOptions}
-                  name="role"
-                  handleChange={(e, { value } = {}) => {
-                    onChange(value);
-                    setRole(value);
-                  }}
-                />
-              );
-            }}
-          />
-        </div>
-        <div className="col-md-2">
-          <CustomController
-            name={"status"}
-            control={control}
-            error={errors?.status}
-            defaultValue={status}
-            rules={{ required: false }}
-            render={({ onChange, ...fields }) => {
-              return (
-                <NormalMultiSelect
-                  {...fields}
-                  placeholder={"Filter by Status"}
-                  options={statusOptions}
-                  name="status"
-                  handleChange={(e, { value } = {}) => {
-                    onChange(value);
-                    setStatus(value);
-                  }}
-                />
-              );
-            }}
-          />
-        </div> */}
-        <div className="col-2"></div>
-        <div className="col-md-2">
+        <div className="cursor-pointer" style={{ minWidth: "150px" }}>
           {bulkDelete && (
             <NormalButton
               className="authButton1"
@@ -211,29 +164,31 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
           )}
         </div>
       </div>
-      <div className=" mt-4 p-3">
+      <div className="row align-items-center">
         {isLoading ? (
           <Loader
             loading={isLoading}
-            className="d-flex align-items-center justify-content-center"
+            className="d-flex align-items-center justify-content-center mx-auto mt-5 pt-5"
           />
         ) : data.length > 0 ? (
-          <TableComp
-            data={data}
-            EditAction={edit}
-            DeleteAction={remove}
-            includedKeys={includedKeys}
-            pageCount={pageCount}
-            currentPage={currentPage}
-            setBulkDelete={setBulkDelete}
-            handleOpenModal={handleOpenModal}
-            onRowsSelect={handleBulk}
-            onPageChange={handlePageChange}
-            setCurrentPage={setCurrentPage}
-            editRouteName={"/admin/clients-family/edit-client"}
-          />
+          <div className="mt-4 px-3">
+            <TableComp
+              data={data}
+              EditAction={edit}
+              DeleteAction={remove}
+              includedKeys={includedKeys}
+              pageCount={pageCount}
+              currentPage={currentPage}
+              setBulkDelete={setBulkDelete}
+              handleOpenModal={handleOpenModal}
+              onRowsSelect={handleBulk}
+              onPageChange={handlePageChange}
+              setCurrentPage={setCurrentPage}
+              editRouteName={"/admin/clients-family/edit-client"}
+            />
+          </div>
         ) : (
-          <div className="d-flex align-items-center justify-content-center ">
+          <div className="d-flex align-items-center justify-content-center mx-auto mt-5 pt-5">
             No Data Available
           </div>
         )}

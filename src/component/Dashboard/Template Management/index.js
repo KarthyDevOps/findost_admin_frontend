@@ -42,14 +42,17 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
     {
       label: "Template Id",
       value: "templateId",
+      width: "50%"
     },
     {
       label: "Status",
       value: "isActive",
+      width: "50%"
     },
     {
       label: "Message Type",
       value: "type",
+      width: "80%"
     },
     {
       label: "Message Title",

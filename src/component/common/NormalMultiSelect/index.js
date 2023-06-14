@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Select, { components } from "react-select";
+
+// Assets
 import dropDownIcon from "assets/images/dropDownIcon.png"
 
 class NormalMultiSelect extends Component {
@@ -79,6 +81,7 @@ class NormalMultiSelect extends Component {
         )
       );
     };
+
     const customStyles = {
       placeholder: (base) => ({
         ...base,
@@ -117,12 +120,13 @@ class NormalMultiSelect extends Component {
         outline: "0 ",
         background: grayed ? "#F1F1F1" : "transparent",
         fontSize: 14,
-
+        cursor: "pointer",
         minHeight: 45,
         paddingRight: 10,
         boxShadow: "0px 0px 1px rgba(0, 0, 0, 0.25)",
       }),
     };
+
     return (
       <Select
         className={className}

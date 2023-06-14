@@ -39,18 +39,22 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
     {
       label: "Id",
       value: "faqId",
+      width: "50%"
     },
     {
       label: "Status",
       value: "isActive",
+      width: "50%"
     },
     {
       label: "Category",
       value: "category",
+      width: "60%"
     },
     {
       label: "Sub Category",
       value: "subCategory",
+      width: "60%"
     },
     {
       label: "FAQ Title",
@@ -194,109 +198,115 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
   return (
     <div className="faq_head px-5 py-3">
       <h6>FAQ Management</h6>
-      <div className="row align-items-center">
-        <div className="col-2">
-          <InputBox
-            className="login_input Notification_input"
-            type={"text"}
-            placeholder="Search by Id, Title"
-            name="search"
-            Iconic
-            Search
-            value={searchTitle}
-            onChange={(e) => handleSearchChange(e.target.value)}
-          />
-        </div>
-        <div className="col-2">
-          <CustomController
-            name={"Categoty"}
-            control={control}
-            error={errors?.Category}
-            defaultValue={Category}
-            rules={{ required: false }}
-            render={({ onChange, ...fields }) => {
-              return (
-                <NormalMultiSelect
-                  {...fields}
-                  placeholder={"Select Category"}
-                  options={CategoryOptions}
-                  name="Category"
-                  handleChange={(e, { value } = {}) => {
-                    onChange(value);
-                    setCategory(value);
-                  }}
-                />
-              );
-            }}
-          />
-        </div>
-        <div className="col-2">
-          <CustomController
-            name={"SubCategoty"}
-            control={control}
-            error={errors?.SubCategory}
-            defaultValue={SubCategory}
-            rules={{ required: false }}
-            render={({ onChange, ...fields }) => {
-              return (
-                <NormalMultiSelect
-                  {...fields}
-                  placeholder={"SubCategory"}
-                  options={SubCategoryOptions}
-                  name="SubCategoty"
-                  handleChange={(e, { value } = {}) => {
-                    onChange(value);
-                    setSubCategory(value);
-                  }}
-                />
-              );
-            }}
-          />
-        </div>
-        <div className="col-md-2">
-          <CustomController
-            name={"status"}
-            control={control}
-            error={errors?.status}
-            defaultValue={status}
-            rules={{ required: false }}
-            render={({ onChange, ...fields }) => {
-              return (
-                <NormalMultiSelect
-                  {...fields}
-                  placeholder={"Select Status"}
-                  options={statusOptions}
-                  name="status"
-                  handleChange={(e, { value } = {}) => {
-                    onChange(value);
-                    setStatus(value);
-                  }}
-                />
-              );
-            }}
-          />
-        </div>
-        <div className="col-md-2">
-          {bulkDelete && remove && (
-            <NormalButton
-              className="authButton1"
-              label={"Delete"}
-              onClick={handleBulkDelete}
+      <div className="flex align-items-center justify-content-between">
+        <span className="flex align-items-center" style={{ gap: "1em" }}>
+          <div className="cursor-pointer" style={{ width: "200px" }}>
+            <InputBox
+              className="login_input Notification_input"
+              type={"text"}
+              placeholder="Search by Id, Title"
+              name="search"
+              Iconic
+              Search
+              value={searchTitle}
+              onChange={(e) => handleSearchChange(e.target.value)}
             />
-          )}
-        </div>
-        {create && (
-          <div className="col-2">
-            <NormalButton
-              className="loginButton"
-              label={"Add New FAQ"}
-              onClick={() => {
-                localStorage.removeItem("editId");
-                history.push("/admin/faq-management/add-faq");
+          </div>
+          <div className="cursor-pointer" style={{ minWidth: "170px" }}>
+            <CustomController
+              name={"Categoty"}
+              control={control}
+              error={errors?.Category}
+              defaultValue={Category}
+              rules={{ required: false }}
+              render={({ onChange, ...fields }) => {
+                return (
+                  <NormalMultiSelect
+                    {...fields}
+                    placeholder={"Select Category"}
+                    options={CategoryOptions}
+                    name="Category"
+                    handleChange={(e, { value } = {}) => {
+                      onChange(value);
+                      setCategory(value);
+                    }}
+                  />
+                );
               }}
             />
           </div>
-        )}
+          <div className="cursor-pointer" style={{ minWidth: "150px" }}>
+            <CustomController
+              name={"SubCategoty"}
+              control={control}
+              error={errors?.SubCategory}
+              defaultValue={SubCategory}
+              rules={{ required: false }}
+              render={({ onChange, ...fields }) => {
+                return (
+                  <NormalMultiSelect
+                    {...fields}
+                    placeholder={"SubCategory"}
+                    options={SubCategoryOptions}
+                    name="SubCategoty"
+                    handleChange={(e, { value } = {}) => {
+                      onChange(value);
+                      setSubCategory(value);
+                    }}
+                  />
+                );
+              }}
+            />
+          </div>
+          <div className="cursor-pointer" style={{ minWidth: "150px" }}>
+            <CustomController
+              name={"status"}
+              control={control}
+              error={errors?.status}
+              defaultValue={status}
+              rules={{ required: false }}
+              render={({ onChange, ...fields }) => {
+                return (
+                  <NormalMultiSelect
+                    {...fields}
+                    placeholder={"Select Status"}
+                    options={statusOptions}
+                    name="status"
+                    handleChange={(e, { value } = {}) => {
+                      onChange(value);
+                      setStatus(value);
+                    }}
+                  />
+                );
+              }}
+            />
+          </div>
+        </span>
+        <div className="flex align-items-center" style={{ gap: "1em" }}>
+          <div className="cursor-pointer" style={{ minWidth: "150px" }}>
+            {bulkDelete && remove && (
+              <NormalButton
+                className="authButton1"
+                label={"Delete"}
+                onClick={handleBulkDelete}
+              />
+            )}
+          </div>
+          {create && (
+            <div className="cursor-pointer" style={{ minWidth: "150px" }}>
+              <NormalButton
+                className="loginButton"
+                label={"Add New FAQ"}
+                onClick={() => {
+                  localStorage.removeItem("editId");
+                  history.push("/admin/faq-management/add-faq");
+                }}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="row align-items-center">
         {isLoading ? (
           <Loader
             loading={isLoading}

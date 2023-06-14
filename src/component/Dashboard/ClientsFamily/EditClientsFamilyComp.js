@@ -183,6 +183,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
                   render={({ onChange, ...field }) => {
                     return (
                       <CommonDatePicker
+                        id="dateOfBirth"
                         name="dateOfBirth"
                         {...field}
                         onChange={(date) => {

@@ -75,40 +75,28 @@ function TableComp(props) {
         <thead>
           <tr>
             {DeleteAction && (
-              <>
-                <th className="empty_place"></th>
-                <th className="checkBox_place">
-                  <input
-                    type="checkbox"
-                    onChange={handleSelectAll}
-                    checked={selectedRows.length === data.length}
-                    className="mt-2 check_box"
-                  />
-                </th>
-              </>
+              <th className="checkBox_place">
+                <input
+                  type="checkbox"
+                  onChange={handleSelectAll}
+                  checked={selectedRows.length === data.length}
+                  className="mt-2 check_box cursor-pointer"
+                />
+              </th>
             )}
             {includedKeys.map((key) => {
               return (
                 <>
-                  <th className="" key={key}>
+                  <th className="" key={key} style={{ ...(key?.width ? { width: key?.width } : {}) }}>
                     {key.label}
                   </th>
                 </>
               );
             })}
 
-            {!DeleteAction && !ReadAction ? (
-              <>
-                <th className="checkBox_place"> Actions</th>
-                <th className="checkBox_place"></th>
-              </>
-            ) : (
-              <>
-                <th className="checkBox_place">&nbsp;&nbsp;Actions</th>
-                <th className="empty_place"></th>
-                <th className="empty_place"></th>
-              </>
-            )}
+            {(DeleteAction || ReadAction || EditAction) &&
+              <th className="action_place" > Actions</th>
+            }
           </tr>
         </thead>
 
@@ -117,17 +105,14 @@ function TableComp(props) {
             return (
               <tr key={obj.id}>
                 {DeleteAction && (
-                  <>
-                    <td className="empty_place"></td>
-                    <td className="checkBox_place">
-                      <input
-                        type="checkbox"
-                        onChange={() => handleRowSelect(obj._id)}
-                        checked={selectedRows.includes(obj._id)}
-                        className="mt-2 check_box"
-                      />
-                    </td>
-                  </>
+                  <td className="checkBox_place">
+                    <input
+                      type="checkbox"
+                      onChange={() => handleRowSelect(obj._id)}
+                      checked={selectedRows.includes(obj._id)}
+                      className="mt-2 check_box cursor-pointer"
+                    />
+                  </td>
                 )}
                 {includedKeys.map((item) => {
                   const key = item.value;
@@ -192,57 +177,52 @@ function TableComp(props) {
                   return null;
                 })}
 
-                {EditAction && (
+                {(DeleteAction || ReadAction || EditAction) && (
                   <td>
-                   &nbsp;<img
-                      src={editIcon}
-                      alt="Edit"
-                      style={{
-                        color: "#B4B4B4",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => {
-                        localStorage.removeItem("editId");
-                        localStorage.setItem("editId", obj._id);
-                        history.push(`${editRouteName}`);
-                      }}
-                    />
+                    <span className="actions">
+                      {EditAction && (
+                        <img
+                          src={editIcon}
+                          alt="Edit"
+                          style={{
+                            color: "#B4B4B4",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            localStorage.removeItem("editId");
+                            localStorage.setItem("editId", obj._id);
+                            history.push(`${editRouteName}`);
+                          }}
+                        />
+                      )}
+                      {ReadAction && (
+                        <img
+                          src={ReadImg}
+                          alt="read"
+                          style={{
+                            color: "#B4B4B4",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            localStorage.removeItem("editId");
+                            localStorage.setItem("editId", obj._id);
+                            history.push(`${editRouteName}`);
+                          }}
+                        />
+                      )}
+                      {DeleteAction && (
+                        <img
+                          onClick={() => handleOpenModal(obj._id)}
+                          src={deleteIcon}
+                          alt="delete"
+                          style={{
+                            color: "#B4B4B4",
+                            cursor: "pointer",
+                          }}
+                        />
+                      )}
+                    </span>
                   </td>
-                )}
-                {ReadAction && (
-                  <td>
-                    <img
-                      src={ReadImg}
-                      alt="read"
-                      style={{
-                        color: "#B4B4B4",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => {
-                        localStorage.removeItem("editId");
-                        localStorage.setItem("editId", obj._id);
-                        history.push(`${editRouteName}`);
-                      }}
-                    />
-                  </td>
-                )}
-                {DeleteAction && (
-                  <>
-                    <td
-                      onClick={() => handleOpenModal(obj._id)}
-                      className="mx-3"
-                    >
-                      <img
-                        src={deleteIcon}
-                        alt="delete"
-                        style={{
-                          color: "#B4B4B4",
-                          cursor: "pointer",
-                        }}
-                      />
-                    </td>
-                    <td className="empty_place"></td>
-                  </>
                 )}
               </tr>
             );

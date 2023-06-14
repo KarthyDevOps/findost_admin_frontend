@@ -42,6 +42,7 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
     {
       label: "User Id",
       value: "userId",
+      width: "50%"
     },
     // {
     //   label: "Status",
@@ -50,10 +51,12 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
     {
       label: "Date and Time",
       value: "createdAt",
+      width: "50%"
     },
     {
       label: "Username",
       value: "userName",
+      width: "50%"
     },
     {
       label: "Feedback Description",
@@ -158,62 +161,64 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
     <Fragment>
       <div className="staff_table px-5 py-3">
         <p className="staff-title m-0">Feedback Management</p>
-        <div className="row align-items-center px-3">
-          <div className="col-md-8 col-12">
-            <div className="row align-items-center">
-              <div className="col-md-4 pl-0 my-4">
-                <InputBox
-                  className="login_input"
-                  type={"text"}
-                  placeholder="Search by Id, Name"
-                  errors={errors}
-                  name="search"
-                  Iconic
-                  Search
-                  value={search}
-                  onChange={(e) => handleSearchChange(e.target.value)}
-                />
-              </div>
-              <div className="col-md-2">
-                <DropDown placeholder={"Filter by Status"} />
-              </div>
-              <div className="col-md-3">
-                <CommonDatePicker
-                  value={startdate}
-                  onChange={(text) => setstartdate(text)}
-                  placeholder="Start Date"
-                />
-              </div>
-              <div className="col-md-3">
-                <CommonDatePicker
-                  value={enddate}
-                  onChange={(text) => setenddate(text)}
-                  placeholder="End Date"
-                />
-              </div>
+        <div className="flex align-items-center justify-content-between">
+          <div className="flex align-items-center" style={{ gap: "1em" }}>
+            <div className="pl-0 my-4 cursor-pointer" style={{ maxWidth: "230px" }}>
+              <InputBox
+                className="login_input"
+                type={"text"}
+                placeholder="Search by Id, Name"
+                errors={errors}
+                name="search"
+                Iconic
+                Search
+                value={search}
+                onChange={(e) => handleSearchChange(e.target.value)}
+              />
+            </div>
+            <div style={{ minWidth: "150px" }}>
+              <DropDown placeholder={"Filter by Status"} />
+            </div>
+            <div style={{ minWidth: "120px" }}>
+              <CommonDatePicker
+                id="startDate"
+                value={startdate}
+                onChange={(text) => setstartdate(text)}
+                placeholder="Start Date"
+              />
+            </div>
+            <div style={{ minWidth: "120px" }}>
+              <CommonDatePicker
+                id="endDate"
+                value={enddate}
+                onChange={(text) => setenddate(text)}
+                placeholder="End Date"
+              />
             </div>
           </div>
-          <div className="col-md-2">
-            {bulkDelete && remove && (
-              <NormalButton
-                className="authButton1"
-                label={"Delete"}
-                onClick={handleBulkDelete}
-              />
+          <div className="flex align-items-center" style={{ gap: "1em" }}>
+            <div className="cursor-pointer" style={{ minWidth: "150px" }}>
+              {bulkDelete && remove && (
+                <NormalButton
+                  className="authButton1"
+                  label={"Delete"}
+                  onClick={handleBulkDelete}
+                />
+              )}
+            </div>
+            {create && (
+              <div className="cursor-pointer" style={{ minWidth: "150px" }}>
+                <NormalButton
+                  className="loginButton"
+                  label={"Add Feedback"}
+                  onClick={() => {
+                    localStorage.removeItem("editId");
+                    history.push("/admin/feedBack-management/add-feedback");
+                  }}
+                />
+              </div>
             )}
           </div>
-          {create && (
-            <div className="col-md-2 col-12 p-0 m-0">
-              <NormalButton
-                className="loginButton"
-                label={"Add Feedback"}
-                onClick={() => {
-                  localStorage.removeItem("editId");
-                  history.push("/admin/feedBack-management/add-feedback");
-                }}
-              />
-            </div>
-          )}
         </div>
         {isLoading ? (
           <Loader

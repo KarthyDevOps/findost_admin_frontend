@@ -43,10 +43,12 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
     {
       label: "Id",
       value: "knowledgeCenterId",
+      width: "50%"
     },
     {
       label: "Status",
       value: "isActive",
+      width: "50%"
     },
     {
       label: "Title",
@@ -55,10 +57,12 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
     {
       label: "Category",
       value: "category",
+      width: "60%"
     },
     {
       label: "Sub Category",
       value: "subCategory",
+      width: "60%"
     },
     {
       label: "Description",
@@ -198,116 +202,122 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
   return (
     <div className="px-5 py-3 knowledge_center">
       <h6>Knowledge Center</h6>
-      <div className="row align-items-center">
-        <div className="col-2">
-          <InputBox
-            className="login_input Notification_input"
-            type={"text"}
-            placeholder="Search by Id, Title, Email"
-            name="search"
-            Iconic
-            Search
-            value={searchTitle}
-            onChange={(e) => handleSearchChange(e.target.value)}
-          />
-        </div>
-        <div className="col-2">
-          <CustomController
-            name={"Categoty"}
-            control={control}
-            error={errors?.Category}
-            defaultValue={Category}
-            rules={{ required: false }}
-            render={({ onChange, ...fields }) => {
-              return (
-                <NormalMultiSelect
-                  {...fields}
-                  placeholder={"Select Category"}
-                  options={CategoryOptions}
-                  name="Category"
-                  handleChange={(e, { value } = {}) => {
-                    onChange(value);
-                    setCategory(value);
-                  }}
-                />
-              );
-            }}
-          />
-        </div>
-        <div className="col-2">
-          <CustomController
-            name={"SubCategoty"}
-            control={control}
-            error={errors?.SubCategory}
-            defaultValue={SubCategory}
-            rules={{ required: false }}
-            render={({ onChange, ...fields }) => {
-              return (
-                <NormalMultiSelect
-                  {...fields}
-                  placeholder={"SubCategory"}
-                  options={SubCategoryOptions}
-                  name="SubCategoty"
-                  handleChange={(e, { value } = {}) => {
-                    onChange(value);
-                    setSubCategory(value);
-                  }}
-                />
-              );
-            }}
-          />
-        </div>
-        <div className="col-md-2">
-          <CustomController
-            name={"status"}
-            control={control}
-            error={errors?.status}
-            defaultValue={status}
-            rules={{ required: false }}
-            render={({ onChange, ...fields }) => {
-              return (
-                <NormalMultiSelect
-                  {...fields}
-                  placeholder={"Select Status"}
-                  options={statusOptions}
-                  name="status"
-                  handleChange={(e, { value } = {}) => {
-                    onChange(value);
-                    setStatus(value);
-                  }}
-                />
-              );
-            }}
-          />
-        </div>
-        <div className="col-2">
-          {bulkDelete && remove && (
-            <NormalButton
-              className="authButton1"
-              label={"Delete"}
-              onClick={handleBulkDelete}
+      <div className="flex align-items-center justify-content-between">
+        <span className="flex align-items-center" style={{ gap: "1em" }}>
+          <div className="cursor-pointer" style={{ width: "250px" }}>
+            <InputBox
+              className="login_input Notification_input"
+              type={"text"}
+              placeholder="Search by Id, Title, Email"
+              name="search"
+              Iconic
+              Search
+              value={searchTitle}
+              onChange={(e) => handleSearchChange(e.target.value)}
             />
-          )}
-        </div>
-        {create && (
-          <div className="col-2">
-            <NormalButton
-              className="loginButton"
-              label={"Add New"}
-              onClick={() => {
-                localStorage.removeItem("editId");
-                history.push("/admin/knowledge-center/add-knowledge");
+          </div>
+          <div className="cursor-pointer" style={{ width: "160px" }}>
+            <CustomController
+              name={"Categoty"}
+              control={control}
+              error={errors?.Category}
+              defaultValue={Category}
+              rules={{ required: false }}
+              render={({ onChange, ...fields }) => {
+                return (
+                  <NormalMultiSelect
+                    {...fields}
+                    placeholder={"Select Category"}
+                    options={CategoryOptions}
+                    name="Category"
+                    handleChange={(e, { value } = {}) => {
+                      onChange(value);
+                      setCategory(value);
+                    }}
+                  />
+                );
               }}
             />
           </div>
-        )}
+          <div className="cursor-pointer" style={{ width: "150px" }}>
+            <CustomController
+              name={"SubCategoty"}
+              control={control}
+              error={errors?.SubCategory}
+              defaultValue={SubCategory}
+              rules={{ required: false }}
+              render={({ onChange, ...fields }) => {
+                return (
+                  <NormalMultiSelect
+                    {...fields}
+                    placeholder={"SubCategory"}
+                    options={SubCategoryOptions}
+                    name="SubCategoty"
+                    handleChange={(e, { value } = {}) => {
+                      onChange(value);
+                      setSubCategory(value);
+                    }}
+                  />
+                );
+              }}
+            />
+          </div>
+          <div className="cursor-pointer" style={{ width: "140px" }}>
+            <CustomController
+              name={"status"}
+              control={control}
+              error={errors?.status}
+              defaultValue={status}
+              rules={{ required: false }}
+              render={({ onChange, ...fields }) => {
+                return (
+                  <NormalMultiSelect
+                    {...fields}
+                    placeholder={"Select Status"}
+                    options={statusOptions}
+                    name="status"
+                    handleChange={(e, { value } = {}) => {
+                      onChange(value);
+                      setStatus(value);
+                    }}
+                  />
+                );
+              }}
+            />
+          </div>
+        </span>
+        <div className="flex align-items-center" style={{ gap: "1em" }}>
+          <div className="cursor-pointer" style={{ minWidth: "150px" }}>
+            {bulkDelete && remove && (
+              <NormalButton
+                className="authButton1"
+                label={"Delete"}
+                onClick={handleBulkDelete}
+              />
+            )}
+          </div>
+          {create && (
+            <div className="cursor-pointer" style={{ minWidth: "150px" }}>
+              <NormalButton
+                className="loginButton"
+                label={"Add New"}
+                onClick={() => {
+                  localStorage.removeItem("editId");
+                  history.push("/admin/knowledge-center/add-knowledge");
+                }}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="row align-items-center">
         {isLoading ? (
           <Loader
             loading={isLoading}
             className="d-flex align-items-center justify-content-center mx-auto mt-5 pt-5"
           />
         ) : data.length > 0 ? (
-          <div className="mt-4 p-3">
+          <div className="mt-4 px-3">
             <TableComp
               data={data}
               EditAction={edit}

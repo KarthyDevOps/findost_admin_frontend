@@ -11,10 +11,15 @@ const CommonDatePicker = ({
   minDate,
   dateFormat = "dd/MM/yyyy",
   isClearable = false,
+  id = "datepicker"
 }) => {
+
+  const handleIconClick = () => document?.getElementById?.(id)?.click?.();
+
   return (
     <div className={styles.datePicker}>
       <DatePicker
+        id={id}
         placeholderText={placeholder}
         onChange={onChange}
         value={value}
@@ -24,7 +29,7 @@ const CommonDatePicker = ({
         minDate={minDate}
         dateFormat={dateFormat}
       />
-      <span className={styles.icon}>
+      <span className={styles.icon} onClick={handleIconClick}>
         <AiOutlineCalendar size={25} />
       </span>
 

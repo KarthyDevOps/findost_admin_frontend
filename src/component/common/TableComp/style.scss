@@ -73,8 +73,14 @@
   accent-color: #292929;
 }
 
-.data-table thead .checkBox_place {
+.data-table .checkBox_place {
   width: 40px;
+  text-align: center !important;
+  padding: 0px 25px;
+}
+
+.data-table thead .action_place {
+  width: 160px;
   text-align: center !important;
 }
 
@@ -122,6 +128,17 @@
   border-right-style: solid rgba(216, 220, 230, 0.52);
   border-bottom-right-radius: 8px;
   border-top-right-radius: 8px;
+
+  .actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+
+    img:hover {
+      filter: invert(1);
+    }
+  }
 }
 
 .data-table th:first-child {

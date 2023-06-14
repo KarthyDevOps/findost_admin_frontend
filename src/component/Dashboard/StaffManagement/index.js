@@ -164,94 +164,93 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
     <>
       <div className="staff_table px-5 py-3">
         <p className="staff_title m-0">Staff Management</p>
-        <div className="row align-items-center px-3">
-          <div className="col-md-8 col-12">
-            <div className="row align-items-center">
-              <div className="col-md-4 pl-0 my-4 staff_Search">
-                <InputBox
-                  className="login_input"
-                  type={"text"}
-                  placeholder="Search by Id, Username, Email"
-                  errors={errors}
-                  name="search"
-                  Iconic
-                  value={searchStaff}
-                  onChange={(e) => handleSearchChange(e.target.value)}
-                />
-                <i className="search_iconic">
-                  <BsSearch size={18} style={{ color: "#7E7E7E" }} />
-                </i>
-              </div>
-              <div className="col-md-3">
-                <CustomController
-                  name={"role"}
-                  control={control}
-                  error={errors?.role}
-                  defaultValue={role}
-                  rules={{ required: false }}
-                  render={({ onChange, ...fields }) => {
-                    return (
-                      <NormalMultiSelect
-                        {...fields}
-                        placeholder={"Select Role"}
-                        options={roleOptions}
-                        name="role"
-                        handleChange={(e, { value } = {}) => {
-                          onChange(value);
-                          setRole(value);
-                        }}
-                      />
-                    );
-                  }}
-                />
-              </div>
-              <div className="col-md-3">
-                <CustomController
-                  name={"status"}
-                  control={control}
-                  error={errors?.status}
-                  defaultValue={status}
-                  rules={{ required: false }}
-                  render={({ onChange, ...fields }) => {
-                    return (
-                      <NormalMultiSelect
-                        {...fields}
-                        placeholder={"Select Status"}
-                        options={statusOptions}
-                        name="status"
-                        handleChange={(e, { value } = {}) => {
-                          onChange(value);
-                          setStatus(value);
-                        }}
-                      />
-                    );
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="col-md-2">
-            {bulkDelete && remove && (
-              <NormalButton
-                className="authButton1"
-                label={"Delete"}
-                onClick={handleBulkDelete}
+        <div className="flex align-items-center justify-content-between">
+          <div className="flex align-items-center" style={{ gap: "1em" }}>
+            <div className="pl-0 my-4 staff_Search cursor-pointer" style={{ width: "300px" }}>
+              <InputBox
+                className="login_input"
+                type={"text"}
+                placeholder="Search by Id, Username, Email"
+                errors={errors}
+                name="search"
+                Iconic
+                value={searchStaff}
+                onChange={(e) => handleSearchChange(e.target.value)}
               />
-            )}
-          </div>
-          {create && (
-            <div className="col-md-2 col-12 p-0 m-0">
-              <NormalButton
-                className="loginButton"
-                label={"Add Staff"}
-                onClick={() => {
-                  localStorage.removeItem("editId");
-                  history.push("/admin/staff-management/add-staff");
+              <i className="search_iconic">
+                <BsSearch size={18} style={{ color: "#7E7E7E" }} />
+              </i>
+            </div>
+            <div style={{ width: "150px" }}>
+              <CustomController
+                name={"role"}
+                control={control}
+                error={errors?.role}
+                defaultValue={role}
+                rules={{ required: false }}
+                render={({ onChange, ...fields }) => {
+                  return (
+                    <NormalMultiSelect
+                      {...fields}
+                      placeholder={"Select Role"}
+                      options={roleOptions}
+                      name="role"
+                      handleChange={(e, { value } = {}) => {
+                        onChange(value);
+                        setRole(value);
+                      }}
+                    />
+                  );
                 }}
               />
             </div>
-          )}
+            <div style={{ width: "150px" }}>
+              <CustomController
+                name={"status"}
+                control={control}
+                error={errors?.status}
+                defaultValue={status}
+                rules={{ required: false }}
+                render={({ onChange, ...fields }) => {
+                  return (
+                    <NormalMultiSelect
+                      {...fields}
+                      placeholder={"Select Status"}
+                      options={statusOptions}
+                      name="status"
+                      handleChange={(e, { value } = {}) => {
+                        onChange(value);
+                        setStatus(value);
+                      }}
+                    />
+                  );
+                }}
+              />
+            </div>
+          </div>
+          <div className="flex align-items-center" style={{ gap: "1em" }}>
+            <div className="cursor-pointer" style={{ minWidth: "150px" }}>
+              {bulkDelete && remove && (
+                <NormalButton
+                  className="authButton1"
+                  label={"Delete"}
+                  onClick={handleBulkDelete}
+                />
+              )}
+            </div>
+            {create && (
+              <div className="cursor-pointer" style={{ minWidth: "150px" }}>
+                <NormalButton
+                  className="loginButton"
+                  label={"Add Staff"}
+                  onClick={() => {
+                    localStorage.removeItem("editId");
+                    history.push("/admin/staff-management/add-staff");
+                  }}
+                />
+              </div>
+            )}
+          </div>
         </div>
         {isLoading ? (
           <Loader

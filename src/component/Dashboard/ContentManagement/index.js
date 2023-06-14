@@ -26,8 +26,8 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const includedKeys = [
-    { label: "Page Id", value: "contentId" },
-    { label: "Page Status", value: "isActive" },
+    { label: "Page Id", value: "contentId", width: "30%" },
+    { label: "Page Status", value: "isActive", width: "30%" },
     { label: "Page Title", value: "title" },
   ];
 
@@ -78,6 +78,7 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
     }
     setModalVisible({ show: false, id: null });
   };
+
   const handleBulk = async (id) => {
     if (id.length > 0) {
       setBulkDelete(true);

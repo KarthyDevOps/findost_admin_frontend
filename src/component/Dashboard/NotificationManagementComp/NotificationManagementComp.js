@@ -48,10 +48,12 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
     {
       label: "Notification Id",
       value: "notificationTemplateId",
+      width: "50%"
     },
     {
       label: "Date and Time",
       value: "createdAt",
+      width: "50%"
     },
     {
       label: "Notification Title",
@@ -67,6 +69,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
     {
       label: "Notification Id",
       value: "notificationId",
+      width: "50%"
     },
     // {
     //   label: "Notification Sent Status",
@@ -75,6 +78,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
     {
       label: "Date and Time",
       value: "createdAt",
+      width: "50%"
     },
     {
       label: "Notification Title",
