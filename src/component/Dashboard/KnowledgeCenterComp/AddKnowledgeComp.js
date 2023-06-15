@@ -13,7 +13,6 @@ import InputBox from "component/common/InputBox/InputBox";
 import DropDown from "component/common/DropDown/DropDown";
 import TextEditor from "component/common/TextEditor/TextEditor";
 import NormalButton from "component/common/NormalButton/NormalButton";
-// import Dropzone from "component/common/Dropzone";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import FormErrorMessage from "component/common/ErrorMessage";
 import CustomController from "component/common/Controller";
@@ -336,9 +335,9 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 accept=".pdf,xl,.xls,doc"
                 maxSize={3072000}
                 errors={errors}
-                // {...register("dropZoneField", {
-                //   required: ProductUrl || newDoc ? false : true,
-                // })}
+                {...register("dropZoneField", {
+                  required: newDoc ? false : true,
+                })}
               >
                 {({ getRootProps, getInputProps }) => (
                   <div {...getRootProps({ className: "dropzone" })}>
@@ -351,8 +350,6 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                             alt="DocURL"
                             className="preview_image"
                           ></img>
-                          {/* <p onClick={handleRedirect}>{newDoc}</p> */}
-
                           <p onClick={handleRedirect}>{DocFileName}</p>
                         </div>
                       ) : (
@@ -364,7 +361,11 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                             <p>Drag your files here to start uploading or</p>
                           </div>
                           <div className=" drag_btn ">
-                            <NormalButton addProductbtn label="Browse" />
+                            <NormalButton
+                              onClick={(e) => e.preventDefault()}
+                              addProductbtn
+                              label="Browse"
+                            />
                           </div>
                         </>
                       )}
@@ -375,9 +376,8 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                             top: "10px",
                             right: "10px",
                             cursor: "pointer",
-                            // zIndex: 1000,
+                            zIndex: 1000,
                           }}
-                          // className={styles.removeOverlay}
                           onClick={cancelImg}
                         >
                           <AiOutlineCloseCircle
@@ -390,6 +390,14 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                   </div>
                 )}
               </Dropzone>
+              {!newDoc && (
+                <FormErrorMessage
+                  error={errors.dropZoneField}
+                  messages={{
+                    required: "Document is Required",
+                  }}
+                />
+              )}
             </div>
             <div className="col-4 my-3">
               <label>Status</label>

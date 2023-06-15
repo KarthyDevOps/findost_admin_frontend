@@ -71,39 +71,39 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
   ];
   const statusOptions = [
     {
-      label: "ACTIVE",
+      label: "Active",
       value: "active",
     },
     {
-      label: "InACTIVE",
+      label: "InActive",
       value: "inActive",
     },
   ];
   const CategoryOptions = [
     {
-      label: "ONE",
+      label: "One",
       value: "one",
     },
     {
-      label: "TWO",
+      label: "Two",
       value: "two",
     },
     {
-      label: "THREE",
+      label: "Three",
       value: "three",
     },
   ];
   const SubCategoryOptions = [
     {
-      label: "ONE",
+      label: "One",
       value: "one",
     },
     {
-      label: "TWO",
+      label: "Two",
       value: "two",
     },
     {
-      label: "THREE",
+      label: "Three",
       value: "three",
     },
   ];
@@ -195,6 +195,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
       let response = await bulkDeleteKnowledge(body);
       if (response.status === 200) {
         Toast({ type: "success", message: response.data.message });
+        deleteId.length = 0;
         fetchData(currentPage);
       }
     }

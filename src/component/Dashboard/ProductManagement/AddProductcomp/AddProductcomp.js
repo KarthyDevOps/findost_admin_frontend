@@ -218,9 +218,9 @@ const AddProductcomp = ({ create, view, remove }) => {
                   accept=".png, .jpeg, .jpg, "
                   maxSize={3072000}
                   errors={errors}
-                  // {...register("dropZoneField", {
-                  //   required: ProductUrl || newProductImg ? false : true,
-                  // })}
+                  {...register("dropZoneField", {
+                    required:  newProductImg ? false : true,
+                  })}
                 >
                   {({ getRootProps, getInputProps }) => (
                     <div {...getRootProps({ className: "dropzone" })}>
@@ -243,7 +243,7 @@ const AddProductcomp = ({ create, view, remove }) => {
                               Drag your files here to start uploading or
                             </p>
                             <div className=" drag_btn ">
-                              <NormalButton addProductbtn label="Browse" />
+                            <NormalButton onClick={(e) => e.preventDefault()} addProductbtn label="Browse" />
                             </div>
                           </>
                         )}
@@ -269,6 +269,14 @@ const AddProductcomp = ({ create, view, remove }) => {
                     </div>
                   )}
                 </Dropzone>
+                {!newProductImg && (
+                <FormErrorMessage
+                  error={errors.dropZoneField}
+                  messages={{
+                    required: "Product icon is Required",
+                  }}
+                />
+              )}
               </div>
 
               {/* <div className="row gx-5">

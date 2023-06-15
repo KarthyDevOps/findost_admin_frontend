@@ -131,9 +131,11 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
       let response = await bulkDeleteClient(body);
       if (response.status === 200) {
         Toast({ type: "success", message: response.data.message });
+        deleteId.length = 0;
         fetchClientList(currentPage);
       }
     }
+    setModalVisible({ show: false, id: null });
   };
 
   useEffect(() => {
@@ -161,7 +163,7 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
             <NormalButton
               className="authButton1"
               label={"Delete"}
-              onClick={handleBulkDelete}
+              onClick={handleOpenModal}
             />
           )}
         </div>
@@ -199,7 +201,9 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
         <DeleteModal
           modalOpen={modalVisible.show}
           closeModal={() => setModalVisible({ id: null, show: false })}
-          handleDelete={handleDeleteItem}
+          handleDelete={
+            deleteId.length > 0 ? handleBulkDelete : handleDeleteItem
+          }
           DeleteMessage={"Are you sure you want to delete Staff?"}
         />
       </div>

@@ -219,9 +219,9 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                       accept=".png, .jpeg, .jpg, "
                       maxSize={3072000}
                       errors={errors}
-                      // {...register("dropZoneField", {
-                      //   required: ProductUrl || SiteFavLogoUrl ? false : true,
-                      // })}
+                      {...register("dropZoneField", {
+                        required: SiteFavLogoUrl ? false : true,
+                      })}
                     >
                       {({ getRootProps, getInputProps }) => (
                         <div {...getRootProps({ className: "dropzone" })}>
@@ -244,7 +244,11 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                                   Drag your files here to start uploading or
                                 </p>
                                 <div className=" drag_btn ">
-                                  <NormalButton addProductbtn label="Browse" />
+                                  <NormalButton
+                                    onClick={(e) => e.preventDefault()}
+                                    addProductbtn
+                                    label="Browse"
+                                  />
                                 </div>
                               </>
                             )}
@@ -270,6 +274,14 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                         </div>
                       )}
                     </Dropzone>
+                    {!SiteFavLogo && (
+                      <FormErrorMessage
+                        error={errors.dropZoneField}
+                        messages={{
+                          required: "site Logo is Required",
+                        }}
+                      />
+                    )}
                   </div>
                   <div className="col-4 mt-4">
                     <label className="Product_description">Site Fav Logo</label>
@@ -278,9 +290,9 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                       accept=".png, .jpeg, .jpg, "
                       maxSize={3072000}
                       errors={errors}
-                      // {...register("dropZoneField", {
-                      //   required: ProductUrl || SiteFavLogoUrl ? false : true,
-                      // })}
+                      {...register("dropZoneField", {
+                        required: SiteLogoUrl ? false : true,
+                      })}
                     >
                       {({ getRootProps, getInputProps }) => (
                         <div {...getRootProps({ className: "dropzone" })}>
@@ -303,7 +315,11 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                                   Drag your files here to start uploading or
                                 </p>
                                 <div className=" drag_btn ">
-                                  <NormalButton addProductbtn label="Browse" />
+                                  <NormalButton
+                                    onClick={(e) => e.preventDefault()}
+                                    addProductbtn
+                                    label="Browse"
+                                  />
                                 </div>
                               </>
                             )}
@@ -329,6 +345,14 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                         </div>
                       )}
                     </Dropzone>
+                    {!SiteLogoUrl && (
+                      <FormErrorMessage
+                        error={errors.dropZoneField}
+                        messages={{
+                          required: "Site Fav Logo is Required",
+                        }}
+                      />
+                    )}
                   </div>
                 </div>
                 <div className="row gx-5 mt-3">
