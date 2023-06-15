@@ -47,7 +47,11 @@ const DashboardComp = () => {
       zoom: {
         enabled: false,
       },
+      toolbar: {
+        show: false,
+      },
     },
+
     dataLabels: {
       enabled: false,
     },
@@ -55,7 +59,6 @@ const DashboardComp = () => {
       curve: "straight",
     },
     title: {
-      // text: "Product Trends by Month",
       align: "left",
     },
     grid: {
@@ -79,34 +82,36 @@ const DashboardComp = () => {
     },
     tooltip: {
       enabled: false,
-    }
+    },
   };
 
   const columnSeries = [
     {
       name: "Net Profit",
-      data: [44, 55, 57, 56, 61],
+      data: [44, 55, 57, 56],
     },
     {
       name: "Revenue",
-      data: [76, 85, 101, 98, 87],
+      data: [76, 85, 101, 98],
     },
     {
       name: "Free Cash Flow",
-      data: [35, 41, 36, 26, 45],
+      data: [35, 41, 36, 26],
     },
   ];
   const columnOptions = {
     chart: {
       type: "bar",
       height: 350,
+      toolbar: {
+        show: false,
+      },
     },
     plotOptions: {
       bar: {
         horizontal: false,
         columnWidth: "55%",
         endingShape: "rounded",
-
       },
     },
     dataLabels: {
@@ -119,7 +124,6 @@ const DashboardComp = () => {
     },
     xaxis: {
       categories: ["Feb", "Mar", "Apr", "May"],
-
     },
 
     yaxis: {
@@ -133,61 +137,49 @@ const DashboardComp = () => {
 
     tooltip: {
       enabled: false,
-      // y: {
-      //   formatter: function (val) {
-      //     return "$ " + val + " thousands";
-      //   },
-      // },
     },
   };
 
-  const pieSeries = [44, 55, 13, 43, 22];
-  const donutSeries = [44, 55, 41, 17, 15];
+  const pieSeries = [44, 55, 13, 43];
+  const donutSeries = [44, 55, 41, 17];
 
   const pieOptions = {
     chart: {
       width: 380,
       type: "pie",
     },
-    labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
-    tooltip : {
+    legend: {
+      position: "bottom",
+    },
+    labels: ["Team A", "Team B", "Team C", "Team D"],
+    dataLabels: {
       enabled: false,
     },
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200,
-          },
-          legend: {
-            position: "bottom",
-          },
-        },
-      },
-    ],
+    tooltip: {
+      enabled: false,
+    },
+    stroke: {
+      show: false,
+    },
   };
 
   const donutOptions = {
     chart: {
       type: "donut",
     },
-    tooltip : {
+    labels: ["Team A", "Team B", "Team C", "Team D"],
+    dataLabels: {
       enabled: false,
     },
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200,
-          },
-          legend: {
-            position: "bottom",
-          },
-        },
-      },
-    ],
+    legend: {
+      position: "bottom",
+    },
+    tooltip: {
+      enabled: false,
+    },
+    stroke: {
+      show: false,
+    },
   };
 
   return (
@@ -205,6 +197,7 @@ const DashboardComp = () => {
       </div>
       <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 my-5">
         <div className="chart_background2">
+        <span>Lorem ipsem</span>
           <Chart
             options={columnOptions}
             series={columnSeries}
@@ -213,6 +206,7 @@ const DashboardComp = () => {
           />
         </div>
         <div className="chart_background">
+        <span>Lorem ipsem</span>
           <Chart
             options={barOptions}
             series={barSeries}
@@ -246,7 +240,7 @@ const DashboardComp = () => {
             options={pieOptions}
             series={pieSeries}
             type="pie"
-            height={350}
+            height={250}
           />
         </div>
         <div className="chart_background1">
@@ -255,7 +249,7 @@ const DashboardComp = () => {
             options={donutOptions}
             series={donutSeries}
             type="donut"
-            height={350}
+            height={250}
           />
         </div>
       </div>

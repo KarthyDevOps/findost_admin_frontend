@@ -23,14 +23,14 @@ const ResetPassword = () => {
 
   const urlParams = new URLSearchParams(window.location.search);
   const token = urlParams.get("token");
-  localStorage.setItem("token", token);
+  // localStorage.setItem("token", token);
 
   const onSubmit = async (inputs) => {
     const body = {
       password: inputs.newPassword,
       confirmPassword: inputs.confirmPassword,
     };
-    let response = await resetPassword(body);
+    let response = await resetPassword(body,token);
     if (response.status === 200) {
       Toast({ type: "success", message: response.data.message });
       reset({ newPassword: "", confirmPassword: "" });
@@ -39,7 +39,6 @@ const ResetPassword = () => {
       Toast({ type: "error", message: response.data.message });
     }
   };
-
   return (
     <form>
       <div className="">

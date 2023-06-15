@@ -114,7 +114,6 @@ const AddStaff = ({ create, view, remove }) => {
         let body = {
           name: data.name,
           email: data.email,
-          password: data.password,
           role: staffDetails.role,
           permissions: {
             staffManagement: data.staffManagement,

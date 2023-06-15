@@ -407,3 +407,22 @@ export const options = [
     value: "option3",
   },
 ];
+
+export const feedbackStatus = [
+  {
+    label: "Open",
+    value: "Open",
+  },
+  {
+    label: "Accepted",
+    value: "Accepted",
+  },
+  {
+    label: "In progress",
+    value: "InProgress",
+  },
+  {
+    label: "Closed",
+    value: "Closed",
+  },
+]

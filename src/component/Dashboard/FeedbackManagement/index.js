@@ -18,8 +18,14 @@ import {
   bulkDeleteFeedback,
 } from "service/Cms";
 import { Toast } from "service/toast";
+import moment from "moment";
 // helpers
-import { debounceFunction, history, statusOptions } from "helpers";
+import {
+  debounceFunction,
+  history,
+  statusOptions,
+  feedbackStatus,
+} from "helpers";
 
 const FeedbackManagementComp = ({ create, view, edit, remove }) => {
   const { errors, control } = useForm({
@@ -46,10 +52,11 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
       value: "userId",
       width: "50%",
     },
-    // {
-    //   label: "Status",
-    //   value: "status",
-    // },
+    {
+      label: "Status",
+      value: "status",
+      width: "50%",
+    },
     {
       label: "Date and Time",
       value: "createdAt",
@@ -74,7 +81,14 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
         page: page,
         limit: 10,
         search: search,
+        status: status,
       };
+      if (startdate) {
+        params.startDate = moment(startdate).format("YYYY-MM-DD");
+      }
+      if (enddate) {
+        params.endDate = moment(enddate).format("YYYY-MM-DD");
+      }
       let response = await getFeedbackList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
         setData(response?.data?.data?.list);
@@ -146,6 +160,7 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
         let response = await bulkDeleteFeedback(body);
         if (response.status === 200) {
           Toast({ type: "success", message: response.data.message });
+          deleteId.length = 0;
           getFeedbackListApi(currentPage);
         } else {
           Toast({ type: "error", message: response.data.message });
@@ -159,7 +174,7 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
 
   useEffect(() => {
     getFeedbackListApi(currentPage);
-  }, [search]);
+  }, [search, startdate, enddate, status]);
 
   return (
     <Fragment>
@@ -195,10 +210,11 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
                     <NormalMultiSelect
                       {...fields}
                       placeholder={"Filter by Status"}
-                      options={statusOptions}
+                      options={feedbackStatus}
                       name="status"
                       handleChange={(e, { value } = {}) => {
                         onChange(value);
+
                         setStatus(value);
                       }}
                     />
@@ -210,7 +226,7 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
               <CommonDatePicker
                 id="startDate"
                 value={startdate}
-                onChange={(text) => setstartdate(text)}
+                onChange={(date) => setstartdate(date)}
                 placeholder="Start Date"
               />
             </div>
@@ -218,7 +234,7 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
               <CommonDatePicker
                 id="endDate"
                 value={enddate}
-                onChange={(text) => setenddate(text)}
+                onChange={(date) => setenddate(date)}
                 placeholder="End Date"
               />
             </div>
