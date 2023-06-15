@@ -10,6 +10,7 @@ import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import { BsArrowLeft } from "react-icons/bs";
 import { useForm } from "react-hook-form";
 import { addFeedback } from "service/Cms";
+import { Toast } from "service/toast";
 // helpers
 import { history } from "helpers";
 
@@ -24,8 +25,6 @@ const AddFeedbackcomp = ({ create, view, edit, remove }) => {
     try {
       let body = {
         feedback: data.description,
-        userId: "12345",
-        userName: "newUser",
       };
       let response = await addFeedback(body);
       if (response.status === 200) {
@@ -36,6 +35,8 @@ const AddFeedbackcomp = ({ create, view, edit, remove }) => {
           history.push("/admin/feedback-management");
         }, 1000);
         return () => clearTimeout(timeout);
+      }else{
+        Toast({ type: "error", message: response.data.message });
       }
     } catch (e) {
       console.log(e);

@@ -170,14 +170,15 @@ export const forgotPassword = async (data) => {
   return request;
 };
 
-export const resetPassword = async (data) => {
+export const resetPassword = async (data,token) => {
   let request = await axios({
     method: "post",
     url: endpoints.auth.RESET_PASSWORD,
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      Authorization: `Bearer ${token || localStorage.getItem("token")}`,
     },
     data: data,
+
   });
   return request;
 };
