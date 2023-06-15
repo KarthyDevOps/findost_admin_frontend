@@ -56,7 +56,7 @@ const AnswerFeedbackcomp = ({ create, view, edit, remove }) => {
         const timeout = setTimeout(() => {
           setModal(false);
           reset({ answer: "" });
-          history.push("/admin/feedback-management");
+          history.push("/admin/feedBack-management");
         }, 1000);
         return () => clearTimeout(timeout);
       }
