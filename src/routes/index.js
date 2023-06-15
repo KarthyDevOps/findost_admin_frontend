@@ -29,7 +29,7 @@ class RoutesClass extends Component {
 
   fetchInitialData = async () => {
     const { adminPrivileges } = this.props;
-    await adminPrivileges();
+    // await adminPrivileges();
     this.setState({ ...this.state, loading: false });
   }
 

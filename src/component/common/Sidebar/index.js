@@ -11,7 +11,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import { NavLink } from "react-router-dom";
 import { useTheme } from "@material-ui/core/styles";
-import findostLogo from "assets/images/findostLogo.svg"
+import findostLogo from "assets/images/findostLogo.svg";
 import logout from "assets/icons/logout.svg";
 import { useLocation } from "react-router-dom";
 import { Toast } from "service/toast";
@@ -20,6 +20,11 @@ import { navLink } from "helpers";
 import "./style.scss";
 
 import { logout as logoutService } from "service/utilities";
+import { useEffect } from "react";
+import { getadminPrivileges } from "helpers/privileges";
+import { useDispatch } from "react-redux";
+
+
 
 const subNavLink = [
   {
@@ -46,8 +51,14 @@ function Sidebar({ classes, window, privilegesData }) {
     productManagement,
     siteSettingsManagement,
     staffManagement,
-    templateManagement
+    templateManagement,
   } = privilegesData ?? {};
+
+  // const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   getadminPrivileges(dispatch);
+  // }, []);
 
   const location = useLocation();
   const drawer = (
@@ -56,16 +67,56 @@ function Sidebar({ classes, window, privilegesData }) {
         {React.Children.toArray(
           navLink.map(
             ({ to, label, iconName, inactiveIcon, nestedChild }, index) => {
-              if (!staffManagement?.view && to?.startsWith("/admin/staff-management")) return;
-              if (!productManagement?.view && to?.startsWith("/admin/product-management")) return;
-              if (!feedbackManagement?.view && to?.startsWith("/admin/feedBack-management")) return;
-              if (!notificationManagement?.view && to?.startsWith("/admin/notification-management")) return;
-              if (!contentManagement?.view && to?.startsWith("/admin/content-management")) return;
-              if (!templateManagement?.view && to?.startsWith("/admin/template-management")) return;
-              if (!faqManagement?.view && to?.startsWith("/admin/faq-management")) return;
-              if (!knowledgeCenterManagement?.view && to?.startsWith("/admin/knowledge-center")) return;
-              if (!siteSettingsManagement?.view && to?.startsWith("/admin/site-settings")) return;
-              if (!clientFamilyManagement?.view && to?.startsWith("/admin/clients-family")) return;
+              if (
+                !staffManagement?.view &&
+                to?.startsWith("/admin/staff-management")
+              )
+                return;
+              if (
+                !productManagement?.view &&
+                to?.startsWith("/admin/product-management")
+              )
+                return;
+              if (
+                !feedbackManagement?.view &&
+                to?.startsWith("/admin/feedBack-management")
+              )
+                return;
+              if (
+                !notificationManagement?.view &&
+                to?.startsWith("/admin/notification-management")
+              )
+                return;
+              if (
+                !contentManagement?.view &&
+                to?.startsWith("/admin/content-management")
+              )
+                return;
+              if (
+                !templateManagement?.view &&
+                to?.startsWith("/admin/template-management")
+              )
+                return;
+              if (
+                !faqManagement?.view &&
+                to?.startsWith("/admin/faq-management")
+              )
+                return;
+              if (
+                !knowledgeCenterManagement?.view &&
+                to?.startsWith("/admin/knowledge-center")
+              )
+                return;
+              if (
+                !siteSettingsManagement?.view &&
+                to?.startsWith("/admin/site-settings")
+              )
+                return;
+              if (
+                !clientFamilyManagement?.view &&
+                to?.startsWith("/admin/clients-family")
+              )
+                return;
 
               return (
                 <>
