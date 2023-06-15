@@ -117,6 +117,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
   const getHistoryList = async (page) => {
     try {
       setIsLoading(true);
+      setBulkDelete(false);
       let params = {
         page: page,
         limit: 10,
@@ -204,9 +205,11 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
         let response = await bulkDeleteNotificationTemplate(body);
         if (response.status === 200) {
           Toast({ type: "success", message: response.data.message });
+          deleteId.length = 0;
           getTemplateList(currentPage);
         } else {
           Toast({ type: "error", message: response.data.message });
+          deleteId.length = 0;
         }
       }
     } else {
@@ -217,9 +220,11 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
         let response = await BulkDeleteNotificationHistory(body);
         if (response.status === 200) {
           Toast({ type: "success", message: response.data.message });
+          deleteId.length = 0;
           getHistoryList(currentPage);
         } else {
           Toast({ type: "error", message: response.data.message });
+          deleteId.length = 0;
         }
       }
     }

@@ -10,6 +10,7 @@ import InputBox from "component/common/InputBox/InputBox";
 import DropDown from "component/common/DropDown/DropDown";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
+import SuccessModal from "component/common/DeleteModal/SuccessModal";
 //service
 import { getClient, updateClient } from "service/Auth";
 import { Toast } from "service/toast";
@@ -267,6 +268,13 @@ const EditClientsFamilyComp = ({ edit, view }) => {
           </div>
         </div>
       </form>
+      <div>
+        <SuccessModal
+          modalOpen={modal}
+          onCancel={() => setModal(false)}
+          successMsg={"Client Family update Successfully"}
+        />
+      </div>
     </div>
   );
 };

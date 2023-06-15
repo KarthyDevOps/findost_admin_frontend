@@ -65,11 +65,11 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
   ];
   const FilterOption = [
     {
-      label: " PRE Template Message",
+      label: "Pre Template Message",
       value: "pre template message",
     },
     {
-      label: " POST Template Message",
+      label: "Post Template Message",
       value: "post template message",
     },
   ];
@@ -155,6 +155,7 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
       let response = await bulkDeletetemplateList(body);
       if (response.status === 200) {
         Toast({ type: "success", message: response.data.message });
+        deleteId.length = 0;
         fetchData(currentPage);
       }
     }

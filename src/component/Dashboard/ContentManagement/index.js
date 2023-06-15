@@ -98,6 +98,7 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
       let response = await bulkDeleteContentList(body);
       if (response.status === 200) {
         Toast({ type: "success", message: response.data.message });
+        deleteId.length = 0;
         fetchData(currentPage);
       }
     }
