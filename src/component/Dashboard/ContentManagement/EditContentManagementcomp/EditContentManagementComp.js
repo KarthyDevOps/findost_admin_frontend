@@ -274,8 +274,8 @@ const EditContentManagementComp = ({ create, view, remove }) => {
             onCancel={() => setModal(false)}
             successMsg={
               edit
-                ? "Privacy Policy Content Updated Successfully"
-                : "Privacy Policy Content Added Successfully"
+                ? "Content Updated Successfully"
+                : "Content Added Successfully"
             }
           />
         </div>
