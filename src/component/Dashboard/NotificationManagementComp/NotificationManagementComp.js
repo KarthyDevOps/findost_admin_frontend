@@ -205,13 +205,12 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
         let response = await bulkDeleteNotificationTemplate(body);
         if (response.status === 200) {
           Toast({ type: "success", message: response.data.message });
-          deleteId.length = 0;
           getTemplateList(currentPage);
         } else {
           Toast({ type: "error", message: response.data.message });
-          deleteId.length = 0;
         }
       }
+      deleteId.length = 0;
     } else {
       if (deleteId.length > 0) {
         let body = {
@@ -220,13 +219,12 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
         let response = await BulkDeleteNotificationHistory(body);
         if (response.status === 200) {
           Toast({ type: "success", message: response.data.message });
-          deleteId.length = 0;
           getHistoryList(currentPage);
         } else {
           Toast({ type: "error", message: response.data.message });
-          deleteId.length = 0;
         }
       }
+      deleteId.length = 0;
     }
     setModalVisible({ show: false, id: null });
   };

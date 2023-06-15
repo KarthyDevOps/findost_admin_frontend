@@ -153,6 +153,7 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
           Toast({ type: "error", message: response.data.message });
         }
       }
+      deleteId.length = 0;
     } catch (e) {
       console.log("e :>> ", e);
     }
