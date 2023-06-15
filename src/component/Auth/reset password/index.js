@@ -34,7 +34,7 @@ const ResetPassword = () => {
     if (response.status === 200) {
       Toast({ type: "success", message: response.data.message });
       reset({ newPassword: "", confirmPassword: "" });
-      history.push("/admin/dashboard");
+      history.push("/auth/login");
     } else {
       Toast({ type: "error", message: response.data.message });
     }
