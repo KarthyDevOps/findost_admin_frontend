@@ -145,7 +145,7 @@ const AddFaqComp = ({ create, view, remove }) => {
         let body = {
           title: data.title,
           answer: data.content,
-          subcategory: FAQDetails.subcategory,
+          subCategory: FAQDetails.subcategory,
           category: FAQDetails.category,
         };
         if (FAQDetails.status === "active") {
