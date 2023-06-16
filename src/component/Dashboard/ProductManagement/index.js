@@ -8,6 +8,7 @@ import NormalButton from "component/common/NormalButton/NormalButton";
 import TableComp from "../../common/TableComp/TableComp";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import Loader from "component/common/Loader";
+import EmptyTable from "component/common/TableComp/EmptyTable";
 //service
 import {
   getProductList,
@@ -32,6 +33,7 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
     {
       label: "Product Id",
       value: "productId",
+      width: "50%",
     },
     {
       label: "Product Icon",
@@ -201,8 +203,14 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
             />
           </div>
         ) : (
-          <div className="d-flex align-items-center justify-content-center mt-5 pt-5">
-            No Data Available
+          <div className="">
+            <EmptyTable
+              EditAction={edit}
+              includedKeys={includedKeys}
+            />
+            <p className="d-flex align-items-center justify-content-center mt-5 pt-5">
+              No Data Available
+            </p>
           </div>
         )}
         <div>

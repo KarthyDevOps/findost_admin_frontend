@@ -9,6 +9,7 @@ import TableComp from "../../common/TableComp/TableComp";
 import InputBox from "component/common/InputBox/InputBox";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import NormalButton from "component/common/NormalButton/NormalButton";
+import EmptyTable from "component/common/TableComp/EmptyTable";
 // services
 import { useForm } from "react-hook-form";
 import { BsSearch } from "react-icons/bs";
@@ -199,7 +200,7 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
                   return (
                     <NormalMultiSelect
                       {...fields}
-                      placeholder={"Select Role"}
+                      placeholder={"Filter by Role"}
                       options={roleOptions}
                       name="role"
                       handleChange={(e, { value } = {}) => {
@@ -222,7 +223,7 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
                   return (
                     <NormalMultiSelect
                       {...fields}
-                      placeholder={"Select Status"}
+                      placeholder={"Filter by Status"}
                       options={statusOptions}
                       name="status"
                       handleChange={(e, { value } = {}) => {
@@ -241,7 +242,7 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
                 <NormalButton
                   className="authButton1"
                   label={"Delete"}
-                    onClick={handleOpenModal}
+                  onClick={handleOpenModal}
                 />
               )}
             </div>
@@ -281,8 +282,15 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
             />
           </div>
         ) : (
-          <div className="d-flex align-items-center justify-content-center mt-5 pt-5">
-            No Data Available
+          <div className="">
+            <EmptyTable
+              EditAction={edit}
+              DeleteAction={remove}
+              includedKeys={includedKeys}
+            />
+            <p className="d-flex align-items-center justify-content-center mt-5 pt-5">
+              No Data Available
+            </p>
           </div>
         )}
         <div>

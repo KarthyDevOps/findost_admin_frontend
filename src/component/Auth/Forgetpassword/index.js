@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import React, { useRef, useState } from "react";
-import { Toast } from "service/toast";
 // Styles
 import "../Login/style.scss";
 import username_icon from "../../../assets/images/user.svg";
@@ -9,11 +8,12 @@ import loginpage_frame from "../../../assets/images/Frame.svg";
 // Internal components
 import FormErrorMessage from "component/common/ErrorMessage";
 import NormalButton from "component/common/NormalButton/NormalButton";
+import InputBox from "component/common/InputBox/InputBox";
 // Service
+import { Toast } from "service/toast";
 import { forgotPassword } from "service/Auth";
 // Helpers
 import { history } from "helpers";
-import InputBox from "component/common/InputBox/InputBox";
 
 const Forgetpassword = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
@@ -21,17 +21,23 @@ const Forgetpassword = () => {
   });
 
   const onSubmit = async (inputs) => {
-    const body = {
-      email: inputs.emailId,
-    };
-    let response = await forgotPassword(body);
-    if (response.status === 200) {
-      Toast({ type: "success", message: response.data.message });
-      reset({ emailId: "" });
-    } else {
-      Toast({ type: "error", message: response.data.message });
+    try {
+      const body = {
+        email: inputs.emailId,
+      };
+      let response = await forgotPassword(body);
+      if (response.status === 200) {
+        Toast({ type: "success", message: response.data.message });
+        reset({ emailId: "" });
+      } else {
+        Toast({ type: "error", message: response.data.message });
+        history.push("/auth/forget")
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
     }
   };
+
   return (
     <form>
       <div className="login_page">

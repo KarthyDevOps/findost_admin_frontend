@@ -20,6 +20,7 @@ import {
   roleOptions,
   statusOptions,
   managementOptions,
+  InitialSpaceNotAllowed,
 } from "helpers";
 
 const AddStaff = ({ create, view, remove }) => {
@@ -248,12 +249,14 @@ const AddStaff = ({ create, view, remove }) => {
                 errors={errors}
                 register={register({
                   required: true,
+                  pattern : InitialSpaceNotAllowed,
                 })}
               />
               <FormErrorMessage
                 error={errors.name}
                 messages={{
                   required: "Name is Required",
+                  pattern : "Please enter a Valid Name"
                 }}
               />
             </div>
@@ -418,7 +421,7 @@ const AddStaff = ({ create, view, remove }) => {
               </tbody>
             </table>
           </div>
-          <div className="d-flex align-items-center justify-content-end my-3">
+          <div className="d-flex align-items-center justify-content-end my-4">
             <div className="col-md-2">
               <NormalButton
                 className="authButton1"

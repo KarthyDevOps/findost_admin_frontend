@@ -19,6 +19,7 @@ import {
 import { Toast } from "service/toast";
 // helpers
 import { debounceFunction, history } from "helpers";
+import EmptyTable from "component/common/TableComp/EmptyTable";
 
 const NotificationManagementComp = ({ create, view, edit, remove }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -253,7 +254,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
         >
           Notification Template
         </div>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <div
           className={
             activeTab === 1 ? "Tab_design_active" : "Tab_design_inActive"
@@ -372,9 +373,16 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
             />
           ) : (
             activeTab === 0 && (
-              <div className="d-flex align-items-center justify-content-center mt-5 pt-5">
+              <div className="">
+              <EmptyTable
+                EditAction={edit}
+                DeleteAction={remove}
+                includedKeys={templateKeys}
+              />
+              <span className="d-flex align-items-center justify-content-center mt-5 pt-5">
                 No Data Available
-              </div>
+              </span>
+            </div>
             )
           )}
 
@@ -394,9 +402,16 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
             />
           ) : (
             activeTab === 1 && (
-              <div className="d-flex align-items-center justify-content-center mt-5 pt-5">
+              <div className="">
+              <EmptyTable
+                EditAction={edit}
+                DeleteAction={remove}
+                includedKeys={historyKeys}
+              />
+              <span className="d-flex align-items-center justify-content-center mt-5 pt-5">
                 No Data Available
-              </div>
+              </span>
+            </div>
             )
           )}
         </div>

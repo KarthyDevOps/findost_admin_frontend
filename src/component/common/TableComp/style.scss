@@ -80,7 +80,7 @@
 }
 
 .data-table thead .action_place {
-  width: 160px;
+  width: 110px;
   text-align: center !important;
 }
 
@@ -93,6 +93,12 @@
   text-align: center;
   white-space: nowrap;
   width: 100%;
+  font-family: "Helvetica";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  color: #ffffff;
 }
 
 .data-table tbody tr {
@@ -116,6 +122,12 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-family: "Helvetica";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #52575c;
 }
 
 .data-table td:first-child {
