@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Dropzone from "react-dropzone";
 import { AiOutlineCloseCircle } from "react-icons/ai";
-
 //styles
 import "./style.scss";
 //assets
@@ -10,7 +9,6 @@ import cloudIcon from "../../../assets/images/uploadcloud.svg";
 //internal components
 import InputBox from "component/common/InputBox/InputBox";
 import TextEditor from "component/common/TextEditor/TextEditor";
-// import Dropzone from "component/common/Dropzone";x
 import FormErrorMessage from "component/common/ErrorMessage";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import Loader from "component/common/Loader/index";
@@ -28,9 +26,9 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
   });
   const [modal, setModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [SiteFavLogoUrl, setSiteFavLogoUrl] = useState(null);
+  const [SiteFavLogoUrl, setSiteFavLogoUrl] = useState("");
   const [SiteFavLogo, setSiteFavLogo] = useState("");
-  const [SiteLogoUrl, setSiteLogoUrl] = useState(null);
+  const [SiteLogoUrl, setSiteLogoUrl] = useState("");
   const [SiteLogo, setSiteLogo] = useState("");
 
   const id = localStorage.getItem("editId");
@@ -219,8 +217,8 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                       accept=".png, .jpeg, .jpg, "
                       maxSize={3072000}
                       errors={errors}
-                      {...register("dropZoneField", {
-                        required: SiteFavLogoUrl ? false : true,
+                      {...register("dropZoneLogoField", {
+                        required: SiteFavLogo ? false : true,
                       })}
                     >
                       {({ getRootProps, getInputProps }) => (
@@ -276,7 +274,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                     </Dropzone>
                     {!SiteFavLogo && (
                       <FormErrorMessage
-                        error={errors.dropZoneField}
+                        error={errors.dropZoneLogoField}
                         messages={{
                           required: "site Logo is Required",
                         }}
@@ -290,8 +288,8 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                       accept=".png, .jpeg, .jpg, "
                       maxSize={3072000}
                       errors={errors}
-                      {...register("dropZoneField", {
-                        required: SiteLogoUrl ? false : true,
+                      {...register("dropZoneFavLogoField", {
+                        required: SiteLogo ? false : true,
                       })}
                     >
                       {({ getRootProps, getInputProps }) => (
@@ -345,9 +343,9 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                         </div>
                       )}
                     </Dropzone>
-                    {!SiteLogoUrl && (
+                    {!SiteLogo && (
                       <FormErrorMessage
-                        error={errors.dropZoneField}
+                        error={errors.dropZoneFavLogoField}
                         messages={{
                           required: "Site Fav Logo is Required",
                         }}
