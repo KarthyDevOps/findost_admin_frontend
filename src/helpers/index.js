@@ -426,3 +426,5 @@ export const feedbackStatus = [
     value: "Closed",
   },
 ]
+
+export const InitialSpaceNotAllowed = /^[A-Za-z][A-Za-z\s]*$/;

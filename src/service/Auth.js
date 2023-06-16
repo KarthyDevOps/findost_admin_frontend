@@ -22,7 +22,7 @@ export const getStaffList = async (params) => {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
     params: params,
-  });
+  }).catch(axiosErrorHandler);
   return request;
 };
 
@@ -34,7 +34,7 @@ export const addStaff = async (data) => {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
     data: data,
-  });
+  }).catch(axiosErrorHandler);
   return request;
 };
 
@@ -94,7 +94,7 @@ export const getClientList = async (params) => {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
     params: params,
-  });
+  }).catch(axiosErrorHandler);
   return request;
 };
 
@@ -106,7 +106,7 @@ export const addClient = async (data) => {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
     data: data,
-  });
+  }).catch(axiosErrorHandler);
   return request;
 };
 
@@ -166,7 +166,7 @@ export const forgotPassword = async (data) => {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
     data: data,
-  });
+  }).catch(axiosErrorHandler);
   return request;
 };
 
@@ -179,7 +179,7 @@ export const resetPassword = async (data,token) => {
     },
     data: data,
 
-  });
+  }).catch(axiosErrorHandler);
   return request;
 };
 
@@ -191,6 +191,6 @@ export const uploadImage = (formData) => {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
     data: formData,
-  });
+  }).catch(axiosErrorHandler);
   return request;
 };

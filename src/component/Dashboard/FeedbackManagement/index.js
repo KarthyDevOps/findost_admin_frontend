@@ -9,6 +9,7 @@ import CustomController from "component/common/Controller";
 import NormalMultiSelect from "component/common/NormalMultiSelect";
 import CommonDatePicker from "component/common/CommonDatePicker/CommonDatePicker";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
+import EmptyTable from "component/common/TableComp/EmptyTable";
 import Loader from "component/common/Loader";
 // services
 import { useForm } from "react-hook-form";
@@ -286,9 +287,16 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
             />
           </div>
         ) : (
-          <div className="d-flex align-items-center justify-content-center mt-5 pt-5">
+          <div className="">
+          <EmptyTable
+            EditAction={edit}
+            DeleteAction={remove}
+            includedKeys={includedKeys}
+          />
+          <p className="d-flex align-items-center justify-content-center mt-5 pt-5">
             No Data Available
-          </div>
+          </p>
+        </div>
         )}
         <div>
           {" "}

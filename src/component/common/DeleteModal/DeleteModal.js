@@ -24,14 +24,14 @@ const DeleteModal = ({
             <div className="d-flex align-items-center justify-content-center">
               <div className="col-6">
                 <NormalButton
-                  className="authButton1"
+                  className="authButton2"
                   label={"No"}
                   onClick={closeModal}
                 />
               </div>
               <div className="col-6">
                 <NormalButton
-                  className="loginButton"
+                  className="loginButton1"
                   label={"Yes"}
                   onClick={handleDelete}
                 />

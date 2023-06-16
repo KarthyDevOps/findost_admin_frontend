@@ -11,7 +11,7 @@ export const getProductList = async (params) => {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
     params: params,
-  });
+  }).catch(axiosErrorHandler);
   return request;
 };
 
@@ -391,7 +391,7 @@ export const getFeedbackList = async (params) => {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
     params: params,
-  });
+  }).catch(axiosErrorHandler);
   return request;
 };
 

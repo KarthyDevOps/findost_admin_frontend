@@ -6,6 +6,7 @@ import TableComp from "../../common/TableComp/TableComp";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import Loader from "component/common/Loader";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
+import EmptyTable from "component/common/TableComp/EmptyTable";
 //service
 import {
   getContentList,
@@ -157,9 +158,16 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
               editRouteName={"/admin/content-management/editContent-management"}
             />
           ) : (
-            <div className="d-flex align-items-center justify-content-center mt-5 pt-5">
+            <div className="">
+            <EmptyTable
+              EditAction={edit}
+              DeleteAction={remove}
+              includedKeys={includedKeys}
+            />
+            <p className="d-flex align-items-center justify-content-center mt-5 pt-5">
               No Data Available
-            </div>
+            </p>
+          </div>
           )}
           <div>
             <DeleteModal

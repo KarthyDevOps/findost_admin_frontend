@@ -132,7 +132,7 @@ function Sidebar({ classes, window, privilegesData }) {
                       style={{
                         borderLeft: location.pathname.startsWith(to)
                           ? "5px solid #292929"
-                          : null,
+                          : "5px solid #ffffff"
                       }}
                     >
                       <ListItem

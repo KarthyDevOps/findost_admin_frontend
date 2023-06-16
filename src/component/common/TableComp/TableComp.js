@@ -80,7 +80,7 @@ function TableComp(props) {
                   type="checkbox"
                   onChange={handleSelectAll}
                   checked={selectedRows.length === data.length}
-                  className="mt-2 check_box cursor-pointer"
+                  className="check_box cursor-pointer"
                 />
               </th>
             )}
@@ -110,7 +110,7 @@ function TableComp(props) {
                       type="checkbox"
                       onChange={() => handleRowSelect(obj._id)}
                       checked={selectedRows.includes(obj._id)}
-                      className="mt-2 check_box cursor-pointer"
+                      className="check_box cursor-pointer"
                     />
                   </td>
                 )}

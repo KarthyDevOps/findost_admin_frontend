@@ -6,7 +6,8 @@ export const mainLayoutStyle = makeStyles((theme) => ({
   root: {
     display: "flex",
     position : "relative",
-    zIndex : "0"
+    zIndex : "0",
+   
   },
   drawer: {
     [theme.breakpoints.up("sm")]: {
@@ -23,6 +24,8 @@ export const mainLayoutStyle = makeStyles((theme) => ({
     display: "block",
   },
   nav: {
+    paddingTop : "3rem",
+    paddingBottom : "6rem",
     "& .MuiListItemIcon-root": {
       minWidth: "41px",
       marginLeft: "10px",

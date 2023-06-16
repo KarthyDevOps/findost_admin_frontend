@@ -7,6 +7,7 @@ import TableComp from "component/common/TableComp/TableComp";
 import Loader from "component/common/Loader";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import NormalButton from "component/common/NormalButton/NormalButton";
+import EmptyTable from "component/common/TableComp/EmptyTable";
 //service
 import { bulkDeleteClient, deleteClient, getClientList } from "service/Auth";
 import { Toast } from "service/toast";
@@ -145,7 +146,7 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
   return (
     <div className="px-5 py-3 clients_family">
       <h6>Client’s Family</h6>
-      <div className="flex justify-content-between align-items-center">
+      <div className="flex justify-content-between align-items-center my-4">
         <div className="cursor-pointer" style={{ width: "300px" }}>
           <InputBox
             className="login_input Notification_input"
@@ -192,9 +193,16 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
             />
           </div>
         ) : (
-          <div className="d-flex align-items-center justify-content-center mx-auto mt-5 pt-5">
+          <div className="">
+          <EmptyTable
+            EditAction={edit}
+            DeleteAction={remove}
+            includedKeys={includedKeys}
+          />
+          <p className="d-flex align-items-center justify-content-center mt-5 pt-5">
             No Data Available
-          </div>
+          </p>
+        </div>
         )}
       </div>
       <div>

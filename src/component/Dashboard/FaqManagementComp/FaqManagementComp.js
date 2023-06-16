@@ -8,6 +8,7 @@ import NormalButton from "component/common/NormalButton/NormalButton";
 import TableComp from "component/common/TableComp/TableComp";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import Loader from "component/common/Loader";
+import EmptyTable from "component/common/TableComp/EmptyTable";
 import CustomController from "component/common/Controller";
 import NormalMultiSelect from "component/common/NormalMultiSelect";
 //service
@@ -203,7 +204,7 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
       <h6>FAQ Management</h6>
       <div className="flex align-items-center justify-content-between">
         <span className="flex align-items-center" style={{ gap: "1em" }}>
-          <div className="cursor-pointer" style={{ width: "200px" }}>
+          <div className="cursor-pointer my-2" style={{ width: "200px" }}>
             <InputBox
               className="login_input Notification_input"
               type={"text"}
@@ -333,9 +334,16 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
             />
           </div>
         ) : (
-          <div className="d-flex align-items-center justify-content-center mx-auto mt-5 pt-5">
-            <p>No Data Available</p>
-          </div>
+          <div className="">
+          <EmptyTable
+            EditAction={edit}
+            DeleteAction={remove}
+            includedKeys={includedKeys}
+          />
+          <p className="d-flex align-items-center justify-content-center mt-5 pt-5">
+            No Data Available
+          </p>
+        </div>
         )}
         <DeleteModal
           modalOpen={modalVisible.show}

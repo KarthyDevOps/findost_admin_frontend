@@ -12,7 +12,7 @@ export const getNotificationTemplateList = async (params) => {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
     params: params,
-  });
+  }).catch(axiosErrorHandler);
   return request;
 };
 
@@ -85,7 +85,7 @@ export const getNotificationHistoryList = async (params) => {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
     params: params,
-  });
+  }).catch(axiosErrorHandler);
   return request;
 };
 

@@ -15,7 +15,7 @@ import { addTemplate, getTemplate, updateTemplate } from "service/Cms";
 import CustomController from "component/common/Controller";
 import { Toast } from "service/toast";
 //helpers
-import { history } from "helpers";
+import { InitialSpaceNotAllowed, history } from "helpers";
 
 const AddTempleteManagementcomp = ({ create, view, remove }) => {
   const {
@@ -181,7 +181,6 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
             </p>
           </div>
         </div>
-        {/* <div> */}
         <form>
           <div className="d-flex col-12   boder_box align-items-center">
             <div class="container ">
@@ -196,16 +195,18 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                     errors={errors}
                     register={register({
                       required: true,
+                      pattern : InitialSpaceNotAllowed,
                     })}
                   />
                   <FormErrorMessage
                     error={errors.title}
                     messages={{
                       required: "Title is required",
+                      pattern : "Please enter a Valid Title"
                     }}
                   />
                 </div>
-                <div class="col-4">
+                <div class="col-3">
                   <label className="Product_description">Message Type</label>
                   <CustomController
                     name={"type"}
@@ -219,7 +220,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                         <DropDown
                           {...field}
                           name="type"
-                          placeholder="Active"
+                          placeholder="Select Status"
                           options={options}
                           onChange={(option) => {
                             setTemplateDetails((prevState) => ({
@@ -233,7 +234,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                     }}
                   />
                 </div>
-                <div class="col-4">
+                <div class="col-3">
                   <label className="Product_description">Message Status</label>
                   <CustomController
                     name={"status"}
@@ -251,7 +252,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                           {...field}
                           name="status"
                           errors={errors.status}
-                          placeholder="Active"
+                          placeholder="Select Status"
                           options={status}
                           onChange={(option) => {
                             setTemplateDetails((prevState) => ({
@@ -266,7 +267,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                   />
                 </div>
               </div>
-              <div className="row gx-5 mt-3">
+              <div className="row gx-5 mt-4">
                 <div className="col">
                   <label className="Product_description ms-3">
                     Template Message Content
@@ -276,9 +277,10 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                       name={"content"}
                       control={control}
                       error={errors.content}
-                      rules={{ required: true }}
+                      rules={{ required: true,pattern : InitialSpaceNotAllowed }}
                       messages={{
-                        required: "Template message is Required",
+                        required: "Template Message is Required",
+                        pattern : "Please enter a Valid Template Message"
                       }}
                       render={({ onChange, ...field }) => {
                         return (
@@ -295,7 +297,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                   </div>
                 </div>
               </div>
-              <div className="row mt-4">
+              <div className="row mt-5">
                 <div className="col-12  d-flex justify-content-end">
                   <div className="col-2">
                     <NormalButton
@@ -308,7 +310,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                   </div>
                   <div className="col-2">
                     <NormalButton
-                      addProductbtn
+                      loginButton
                       onClick={handleSubmit(onSubmit)}
                       label={!edit ? "Add Template" : "Update"}
                     >

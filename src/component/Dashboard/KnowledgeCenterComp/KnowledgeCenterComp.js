@@ -19,6 +19,7 @@ import {
 import { Toast } from "service/toast";
 //helpers
 import { history, debounceFunction } from "helpers";
+import EmptyTable from "component/common/TableComp/EmptyTable";
 
 const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
   const { errors, control } = useForm({
@@ -207,7 +208,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
       <h6>Knowledge Center</h6>
       <div className="flex align-items-center justify-content-between">
         <span className="flex align-items-center" style={{ gap: "1em" }}>
-          <div className="cursor-pointer" style={{ width: "250px" }}>
+          <div className="cursor-pointer my-2" style={{ width: "250px" }}>
             <InputBox
               className="login_input Notification_input"
               type={"text"}
@@ -336,9 +337,16 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
             />
           </div>
         ) : (
-          <div className="d-flex align-items-center justify-content-center mx-auto mt-5 pt-5">
+          <div className="">
+          <EmptyTable
+            EditAction={edit}
+            DeleteAction={remove}
+            includedKeys={includedKeys}
+          />
+          <p className="d-flex align-items-center justify-content-center mt-5 pt-5">
             No Data Available
-          </div>
+          </p>
+        </div>
         )}
         <div className=" mt-4 p-3">
           <DeleteModal

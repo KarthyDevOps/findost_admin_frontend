@@ -87,7 +87,7 @@ class NormalMultiSelect extends Component {
         ...base,
         fontSize: 14,
         color: "#000",
-        fontWeight: 500,
+        fontWeight: 400,
         lineHeight: 16,
         opacity: 0.8,
       }),

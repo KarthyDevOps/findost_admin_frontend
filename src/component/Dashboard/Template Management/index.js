@@ -11,6 +11,7 @@ import Loader from "component/common/Loader";
 import CustomController from "component/common/Controller";
 import NormalMultiSelect from "component/common/NormalMultiSelect";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
+import EmptyTable from "component/common/TableComp/EmptyTable";
 //services
 import {
   bulkDeletetemplateList,
@@ -169,7 +170,7 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
         <div className="row align-items-center px-3">
           <div className="col-md-12 col-12">
             <div className="row align-items-center">
-              <div className="col-md-4 p-0 my-4 staff_Search">
+              <div className="col-md-3 p-0 my-4 staff_Search">
                 <InputBox
                   className="login_input"
                   type={"text"}
@@ -207,7 +208,7 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
                   }}
                 />
               </div>
-              <div className="col-1"></div>
+              <div className="col-2"></div>
               <div className="col-2">
                 {bulkDelete && remove && (
                   <NormalButton
@@ -254,8 +255,15 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
               editRouteName={"/admin/template-management/add-template"}
             />
           ) : (
-            <div className="d-flex align-items-center justify-content-center mt-5 pt-5">
-              No Data Available
+            <div className="">
+              <EmptyTable
+                EditAction={edit}
+                DeleteAction={remove}
+                includedKeys={includedKeys}
+              />
+              <p className="d-flex align-items-center justify-content-center mt-5 pt-5">
+                No Data Available
+              </p>
             </div>
           )}
         </div>

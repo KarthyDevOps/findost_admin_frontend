@@ -336,7 +336,7 @@ const AddFaqComp = ({ create, view, remove }) => {
               <NormalButton
                 className="authButton1"
                 label={"Cancel"}
-                onClick={() => history.goBack()}
+                onClick={() => history.push("/admin/faq-management")}
               />
             </div>
             <div className="col-md-2">
