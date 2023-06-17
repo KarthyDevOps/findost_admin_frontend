@@ -21,17 +21,17 @@ const DeleteModal = ({
             </div>
           )}
           {DeleteMessage && (
-            <div className="d-flex align-items-center justify-content-center">
-              <div className="col-6">
+            <div className="d-flex align-items-center ">
+              <div className="col-6 d-flex justify-content-end">
                 <NormalButton
-                  className="authButton1"
+                  className="DeleteNoBtn"
                   label={"No"}
                   onClick={closeModal}
                 />
               </div>
-              <div className="col-6">
+              <div className="col-6 d-flex  justify-content-start">
                 <NormalButton
-                  className="loginButton"
+                  className="DeleteYesBtn"
                   label={"Yes"}
                   onClick={handleDelete}
                 />

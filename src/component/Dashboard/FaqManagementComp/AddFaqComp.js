@@ -57,7 +57,7 @@ const AddFaqComp = ({ create, view, remove }) => {
       value: "active",
     },
     {
-      label: "InActive",
+      label: "Inactive",
       value: "inActive",
     },
   ];
@@ -196,7 +196,7 @@ const AddFaqComp = ({ create, view, remove }) => {
         </div>
         <div className="Add_faq p-5">
           <div className="row">
-            <div className="col-10">
+            <div className="col-11 ">
               <label>FAQ Title</label>
               <InputBox
                 className="add_staff"
@@ -206,18 +206,20 @@ const AddFaqComp = ({ create, view, remove }) => {
                 errors={errors}
                 register={register({
                   required: true,
+                  pattern: /^[^\s]+$/,
                 })}
               />
               <FormErrorMessage
                 error={errors.title}
                 messages={{
                   required: "Title is required",
+                  pattern: "No space between title",
                 }}
               />
             </div>
           </div>
-          <div className="row my-4">
-            <div className="col-3">
+          <div className="row my-4 mr-5 pr-4 ">
+            <div className="col-4">
               <label>Category</label>
               <CustomController
                 name={"category"}
@@ -277,7 +279,7 @@ const AddFaqComp = ({ create, view, remove }) => {
                 }}
               />
             </div>
-            <div className="col-3">
+            <div className="col-4 ">
               <label>FAQ Status</label>
               <CustomController
                 name={"status"}
@@ -331,15 +333,15 @@ const AddFaqComp = ({ create, view, remove }) => {
               }}
             />
           </div>
-          <div className="d-flex align-items-center justify-content-end my-5 pt-3">
+          <div className="d-flex align-items-center justify-content-end   p-0 pt-5">
             <div className="col-md-2">
               <NormalButton
                 className="authButton1"
                 label={"Cancel"}
-                onClick={() => history.goBack()}
+                onClick={() => history.push("/admin/faq-management")}
               />
             </div>
-            <div className="col-md-2">
+            <div className="col-md-2 pl-3 p-0">
               <NormalButton
                 className="loginButton"
                 onClick={handleSubmit(onSubmit)}

@@ -131,16 +131,22 @@ form {
   top: 20%;
   left: 5%;
 }
+.eyeIcons span {
+  position: absolute;
+  top: 20%;
+  right: 5%;
+}
 
 .login {
   font-family: Helvetica;
   font-size: 30px;
   font-weight: 700;
+  // line-height: 43.7px;
   text-align: center;
 }
-// .login_logo {
-//   margin-left: 0px;
-// }
+.login_logo p {
+  color: #8c8c8c;
+}
 .login_logo img {
   margin-top: 10px;
   width: 150px;
@@ -154,20 +160,21 @@ form {
   // margin-left: 85px;
 }
 .social {
-  font-family: Helvetica;
-  font-size: 25px;
-  font-weight: 800;
-  text-align: center;
-  color: black;
-  margin-top: 20px;
   p {
-    margin-left: 40px;
+    font-family: Helvetica;
+    text-align: center;
+    color: black;
+    margin-top: 20px;
+    margin-left: 44px;
+    font-weight: 700;
+    font-size: 28px;
+    margin-bottom: 10px;
   }
 }
 .social_logo img {
   width: 45px;
   height: 45px;
-  margin: 0px 25px;
+  margin: 0px 33px;
 }
 .social_logo {
   text-align: center;

@@ -165,7 +165,7 @@ function TableComp(props) {
                             value ? (
                               <span style={{ color: "#1D9E00" }}>Active</span>
                             ) : (
-                              <span style={{ color: "#DD2025" }}>InActive</span>
+                              <span style={{ color: "#DD2025" }}>Inactive</span>
                             )
                           ) : (
                             value

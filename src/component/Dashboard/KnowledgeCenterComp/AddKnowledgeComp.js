@@ -66,7 +66,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
       value: "active",
     },
     {
-      label: "InActive",
+      label: "Inactive",
       value: "inActive",
     },
   ];
@@ -228,7 +228,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
       <form>
         <div className="knowledge_body p-5">
           <div className="row">
-            <div className="col-4">
+            <div className="col-4 pb-3">
               <label>Title</label>
               <InputBox
                 className="add_staff"
@@ -328,15 +328,15 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 }}
               />
             </div>
-            <div className="col-4 mt-3">
+            <div className="col-4 mt-3 mb-4">
               <label className="Product_description">Upload Document</label>
               <Dropzone
                 onDrop={handleDrop}
-                accept=".pdf,xl,.xls,doc"
+                accept=".pdf,xl,.xlsx,doc"
                 maxSize={3072000}
                 errors={errors}
                 {...register("dropZoneField", {
-                  required: newDoc ? false : true,
+                  required: newDoc || DocURL ? false : true,
                 })}
               >
                 {({ getRootProps, getInputProps }) => (
@@ -360,10 +360,10 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                           <div className="drag_text">
                             <p>Drag your files here to start uploading or</p>
                           </div>
-                          <div className=" drag_btn ">
+                          <div className="drag_btn">
                             <NormalButton
                               onClick={(e) => e.preventDefault()}
-                              addProductbtn
+                              uploadBrowseBtn
                               label="Browse"
                             />
                           </div>
@@ -454,15 +454,15 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
               }}
             />
           </div>
-          <div className="d-flex align-items-center justify-content-end my-5 py-3">
-            <div className="col-md-2">
+          <div className="d-flex align-items-center justify-content-end  p-0 pt-4">
+            <div className="col-md-2 pl-4 pr-0">
               <NormalButton
                 className="authButton1"
                 label={"Cancel"}
-                onClick={() => history.goBack()}
+                onClick={() => history.push("/admin/knowledge-center")}
               />
             </div>
-            <div className="col-md-2">
+            <div className="col-md-2 ">
               <NormalButton
                 className="loginButton"
                 onClick={handleSubmit(onSubmit)}

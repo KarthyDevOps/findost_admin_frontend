@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Select, { components } from "react-select";
 
 // Assets
-import dropDownIcon from "assets/images/dropDownIcon.png"
+import dropDownIcon from "assets/images/dropDownIcon.png";
 
 class NormalMultiSelect extends Component {
   //change select
@@ -87,7 +87,7 @@ class NormalMultiSelect extends Component {
         ...base,
         fontSize: 14,
         color: "#000",
-        fontWeight: 500,
+        fontWeight: 400,
         lineHeight: 16,
         opacity: 0.8,
       }),

@@ -293,7 +293,7 @@ const AddStaff = ({ create, view, remove }) => {
                   required: edit ? false : true,
                   minLength: 8,
                   maxLength: 16,
-                  pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?& ]{8,}$/s,
+                  pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})\S+$/,
                 })}
               />
               <FormErrorMessage

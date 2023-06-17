@@ -41,7 +41,7 @@ const EditContentManagementComp = ({ create, view, remove }) => {
       value: "active",
     },
     {
-      label: "InActive",
+      label: "Inactive",
       value: "inActive",
     },
   ];
@@ -160,7 +160,7 @@ const EditContentManagementComp = ({ create, view, remove }) => {
           <div className="d-flex col-12   boder_box align-items-center">
             <div class="container ">
               <div class="row gx-5">
-                <div class="col-4">
+                <div class="col-4 mr-3 ">
                   <label className="Product_description"> Page Title</label>
                   <InputBox
                     className="login_input"
@@ -171,16 +171,19 @@ const EditContentManagementComp = ({ create, view, remove }) => {
                     errors={errors}
                     register={register({
                       required: true,
+                      pattern: /^[^\s]+$/,
                     })}
                   />
                   <FormErrorMessage
                     error={errors.title}
                     messages={{
-                      required: "Privacy Policy is required",
+                      required: "Title is required",
+                      pattern: "No space between Title",
+
                     }}
                   />
                 </div>
-                <div class="col-4">
+                <div class="col-4 ">
                   <label className="Product_description">Page Status</label>
                   <CustomController
                     name={"status"}
@@ -195,7 +198,7 @@ const EditContentManagementComp = ({ create, view, remove }) => {
                       return (
                         <DropDown
                           {...field}
-                          placeholder="status"
+                          placeholder="Status"
                           name="status"
                           errors={errors.status}
                           options={status}
@@ -224,9 +227,6 @@ const EditContentManagementComp = ({ create, view, remove }) => {
                       defaultValue={getValues("content")}
                       error={errors.content}
                       rules={{ required: true }}
-                      value={status.find(
-                        (option) => option.value === getValues("status")
-                      )}
                       messages={{
                         required: "Page content is Required",
                       }}
@@ -246,17 +246,17 @@ const EditContentManagementComp = ({ create, view, remove }) => {
                 </div>
               </div>
               <div className="row mt-4">
-                <div className="col-12  d-flex justify-content-end">
-                  <div className="col-2">
+                <div className="col-12  d-flex justify-content-end mt-3 ">
+                  <div className="col-2 pr-2">
                     <NormalButton
-                      onClick={() => history.goBack()}
+                      onClick={() => history.push('/admin/content-management')}
                       cancel
-                      label="cancel"
+                      label="Cancel"
                     >
                       {" "}
                     </NormalButton>
                   </div>
-                  <div className="col-2">
+                  <div className="col-2 p-0">
                     <NormalButton
                       addProductbtn
                       onClick={handleSubmit(onSubmit)}
