@@ -197,7 +197,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                       placeholder="Enter Support Email"
                       register={register({
                         required: true,
-                        pattern: /\S+@\S+\.\S+/,
+                        pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                       })}
                     />
                     <FormErrorMessage
@@ -276,7 +276,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                       <FormErrorMessage
                         error={errors.dropZoneLogoField}
                         messages={{
-                          required: "site Logo is Required",
+                          required: "Site Logo is Required",
                         }}
                       />
                     )}
@@ -371,6 +371,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                           return (
                             <TextEditor
                               {...field}
+                              placeholder="Enter Answer Here"
                               onChange={(content) => {
                                 onChange(content);
                               }}
@@ -388,7 +389,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                       <NormalButton
                         onClick={() => history.goBack()}
                         cancel
-                        label="cancel"
+                        label="Cancel"
                       >
                         {" "}
                       </NormalButton>
@@ -411,7 +412,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
             <SuccessModal
               modalOpen={modal}
               onCancel={() => setModal(false)}
-              successMsg={"New SiteSetting Updated Successfully"}
+              successMsg={"New Site Setting Updated Successfully"}
             />
           </div>
         </div>

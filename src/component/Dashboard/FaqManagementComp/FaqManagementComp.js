@@ -216,7 +216,7 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
               onChange={(e) => handleSearchChange(e.target.value)}
             />
           </div>
-          <div className="cursor-pointer" style={{ minWidth: "170px" }}>
+          <div className="cursor-pointer" style={{ minWidth: "180px" }}>
             <CustomController
               name={"Categoty"}
               control={control}
@@ -227,7 +227,7 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
                 return (
                   <NormalMultiSelect
                     {...fields}
-                    placeholder={"Select Category"}
+                    placeholder={"Filter by Category"}
                     options={CategoryOptions}
                     name="Category"
                     handleChange={(e, { value } = {}) => {
@@ -239,7 +239,7 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
               }}
             />
           </div>
-          <div className="cursor-pointer" style={{ minWidth: "150px" }}>
+          <div className="cursor-pointer" style={{ minWidth: "200px" }}>
             <CustomController
               name={"SubCategoty"}
               control={control}
@@ -250,7 +250,7 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
                 return (
                   <NormalMultiSelect
                     {...fields}
-                    placeholder={"SubCategory"}
+                    placeholder={"Filter by SubCategory"}
                     options={SubCategoryOptions}
                     name="SubCategoty"
                     handleChange={(e, { value } = {}) => {
@@ -273,7 +273,7 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
                 return (
                   <NormalMultiSelect
                     {...fields}
-                    placeholder={"Select Status"}
+                    placeholder={"Filter by Status"}
                     options={statusOptions}
                     name="status"
                     handleChange={(e, { value } = {}) => {

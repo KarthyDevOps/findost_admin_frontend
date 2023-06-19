@@ -116,7 +116,19 @@ const LoginComp = () => {
                       required: true,
                       minLength: 8,
                       maxLength: 16,
-                      pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})\S+$/,
+                      pattern: {
+                        value: /^(?=.*[A-Z])/,
+                        message:
+                          "Password must contain at least one uppercase letter",
+                      },
+                      validate: {
+                        containsDigit: (value) =>
+                          /^(?=.*[0-9])/.test(value) ||
+                          "Password must contain at least one digit",
+                        containsSpecial: (value) =>
+                          /^(?=.*[!@#$%^&*])/.test(value) ||
+                          "Password must contain at least one special character",
+                      },
                     })}
                   />
                   <FormErrorMessage
@@ -126,10 +138,14 @@ const LoginComp = () => {
                       validate: "Passwords do not match",
                       minLength: "Password must contain atleast 8 letters",
                       maxLength: "Password should must contain only 16",
-                      pattern: "Password must contain a special character",
+                      pattern:
+                        "Password must contain at least one uppercase letter",
+                      containsDigit: "Password must contain at least one digit",
+                      containsSpecial:
+                        "Password must contain at least one special character",
                     }}
                   />
-                    <span className="userbox_icon">
+                  <span className="userbox_icon">
                     <img src={password_icon} alt="icon"></img>
                   </span>
                   <span className="eyeIcons">

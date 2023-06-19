@@ -101,7 +101,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           contentURL: data?.contentUrlLink,
         });
         setDocURL(data?.documentPathS3);
-        setDocFileName(data?.documentPath);
+        setDocFileName(data?.fileOriginalName);
         setKnowledgeDetails({
           category: data.category,
           subcategory: data.subCategory,
@@ -133,6 +133,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           description: data?.content,
           contentUrlLink: data?.contentURL,
           documentPath: newDoc ? newDoc : DocURL,
+          fileOriginalName: DocFileName,
         };
         if (KnowledgeDetails.status === "active") {
           body.isActive = true;
@@ -163,6 +164,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           category: KnowledgeDetails.category,
           description: data?.content,
           documentPath: newDoc ? newDoc : DocURL,
+          fileOriginalName: DocFileName,
         };
         if (KnowledgeDetails.status === "active") {
           body.isActive = true;
@@ -238,12 +240,14 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 errors={errors}
                 register={register({
                   required: true,
+                  pattern:/^(?!\s*$).+/,
                 })}
               />
               <FormErrorMessage
                 error={errors.title}
                 messages={{
                   required: "Title is required",
+                  pattern: "Title is Invalid",
                 }}
               />
             </div>
@@ -416,7 +420,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                     <DropDown
                       {...field}
                       name="status"
-                      placeholder="Select status"
+                      placeholder="Select Status"
                       options={status}
                       onChange={(option) => {
                         setKnowledgeDetails((prevState) => ({

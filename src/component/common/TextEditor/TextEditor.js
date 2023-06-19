@@ -34,13 +34,14 @@ const modules = {
 };
 
 const TextEditor = (props) => {
-  const { value, onChange } = props;
+  const { value, onChange,placeholder } = props;
 
   return (
     <div>
       <ReactQuill
         className="editorClassName"
         theme="snow"
+        placeholder={placeholder}
         value={value}
         onChange={onChange}
         modules={modules}

@@ -95,7 +95,7 @@ const AddFeedbackcomp = ({ create, view, edit, remove }) => {
                     <NormalButton
                       onClick={() => history.push("/admin/feedback-management")}
                       cancel
-                      label="cancel"
+                      label="Cancel"
                     />
                   </div>
                   <div className="col-2">

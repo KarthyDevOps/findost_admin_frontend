@@ -208,7 +208,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
       <h6>Knowledge Center</h6>
       <div className="flex align-items-center justify-content-between">
         <span className="flex align-items-center" style={{ gap: "1em" }}>
-          <div className="cursor-pointer my-2" style={{ width: "250px" }}>
+          <div className="cursor-pointer my-2" style={{ width: "230px" }}>
             <InputBox
               className="login_input Notification_input"
               type={"text"}
@@ -220,7 +220,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
               onChange={(e) => handleSearchChange(e.target.value)}
             />
           </div>
-          <div className="cursor-pointer" style={{ width: "160px" }}>
+          <div className="cursor-pointer" style={{ width: "170px" }}>
             <CustomController
               name={"Categoty"}
               control={control}
@@ -231,7 +231,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
                 return (
                   <NormalMultiSelect
                     {...fields}
-                    placeholder={"Select Category"}
+                    placeholder={"Filter by Category"}
                     options={CategoryOptions}
                     name="Category"
                     handleChange={(e, { value } = {}) => {
@@ -243,9 +243,9 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
               }}
             />
           </div>
-          <div className="cursor-pointer" style={{ width: "150px" }}>
+          <div className="cursor-pointer" style={{ width: "200px" }}>
             <CustomController
-              name={"SubCategoty"}
+              name={"SubCategory"}
               control={control}
               error={errors?.SubCategory}
               defaultValue={SubCategory}
@@ -254,9 +254,9 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
                 return (
                   <NormalMultiSelect
                     {...fields}
-                    placeholder={"SubCategory"}
+                    placeholder={"Filter by Sub Category"}
                     options={SubCategoryOptions}
-                    name="SubCategoty"
+                    name="SubCategory"
                     handleChange={(e, { value } = {}) => {
                       onChange(value);
                       setSubCategory(value);
@@ -266,7 +266,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
               }}
             />
           </div>
-          <div className="cursor-pointer" style={{ width: "140px" }}>
+          <div className="cursor-pointer" style={{ width: "150px" }}>
             <CustomController
               name={"status"}
               control={control}
@@ -277,7 +277,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
                 return (
                   <NormalMultiSelect
                     {...fields}
-                    placeholder={"Select Status"}
+                    placeholder={"Filter by Status"}
                     options={statusOptions}
                     name="status"
                     handleChange={(e, { value } = {}) => {
@@ -291,7 +291,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
           </div>
         </span>
         <div className="flex align-items-center" style={{ gap: "1em" }}>
-          <div className="cursor-pointer" style={{ minWidth: "150px" }}>
+          <div className="cursor-pointer" style={{ minWidth: "140px" }}>
             {bulkDelete && remove && (
               <NormalButton
                 className="authButton1"

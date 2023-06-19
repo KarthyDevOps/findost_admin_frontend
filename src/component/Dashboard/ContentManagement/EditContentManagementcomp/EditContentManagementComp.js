@@ -32,6 +32,8 @@ const EditContentManagementComp = ({ create, view, remove }) => {
   });
   const [modal, setModal] = useState(false);
   const [edit, setedit] = useState(false);
+  const [quill, setQuill] = useState("");
+
   const [contentDetails, setcontentDetails] = useState({
     status: "",
   });
@@ -88,6 +90,10 @@ const EditContentManagementComp = ({ create, view, remove }) => {
     console.log("data", data);
     if (edit) {
       try {
+        if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+          Toast({ type: "error", message: "Page Content is Required" });
+          return;
+        }
         let body = {
           title: data.title,
           description: data.content,
@@ -114,6 +120,10 @@ const EditContentManagementComp = ({ create, view, remove }) => {
       }
     } else {
       try {
+        if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+          Toast({ type: "error", message: "Page Content is Required" });
+          return;
+        }
         let body = {
           title: data.title,
           description: data.content,
@@ -171,15 +181,14 @@ const EditContentManagementComp = ({ create, view, remove }) => {
                     errors={errors}
                     register={register({
                       required: true,
-                      pattern: /^[^\s]+$/,
+                      pattern: /^(?!\s*$).+/,
                     })}
                   />
                   <FormErrorMessage
                     error={errors.title}
                     messages={{
-                      required: "Title is required",
-                      pattern: "No space between Title",
-
+                      required: "Title is Required",
+                      pattern: "Title is Invalid",
                     }}
                   />
                 </div>
@@ -228,7 +237,7 @@ const EditContentManagementComp = ({ create, view, remove }) => {
                       error={errors.content}
                       rules={{ required: true }}
                       messages={{
-                        required: "Page content is Required",
+                        required: "Page Content  is required",
                       }}
                       render={({ onChange, ...field }) => {
                         return (
@@ -236,6 +245,8 @@ const EditContentManagementComp = ({ create, view, remove }) => {
                             {...field}
                             onChange={(content) => {
                               onChange(content);
+                              setQuill(content);
+                              console.log("content", content);
                             }}
                             name={"content"}
                           />
@@ -249,7 +260,7 @@ const EditContentManagementComp = ({ create, view, remove }) => {
                 <div className="col-12  d-flex justify-content-end mt-3 ">
                   <div className="col-2 pr-2">
                     <NormalButton
-                      onClick={() => history.push('/admin/content-management')}
+                      onClick={() => history.push("/admin/content-management")}
                       cancel
                       label="Cancel"
                     >

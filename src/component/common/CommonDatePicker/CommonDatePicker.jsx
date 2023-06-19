@@ -7,6 +7,7 @@ const CommonDatePicker = ({
   placeholder = "Select here",
   value,
   selected,
+  clientDatePicker,
   maxDate,
   minDate,
   dateFormat = "dd/MM/yyyy",
