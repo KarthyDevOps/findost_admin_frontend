@@ -206,14 +206,14 @@ const AddFaqComp = ({ create, view, remove }) => {
                 errors={errors}
                 register={register({
                   required: true,
-                  pattern: InitialSpaceNotAllowed,
+                  pattern: /^(?!\s*$).+/,
                 })}
               />
               <FormErrorMessage
                 error={errors.title}
                 messages={{
-                  required: "Title is required",
-                  pattern: "No space between title",
+                  required: "Title is Required",
+                  pattern: "Title is Invalid",
                 }}
               />
             </div>

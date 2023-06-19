@@ -53,7 +53,7 @@ const Forgetpassword = () => {
                   ></img>
                   <h6 className="login ">Forgot password</h6>
                   <p className="text-center">
-                    Please provide registed email id to send reset link
+                    Please provide registered email id to send reset link
                   </p>
                 </div>
                 <div className="userbox mt-3">

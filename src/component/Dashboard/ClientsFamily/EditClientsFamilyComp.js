@@ -139,14 +139,14 @@ const EditClientsFamilyComp = ({ edit, view }) => {
                 errors={errors}
                 register={register({
                   required: true,
-                  pattern: /^[^\s]+$/,
+                  pattern: /^(?!\s*$).+/,
                 })}
               />
               <FormErrorMessage
                 error={errors.clientName}
                 messages={{
-                  required: "Client Name is required",
-                  pattern: "No space between name",
+                  required: "Client Name is Required",
+                  pattern: "Client Name Invalid",
                 }}
               />
             </div>
@@ -171,7 +171,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
                 }}
               />
             </div>
-            <div className="col-md-2">
+            <div className="col-md-4" style={{ width: "270px" }}>
               <label>Date of Birth</label>
               <div className="date_of_birth">
                 <CustomController
@@ -186,6 +186,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
                   render={({ onChange, ...field }) => {
                     return (
                       <CommonDatePicker
+                      clientDatePicker
                         id="dateOfBirth"
                         name="dateOfBirth"
                         {...field}

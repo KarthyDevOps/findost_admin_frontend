@@ -478,7 +478,7 @@ const AddProductcomp = ({ create, view, remove }) => {
                     <NormalButton
                       onClick={() => history.push("/admin/product-management")}
                       cancel
-                      label="cancel"
+                      label="Cancel"
                     />{" "}
                   </div>
                   <div className="col-2">
