@@ -250,7 +250,7 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
                 return (
                   <NormalMultiSelect
                     {...fields}
-                    placeholder={"Filter by SubCategory"}
+                    placeholder={"Filter by Sub Category"}
                     options={SubCategoryOptions}
                     name="SubCategoty"
                     handleChange={(e, { value } = {}) => {

@@ -8,7 +8,7 @@ import bell from "assets/images/bell.svg";
 import findostLogo from "assets/images/findostLogo.svg";
 // services
 import { Dropdown } from "react-bootstrap";
-import {AiOutlineLogout} from "react-icons/ai"
+import { AiOutlineLogout } from "react-icons/ai"
 import { logout } from "service/utilities";
 import { Toast } from "service/toast";
 import { decodeJWT } from "service/helpers";

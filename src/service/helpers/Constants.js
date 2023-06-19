@@ -24,7 +24,7 @@ export const mainLayoutStyle = makeStyles((theme) => ({
     display: "block",
   },
   nav: {
-    paddingTop : "3rem",
+    paddingTop : "0rem",
     paddingBottom : "6rem",
     "& .MuiListItemIcon-root": {
       minWidth: "41px",
