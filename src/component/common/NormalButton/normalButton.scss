@@ -49,17 +49,16 @@
 .loginButton {
   font-family: "Helvetica";
   font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
+  font-weight: 700;
+font-size: 24px;
   display: flex;
   align-items: center;
   text-align: center;
   width: 173px;
-  height: 45px;
+  height: 58px !important;
   color: #ffffff;
   background: #292929;
   border-radius: 8px;
-  min-height: 45px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -95,7 +94,7 @@
   // background-color: transparent;
   background: #ffffff;
   width: 173px;
-  height: 45px;
+  height: 58px;
   border: 1px solid #292929;
   border-radius: 8px;
   font-family: "Helvetica";

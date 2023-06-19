@@ -152,7 +152,7 @@ const LoginComp = () => {
                         "Password must contain at least one special character",
                     }}
                   />
-                  <span className="userbox_icon">
+                  <span className="eyeIcons">
                     <img src={password_icon} alt="icon"></img>
                   </span>
                   <span className="eyeIcons">
@@ -178,7 +178,7 @@ const LoginComp = () => {
 
                 <div className="forget my-2">
                   <Link to="/auth/forget">
-                    <span className="forget">Forget Password ?</span>
+                    <span className="forget">Forgot Password ?</span>
                   </Link>
 
                   <div className="login_btn  mt-3">

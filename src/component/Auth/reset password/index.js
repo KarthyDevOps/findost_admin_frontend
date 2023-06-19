@@ -22,6 +22,8 @@ const ResetPassword = () => {
     mode: "onChange",
   });
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const [isShowNewPassword, setIsShowNewPassword] = useState(false);
+
 
   const urlParams = new URLSearchParams(window.location.search);
   const token = urlParams.get("token");
@@ -104,7 +106,7 @@ const ResetPassword = () => {
                         "Password must contain at least one special character",
                     }}
                   />
-                  <span className="newpassword_icon">
+                  <span className="eyeIcons">
                     <img src={password_icon} alt=""></img>
                   </span>
                   <span className="eyeIcons">
@@ -133,7 +135,7 @@ const ResetPassword = () => {
                     placeholder="Confirm Password"
                     Iconic
                     errors={errors}
-                    type={isShowPassword ? "text" : "password"}
+                    type={isShowNewPassword ? "text" : "password"}
                     name="confirmPassword"
                     register={register({
                       required: "Password is required",
@@ -150,18 +152,16 @@ const ResetPassword = () => {
                         value: /^(?=.*[A-Z])(?=.*[a-z])/,
                         message:
                           "Password must contain at least one uppercase and lowercase letter",
-                      },
-                      validate: (value) => {
-                        const { newPassword } = getValues();
-                        return newPassword === value;
-                      },
-                      validate: {
                         containsDigit: (value) =>
                           /^(?=.*[0-9])/.test(value) ||
                           "Password must contain at least one digit",
                         containsSpecial: (value) =>
                           /^(?=.*[!@#$%^&*])/.test(value) ||
                           "Password must contain at least one special character",
+                      },
+                      validate: (value) => {
+                        const { newPassword } = getValues();
+                        return newPassword === value;
                       },
                     })}
                   />
@@ -179,14 +179,14 @@ const ResetPassword = () => {
                         "Password must contain at least one special character",
                     }}
                   />
-                  <span className="newpassword_icon">
+                  <span className="eyeIcons">
                     <img src={password_icon} alt=""></img>
                   </span>
                   <span className="eyeIcons">
-                    {isShowPassword ? (
+                    {isShowNewPassword ? (
                       <span className="cursor-pointer">
                         <AiOutlineEye
-                          onClick={() => setIsShowPassword(!isShowPassword)}
+                          onClick={() => setIsShowNewPassword(!isShowNewPassword)}
                           size={25}
                           color="#BDBDBD"
                         />
@@ -194,7 +194,7 @@ const ResetPassword = () => {
                     ) : (
                       <span className="cursor-pointer">
                         <AiOutlineEyeInvisible
-                          onClick={() => setIsShowPassword(!isShowPassword)}
+                          onClick={() => setIsShowNewPassword(!isShowNewPassword)}
                           size={25}
                           color="#BDBDBD"
                         />
