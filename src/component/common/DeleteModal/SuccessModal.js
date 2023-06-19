@@ -10,7 +10,7 @@ const SuccessModal = ({ successMsg, modalOpen, onCancel }) => {
         <div className="p-5">
           {successMsg && (
             <>
-              <p className="delete_text m-0">{successMsg}</p>
+              <p className="success_text m-0">{successMsg}</p>
 
               <div className="success_img">
                 <img src={successImg} alt="" />

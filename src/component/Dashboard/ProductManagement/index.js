@@ -144,7 +144,7 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
         <div className="row align-items-center px-3">
           <div className="col-md-8 col-12">
             <div className="row align-items-center">
-              <div className="col-md-4 p-0 my-4">
+              <div className="col-md-4 p-0 my-3">
                 <InputBox
                   className="login_input"
                   type={"text"}

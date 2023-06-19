@@ -134,7 +134,7 @@ const AnswerFeedbackcomp = ({ create, view, edit, remove }) => {
                 <div className="col-12  d-flex justify-content-end">
                   <div className="col-2">
                     <NormalButton
-                      onClick={() => history.goBack()}
+                      onClick={() =>  history.push("/admin/feedBack-management")}
                       cancel
                       label="cancel"
                     />{" "}

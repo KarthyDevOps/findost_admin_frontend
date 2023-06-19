@@ -115,7 +115,7 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
       <div className="staff_table px-5 py-3">
         <p className="staff_title m-0">Content Management</p>
         <>
-          <div className="row mb-4 align-items-center justify-content-end">
+          <div className="row mb-3 align-items-center justify-content-end">
             <div className=" col-2">
               {bulkDelete && remove && (
                 <NormalButton
@@ -127,7 +127,7 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
             </div>
             <div className="col-2">
               <NormalButton
-                className="loginButton"
+                loginButton1
                 label={"Add Content"}
                 onClick={() => {
                   localStorage.removeItem("editId");
