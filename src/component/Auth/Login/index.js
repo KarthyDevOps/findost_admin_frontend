@@ -113,13 +113,20 @@ const LoginComp = () => {
                     name="password"
                     onChange={setpassword}
                     register={register({
-                      required: true,
-                      minLength: 8,
-                      maxLength: 16,
-                      pattern: {
-                        value: /^(?=.*[A-Z])/,
+                      required: "Password is required",
+                      minLength: {
+                        value: 8,
+                        message: "Password must contain at least 8 characters",
+                      },
+                      maxLength: {
+                        value: 16,
                         message:
-                          "Password must contain at least one uppercase letter",
+                          "Password must contain a maximum of 16 characters",
+                      },
+                      pattern: {
+                        value: /^(?=.*[A-Z])(?=.*[a-z])/,
+                        message:
+                          "Password must contain at least one uppercase and lowercase letter",
                       },
                       validate: {
                         containsDigit: (value) =>
@@ -139,7 +146,7 @@ const LoginComp = () => {
                       minLength: "Password must contain atleast 8 letters",
                       maxLength: "Password should must contain only 16",
                       pattern:
-                        "Password must contain at least one uppercase letter",
+                        "Password must contain at least one uppercase and lowercase letter",
                       containsDigit: "Password must contain at least one digit",
                       containsSpecial:
                         "Password must contain at least one special character",
