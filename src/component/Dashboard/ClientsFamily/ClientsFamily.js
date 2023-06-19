@@ -32,6 +32,7 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
     {
       label: "Client Id",
       value: "clientId",
+      width : "50%"
     },
     {
       label: "Client Name",
@@ -52,6 +53,7 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
     {
       label: "Relationship",
       value: "relationShip",
+      width : "50%"
     },
   ];
 
@@ -176,7 +178,7 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
             className="d-flex align-items-center justify-content-center mx-auto mt-5 pt-5"
           />
         ) : data.length > 0 ? (
-          <div className="mt-4 px-3">
+          <div className=" px-3">
             <TableComp
               data={data}
               EditAction={edit}

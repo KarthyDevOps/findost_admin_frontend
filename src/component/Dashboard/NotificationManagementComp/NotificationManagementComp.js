@@ -270,7 +270,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
       {activeTab === 0 ? (
         <>
           <div className="row align-items-center">
-            <div className="col-md-3 my-4">
+            <div className="col-md-3 my-3">
               <InputBox
                 className="login_input Notification_input"
                 type={"text"}
@@ -295,7 +295,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
             {create && (
               <div className="col-md-2 m-0">
                 <NormalButton
-                  className="loginButton"
+                  loginButton1
                   label={"Create Notification"}
                   onClick={() => {
                     localStorage.removeItem("editId");
@@ -311,7 +311,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
       ) : (
         <>
           <div className="row p-0 align-items-center">
-            <div className="col-md-3 my-4">
+            <div className="col-md-3 my-3">
               <InputBox
                 className="login_input Notification_input"
                 type={"text"}
@@ -336,7 +336,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
             {create && (
               <div className="col-md-2 m-0">
                 <NormalButton
-                  className="loginButton"
+                  loginButton1
                   label={"Send Notification"}
                   onClick={() => {
                     localStorage.removeItem("editId");

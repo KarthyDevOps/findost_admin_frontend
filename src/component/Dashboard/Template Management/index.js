@@ -174,7 +174,7 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
                 <InputBox
                   className="login_input"
                   type={"text"}
-                  placeholder="Search by Template Id, Message Title"
+                  placeholder="Search by Id, Message Title"
                   errors={errors}
                   name="search"
                   Iconic
@@ -221,7 +221,7 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
               {create && (
                 <div className="col-2 p-0 m-0">
                   <NormalButton
-                    className="loginButton"
+                    loginButton1
                     label={"Add Template "}
                     onClick={() => {
                       localStorage.removeItem("editId");

@@ -15,7 +15,7 @@ import FormErrorMessage from "component/common/ErrorMessage";
 import { Toast } from "service/toast";
 import { addFAQ, getFAQ, updateFAQ } from "service/Cms";
 //helpers
-import { history } from "helpers";
+import { InitialSpaceNotAllowed, history } from "helpers";
 
 const AddFaqComp = ({ create, view, remove }) => {
   const {
@@ -206,7 +206,7 @@ const AddFaqComp = ({ create, view, remove }) => {
                 errors={errors}
                 register={register({
                   required: true,
-                  pattern: /^[^\s]+$/,
+                  pattern: InitialSpaceNotAllowed,
                 })}
               />
               <FormErrorMessage

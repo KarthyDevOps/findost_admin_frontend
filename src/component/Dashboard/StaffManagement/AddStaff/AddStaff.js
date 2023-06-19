@@ -378,7 +378,7 @@ const AddStaff = ({ create, view, remove }) => {
             <table style={{ width: "100%" }}>
               <thead className="Row_Class">
                 <tr className="">
-                  <th></th>
+                  <th style={{ width: "22%" }}></th>
                   <th>All Access</th>
                   <th>View Access</th>
                   <th>Edit Access</th>

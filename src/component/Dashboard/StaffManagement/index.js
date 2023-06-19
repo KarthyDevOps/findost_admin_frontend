@@ -172,7 +172,7 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
         <div className="flex align-items-center justify-content-between">
           <div className="flex align-items-center" style={{ gap: "1em" }}>
             <div
-              className="pl-0 my-4 staff_Search cursor-pointer"
+              className="pl-0 my-3 staff_Search cursor-pointer"
               style={{ width: "300px" }}
             >
               <InputBox
@@ -249,7 +249,7 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
             {create && (
               <div className="cursor-pointer" style={{ minWidth: "150px" }}>
                 <NormalButton
-                  className="loginButton"
+                  className="loginButton1"
                   label={"Add Staff"}
                   onClick={() => {
                     localStorage.removeItem("editId");

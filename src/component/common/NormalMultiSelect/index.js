@@ -121,7 +121,7 @@ class NormalMultiSelect extends Component {
         background: grayed ? "#F1F1F1" : "transparent",
         fontSize: 14,
         cursor: "pointer",
-        minHeight: 45,
+        minHeight: 58,
         paddingRight: 10,
         boxShadow: "0px 0px 1px rgba(0, 0, 0, 0.25)",
       }),

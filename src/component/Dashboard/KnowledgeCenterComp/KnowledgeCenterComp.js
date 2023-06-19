@@ -303,7 +303,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
           {create && (
             <div className="cursor-pointer" style={{ minWidth: "150px" }}>
               <NormalButton
-                className="loginButton"
+                loginButton1
                 label={"Add New"}
                 onClick={() => {
                   localStorage.removeItem("editId");
@@ -321,7 +321,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
             className="d-flex align-items-center justify-content-center mx-auto mt-5 pt-5"
           />
         ) : data.length > 0 ? (
-          <div className="mt-4 px-3">
+          <div className="mt-3 px-3">
             <TableComp
               data={data}
               EditAction={edit}
