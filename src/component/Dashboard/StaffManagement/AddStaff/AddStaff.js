@@ -20,7 +20,6 @@ import {
   roleOptions,
   statusOptions,
   managementOptions,
-  InitialSpaceNotAllowed,
 } from "helpers";
 
 const AddStaff = ({ create, view, remove }) => {
@@ -249,14 +248,14 @@ const AddStaff = ({ create, view, remove }) => {
                 errors={errors}
                 register={register({
                   required: true,
-                  pattern : InitialSpaceNotAllowed,
+                  pattern: /^(?!\s*$).+/,
                 })}
               />
               <FormErrorMessage
                 error={errors.name}
                 messages={{
                   required: "Name is Required",
-                  pattern : "Please enter a Valid Name"
+                  pattern: "Please enter a Valid Name",
                 }}
               />
             </div>

@@ -176,12 +176,14 @@ const AddProductcomp = ({ create, view, remove }) => {
                     errors={errors}
                     register={register({
                       required: true,
+                      pattern : /^(?!\s*$).+/,
                     })}
                   />
                   <FormErrorMessage
                     error={errors.productName}
                     messages={{
                       required: "Product Name is Required",
+                      pattern : "Please enter a Valid Name"
                     }}
                   />
                 </div>

@@ -54,11 +54,11 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
     {
       label: "Date and Time",
       value: "createdAt",
-      width: "50%",
     },
     {
       label: "Notification Title",
       value: "title",
+      width: "50%",
     },
     {
       label: "Notification Description",
@@ -79,11 +79,11 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
     {
       label: "Date and Time",
       value: "createdAt",
-      width: "50%",
     },
     {
       label: "Notification Title",
       value: "title",
+      width: "50%",
     },
     {
       label: "Notification Content",
@@ -374,15 +374,15 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
           ) : (
             activeTab === 0 && (
               <div className="">
-              <EmptyTable
-                EditAction={edit}
-                DeleteAction={remove}
-                includedKeys={templateKeys}
-              />
-              <span className="d-flex align-items-center justify-content-center mt-5 pt-5">
-                No Data Available
-              </span>
-            </div>
+                <EmptyTable
+                  EditAction={edit}
+                  DeleteAction={remove}
+                  includedKeys={templateKeys}
+                />
+                <span className="d-flex align-items-center justify-content-center mt-5 pt-5">
+                  No Data Available
+                </span>
+              </div>
             )
           )}
 
@@ -403,15 +403,15 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
           ) : (
             activeTab === 1 && (
               <div className="">
-              <EmptyTable
-                EditAction={edit}
-                DeleteAction={remove}
-                includedKeys={historyKeys}
-              />
-              <span className="d-flex align-items-center justify-content-center mt-5 pt-5">
-                No Data Available
-              </span>
-            </div>
+                <EmptyTable
+                  EditAction={edit}
+                  DeleteAction={remove}
+                  includedKeys={historyKeys}
+                />
+                <span className="d-flex align-items-center justify-content-center mt-5 pt-5">
+                  No Data Available
+                </span>
+              </div>
             )
           )}
         </div>

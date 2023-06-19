@@ -18,7 +18,7 @@ import {
 } from "service/Communication";
 import { Toast } from "service/toast";
 // helpers
-import { InitialSpaceNotAllowed, history } from "helpers";
+import { history } from "helpers";
 
 const CreateNotificationComp = ({ create, view, remove }) => {
   const { register, handleSubmit, errors, reset, control, getValues } = useForm(
@@ -129,14 +129,14 @@ const CreateNotificationComp = ({ create, view, remove }) => {
               errors={errors}
               register={register({
                 required: true,
-                pattern : InitialSpaceNotAllowed
+                pattern: /^(?!\s*$).+/,
               })}
             />
             <FormErrorMessage
               error={errors.title}
               messages={{
                 required: "Notification Title is Required",
-                pattern : "Please enter a Valid Title"
+                pattern: "Please enter a Valid Title",
               }}
             />
           </div>
