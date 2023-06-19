@@ -139,12 +139,14 @@ const EditClientsFamilyComp = ({ edit, view }) => {
                 errors={errors}
                 register={register({
                   required: true,
+                  pattern: /^[^\s]+$/,
                 })}
               />
               <FormErrorMessage
                 error={errors.clientName}
                 messages={{
                   required: "Client Name is required",
+                  pattern: "No space between name",
                 }}
               />
             </div>
@@ -158,7 +160,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
                 errors={errors}
                 register={register({
                   required: true,
-                  pattern: /\S+@\S+\.\S+/,
+                  pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                 })}
               />
               <FormErrorMessage
@@ -169,7 +171,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
                 }}
               />
             </div>
-            <div className="col-lg-2">
+            <div className="col-md-2">
               <label>Date of Birth</label>
               <div className="date_of_birth">
                 <CustomController
@@ -207,12 +209,14 @@ const EditClientsFamilyComp = ({ edit, view }) => {
                 errors={errors}
                 register={register({
                   required: true,
+                  pattern: /^[^\s]+$/,
                 })}
               />
               <FormErrorMessage
                 error={errors.relativeName}
                 messages={{
                   required: "Relative Name is required",
+                  pattern: "No space between name",
                 }}
               />
             </div>
@@ -253,7 +257,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
               <NormalButton
                 className="authButton1"
                 label={"Cancel"}
-                onClick={() => history.goBack()}
+                onClick={() => history.push("/admin/clients-family")}
               />
             </div>
             {edit && (

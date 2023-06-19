@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Select, { components } from "react-select";
 
 // Assets
-import dropDownIcon from "assets/images/dropDownIcon.png"
+import dropDownIcon from "assets/images/dropDownIcon.png";
 
 class NormalMultiSelect extends Component {
   //change select

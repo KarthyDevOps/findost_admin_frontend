@@ -297,18 +297,20 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                   </div>
                 </div>
               </div>
-              <div className="row mt-5">
-                <div className="col-12  d-flex justify-content-end">
-                  <div className="col-2">
+              <div className="row mt-4">
+                <div className="col-12  d-flex justify-content-end  p-0 pt-3">
+                  <div className="col-2 p-0 d-flex justify-content-end">
                     <NormalButton
-                      onClick={() => history.goBack()}
+                      onClick={() =>
+                        history.goBack("/admin/template-management")
+                      }
                       cancel
-                      label="cancel"
+                      label="Cancel"
                     >
                       {" "}
                     </NormalButton>
                   </div>
-                  <div className="col-2">
+                  <div className="col-2 ">
                     <NormalButton
                       loginButton
                       onClick={handleSubmit(onSubmit)}
@@ -316,7 +318,6 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                     >
                       {" "}
                     </NormalButton>
-                    {/* <NormalButton addProductbtn label='Update'> </NormalButton> */}
                   </div>
                 </div>
               </div>

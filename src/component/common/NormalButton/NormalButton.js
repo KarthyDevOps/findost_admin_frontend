@@ -12,6 +12,7 @@ export class NormalButton extends Component {
       profileCreatNext,
       profileCreatNext1,
       profileCreatBack,
+      uploadBrowseBtn,
       authButton1,
       type = "submit",
       disabled = false,
@@ -19,12 +20,12 @@ export class NormalButton extends Component {
       loginButton = false,
       tableBtn = false,
       rightIcon = "",
-      leftIcon="",
+      leftIcon = "",
       btnSecondary = false,
       profileBtn = false,
       outlineBtn = false,
-      cancel =false,
-      addProductbtn= false,
+      cancel = false,
+      addProductbtn = false,
     } = this.props;
 
     return (
@@ -44,9 +45,9 @@ export class NormalButton extends Component {
                      ${btnSecondary ? "btnSecondary" : ""}
                      ${profileBtn ? "profileBtn" : ""}
                      ${outlineBtn ? "outlineBtn" : ""}
-                     ${cancel? 'cancelBtn ':''}
-                     ${addProductbtn? 'addProductbtn ':''}
-                   
+                     ${cancel ? "cancelBtn " : ""}
+                     ${addProductbtn ? "addProductbtn " : ""}
+                     ${uploadBrowseBtn ? "uploadBrowseBtn " : ""}
                      ${className}`}
           onClick={onClick}
           disabled={disabled}

@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import React, { useRef, useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Toast } from "service/toast";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 // Styles
 import "../Login/style.scss";
 import login_logo from "../../../assets/images/findostLogo.svg";
@@ -10,16 +10,18 @@ import loginpage_frame from "../../../assets/images/Frame.svg";
 // Internal components
 import FormErrorMessage from "component/common/ErrorMessage";
 import NormalButton from "component/common/NormalButton/NormalButton";
+import InputBox from "component/common/InputBox/InputBox";
 // Service
 import { resetPassword } from "service/Auth";
 // Helpers
 import { history } from "helpers";
-import InputBox from "component/common/InputBox/InputBox";
+import { Toast } from "service/toast";
 
 const ResetPassword = () => {
   const { register, handleSubmit, errors, reset, getValues } = useForm({
     mode: "onChange",
   });
+  const [isShowPassword, setIsShowPassword] = useState(false);
 
   const urlParams = new URLSearchParams(window.location.search);
   const token = urlParams.get("token");
@@ -30,7 +32,7 @@ const ResetPassword = () => {
       password: inputs.newPassword,
       confirmPassword: inputs.confirmPassword,
     };
-    let response = await resetPassword(body,token);
+    let response = await resetPassword(body, token);
     if (response.status === 200) {
       Toast({ type: "success", message: response.data.message });
       reset({ newPassword: "", confirmPassword: "" });
@@ -60,13 +62,13 @@ const ResetPassword = () => {
                     placeholder="New Password"
                     Iconic
                     errors={errors}
-                    type={"password"}
+                    type={isShowPassword ? "text" : "password"}
                     name="newPassword"
                     register={register({
                       required: true,
                       minLength: 8,
                       maxLength: 16,
-                      pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?& ]{8,}$/s,
+                      pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})\S+$/,
                     })}
                   />
                   <FormErrorMessage
@@ -81,6 +83,25 @@ const ResetPassword = () => {
                   <span className="newpassword_icon">
                     <img src={password_icon} alt=""></img>
                   </span>
+                  <span className="eyeIcons">
+                    {isShowPassword ? (
+                      <span className="cursor-pointer">
+                        <AiOutlineEye
+                          onClick={() => setIsShowPassword(!isShowPassword)}
+                          size={25}
+                          color="#BDBDBD"
+                        />
+                      </span>
+                    ) : (
+                      <span className="cursor-pointer">
+                        <AiOutlineEyeInvisible
+                          onClick={() => setIsShowPassword(!isShowPassword)}
+                          size={25}
+                          color="#BDBDBD"
+                        />
+                      </span>
+                    )}
+                  </span>
                 </div>
                 <div className="newPassword_box my-3">
                   <InputBox
@@ -88,13 +109,13 @@ const ResetPassword = () => {
                     placeholder="Confirm Password"
                     Iconic
                     errors={errors}
-                    type={"password"}
+                    type={isShowPassword ? "text" : "password"}
                     name="confirmPassword"
                     register={register({
                       required: true,
                       minLength: 8,
                       maxLength: 16,
-                      pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?& ]{8,}$/s,
+                      pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})\S+$/,
                       validate: (value) => {
                         const { newPassword } = getValues();
                         return newPassword === value;
@@ -113,6 +134,25 @@ const ResetPassword = () => {
                   />
                   <span className="newpassword_icon">
                     <img src={password_icon} alt=""></img>
+                  </span>
+                  <span className="eyeIcons">
+                    {isShowPassword ? (
+                      <span className="cursor-pointer">
+                        <AiOutlineEye
+                          onClick={() => setIsShowPassword(!isShowPassword)}
+                          size={25}
+                          color="#BDBDBD"
+                        />
+                      </span>
+                    ) : (
+                      <span className="cursor-pointer">
+                        <AiOutlineEyeInvisible
+                          onClick={() => setIsShowPassword(!isShowPassword)}
+                          size={25}
+                          color="#BDBDBD"
+                        />
+                      </span>
+                    )}
                   </span>
                 </div>
                 <div className="forget ">

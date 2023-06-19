@@ -65,7 +65,7 @@ const Forgetpassword = () => {
                     name="emailId"
                     register={register({
                       required: true,
-                      pattern: /\S+@\S+\.\S+/,
+                      pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                     })}
                   />
                   <FormErrorMessage

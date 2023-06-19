@@ -12,7 +12,7 @@ const SuccessModal = ({ successMsg, modalOpen, onCancel }) => {
             <>
               <p className="delete_text m-0">{successMsg}</p>
 
-              <div className="delete_Img">
+              <div className="success_img">
                 <img src={successImg} alt="" />
               </div>
             </>

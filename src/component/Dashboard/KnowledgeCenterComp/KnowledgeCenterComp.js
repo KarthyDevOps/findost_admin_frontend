@@ -76,7 +76,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
       value: "active",
     },
     {
-      label: "InActive",
+      label: "Inactive",
       value: "inActive",
     },
   ];

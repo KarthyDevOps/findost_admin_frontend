@@ -180,7 +180,7 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
             <TableComp
               data={data}
               EditAction={edit}
-              DeleteAction={remove}
+              // DeleteAction={remove}
               includedKeys={includedKeys}
               pageCount={pageCount}
               currentPage={currentPage}

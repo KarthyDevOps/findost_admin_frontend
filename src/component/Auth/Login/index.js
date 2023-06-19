@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { Toast } from "service/toast";
 import { Link } from "react-router-dom";
 import rectangle from "../../../assets/images/Rectangle.svg";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 // Styles
 import "./style.scss";
 // Images
@@ -33,6 +34,7 @@ const LoginComp = () => {
   const { register, handleSubmit, errors, reset, setError } = useForm({
     mode: "onChange",
   });
+  const [isShowPassword, setIsShowPassword] = useState(false);
   const [emailId, setemailId] = useState("");
   const [password, setpassword] = useState("");
   const dispatch = useDispatch();
@@ -85,7 +87,7 @@ const LoginComp = () => {
                       name="emailId"
                       register={register({
                         required: true,
-                        pattern: /\S+@\S+\.\S+/,
+                        pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                       })}
                     />
                     <FormErrorMessage
@@ -107,14 +109,14 @@ const LoginComp = () => {
                     placeholder="Password"
                     Iconic
                     errors={errors}
-                    type={"password"}
+                    type={isShowPassword ? "text" : "password"}
                     name="password"
                     onChange={setpassword}
                     register={register({
                       required: true,
                       minLength: 8,
                       maxLength: 16,
-                      pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?& ]{8,}$/s,
+                      pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})\S+$/,
                     })}
                   />
                   <FormErrorMessage
@@ -127,8 +129,27 @@ const LoginComp = () => {
                       pattern: "Password must contain a special character",
                     }}
                   />
-                  <span className="userbox_icon">
+                    <span className="userbox_icon">
                     <img src={password_icon} alt="icon"></img>
+                  </span>
+                  <span className="eyeIcons">
+                    {isShowPassword ? (
+                      <span className="cursor-pointer">
+                        <AiOutlineEye
+                          onClick={() => setIsShowPassword(!isShowPassword)}
+                          size={25}
+                          color="#BDBDBD"
+                        />
+                      </span>
+                    ) : (
+                      <span className="cursor-pointer">
+                        <AiOutlineEyeInvisible
+                          onClick={() => setIsShowPassword(!isShowPassword)}
+                          size={25}
+                          color="#BDBDBD"
+                        />
+                      </span>
+                    )}
                   </span>
                 </div>
 
