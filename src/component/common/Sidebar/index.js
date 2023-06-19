@@ -54,69 +54,23 @@ function Sidebar({ classes, window, privilegesData }) {
     templateManagement,
   } = privilegesData ?? {};
 
-  // const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   getadminPrivileges(dispatch);
-  // }, []);
-
   const location = useLocation();
   const drawer = (
     <div>
       <List className={classes.nav} style={{ textDecoration: "none" }}>
         {React.Children.toArray(
           navLink.map(
-            ({ to, label, iconName, inactiveIcon, nestedChild }, index) => {
-              if (
-                !staffManagement?.view &&
-                to?.startsWith("/admin/staff-management")
-              )
-                return;
-              if (
-                !productManagement?.view &&
-                to?.startsWith("/admin/product-management")
-              )
-                return;
-              if (
-                !feedbackManagement?.view &&
-                to?.startsWith("/admin/feedBack-management")
-              )
-                return;
-              if (
-                !notificationManagement?.view &&
-                to?.startsWith("/admin/notification-management")
-              )
-                return;
-              if (
-                !contentManagement?.view &&
-                to?.startsWith("/admin/content-management")
-              )
-                return;
-              if (
-                !templateManagement?.view &&
-                to?.startsWith("/admin/template-management")
-              )
-                return;
-              if (
-                !faqManagement?.view &&
-                to?.startsWith("/admin/faq-management")
-              )
-                return;
-              if (
-                !knowledgeCenterManagement?.view &&
-                to?.startsWith("/admin/knowledge-center")
-              )
-                return;
-              if (
-                !siteSettingsManagement?.view &&
-                to?.startsWith("/admin/site-settings")
-              )
-                return;
-              if (
-                !clientFamilyManagement?.view &&
-                to?.startsWith("/admin/clients-family")
-              )
-                return;
+            ({ to, label, iconName, inactiveIcon }, index) => {
+              if (!staffManagement?.view && to?.startsWith("/admin/staff-management")) return;
+              if (!productManagement?.view && to?.startsWith("/admin/product-management")) return;
+              if (!feedbackManagement?.view && to?.startsWith("/admin/feedBack-management")) return;
+              if (!notificationManagement?.view && to?.startsWith("/admin/notification-management")) return;
+              if (!contentManagement?.view && to?.startsWith("/admin/content-management")) return;
+              if (!templateManagement?.view && to?.startsWith("/admin/template-management")) return;
+              if (!faqManagement?.view && to?.startsWith("/admin/faq-management")) return;
+              if (!knowledgeCenterManagement?.view && to?.startsWith("/admin/knowledge-center")) return;
+              if (!siteSettingsManagement?.view && to?.startsWith("/admin/site-settings")) return;
+              if (!clientFamilyManagement?.view && to?.startsWith("/admin/clients-family")) return;
 
               return (
                 <>

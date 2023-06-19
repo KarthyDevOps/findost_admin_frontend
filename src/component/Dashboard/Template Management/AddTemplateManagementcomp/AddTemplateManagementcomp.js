@@ -15,7 +15,7 @@ import { addTemplate, getTemplate, updateTemplate } from "service/Cms";
 import CustomController from "component/common/Controller";
 import { Toast } from "service/toast";
 //helpers
-import { InitialSpaceNotAllowed, history } from "helpers";
+import { history } from "helpers";
 
 const AddTempleteManagementcomp = ({ create, view, remove }) => {
   const {
@@ -195,7 +195,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                     errors={errors}
                     register={register({
                       required: true,
-                      pattern: InitialSpaceNotAllowed,
+                      pattern: /^(?!\s*$).+/,
                     })}
                   />
                   <FormErrorMessage
@@ -279,11 +279,9 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                       error={errors.content}
                       rules={{
                         required: true,
-                        pattern: InitialSpaceNotAllowed,
                       }}
                       messages={{
                         required: "Template Message is Required",
-                        pattern: "Please enter a Valid Template Message",
                       }}
                       render={({ onChange, ...field }) => {
                         return (

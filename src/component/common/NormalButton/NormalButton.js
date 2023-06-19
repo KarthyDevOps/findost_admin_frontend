@@ -18,6 +18,7 @@ export class NormalButton extends Component {
       disabled = false,
       authButton = false,
       loginButton = false,
+      loginButton1 = false,
       tableBtn = false,
       rightIcon = "",
       leftIcon = "",
@@ -40,6 +41,7 @@ export class NormalButton extends Component {
                      ${authButton1 ? "authButton1" : ""}
                      ${profileCreatBack ? "profileCreatBack" : ""}
                      ${loginButton ? "loginButton" : ""}
+                     ${loginButton1 ? "loginButton1" : ""}
                      ${addBnt ? "addBnt" : ""}
                      ${tableBtn ? "tableBtn" : ""}
                      ${btnSecondary ? "btnSecondary" : ""}

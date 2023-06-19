@@ -20,7 +20,6 @@ import {
   roleOptions,
   statusOptions,
   managementOptions,
-  InitialSpaceNotAllowed,
 } from "helpers";
 
 const AddStaff = ({ create, view, remove }) => {
@@ -249,7 +248,7 @@ const AddStaff = ({ create, view, remove }) => {
                 errors={errors}
                 register={register({
                   required: true,
-                  pattern: InitialSpaceNotAllowed,
+                  pattern: /^(?!\s*$).+/,
                 })}
               />
               <FormErrorMessage
@@ -392,7 +391,7 @@ const AddStaff = ({ create, view, remove }) => {
             <table style={{ width: "100%" }}>
               <thead className="Row_Class">
                 <tr className="">
-                  <th></th>
+                  <th style={{ width: "22%" }}></th>
                   <th>All Access</th>
                   <th>View Access</th>
                   <th>Edit Access</th>

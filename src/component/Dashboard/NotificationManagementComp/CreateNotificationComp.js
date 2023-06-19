@@ -129,16 +129,18 @@ const CreateNotificationComp = ({ create, view, remove }) => {
               errors={errors}
               register={register({
                 required: true,
+                pattern: /^(?!\s*$).+/,
               })}
             />
             <FormErrorMessage
               error={errors.title}
               messages={{
                 required: "Notification Title is Required",
+                pattern: "Please enter a Valid Title",
               }}
             />
           </div>
-          <div className="pt-3">
+          <div className="pt-4">
             <label>Notification Content</label>
             <CustomController
               name={"content"}
@@ -168,7 +170,7 @@ const CreateNotificationComp = ({ create, view, remove }) => {
                 onClick={() => history.push("/admin/notification-management")}
               />
             </div>
-            <div className="col-md-2">
+            <div className="col-md-2 pr-0">
               <NormalButton
                 className="loginButton"
                 label={edit ? "Update" : "Create"}

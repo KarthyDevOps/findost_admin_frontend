@@ -54,11 +54,11 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
     {
       label: "Date and Time",
       value: "createdAt",
-      width: "50%",
     },
     {
       label: "Notification Title",
       value: "title",
+      width: "50%",
     },
     {
       label: "Notification Description",
@@ -79,11 +79,11 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
     {
       label: "Date and Time",
       value: "createdAt",
-      width: "50%",
     },
     {
       label: "Notification Title",
       value: "title",
+      width: "50%",
     },
     {
       label: "Notification Content",
@@ -270,7 +270,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
       {activeTab === 0 ? (
         <>
           <div className="row align-items-center">
-            <div className="col-md-3 my-4">
+            <div className="col-md-3 my-3">
               <InputBox
                 className="login_input Notification_input"
                 type={"text"}
@@ -295,7 +295,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
             {create && (
               <div className="col-md-2 m-0">
                 <NormalButton
-                  className="loginButton"
+                  loginButton1
                   label={"Create Notification"}
                   onClick={() => {
                     localStorage.removeItem("editId");
@@ -311,7 +311,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
       ) : (
         <>
           <div className="row p-0 align-items-center">
-            <div className="col-md-3 my-4">
+            <div className="col-md-3 my-3">
               <InputBox
                 className="login_input Notification_input"
                 type={"text"}
@@ -336,7 +336,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
             {create && (
               <div className="col-md-2 m-0">
                 <NormalButton
-                  className="loginButton"
+                  loginButton1
                   label={"Send Notification"}
                   onClick={() => {
                     localStorage.removeItem("editId");
@@ -374,15 +374,15 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
           ) : (
             activeTab === 0 && (
               <div className="">
-              <EmptyTable
-                EditAction={edit}
-                DeleteAction={remove}
-                includedKeys={templateKeys}
-              />
-              <span className="d-flex align-items-center justify-content-center mt-5 pt-5">
-                No Data Available
-              </span>
-            </div>
+                <EmptyTable
+                  EditAction={edit}
+                  DeleteAction={remove}
+                  includedKeys={templateKeys}
+                />
+                <span className="d-flex align-items-center justify-content-center mt-5 pt-5">
+                  No Data Available
+                </span>
+              </div>
             )
           )}
 
@@ -403,15 +403,15 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
           ) : (
             activeTab === 1 && (
               <div className="">
-              <EmptyTable
-                EditAction={edit}
-                DeleteAction={remove}
-                includedKeys={historyKeys}
-              />
-              <span className="d-flex align-items-center justify-content-center mt-5 pt-5">
-                No Data Available
-              </span>
-            </div>
+                <EmptyTable
+                  EditAction={edit}
+                  DeleteAction={remove}
+                  includedKeys={historyKeys}
+                />
+                <span className="d-flex align-items-center justify-content-center mt-5 pt-5">
+                  No Data Available
+                </span>
+              </div>
             )
           )}
         </div>

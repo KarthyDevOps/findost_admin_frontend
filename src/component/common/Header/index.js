@@ -1,26 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Dropdown } from "react-bootstrap";
+// style
 import "./header.scss";
-import { logout } from "service/utilities";
-import { Toast } from "service/toast";
-import { decodeJWT } from "service/helpers";
+// images
 import userImg from "assets/images/UserImg.svg";
 import bell from "assets/images/bell.svg";
 import findostLogo from "assets/images/findostLogo.svg";
+// services
+import { Dropdown } from "react-bootstrap";
+import { AiOutlineLogout } from "react-icons/ai"
+import { logout } from "service/utilities";
+import { Toast } from "service/toast";
+import { decodeJWT } from "service/helpers";
+
 
 const Header = () => {
   const [data, setData] = useState({});
   const location = useLocation();
-  console.log("location :>> ", location?.pathname);
-
-  useEffect(() => {
-    getAdminData();
-  }, []);
 
   const getAdminData = async () => {
     const adminData = decodeJWT(localStorage.getItem("token"));
   };
+
+  useEffect(() => {
+    getAdminData();
+  }, []);
 
   return (
     <>
@@ -55,6 +59,7 @@ const Header = () => {
                     });
                   }}
                 >
+                  <i><AiOutlineLogout size={22} color="#DD2025" className="mb-1" /></i>&nbsp;&nbsp;
                   Logout
                 </Dropdown.Item>
               </Dropdown.Menu>

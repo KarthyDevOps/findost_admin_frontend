@@ -381,16 +381,16 @@ export const roleOptions = [
 ];
 
 export const managementOptions = {
-  contentManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-  faqManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+  staffManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+  productManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   feedbackManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+  notificationManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+  contentManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+  templateManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+  faqManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   knowledgeCenterManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   clientFamilyManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-  notificationManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-  productManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   siteSettingsManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-  staffManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-  templateManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
 };
 
 export const options = [

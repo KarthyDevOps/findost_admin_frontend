@@ -185,7 +185,7 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
         <div className="flex align-items-center justify-content-between">
           <div className="flex align-items-center" style={{ gap: "1em" }}>
             <div
-              className="pl-0 my-4 cursor-pointer"
+              className="pl-0 my-3 cursor-pointer"
               style={{ maxWidth: "230px" }}
             >
               <InputBox
@@ -254,7 +254,7 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
             {create && (
               <div className="cursor-pointer" style={{ minWidth: "150px" }}>
                 <NormalButton
-                  className="loginButton"
+                  loginButton1
                   label={"Add Feedback"}
                   onClick={() => {
                     localStorage.removeItem("editId");

@@ -206,7 +206,7 @@ const ResetPassword = () => {
                   <div className="login_btn  mt-4">
                     <NormalButton
                       loginButton
-                      label="confirm"
+                      label="Confirm"
                       onClick={handleSubmit(onSubmit)}
                     />
                   </div>

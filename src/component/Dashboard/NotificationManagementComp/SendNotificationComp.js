@@ -21,7 +21,7 @@ import {
 } from "service/Communication";
 import { Toast } from "service/toast";
 // helpers
-import { history, options } from "helpers";
+import { InitialSpaceNotAllowed, history, options } from "helpers";
 
 const SendNotificationComp = () => {
   const { register, handleSubmit, errors, reset, control, getValues } = useForm(
@@ -192,7 +192,7 @@ const SendNotificationComp = () => {
             </div>
             <div className="col-1"></div>
           </div>
-          <div>
+          <div className="my-3">
             <label>Select Users</label>
             <div className=" col-11 users_box p-3">
               {users.length > 0 &&
@@ -221,7 +221,7 @@ const SendNotificationComp = () => {
             </div>
             <div className="col-1"></div>
           </div>
-          <div className="my-3">
+          <div className="my-4">
             <label>Notification Content</label>
             <div className=" col-11 content_box p-0">
               <TextBox
@@ -230,12 +230,14 @@ const SendNotificationComp = () => {
                 name="content"
                 register={register({
                   required: true,
+                  pattern : InitialSpaceNotAllowed
                 })}
               />
               <FormErrorMessage
                 error={errors.content}
                 messages={{
                   required: "Notification Content is required",
+                  pattern : "Please enter a valid content"
                 }}
               />
             </div>
@@ -246,7 +248,7 @@ const SendNotificationComp = () => {
               <NormalButton
                 className="authButton1"
                 label={"Cancel"}
-                onClick={() => history.push("/admin/notification-management")}
+                onClick={() => history.push("/admin/notification-management?tab=1")}
               />
             </div>
             <div className="col-md-3">
