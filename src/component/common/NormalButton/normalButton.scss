@@ -1,4 +1,5 @@
 @import "../../../assets/scss/variables.scss";
+
 .authButton {
   border: 1px solid #f05b5d;
   box-sizing: border-box;
@@ -9,6 +10,7 @@
   text-transform: uppercase;
   background-color: transparent;
 }
+
 .DeleteNoBtn {
   background: #ffffff;
   /* secondary */
@@ -27,6 +29,7 @@
   align-items: center;
   justify-content: center;
 }
+
 .DeleteYesBtn {
   font-family: "Helvetica";
   font-style: normal;
@@ -50,12 +53,12 @@
   font-family: "Helvetica";
   font-style: normal;
   font-weight: 700;
-font-size: 24px;
+  font-size: 18px;
   display: flex;
   align-items: center;
   text-align: center;
   width: 173px;
-  height: 58px !important;
+  height: 45px !important;
   color: #ffffff;
   background: #292929;
   border-radius: 8px;
@@ -64,6 +67,7 @@ font-size: 24px;
   align-items: center;
   justify-content: center;
 }
+
 .loginButton1 {
   font-family: "Helvetica";
   font-style: normal;
@@ -74,7 +78,7 @@ font-size: 24px;
   align-items: center;
   text-align: center;
   width: 151px;
-  height: 58px;
+  height: 45px;
   color: #ffffff;
   background: #292929;
   border-radius: 8px;
@@ -83,8 +87,9 @@ font-size: 24px;
   align-items: center;
   justify-content: center;
 }
+
 .authButton1 {
-   // border: 1px solid #0e69c2;
+  // border: 1px solid #0e69c2;
   // box-sizing: border-box;
   // border-radius: 4px;
   // color: #0e69c2;
@@ -94,7 +99,7 @@ font-size: 24px;
   // background-color: transparent;
   background: #ffffff;
   width: 173px;
-  height: 58px;
+  height: 45px;
   border: 1px solid #292929;
   border-radius: 8px;
   font-family: "Helvetica";
@@ -112,11 +117,12 @@ font-size: 24px;
   align-items: center;
   justify-content: center;
 }
+
 .authButton2 {
 
   background: #ffffff;
   width: 151px;
-  height: 58px;
+  height: 45px;
   border: 1px solid #292929;
   border-radius: 8px;
   font-family: "Helvetica";
@@ -133,6 +139,7 @@ font-size: 24px;
   align-items: center;
   justify-content: center;
 }
+
 .profileCreatNext1 {
   background: #0e69c2;
   border-radius: 8px;
@@ -146,6 +153,7 @@ font-size: 24px;
   justify-content: center;
   margin-left: 15px;
 }
+
 .profileCreatBack {
   background: transparent;
   border: 1px solid #0e69c2;
@@ -162,6 +170,7 @@ font-size: 24px;
   align-items: center;
   justify-content: center;
 }
+
 .tableBtn {
   font-family: "Helvetica";
   font-style: normal;
@@ -175,6 +184,7 @@ font-size: 24px;
   min-width: 200px;
   min-height: 43px;
 }
+
 .btnSecondary {
   font-family: "Helvetica";
   font-style: normal;
@@ -188,6 +198,7 @@ font-size: 24px;
   min-height: 43px;
   color: $button-color;
 }
+
 .profileBtn {
   background: #0e69c2;
   border-radius: 8px;
@@ -200,6 +211,7 @@ font-size: 24px;
   min-width: 120px;
   justify-content: center;
 }
+
 .outlineBtn {
   // background: transparent;
   border: 1px solid #0e69c2;
@@ -213,6 +225,7 @@ font-size: 24px;
   min-width: 120px;
   justify-content: center;
 }
+
 .profileCreatNext {
   background: #0e69c2;
   border-radius: 8px;
@@ -226,6 +239,7 @@ font-size: 24px;
   justify-content: center;
   margin-left: 15px;
 }
+
 .profileCreatBack {
   background: transparent;
   border: 1px solid #0e69c2;
@@ -242,6 +256,7 @@ font-size: 24px;
   align-items: center;
   justify-content: center;
 }
+
 .addBnt {
   border: 2px solid #9c9c9c;
   box-sizing: border-box;
@@ -251,6 +266,7 @@ font-size: 24px;
   min-height: 37px;
   font-size: 16px;
 }
+
 .cancelBtn {
   box-sizing: border-box;
   width: 100%;
@@ -271,6 +287,7 @@ font-size: 24px;
   border-radius: 8px;
   background-color: #ffffff;
 }
+
 .addProductbtn {
   box-sizing: border-box;
   width: 100% !important;
@@ -290,7 +307,8 @@ font-size: 24px;
   // letter-spacing: 0em;
   text-align: center;
 }
-.uploadBrowseBtn{
+
+.uploadBrowseBtn {
   box-sizing: border-box;
   width: 130px !important;
   cursor: pointer;

@@ -88,7 +88,7 @@ const Forgetpassword = () => {
                   </span>
                   <div className="login_btn  mt-3">
                     <NormalButton
-                      loginButton
+                      loginButton1
                       label="Send Reset Link"
                       onClick={handleSubmit(onSubmit)}
                     />

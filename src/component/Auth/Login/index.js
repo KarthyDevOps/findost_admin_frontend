@@ -183,7 +183,7 @@ const LoginComp = () => {
 
                   <div className="login_btn  mt-3">
                     <NormalButton
-                      loginButton
+                      loginButton1
                       label="Login"
                       onClick={handleSubmit(onSubmit)}
                     />
