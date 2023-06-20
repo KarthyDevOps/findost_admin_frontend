@@ -47,7 +47,7 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
     show: false,
   });
   const newStartDate = new Date(startdate);
-
+  const newEndDate = new Date(enddate);
 
   const includedKeys = [
     {
@@ -232,6 +232,7 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
                 value={startdate}
                 onChange={(date) => setstartdate(date)}
                 placeholder="Start Date"
+                maxDate={newEndDate.setDate(newEndDate.getDate() - 1)}
               />
             </div>
             <div style={{ minWidth: "120px" }}>
