@@ -68,6 +68,7 @@ const EditContentManagementComp = ({ create, view, remove }) => {
           title: data?.title,
           content: data?.description,
         });
+        setQuill(data?.description);
         setcontentDetails({
           status: data.isActive ? "active" : "inActive",
         });
@@ -237,7 +238,7 @@ const EditContentManagementComp = ({ create, view, remove }) => {
                       error={errors.content}
                       rules={{ required: true }}
                       messages={{
-                        required: "Page Content  is required",
+                        required: "Page Content is Required",
                       }}
                       render={({ onChange, ...field }) => {
                         return (

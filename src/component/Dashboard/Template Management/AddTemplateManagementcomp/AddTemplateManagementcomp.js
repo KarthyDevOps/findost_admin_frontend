@@ -54,7 +54,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
       value: "active",
     },
     {
-      label: "InActive",
+      label: "Inactive",
       value: "inActive",
     },
   ];
@@ -302,9 +302,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                 <div className="col-12  d-flex justify-content-end  p-0 pt-3">
                   <div className="col-2 p-0 d-flex justify-content-end">
                     <NormalButton
-                      onClick={() =>
-                        history.goBack("/admin/template-management")
-                      }
+                      onClick={() => history.push("/admin/template-management")}
                       cancel
                       label="Cancel"
                     >
