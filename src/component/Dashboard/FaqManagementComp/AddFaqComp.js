@@ -32,6 +32,8 @@ const AddFaqComp = ({ create, view, remove }) => {
   });
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState(false);
+  const [quill, setQuill] = useState("");
+
   const [FAQDetails, setFAQDetails] = useState({
     category: "",
     subcategory: "",
@@ -90,6 +92,8 @@ const AddFaqComp = ({ create, view, remove }) => {
           title: data?.title,
           content: data?.answer,
         });
+        setQuill(data?.answer);
+
         setFAQDetails({
           category: data.category,
           subcategory: data.subCategory,
@@ -111,9 +115,14 @@ const AddFaqComp = ({ create, view, remove }) => {
   }, []);
 
   const onSubmit = async (data) => {
-    setModal(true);
     if (!edit) {
       try {
+        if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+          Toast({ type: "error", message: "FAQ Status is Required" });
+          return;
+        }
+        setModal(true);
+
         let body = {
           title: data.title,
           answer: data.content,
@@ -142,6 +151,11 @@ const AddFaqComp = ({ create, view, remove }) => {
       }
     } else {
       try {
+        if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+          Toast({ type: "error", message: "FAQ Status is Required" });
+          return;
+        }
+        setModal(true);
         let body = {
           title: data.title,
           answer: data.content,
@@ -326,6 +340,8 @@ const AddFaqComp = ({ create, view, remove }) => {
                     {...field}
                     onChange={(content) => {
                       onChange(content);
+                      setQuill(content);
+
                     }}
                     name={"content"}
                   />

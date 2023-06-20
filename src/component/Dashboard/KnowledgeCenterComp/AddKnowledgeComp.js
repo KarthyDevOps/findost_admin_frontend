@@ -40,6 +40,8 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
   const [edit, setEdit] = useState(false);
   const [newDoc, setNewDoc] = useState(null);
   const [DocURL, setDocURL] = useState("");
+  const [quill, setQuill] = useState("");
+
   const [DocFileName, setDocFileName] = useState("");
   const [KnowledgeDetails, setKnowledgeDetails] = useState({
     category: "",
@@ -100,6 +102,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           content: data?.description,
           contentURL: data?.contentUrlLink,
         });
+        setQuill(data?.description);
         setDocURL(data?.documentPathS3);
         setDocFileName(data?.fileOriginalName);
         setKnowledgeDetails({
@@ -123,9 +126,14 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
   }, []);
 
   const onSubmit = async (data) => {
-    setModal(true);
     if (!edit) {
       try {
+        if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+          Toast({ type: "error", message: "Description is Required" });
+          return;
+        }
+        setModal(true);
+
         let body = {
           title: data.title,
           subCategory: KnowledgeDetails.subcategory,
@@ -157,6 +165,12 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
       }
     } else {
       try {
+        if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+          Toast({ type: "error", message: "Description is Required" });
+          return;
+        }
+        setModal(true);
+
         let body = {
           title: data.title,
           contentUrlLink: data?.contentURL,
@@ -240,7 +254,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 errors={errors}
                 register={register({
                   required: true,
-                  pattern:/^(?!\s*$).+/,
+                  pattern: /^(?!\s*$).+/,
                 })}
               />
               <FormErrorMessage
@@ -452,6 +466,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                     name={"content"}
                     onChange={(content) => {
                       onChange(content);
+                      setQuill(content);
                     }}
                   />
                 );

@@ -32,6 +32,8 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
   });
 
   const [modal, setModal] = useState(false);
+  const [quill, setQuill] = useState("");
+
   const [edit, setEdit] = useState(false);
   const [TemplateDetails, setTemplateDetails] = useState({
     type: "",
@@ -85,6 +87,8 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
           title: data?.title,
           content: data?.description,
         });
+        setQuill(data?.description);
+
         console.log("data", data);
         setTemplateDetails({
           type: data.type,
@@ -106,9 +110,13 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
   }, []);
 
   const onSubmit = async (data) => {
-    setModal(true);
     if (!edit) {
       try {
+        if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+          Toast({ type: "error", message: "Template Message Content is Required" });
+          return;
+        }
+        setModal(true);
         let body = {
           title: data.title,
           description: data.content,
@@ -136,6 +144,12 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
       }
     } else {
       try {
+        if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+          Toast({ type: "error", message: "Template Message Content is Required" });
+          return;
+        }
+        setModal(true);
+
         let body = {
           title: data.title,
           description: data.content,
@@ -289,6 +303,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                             {...field}
                             onChange={(content) => {
                               onChange(content);
+                              setQuill(content);
                             }}
                             name={"content"}
                           />

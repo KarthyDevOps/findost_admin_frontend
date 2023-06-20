@@ -27,6 +27,8 @@ const CreateNotificationComp = ({ create, view, remove }) => {
     }
   );
   const [edit, setEdit] = useState(false);
+  const [quill, setQuill] = useState("");
+
   const [modal, setModal] = useState(false);
   const id = localStorage.getItem("editId");
 
@@ -42,6 +44,8 @@ const CreateNotificationComp = ({ create, view, remove }) => {
           title: response?.data?.data?.title,
           content: response?.data?.data?.description,
         });
+        setQuill(response?.data?.data?.description);
+
       } else {
         Toast({ type: "error", message: response.data.message });
       }
@@ -53,6 +57,10 @@ const CreateNotificationComp = ({ create, view, remove }) => {
   const onSubmit = async (data) => {
     if (!edit) {
       try {
+        if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+          Toast({ type: "error", message: "Notification Content is Required" });
+          return;
+        } 
         const body = {
           title: data.title,
           description: data.content,
@@ -74,6 +82,10 @@ const CreateNotificationComp = ({ create, view, remove }) => {
       }
     } else {
       try {
+        if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+          Toast({ type: "error", message: "Notification Content is Required" });
+          return;
+        } 
         const body = {
           title: data.title,
           description: data.content,
@@ -155,6 +167,8 @@ const CreateNotificationComp = ({ create, view, remove }) => {
                     {...fields}
                     onChange={(content) => {
                       onChange(content);
+                      setQuill(content);
+
                     }}
                     name={"content"}
                   />
