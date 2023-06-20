@@ -272,13 +272,13 @@ export const navLink = [
     inactiveIcon: productMt,
     privilegesName: "productManagement",
   },
-  {
-    to: "/admin/feedBack-management",
-    label: "Feedback Management",
-    iconName: Feed_a,
-    inactiveIcon: feedBackMt,
-    privilegesName: "feedbackManagement",
-  },
+  // {
+  //   to: "/admin/feedBack-management",
+  //   label: "Feedback Management",
+  //   iconName: Feed_a,
+  //   inactiveIcon: feedBackMt,
+  //   privilegesName: "feedbackManagement",
+  // },
   {
     to: "/admin/notification-management",
     label: "Notification Management",
