@@ -383,7 +383,7 @@ export const roleOptions = [
 export const managementOptions = {
   staffManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   productManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-  feedbackManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+  // feedbackManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   notificationManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   contentManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   templateManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
