@@ -356,7 +356,7 @@ export const statusOptions = [
     value: "active",
   },
   {
-    label: "InActive",
+    label: "Inactive",
     value: "inActive",
   },
 ];

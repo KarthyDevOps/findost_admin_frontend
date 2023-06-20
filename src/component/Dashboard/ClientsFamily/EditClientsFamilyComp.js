@@ -171,7 +171,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
                 }}
               />
             </div>
-            <div className="col-md-4" style={{ width: "270px" }}>
+            <div className="col-md-4" >
               <label>Date of Birth</label>
               <div className="date_of_birth">
                 <CustomController

@@ -271,7 +271,6 @@ const AddStaff = ({ create, view, remove }) => {
                 register={register({
                   required: true,
                   pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-
                 })}
               />
               <FormErrorMessage
@@ -297,18 +296,17 @@ const AddStaff = ({ create, view, remove }) => {
                   minLength: 8,
                   maxLength: 16,
                   pattern: {
-                    value: /^(?=.*[A-Z])/,
+                    value: /^(?=.*[A-Z])(?=.*[a-z])/,
                     message:
-                      "Password must contain at least one uppercase letter",
-                  },
-                  validate: {
+                      "Password must contain at least one uppercase and lowercase letter",
                     containsDigit: (value) =>
                       /^(?=.*[0-9])/.test(value) ||
                       "Password must contain at least one digit",
                     containsSpecial: (value) =>
                       /^(?=.*[!@#$%^&*])/.test(value) ||
                       "Password must contain at least one special character",
-                  },                })}
+                  },
+                })}
               />
               <FormErrorMessage
                 error={errors.password}
@@ -317,7 +315,7 @@ const AddStaff = ({ create, view, remove }) => {
                   minLength: "Password must contain atleast 8 letters",
                   maxLength: "Password should must contain only 16",
                   pattern:
-                    "Password must contain at least one uppercase letter",
+                    "Password must contain at least one uppercase and lowercase letter",
                   containsDigit: "Password must contain at least one digit",
                   containsSpecial:
                     "Password must contain at least one special character",
