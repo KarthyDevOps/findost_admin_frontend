@@ -103,7 +103,7 @@ const LoginComp = () => {
                   </div>
                 </>
 
-                <div className="passwordbox my-3">
+                <div className="passwordbox mt-3">
                   <InputBox
                     className="login_input"
                     placeholder="Password"
@@ -176,10 +176,18 @@ const LoginComp = () => {
                   </span>
                 </div>
 
-                <div className="forget my-2">
-                  <Link to="/auth/forget">
-                    <span className="forget">Forgot Password ?</span>
-                  </Link>
+                <div className="forget ">
+                  {errors.password ? (
+                    <div className="mt-4">
+                      <Link to="/auth/forget">
+                        <span className="forget">Forgot Password?</span>
+                      </Link>
+                    </div>
+                  ) : (
+                    <Link to="/auth/forget">
+                      <span className="forget">Forgot Password?</span>
+                    </Link>
+                  )}
 
                   <div className="login_btn  mt-3">
                     <NormalButton

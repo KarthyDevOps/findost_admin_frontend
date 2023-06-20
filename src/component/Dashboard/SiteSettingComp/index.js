@@ -75,8 +75,8 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
         supportEmail: data.emailId,
         supportNumber: data.supportNumber,
         siteUrl: data.siteUrl,
-        siteFavIcon: SiteFavLogoUrl ? SiteFavLogoUrl : SiteFavLogo,
-        sitelogo: SiteLogoUrl ? SiteLogoUrl : SiteLogo,
+        siteFavIcon: SiteFavLogo,
+        sitelogo: SiteLogo,
       };
       let response = await updateSiteSetting(body);
       if (response.status === 200) {

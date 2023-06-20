@@ -20,9 +20,15 @@ const AddFeedbackcomp = ({ create, view, edit, remove }) => {
   });
 
   const [modal, setModal] = useState(false);
+  const [quill, setQuill] = useState("");
+
 
   const onSubmit = async (data) => {
     try {
+      if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+        Toast({ type: "error", message: "FeedBack Description is Required" });
+        return;
+      }
       let body = {
         feedback: data.description,
       };
@@ -80,6 +86,8 @@ const AddFeedbackcomp = ({ create, view, edit, remove }) => {
                             {...fields}
                             onChange={(description) => {
                               onChange(description);
+                      setQuill(description);
+
                             }}
                             name={"description"}
                           />

@@ -21,6 +21,7 @@ const AnswerFeedbackcomp = ({ create, view, edit, remove }) => {
 
   const [userName, setUsername] = useState("");
   const [userId, setUserId] = useState("");
+  const [quill, setQuill] = useState("");
   const [feedback, setFeedback] = useState("");
   const [modal, setModal] = useState(false);
   const id = localStorage.getItem("editId");
@@ -45,6 +46,10 @@ const AnswerFeedbackcomp = ({ create, view, edit, remove }) => {
 
   const onSubmit = async (data) => {
     try {
+      if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+        Toast({ type: "error", message: "Description is Required" });
+        return;
+      } 
       let body = {
         userId: userId,
         userName: userName,
@@ -121,6 +126,7 @@ const AnswerFeedbackcomp = ({ create, view, edit, remove }) => {
                             {...fields}
                             onChange={(description) => {
                               onChange(description);
+                              setQuill(description);
                             }}
                             name={"answer"}
                           />
@@ -134,9 +140,9 @@ const AnswerFeedbackcomp = ({ create, view, edit, remove }) => {
                 <div className="col-12  d-flex justify-content-end">
                   <div className="col-2">
                     <NormalButton
-                      onClick={() =>  history.push("/admin/feedBack-management")}
+                      onClick={() => history.push("/admin/feedBack-management")}
                       cancel
-                      label="cancel"
+                      label="Cancel"
                     />{" "}
                   </div>
                   <div className="col-2">

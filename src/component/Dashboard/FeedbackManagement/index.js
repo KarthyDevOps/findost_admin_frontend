@@ -42,6 +42,8 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [bulkDelete, setBulkDelete] = useState(false);
   const [deleteId, setDeleteId] = useState([]);
+  const [quill, setQuill] = useState("");
+
   const [modalVisible, setModalVisible] = useState({
     id: null,
     show: false,
