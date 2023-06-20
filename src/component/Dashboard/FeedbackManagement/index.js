@@ -46,6 +46,8 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
     id: null,
     show: false,
   });
+  const newStartDate = new Date(startdate);
+
 
   const includedKeys = [
     {
@@ -238,6 +240,7 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
                 value={enddate}
                 onChange={(date) => setenddate(date)}
                 placeholder="End Date"
+                minDate={newStartDate.setDate(newStartDate.getDate() + 1)}
               />
             </div>
           </div>
@@ -288,15 +291,15 @@ const FeedbackManagementComp = ({ create, view, edit, remove }) => {
           </div>
         ) : (
           <div className="">
-          <EmptyTable
-            EditAction={edit}
-            DeleteAction={remove}
-            includedKeys={includedKeys}
-          />
-          <p className="d-flex align-items-center justify-content-center mt-5 pt-5">
-            No Data Available
-          </p>
-        </div>
+            <EmptyTable
+              EditAction={edit}
+              DeleteAction={remove}
+              includedKeys={includedKeys}
+            />
+            <p className="d-flex align-items-center justify-content-center mt-5 pt-5">
+              No Data Available
+            </p>
+          </div>
         )}
         <div>
           {" "}
