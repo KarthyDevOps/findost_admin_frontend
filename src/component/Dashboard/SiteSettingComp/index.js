@@ -53,6 +53,8 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
           content: data?.copyrightsText,
         });
         setSiteFavLogo(data?.siteFavIconS3);
+        setSiteFavLogoUrl(data?.siteFavIcon);
+        setSiteLogoUrl(data?.sitelogo);
         setSiteLogo(data?.sitelogoS3);
 
         console.log("sitedata", data);
@@ -75,8 +77,8 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
         supportEmail: data.emailId,
         supportNumber: data.supportNumber,
         siteUrl: data.siteUrl,
-        siteFavIcon: SiteFavLogo,
-        sitelogo: SiteLogo,
+        siteFavIcon: SiteFavLogoUrl,
+        sitelogo: SiteLogoUrl,
       };
       let response = await updateSiteSetting(body);
       if (response.status === 200) {
