@@ -80,7 +80,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
         siteFavIcon: SiteFavLogoUrl,
         sitelogo: SiteLogoUrl,
       };
-      let response = await updateSiteSetting(body);
+      let response = await updateSiteSetting(body,id);
       if (response.status === 200) {
         setModal(true);
         const timeout = setTimeout(() => {

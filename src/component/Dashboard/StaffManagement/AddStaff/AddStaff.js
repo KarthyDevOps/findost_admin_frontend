@@ -292,16 +292,25 @@ const AddStaff = ({ create, view, remove }) => {
                 // disabled={edit}
                 defaultValue={staffDetails.password}
                 register={register({
-                  required: edit ? false : true,
-                  minLength: 8,
-                  maxLength: 16,
+                  required: "Password is required",
+                  minLength: {
+                    value: 8,
+                    message: "Password must contain at least 8 characters",
+                  },
+                  maxLength: {
+                    value: 16,
+                    message:
+                      "Password must contain a maximum of 16 characters",
+                  },
                   pattern: {
                     value: /^(?=.*[A-Z])(?=.*[a-z])/,
                     message:
                       "Password must contain at least one uppercase and lowercase letter",
+                  },
+                  validate: {
                     containsDigit: (value) =>
                       /^(?=.*[0-9])/.test(value) ||
-                      "Password must contain at least one digit",
+                      "Password must contain at least one Numeric",
                     containsSpecial: (value) =>
                       /^(?=.*[!@#$%^&*])/.test(value) ||
                       "Password must contain at least one special character",
@@ -311,12 +320,13 @@ const AddStaff = ({ create, view, remove }) => {
               <FormErrorMessage
                 error={errors.password}
                 messages={{
-                  required: "Password is Required",
+                  required: "Password is required",
+                  validate: "Passwords do not match",
                   minLength: "Password must contain atleast 8 letters",
                   maxLength: "Password should must contain only 16",
                   pattern:
                     "Password must contain at least one uppercase and lowercase letter",
-                  containsDigit: "Password must contain at least one digit",
+                  containsDigit: "Password must contain at least one Numeric",
                   containsSpecial:
                     "Password must contain at least one special character",
                 }}

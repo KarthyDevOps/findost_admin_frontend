@@ -53,7 +53,7 @@ const AnswerFeedbackcomp = ({ create, view, edit, remove }) => {
       let body = {
         userId: userId,
         userName: userName,
-        feedback: data.answer,
+        feedbackAnswer: data.answer,
       };
       let response = await updateFeedback(body, id);
       if (response.status === 200) {

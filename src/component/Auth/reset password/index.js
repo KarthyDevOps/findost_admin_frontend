@@ -85,7 +85,7 @@ const ResetPassword = () => {
                       validate: {
                         containsDigit: (value) =>
                           /^(?=.*[0-9])/.test(value) ||
-                          "Password must contain at least one digit",
+                          "Password must contain at least one Numeric",
                         containsSpecial: (value) =>
                           /^(?=.*[!@#$%^&*])/.test(value) ||
                           "Password must contain at least one special character",
@@ -101,7 +101,7 @@ const ResetPassword = () => {
                       maxLength: "Password should must contain only 16",
                       pattern:
                         "Password must contain at least one uppercase and lowercase letter",
-                      containsDigit: "Password must contain at least one digit",
+                      containsDigit: "Password must contain at least one Numeric",
                       containsSpecial:
                         "Password must contain at least one special character",
                     }}
@@ -154,7 +154,7 @@ const ResetPassword = () => {
                           "Password must contain at least one uppercase and lowercase letter",
                         containsDigit: (value) =>
                           /^(?=.*[0-9])/.test(value) ||
-                          "Password must contain at least one digit",
+                          "Password must contain at least one Numeric",
                         containsSpecial: (value) =>
                           /^(?=.*[!@#$%^&*])/.test(value) ||
                           "Password must contain at least one special character",
@@ -174,7 +174,7 @@ const ResetPassword = () => {
                       maxLength: "Password should must contain only 16",
                       pattern:
                         "Password must contain at least one uppercase and lowercase letter",
-                      containsDigit: "Password must contain at least one digit",
+                      containsDigit: "Password must contain at least one Numeric",
                       containsSpecial:
                         "Password must contain at least one special character",
                     }}
