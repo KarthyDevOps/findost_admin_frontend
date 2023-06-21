@@ -20,6 +20,7 @@ import { uploadImage } from "service/Auth";
 import { Toast } from "service/toast";
 //helpers
 import { history } from "helpers";
+import { TrainOutlined } from "@material-ui/icons";
 
 const AddProductcomp = ({ create, view, remove }) => {
   const {
@@ -35,6 +36,7 @@ const AddProductcomp = ({ create, view, remove }) => {
   });
   const [edit, setEdit] = useState(false);
   const [modal, setModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [newProductImg, setNewProductImg] = useState(null);
   const [ProductIcon, setProductIcon] = useState("");
   const options = [
@@ -107,6 +109,8 @@ const AddProductcomp = ({ create, view, remove }) => {
 
   const onsubmit = async (data) => {
     try {
+      setLoading(TrainOutlined);
+
       let body = {
         productName: data?.productName,
         productType: data?.productType,
@@ -120,6 +124,8 @@ const AddProductcomp = ({ create, view, remove }) => {
           reset();
           history.push("/admin/product-management");
         }, 1000);
+        setLoading(false);
+
         return () => clearTimeout(timeout);
       }
     } catch (e) {
@@ -176,14 +182,14 @@ const AddProductcomp = ({ create, view, remove }) => {
                     errors={errors}
                     register={register({
                       required: true,
-                      pattern : /^(?!\s*$).+/,
+                      pattern: /^(?!\s*$).+/,
                     })}
                   />
                   <FormErrorMessage
                     error={errors.productName}
                     messages={{
                       required: "Product Name is Required",
-                      pattern : "Please enter a Valid Name"
+                      pattern: "Please enter a Valid Name",
                     }}
                   />
                 </div>
@@ -221,7 +227,7 @@ const AddProductcomp = ({ create, view, remove }) => {
                   maxSize={3072000}
                   errors={errors}
                   {...register("dropZoneField", {
-                    required:  newProductImg || ProductIcon ? false : true,
+                    required: newProductImg || ProductIcon ? false : true,
                   })}
                 >
                   {({ getRootProps, getInputProps }) => (
@@ -245,7 +251,11 @@ const AddProductcomp = ({ create, view, remove }) => {
                               Drag your files here to start uploading or
                             </p>
                             <div className=" drag_btn ">
-                            <NormalButton onClick={(e) => e.preventDefault()} addProductbtn label="Browse" />
+                              <NormalButton
+                                onClick={(e) => e.preventDefault()}
+                                addProductbtn
+                                label="Browse"
+                              />
                             </div>
                           </>
                         )}
@@ -272,13 +282,13 @@ const AddProductcomp = ({ create, view, remove }) => {
                   )}
                 </Dropzone>
                 {!newProductImg && (
-                <FormErrorMessage
-                  error={errors.dropZoneField}
-                  messages={{
-                    required: "Product icon is Required",
-                  }}
-                />
-              )}
+                  <FormErrorMessage
+                    error={errors.dropZoneField}
+                    messages={{
+                      required: "Product icon is Required",
+                    }}
+                  />
+                )}
               </div>
 
               {/* <div className="row gx-5">
@@ -488,6 +498,7 @@ const AddProductcomp = ({ create, view, remove }) => {
                       addProductbtn
                       label={edit ? "Update" : "Add Product"}
                       onClick={handleSubmit(onsubmit)}
+                      isLoading={loading}
                     />
                   </div>
                 </div>

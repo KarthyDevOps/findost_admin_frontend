@@ -130,7 +130,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
         setPageCount(response?.data?.data?.pageMeta?.pageCount);
         setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
       } else {
-        setTemplateData([]);
+        setHistoryData([]);
       }
     } catch (err) {
       console.log("err :>> ", err);

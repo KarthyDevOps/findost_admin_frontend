@@ -205,7 +205,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
 
   return (
     <div className="px-5 py-3 knowledge_center">
-      <h6>Knowledge Center</h6>
+      <p>Knowledge Center</p>
       <div className="flex align-items-center justify-content-between">
         <span className="flex align-items-center" style={{ gap: "1em" }}>
           <div className="cursor-pointer my-2" style={{ width: "230px" }}>
@@ -343,9 +343,9 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
             DeleteAction={remove}
             includedKeys={includedKeys}
           />
-          <p className="d-flex align-items-center justify-content-center mt-5 pt-5">
+          <h6 className="d-flex align-items-center justify-content-center mt-5 pt-5">
             No Data Available
-          </p>
+          </h6>
         </div>
         )}
         <div className=" mt-4 p-3">

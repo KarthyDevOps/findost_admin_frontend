@@ -1,13 +1,15 @@
 .clients_family,
 .edit_client {
-  h6,
-  p {
+  h6 {
     font-family: "Helvetica";
     font-style: normal;
     font-weight: 700;
     font-size: 32px;
     line-height: 125.99%;
     color: #000000;
+  }
+  p{
+    font-size: 14px;
   }
 }
 .client_box {
@@ -28,10 +30,6 @@
 .date_of_birth {
   width: 100% !important;
   .react-datepicker-wrapper {
-    display: inline-block;
-    padding: 0;
-    width: 320px !important;
-    border: 0;
-    height: 45px;
+    width: 100%;
   }
 }

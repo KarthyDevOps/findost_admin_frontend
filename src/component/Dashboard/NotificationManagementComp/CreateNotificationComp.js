@@ -28,6 +28,7 @@ const CreateNotificationComp = ({ create, view, remove }) => {
   );
   const [edit, setEdit] = useState(false);
   const [quill, setQuill] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [modal, setModal] = useState(false);
   const id = localStorage.getItem("editId");
@@ -45,7 +46,6 @@ const CreateNotificationComp = ({ create, view, remove }) => {
           content: response?.data?.data?.description,
         });
         setQuill(response?.data?.data?.description);
-
       } else {
         Toast({ type: "error", message: response.data.message });
       }
@@ -60,7 +60,9 @@ const CreateNotificationComp = ({ create, view, remove }) => {
         if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
           Toast({ type: "error", message: "Notification Content is Required" });
           return;
-        } 
+        }
+        setLoading(true);
+
         const body = {
           title: data.title,
           description: data.content,
@@ -68,11 +70,13 @@ const CreateNotificationComp = ({ create, view, remove }) => {
         let response = await addNotificationTemplate(body);
         if (response.status === 200) {
           setModal(true);
+
           const timeout = setTimeout(() => {
             setModal(false);
             reset({ title: "", content: "" });
             history.push("/admin/notification-management?tab=0");
           }, 1000);
+          setLoading(false);
           return () => clearTimeout(timeout);
         } else {
           Toast({ type: "error", message: response.data.message });
@@ -85,7 +89,8 @@ const CreateNotificationComp = ({ create, view, remove }) => {
         if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
           Toast({ type: "error", message: "Notification Content is Required" });
           return;
-        } 
+        }
+        setLoading(true);
         const body = {
           title: data.title,
           description: data.content,
@@ -93,13 +98,18 @@ const CreateNotificationComp = ({ create, view, remove }) => {
         let response = await updateNotificationTemplate(body, id);
         if (response.status === 200) {
           setModal(true);
+
           const timeout = setTimeout(() => {
             setModal(false);
             reset({ title: "", content: "" });
             history.push("/admin/notification-management");
           }, 1000);
+          setLoading(false);
+
           return () => clearTimeout(timeout);
         } else {
+          setLoading(false);
+
           Toast({ type: "error", message: response.data.message });
         }
       } catch (e) {
@@ -168,7 +178,6 @@ const CreateNotificationComp = ({ create, view, remove }) => {
                     onChange={(content) => {
                       onChange(content);
                       setQuill(content);
-
                     }}
                     name={"content"}
                   />
@@ -188,6 +197,7 @@ const CreateNotificationComp = ({ create, view, remove }) => {
               <NormalButton
                 className="loginButton"
                 label={edit ? "Update" : "Create"}
+                isLoading={loading}
                 onClick={handleSubmit(onSubmit)}
               />
             </div>

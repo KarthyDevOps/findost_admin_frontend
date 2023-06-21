@@ -41,6 +41,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
   const [newDoc, setNewDoc] = useState(null);
   const [DocURL, setDocURL] = useState("");
   const [quill, setQuill] = useState("");
+  const [loading, setloading] = useState(false);
 
   const [DocFileName, setDocFileName] = useState("");
   const [KnowledgeDetails, setKnowledgeDetails] = useState({
@@ -128,6 +129,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
   const onSubmit = async (data) => {
     if (!edit) {
       try {
+        setloading(true);
         if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
           Toast({ type: "error", message: "Description is Required" });
           return;
@@ -153,12 +155,14 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           setModal(true);
           const timeout = setTimeout(() => {
             setModal(false);
+            setloading(false);
             reset(KnowledgeDetails);
             history.push("/admin/knowledge-center");
           }, 1000);
           return () => clearTimeout(timeout);
         } else {
           Toast({ type: "error", message: response.data.message });
+          // setloading(false);
         }
       } catch (e) {
         console.log(e);
@@ -170,7 +174,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           return;
         }
         setModal(true);
-
+        setloading(true);
         let body = {
           title: data.title,
           contentUrlLink: data?.contentURL,
@@ -190,11 +194,15 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           setModal(true);
           const timeout = setTimeout(() => {
             setModal(false);
+            setloading(false);
+
             reset(KnowledgeDetails);
             history.push("/admin/knowledge-center");
           }, 1000);
           return () => clearTimeout(timeout);
         } else {
+          setloading(false);
+
           Toast({ type: "error", message: response.data.message });
         }
       } catch (e) {
@@ -275,7 +283,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                   (option) => option.value === getValues("category")
                 )}
                 rules={{ required: true }}
-                messages={{ required: "category is Required" }}
+                messages={{ required: "Category is Required" }}
                 render={({ onChange, ...field }) => {
                   return (
                     <DropDown
@@ -486,6 +494,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 className="loginButton"
                 onClick={handleSubmit(onSubmit)}
                 label={edit ? "Update" : "Add Content"}
+                isLoading={loading}
               />
             </div>
           </div>

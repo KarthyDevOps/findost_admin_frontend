@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import { Oval } from "react-loader-spinner";
 // import styles from "./button.module.scss";
 import "./normalButton.scss";
+
 export class NormalButton extends Component {
   render() {
     const {
@@ -27,6 +29,7 @@ export class NormalButton extends Component {
       outlineBtn = false,
       cancel = false,
       addProductbtn = false,
+      isLoading = false, // Add isLoading prop for button loader
     } = this.props;
 
     return (
@@ -52,15 +55,29 @@ export class NormalButton extends Component {
                      ${uploadBrowseBtn ? "uploadBrowseBtn " : ""}
                      ${className}`}
           onClick={onClick}
-          disabled={disabled}
+          disabled={disabled || isLoading}
         >
-          {leftIcon !== "" ? (
-            <span className={`btn-left-icon ${leftIcon}`}></span>
-          ) : null}
-          {label}
-          {rightIcon !== "" ? (
-            <span className={`btn-right-icon ${rightIcon}`}></span>
-          ) : null}
+          {isLoading ? (
+            <span className="btn-loader  ">
+              {" "}
+              <>
+                <Oval color="#ffffff" height={20} width={20} />
+              </>
+              <>
+                <span className="m-3">Loading</span>{" "}
+              </>
+            </span>
+          ) : (
+            <>
+              {leftIcon !== "" ? (
+                <span className={`btn-left-icon ${leftIcon}`}></span>
+              ) : null}
+              {label}
+              {rightIcon !== "" ? (
+                <span className={`btn-right-icon ${rightIcon}`}></span>
+              ) : null}
+            </>
+          )}
         </button>
       </div>
     );

@@ -33,7 +33,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
 
   const [modal, setModal] = useState(false);
   const [quill, setQuill] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(false);
   const [TemplateDetails, setTemplateDetails] = useState({
     type: "",
@@ -113,9 +113,13 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
     if (!edit) {
       try {
         if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
-          Toast({ type: "error", message: "Template Message Content is Required" });
+          Toast({
+            type: "error",
+            message: "Template Message Content is Required",
+          });
           return;
         }
+        setLoading(true);
         setModal(true);
         let body = {
           title: data.title,
@@ -135,8 +139,12 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
             reset(TemplateDetails);
             history.push("/admin/template-management");
           }, 1000);
+          setLoading(false);
+
           return () => clearTimeout(timeout);
         } else {
+          setLoading(false);
+
           Toast({ type: "error", message: response.data.message });
         }
       } catch (e) {
@@ -145,9 +153,14 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
     } else {
       try {
         if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
-          Toast({ type: "error", message: "Template Message Content is Required" });
+          Toast({
+            type: "error",
+            message: "Template Message Content is Required",
+          });
           return;
         }
+        setLoading(true);
+
         setModal(true);
 
         let body = {
@@ -170,6 +183,8 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
           }, 1000);
           return () => clearTimeout(timeout);
         } else {
+          setLoading(false);
+
           Toast({ type: "error", message: response.data.message });
         }
       } catch (e) {
@@ -329,6 +344,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                       loginButton
                       onClick={handleSubmit(onSubmit)}
                       label={!edit ? "Add Template" : "Update"}
+                      isLoading={loading}
                     >
                       {" "}
                     </NormalButton>

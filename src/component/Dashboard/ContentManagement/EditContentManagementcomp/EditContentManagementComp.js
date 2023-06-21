@@ -33,6 +33,7 @@ const EditContentManagementComp = ({ create, view, remove }) => {
   const [modal, setModal] = useState(false);
   const [edit, setedit] = useState(false);
   const [quill, setQuill] = useState("");
+  const [loading, setloading] = useState(false);
 
   const [contentDetails, setcontentDetails] = useState({
     status: "",
@@ -91,6 +92,8 @@ const EditContentManagementComp = ({ create, view, remove }) => {
     console.log("data", data);
     if (edit) {
       try {
+        setloading(true);
+
         if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
           Toast({ type: "error", message: "Page Content is Required" });
           return;
@@ -109,6 +112,8 @@ const EditContentManagementComp = ({ create, view, remove }) => {
           setModal(true);
           const timeout = setTimeout(() => {
             setModal(false);
+            setloading(false);
+
             reset(contentDetails);
             history.push("/admin/content-management");
           }, 1000);
@@ -125,6 +130,7 @@ const EditContentManagementComp = ({ create, view, remove }) => {
           Toast({ type: "error", message: "Page Content is Required" });
           return;
         }
+        setloading(true);
         let body = {
           title: data.title,
           description: data.content,
@@ -139,6 +145,8 @@ const EditContentManagementComp = ({ create, view, remove }) => {
           setModal(true);
           const timeout = setTimeout(() => {
             setModal(false);
+            setloading(false);
+
             reset(contentDetails);
             history.push("/admin/content-management");
           }, 1000);
@@ -273,6 +281,7 @@ const EditContentManagementComp = ({ create, view, remove }) => {
                       addProductbtn
                       onClick={handleSubmit(onSubmit)}
                       label={edit ? "Update" : "Add content"}
+                      isLoading={loading}
                     ></NormalButton>
                   </div>
                 </div>
