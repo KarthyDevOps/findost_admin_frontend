@@ -13,9 +13,11 @@ import CustomController from "component/common/Controller";
 import FormErrorMessage from "component/common/ErrorMessage";
 //service
 import { Toast } from "service/toast";
-import { addFAQ, getFAQ, updateFAQ } from "service/Cms";
+import { addFAQ, getFAQ, updateFAQ, getCategoryList } from "service/Cms";
 //helpers
-import { InitialSpaceNotAllowed, history } from "helpers";
+import { history } from "helpers";
+import MultiSelect from "component/common/MultiSelect";
+import CategoryModal from "component/common/CategoryModal/CategoryModal";
 
 const AddFaqComp = ({ create, view, remove }) => {
   const {
@@ -33,12 +35,15 @@ const AddFaqComp = ({ create, view, remove }) => {
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState(false);
   const [quill, setQuill] = useState("");
-
+  const [category, setCategory] = useState("");
+  const [categoryModal, setCategoryModal] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
+  const [categoryList, setCategoryList] = useState([]);
   const [FAQDetails, setFAQDetails] = useState({
-    category: "",
     subcategory: "",
     status: "",
   });
+  const [currentPage, setCurrentPage] = useState(1);
   const options = [
     {
       label: "one",
@@ -66,10 +71,6 @@ const AddFaqComp = ({ create, view, remove }) => {
   const id = localStorage.getItem("editId");
 
   useEffect(() => {
-    setValue(
-      "category",
-      options.find((option) => option.value === FAQDetails.category)
-    );
     setValue(
       "subcategory",
       options.find((option) => option.value === FAQDetails.subcategory)
@@ -107,13 +108,6 @@ const AddFaqComp = ({ create, view, remove }) => {
     }
   };
 
-  useEffect(() => {
-    if (id) {
-      setEdit(true);
-      getFAQDetails();
-    }
-  }, []);
-
   const onSubmit = async (data) => {
     if (!edit) {
       try {
@@ -122,12 +116,11 @@ const AddFaqComp = ({ create, view, remove }) => {
           return;
         }
         setModal(true);
-
         let body = {
           title: data.title,
           answer: data.content,
           subCategory: FAQDetails.subcategory,
-          category: FAQDetails.category,
+          category: category,
         };
         if (FAQDetails.status === "active") {
           body.isActive = true;
@@ -160,7 +153,7 @@ const AddFaqComp = ({ create, view, remove }) => {
           title: data.title,
           answer: data.content,
           subCategory: FAQDetails.subcategory,
-          category: FAQDetails.category,
+          category: category,
         };
         if (FAQDetails.status === "active") {
           body.isActive = true;
@@ -185,6 +178,43 @@ const AddFaqComp = ({ create, view, remove }) => {
     }
   };
 
+  const TogglePopup = (type) => {
+    console.log("type :>> ", type);
+    if (type === "Category") {
+      setCategoryModal(true);
+    }
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    setIsSubmit(true);
+    handleSubmit(onSubmit)();
+  };
+
+  const listCategorys = async (page) => {
+    try {
+      let params = {
+        page: page,
+      };
+      let response = await getCategoryList(params);
+      if (response.status === 200 && response?.data?.data?.list.length > 0) {
+        setCategoryList(response?.data?.data?.list);
+      } else {
+        setCategoryList([]);
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      setEdit(true);
+      getFAQDetails();
+    }
+    listCategorys(currentPage);
+  }, []);
+
   return (
     <div className="add_faq px-5 py-3">
       <form>
@@ -193,7 +223,7 @@ const AddFaqComp = ({ create, view, remove }) => {
             <i className="pr-3">
               <BsArrowLeft
                 size={28}
-                onClick={() => history.goBack()}
+                onClick={() => history.push("/admin/faq-management")}
                 style={{ cursor: "pointer" }}
               />
             </i>
@@ -235,33 +265,20 @@ const AddFaqComp = ({ create, view, remove }) => {
           <div className="row my-4 mr-5 pr-4 ">
             <div className="col-4">
               <label>Category</label>
-              <CustomController
-                name={"category"}
-                control={control}
-                error={errors.category}
-                value={options.find(
-                  (option) => option.value === getValues("category")
-                )}
-                rules={{ required: true }}
-                messages={{ required: " Category is Required" }}
-                render={({ onChange, ...field }) => {
-                  return (
-                    <DropDown
-                      {...field}
-                      name="category"
-                      placeholder="Select Category"
-                      options={options}
-                      onChange={(option) => {
-                        setFAQDetails((prevState) => ({
-                          ...prevState,
-                          category: option.value,
-                        }));
-                        onChange(option.value);
-                      }}
-                    />
-                  );
-                }}
+              <MultiSelect
+                options={categoryList}
+                placeholder="Select Category"
+                onChange={(option) => setCategory(option)}
+                id="category"
+                plusSymbol={true}
+                toggle={() => TogglePopup("Category")}
+                btnLabel="Create Category"
               />
+              {!category && isSubmit && (
+                <span style={{ color: "#dc3545" }} className="">
+                  Category is Required
+                </span>
+              )}
             </div>
             <div className="col-4">
               <label>Sub Category</label>
@@ -341,7 +358,6 @@ const AddFaqComp = ({ create, view, remove }) => {
                     onChange={(content) => {
                       onChange(content);
                       setQuill(content);
-
                     }}
                     name={"content"}
                   />
@@ -360,7 +376,7 @@ const AddFaqComp = ({ create, view, remove }) => {
             <div className="col-md-2 pl-3 p-0">
               <NormalButton
                 className="loginButton"
-                onClick={handleSubmit(onSubmit)}
+                onClick={handleFormSubmit}
                 label={edit ? "Update" : "Add FAQ"}
               />
             </div>
@@ -376,6 +392,12 @@ const AddFaqComp = ({ create, view, remove }) => {
               ? "FAQ Content Updated Successfully"
               : "New FAQ Added Successfully"
           }
+        />
+      </div>
+      <div>
+        <CategoryModal
+          modalOpen={categoryModal}
+          onCancel={() => setCategoryModal(false)}
         />
       </div>
     </div>

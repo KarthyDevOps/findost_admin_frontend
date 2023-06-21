@@ -1,85 +1,108 @@
-import React, { useState } from "react";
-
-import "./MultiSelect.scss";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+// styles
+import styles from "./MultiSelect.module.scss";
+// internal Components
+import { SearchInput } from "component/common/SearchInput/index";
+import { NewLoader } from "component/common/Loader/NewLoader";
+import { useClickOutSide } from "hooks";
+// helpers
+import { debounce } from "helpers/index";
 
 const MultiSelect = ({
-  options = [],
-  selectedOptions = [],
-  onChange,
-  placeholder = "Enter here",
+  options: propsOptions,
+  placeholder = "Search",
+  btnLabel = "",
+  plusSymbol = true,
+  dropDownSymbol = "Search",
+  toggle,
+  onSearch = () => {
+    return null;
+  },
+  onChange = () => {
+    return null;
+  },
+  setValue = () => {
+    return null;
+  },
+  id = null,
+  setLabel = () => {
+    return null;
+  },
+  defaultValue,
+  userIds = [],
+  isMulti,
+  isLoading = false,
 }) => {
+  const searchRef = useRef();
   let [isOpen, setIsOpen] = useState(false);
+  const [options, setOptions] = useState(propsOptions || []);
 
-  const addOption = async (option) => {
-    let list = selectedOptions;
-    list.push(option);
-    await onChange(list);
-    await setIsOpen(false);
+  useClickOutSide(searchRef, () => setIsOpen(false));
+
+  const handleChange = ({ target: { value } }) => {
+    let str = String(value)
+      .trim()
+      .toLowerCase();
+    onSearch(value);
+    str.length === 0 && !isMulti && setValue("");
   };
 
-  const deleteOption = async (id) => {
-    let list = selectedOptions;
-    list.splice(id, 1);
-    await onChange(list);
-    await setIsOpen(false);
+  const handleCustomer = (name) => {
+    onChange(name);
+    document.getElementById(id).value = isMulti ? "" : name;
+    if (!isMulti) setLabel(name);
+    else onSearch("");
+    setIsOpen(false);
   };
+
+  useEffect(() => {
+    if (propsOptions) {
+      let temp = propsOptions;
+      if (userIds?.length > 0) {
+        temp = temp.filter((opt) => !userIds.includes(opt.value));
+      }
+      setOptions(temp);
+    }
+  }, [propsOptions, userIds]);
 
   return (
-    <div
-      className="multi-select-container"
-      tabIndex="0"
-      onBlur={() => setIsOpen(false)}
-    >
-      <div className="multi-select" onClick={() => setIsOpen(!isOpen)}>
-        <div className="selected-option-wrapper">
-          {selectedOptions.length == 0 ? (
-            <span style={{ color: "#817f7d" }}>{placeholder}</span>
-          ) : (
-            selectedOptions.map((list, index) => {
-              return (
-                <span key={index} className="selected-option">
-                  {list}
-                  <span
-                    className="delete-tag"
-                    style={{ color: "black" }}
-                    onClick={() => deleteOption(index)}
-                  >
-                    &#x2715;
-                  </span>
-                </span>
-              );
-            })
-          )}
-        </div>
-        <div
-          style={{
-            transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
-            transition: "0.3s",
-          }}
-        >
-          <span className="fa fa-chevron-down"></span>
-        </div>
-      </div>
+    <div className={styles.search_container} ref={searchRef}>
+      <SearchInput
+        id={id}
+        placeholder={placeholder}
+        onChange={debounce(handleChange, 300)}
+        onFocus={() => setIsOpen(true)}
+        dropDownSymbol={dropDownSymbol}
+        defaultValue={defaultValue}
+      />
       {isOpen && (
-        <div className="multi-select-option">
-          {options.length === selectedOptions.length ? (
-            <div className="no-option">
-              <span>No Options</span>
+        <div className={styles.search_box}>
+          {isLoading ? (
+            <div className="d-flex justify-content-center w-100">
+              <NewLoader size="sm" />
             </div>
           ) : (
-            options.map((list, index) => {
-              return (
-                !selectedOptions.includes(list) && (
-                  <div
-                    key={index}
-                    className="select-list"
-                    onClick={() => addOption(list)}
-                  >
-                    <span>{list}</span>
-                  </div>
-                )
-              );
-            })
+            <ul>
+              {options?.length > 0 ? (
+                options.map(({ name }, index) => {
+                  return (
+                    <li key={index} onClick={() => handleCustomer(name)}>
+                      {name}
+                    </li>
+                  );
+                })
+              ) : (
+                <div className="no-record py-1">
+                  <span>No Records Found</span>
+                </div>
+              )}
+            </ul>
+          )}
+          {plusSymbol && (
+            <div className={styles.btn_customer} onClick={toggle}>
+              <i style={{ marginLeft: "8px" }} className="fas fa-plus"></i>
+              <u>{btnLabel}</u>
+            </div>
           )}
         </div>
       )}

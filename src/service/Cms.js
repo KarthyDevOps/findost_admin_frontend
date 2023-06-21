@@ -454,3 +454,27 @@ export const updateFeedback = async (body, id) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
+export const getCategoryList = async (params) => {
+  let request = await axios({
+    method: "get",
+    url: `${endpoints.cms.LIST_CATEGORY}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params: params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const addCategory = async (data) => {
+  const request = await axios({
+    method: "post",
+    url: endpoints.cms.CREATE_CATEGORY,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: data,
+  }).catch(axiosErrorHandler);
+  return request;
+};

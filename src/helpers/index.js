@@ -408,6 +408,8 @@ export const options = [
   },
 ];
 
+export const categoryOptions = ["option1","option2", "option3"]
+
 export const feedbackStatus = [
   {
     label: "Open",

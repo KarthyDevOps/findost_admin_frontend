@@ -58,6 +58,9 @@ export const endpoints = {
     GET_FEEDBACK: `${cms}/feedback-management/get`,
     DELETE_FEEDBACK: `${cms}/feedback-management/delete`,
     UPDATE_FEEDBACK: `${cms}/feedback-management/update`,
+    LIST_CATEGORY : `${cms}/category-management/list`,
+    CREATE_CATEGORY : `${cms}/category-management/create`,
+
   },
   communication: {
     NOTIFICATION_TEMPLATE_LIST: `${communicationUrl}/notificationTemplate-management/list`,
