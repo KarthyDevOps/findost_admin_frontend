@@ -1,0 +1,23 @@
+.search_input {
+  position: relative;
+  input {
+    width: 100%;
+    background: #ffffff !important;
+    border: 1px solid #d9d9d9 !important;
+    border-radius: 10px !important;
+    min-height: 45px !important;
+    cursor: pointer !important;
+    padding: 8px;
+    // &::placeholder {
+    //   color: #cacccf;
+    // }
+  }
+  i {
+    position: absolute;
+    top: 12px;
+    right: 10px;
+    color: #cacccf;
+    font-size: 18px;
+    font-weight: normal;
+  }
+}

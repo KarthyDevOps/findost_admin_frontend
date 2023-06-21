@@ -1,4 +1,6 @@
-.ant-modal-close-x,
+.success-modal .ant-modal-close-x{
+  display: none;
+}
 .ant-modal-footer {
   display: none;
 }
@@ -32,24 +34,20 @@
     object-fit: contain;
   }
 }
-.ant-modal-body {
+.success-modal .ant-modal-body {
   padding: 0;
 }
-
-.ant-modal-content {
+.success-modal .ant-modal-content {
   background: #ffffff;
   border-radius: 20px !important;
   width: 450px;
   height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
-.delete_no_btn{
+.delete_no_btn {
   width: 11px;
-height: 58px;
+  height: 58px;
 }
-.success_img{
+.success_img {
   width: 300px;
   height: 300px;
   margin: auto;

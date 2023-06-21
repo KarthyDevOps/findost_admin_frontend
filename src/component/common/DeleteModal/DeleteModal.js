@@ -12,7 +12,7 @@ const DeleteModal = ({
 }) => {
   return (
     <>
-      <Modal open={modalOpen} centered closable={false}>
+      <Modal open={modalOpen} centered closable={false} className={"success-modal"}>
         <div className="p-5">
           {DeleteMessage && <p className="delete_text m-0">{DeleteMessage}</p>}
           {DeleteMessage && (
