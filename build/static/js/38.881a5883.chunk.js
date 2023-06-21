@@ -1,2 +1,0 @@
-(this.webpackJsonpadmin=this.webpackJsonpadmin||[]).push([[38],{143:function(e,n,t){"use strict";t.r(n);var a=t(1),r=t.n(a);n.default=function(e){var n=e.error,t=(e.type,e.messages);return n?r.a.createElement("span",{className:"text-danger fs-13"},t[n.type]?t[n.type]:"Error in field"):null}}}]);
-//# sourceMappingURL=38.881a5883.chunk.js.map
