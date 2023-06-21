@@ -33,6 +33,7 @@ const AddFaqComp = ({ create, view, remove }) => {
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState(false);
   const [quill, setQuill] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [FAQDetails, setFAQDetails] = useState({
     category: "",
@@ -122,7 +123,7 @@ const AddFaqComp = ({ create, view, remove }) => {
           return;
         }
         setModal(true);
-
+        setLoading(true);
         let body = {
           title: data.title,
           answer: data.content,
@@ -142,9 +143,12 @@ const AddFaqComp = ({ create, view, remove }) => {
             reset(FAQDetails);
             history.push("/admin/faq-management");
           }, 1000);
+          setLoading(false);
+
           return () => clearTimeout(timeout);
         } else {
           Toast({ type: "error", message: response.data.message });
+          setLoading(false);
         }
       } catch (e) {
         console.log(e);
@@ -155,6 +159,8 @@ const AddFaqComp = ({ create, view, remove }) => {
           Toast({ type: "error", message: "FAQ Status is Required" });
           return;
         }
+        setLoading(true);
+
         setModal(true);
         let body = {
           title: data.title,
@@ -175,6 +181,8 @@ const AddFaqComp = ({ create, view, remove }) => {
             reset(FAQDetails);
             history.push("/admin/faq-management");
           }, 1000);
+          setLoading(false);
+
           return () => clearTimeout(timeout);
         } else {
           Toast({ type: "error", message: response.data.message });
@@ -341,7 +349,6 @@ const AddFaqComp = ({ create, view, remove }) => {
                     onChange={(content) => {
                       onChange(content);
                       setQuill(content);
-
                     }}
                     name={"content"}
                   />
@@ -362,7 +369,8 @@ const AddFaqComp = ({ create, view, remove }) => {
                 className="loginButton"
                 onClick={handleSubmit(onSubmit)}
                 label={edit ? "Update" : "Add FAQ"}
-              />
+                isLoading={loading}
+                />
             </div>
           </div>
         </div>

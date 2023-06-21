@@ -36,6 +36,7 @@ const AddStaff = ({ create, view, remove }) => {
   });
   const [edit, setEdit] = useState(false);
   const [modal, setModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [staffDetails, setStaffDetails] = useState({
     role: "",
     status: "",
@@ -71,6 +72,7 @@ const AddStaff = ({ create, view, remove }) => {
     console.log("dataform :>> ", data);
     if (!edit) {
       try {
+        setLoading(true);
         let body = {
           name: data.name,
           email: data.email,
@@ -102,8 +104,12 @@ const AddStaff = ({ create, view, remove }) => {
             reset(staffDetails);
             history.push("/admin/staff-management");
           }, 1000);
+          setLoading(false);
+
           return () => clearTimeout(timeout);
         } else {
+          setLoading(false);
+
           Toast({ type: "error", message: response.data.message });
         }
       } catch (e) {
@@ -111,6 +117,8 @@ const AddStaff = ({ create, view, remove }) => {
       }
     } else {
       try {
+        setLoading(true);
+
         let body = {
           name: data.name,
           email: data.email,
@@ -141,8 +149,12 @@ const AddStaff = ({ create, view, remove }) => {
             reset(staffDetails);
             history.push("/admin/staff-management");
           }, 1000);
+          setLoading(false);
+
           return () => clearTimeout(timeout);
         } else {
+          setLoading(false);
+
           Toast({ type: "error", message: response.data.message });
         }
       } catch (e) {
@@ -292,31 +304,32 @@ const AddStaff = ({ create, view, remove }) => {
                 // disabled={edit}
                 defaultValue={staffDetails.password}
                 register={register({
-                  required: "Password is required",
-                  minLength: {
-                    value: 8,
-                    message: "Password must contain at least 8 characters",
-                  },
-                  maxLength: {
-                    value: 16,
-                    message:
-                      "Password must contain a maximum of 16 characters",
-                  },
-                  pattern: {
-                    value: /^(?=.*[A-Z])(?=.*[a-z])/,
-                    message:
-                      "Password must contain at least one uppercase and lowercase letter",
-                  },
-                  validate: {
-                    containsDigit: (value) =>
-                      /^(?=.*[0-9])/.test(value) ||
-                      "Password must contain at least one Numeric",
-                    containsSpecial: (value) =>
-                      /^(?=.*[!@#$%^&*])/.test(value) ||
-                      "Password must contain at least one special character",
-                  },
+                  required: edit ? false : true,
+                  minLength: edit
+                    ? false
+                    : {
+                        value: 8,
+                      },
+                  maxLength: edit
+                    ? false
+                    : {
+                        value: 16,
+                      },
+                  pattern: edit
+                    ? false
+                    : {
+                        value: /^(?=.*[A-Z])(?=.*[a-z])/,
+                      },
+                  validate: edit
+                    ? false
+                    : {
+                        containsDigit: (value) => /^(?=.*[0-9])/.test(value),
+                        containsSpecial: (value) =>
+                          /^(?=.*[!@#$%^&*])/.test(value),
+                      },
                 })}
               />
+
               <FormErrorMessage
                 error={errors.password}
                 messages={{
@@ -458,6 +471,7 @@ const AddStaff = ({ create, view, remove }) => {
                 label={edit ? "Update" : "Add Staff"}
                 onClick={handleSubmit(onSubmit)}
                 type="submit"
+                isLoading={loading}
               />
             </div>
           </div>

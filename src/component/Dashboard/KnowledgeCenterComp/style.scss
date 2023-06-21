@@ -1,6 +1,6 @@
 .knowledge_center,
 .Add_knowledge {
-  h6,
+  
   p {
     font-family: "Helvetica";
     font-style: normal;
@@ -8,6 +8,9 @@
     font-size: 32px;
     line-height: 125.99%;
     color: #000000;
+  }
+  h6{
+    font-size: 14px;
   }
 }
 .knowledge_body {

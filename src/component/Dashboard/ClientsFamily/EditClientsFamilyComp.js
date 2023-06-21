@@ -31,6 +31,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
   });
 
   const [modal, setModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [ClientDetails, setClientDetails] = useState({ relationShip: "" });
   const options = [
     {
@@ -90,6 +91,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
   const onSubmit = async (data) => {
     setModal(true);
     try {
+      setLoading(true);
       let body = {
         clientName: data?.clientName,
         email: data?.email,
@@ -105,6 +107,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
           reset(ClientDetails);
           history.push("/admin/clients-family");
         }, 1000);
+        setLoading(false);
         return () => clearTimeout(timeout);
       } else {
         Toast({ type: "error", message: response.data.message });
@@ -171,7 +174,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
                 }}
               />
             </div>
-            <div className="col-md-4" >
+            <div className="col-md-4">
               <label>Date of Birth</label>
               <div className="date_of_birth">
                 <CustomController
@@ -186,7 +189,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
                   render={({ onChange, ...field }) => {
                     return (
                       <CommonDatePicker
-                      clientDatePicker
+                        clientDatePicker
                         id="dateOfBirth"
                         name="dateOfBirth"
                         {...field}
@@ -267,6 +270,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
                   className="loginButton"
                   label={"Update"}
                   onClick={handleSubmit(onSubmit)}
+                  isLoading={loading}
                 />
               </div>
             )}

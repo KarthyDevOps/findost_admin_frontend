@@ -32,6 +32,7 @@ const SendNotificationComp = () => {
   const [edit, setEdit] = useState(false);
   const [users, setUsers] = useState([]);
   const [modal, setModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const id = localStorage.getItem("editId");
 
   const getHistoryDetails = async () => {
@@ -64,6 +65,8 @@ const SendNotificationComp = () => {
   const onsubmit = async (data) => {
     if (!edit) {
       try {
+        setLoading(true);
+
         const body = {
           title: data.title,
           description: data.content,
@@ -77,8 +80,12 @@ const SendNotificationComp = () => {
             reset({ title: "", content: "", users: [] });
             history.push("/admin/notification-management?tab=1");
           }, 1000);
+          setLoading(false);
+
           return () => clearTimeout(timeout);
         } else {
+          setLoading(false);
+
           Toast({ type: "error", message: response.data.message });
         }
       } catch (e) {
@@ -86,6 +93,8 @@ const SendNotificationComp = () => {
       }
     } else {
       try {
+        setLoading(true);
+
         const body = {
           title: data.title,
           description: data.content,
@@ -99,8 +108,12 @@ const SendNotificationComp = () => {
             reset({ title: "", content: "", users: [] });
             history.push("/admin/notification-management?tab=1");
           }, 1000);
+          setLoading(false);
+
           return () => clearTimeout(timeout);
         } else {
+          setLoading(false);
+
           Toast({ type: "error", message: response.data.message });
         }
       } catch (e) {
@@ -230,14 +243,14 @@ const SendNotificationComp = () => {
                 name="content"
                 register={register({
                   required: true,
-                  pattern : InitialSpaceNotAllowed
+                  pattern: InitialSpaceNotAllowed,
                 })}
               />
               <FormErrorMessage
                 error={errors.content}
                 messages={{
                   required: "Notification Content is required",
-                  pattern : "Please enter a valid content"
+                  pattern: "Please enter a valid content",
                 }}
               />
             </div>
@@ -248,13 +261,16 @@ const SendNotificationComp = () => {
               <NormalButton
                 className="authButton1"
                 label={"Cancel"}
-                onClick={() => history.push("/admin/notification-management?tab=1")}
+                onClick={() =>
+                  history.push("/admin/notification-management?tab=1")
+                }
               />
             </div>
             <div className="col-md-3">
               <NormalButton
                 className="loginButton"
                 label={"Send Notification"}
+                isLoading={loading}
                 onClick={handleSubmit(onsubmit)}
               />
             </div>
