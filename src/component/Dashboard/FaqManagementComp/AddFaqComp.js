@@ -50,6 +50,9 @@ const AddFaqComp = ({ create, view, remove }) => {
   const [categoryList, setCategoryList] = useState([]);
   const [subCategoryList, setSubCategoryList] = useState([]);
   const [categoryId, setCategoryId] = useState("");
+  const [categoryMasterId, setCategoryMasterId] = useState("");
+
+  const [subCategoryId, setSubCategoryId] = useState("");
   const [FAQDetails, setFAQDetails] = useState({
     status: "",
   });
@@ -100,8 +103,8 @@ const AddFaqComp = ({ create, view, remove }) => {
           content: data?.answer,
         });
         setQuill(data?.answer);
-        setCategory(data?.category);
-        setSubCategory(data?.subCategory);
+        setCategoryMasterId(data?.category);
+        setSubCategoryId(data?.subCategory);
         setFAQDetails({
           status: data.isActive ? "active" : "inActive",
         });
@@ -125,8 +128,8 @@ const AddFaqComp = ({ create, view, remove }) => {
         let body = {
           title: data.title,
           answer: data.content,
-          subCategory: subCategory,
-          category: category,
+          subCategory: subCategoryId,
+          category: categoryMasterId,
         };
         if (FAQDetails.status === "active") {
           body.isActive = true;
@@ -163,8 +166,8 @@ const AddFaqComp = ({ create, view, remove }) => {
         let body = {
           title: data.title,
           answer: data.content,
-          subCategory: subCategory,
-          category: category,
+          category: categoryMasterId,
+          subCategory: subCategoryId,
         };
         if (FAQDetails.status === "active") {
           body.isActive = true;
@@ -184,6 +187,7 @@ const AddFaqComp = ({ create, view, remove }) => {
           return () => clearTimeout(timeout);
         } else {
           Toast({ type: "error", message: response.data.message });
+          setLoading(false);
         }
       } catch (e) {
         console.log(e);
@@ -203,6 +207,12 @@ const AddFaqComp = ({ create, view, remove }) => {
   const handlecategoryId = (option) => {
     let newCategory = categoryList.find((x) => x.name === option);
     setCategoryId(newCategory?.categoryId);
+    setCategoryMasterId(newCategory?._id);
+  };
+  const handleSubcategoryId = (option) => {
+    let newCategory = subCategoryList.find((x) => x.name === option);
+    console.log(newCategory);
+    setSubCategoryId(newCategory?._id);
   };
 
   const handleFormSubmit = (e) => {
@@ -219,6 +229,7 @@ const AddFaqComp = ({ create, view, remove }) => {
       let response = await getCategoryList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
         setCategoryList(response?.data?.data?.list);
+        console.log("first", response?.data?.data?.list);
       } else {
         setCategoryList([]);
       }
@@ -325,7 +336,10 @@ const AddFaqComp = ({ create, view, remove }) => {
               <MultiSelect
                 options={subCategoryList}
                 placeholder="Select Sub Category"
-                onChange={(option) => setSubCategory(option)}
+                onChange={(option) => {
+                  setSubCategory(option);
+                  handleSubcategoryId(option);
+                }}
                 id="subCategory"
                 plusSymbol={true}
                 toggle={() => TogglePopup("subCategory")}
