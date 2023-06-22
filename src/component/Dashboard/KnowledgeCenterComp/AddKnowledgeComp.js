@@ -9,6 +9,10 @@ import "./style.scss";
 //assets
 import cloudIcon from "../../../assets/images/uploadcloud.svg";
 //internal components
+import MultiSelect from "component/common/MultiSelect";
+import CategoryModal from "component/common/CategoryModal/CategoryModal";
+import SubCategoryModal from "component/common/CategoryModal/SubCategoryModal";
+
 import InputBox from "component/common/InputBox/InputBox";
 import DropDown from "component/common/DropDown/DropDown";
 import TextEditor from "component/common/TextEditor/TextEditor";
@@ -17,7 +21,13 @@ import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import FormErrorMessage from "component/common/ErrorMessage";
 import CustomController from "component/common/Controller";
 //service
-import { addKnowledge, getKnowledge, updateKnowledge } from "service/Cms";
+import {
+  addKnowledge,
+  getKnowledge,
+  updateKnowledge,
+  getCategoryList,
+  getSubCategoryList,
+} from "service/Cms";
 import { uploadImage } from "service/Auth";
 import { Toast } from "service/toast";
 //helpers
@@ -42,11 +52,20 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
   const [DocURL, setDocURL] = useState("");
   const [quill, setQuill] = useState("");
   const [loading, setloading] = useState(false);
+  const [category, setCategory] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isSubmit, setIsSubmit] = useState(false);
+  const [subCategory, setSubCategory] = useState("");
+  const [categoryModal, setCategoryModal] = useState(false);
+  const [subCategoryModal, setSubCategoryModal] = useState(false);
+  const [categoryList, setCategoryList] = useState([]);
+  const [subCategoryList, setSubCategoryList] = useState([]);
+  const [categoryId, setCategoryId] = useState("");
+  const [categoryMasterId, setCategoryMasterId] = useState("");
 
+  const [subCategoryId, setSubCategoryId] = useState("");
   const [DocFileName, setDocFileName] = useState("");
   const [KnowledgeDetails, setKnowledgeDetails] = useState({
-    category: "",
-    subcategory: "",
     status: "",
   });
   const options = [
@@ -77,14 +96,6 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
 
   useEffect(() => {
     setValue(
-      "category",
-      options.find((option) => option.value === KnowledgeDetails.category)
-    );
-    setValue(
-      "subcategory",
-      options.find((option) => option.value === KnowledgeDetails.subcategory)
-    );
-    setValue(
       "status",
       status.find((option) => option.value === KnowledgeDetails.status)
     );
@@ -103,6 +114,8 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           content: data?.description,
           contentURL: data?.contentUrlLink,
         });
+        setCategory(data?.category);
+        setSubCategory(data?.subCategory);
         setQuill(data?.description);
         setDocURL(data?.documentPathS3);
         setDocFileName(data?.fileOriginalName);
@@ -119,13 +132,6 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
     }
   };
 
-  useEffect(() => {
-    if (id) {
-      setEdit(true);
-      getKnowledgeDetails();
-    }
-  }, []);
-
   const onSubmit = async (data) => {
     if (!edit) {
       try {
@@ -138,8 +144,8 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
 
         let body = {
           title: data.title,
-          subCategory: KnowledgeDetails.subcategory,
-          category: KnowledgeDetails.category,
+          subCategory: subCategoryId,
+          category: categoryMasterId,
           description: data?.content,
           contentUrlLink: data?.contentURL,
           documentPath: newDoc ? newDoc : DocURL,
@@ -162,7 +168,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           return () => clearTimeout(timeout);
         } else {
           Toast({ type: "error", message: response.data.message });
-          // setloading(false);
+          setloading(false);
         }
       } catch (e) {
         console.log(e);
@@ -178,8 +184,8 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
         let body = {
           title: data.title,
           contentUrlLink: data?.contentURL,
-          subCategory: KnowledgeDetails.subcategory,
-          category: KnowledgeDetails.category,
+          subCategory: subCategoryId,
+          category: categoryMasterId,
           description: data?.content,
           documentPath: newDoc ? newDoc : DocURL,
           fileOriginalName: DocFileName,
@@ -202,7 +208,6 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           return () => clearTimeout(timeout);
         } else {
           setloading(false);
-
           Toast({ type: "error", message: response.data.message });
         }
       } catch (e) {
@@ -210,7 +215,65 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
       }
     }
   };
+  const TogglePopup = (type) => {
+    console.log("type :>> ", type);
+    if (type === "Category") {
+      setCategoryModal(true);
+    } else {
+      setSubCategoryModal(true);
+    }
+  };
 
+  const handlecategoryId = (option) => {
+    let newCategory = categoryList.find((x) => x.name === option);
+    setCategoryId(newCategory?.categoryId);
+    setCategoryMasterId(newCategory?._id);
+  };
+  const handleSubcategoryId = (option) => {
+    let newCategory = subCategoryList.find((x) => x.name === option);
+    console.log(newCategory);
+    setSubCategoryId(newCategory?._id);
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    setIsSubmit(true);
+    handleSubmit(onSubmit)();
+  };
+
+  const listCategorys = async (page) => {
+    try {
+      let params = {
+        page: page,
+      };
+      let response = await getCategoryList(params);
+      if (response.status === 200 && response?.data?.data?.list.length > 0) {
+        setCategoryList(response?.data?.data?.list);
+      } else {
+        setCategoryList([]);
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
+  };
+
+  const listSubCategorys = async (page) => {
+    try {
+      let params = {
+        page: page,
+      };
+      let response = await getSubCategoryList(params);
+      if (response.status === 200 && response?.data?.data?.list.length > 0) {
+        setSubCategoryList(response?.data?.data?.list);
+      } else {
+        setSubCategoryList([]);
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
+  };
+
+  //handle drop docfunction
   const handleDrop = async (droppedimage) => {
     let body = new FormData();
     for (let index = 0; index < droppedimage.length; index++) {
@@ -225,6 +288,15 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
       }
     }
   };
+
+  useEffect(() => {
+    if (id) {
+      setEdit(true);
+      getKnowledgeDetails();
+    }
+    listCategorys(currentPage);
+    listSubCategorys(currentPage);
+  }, []);
 
   const cancelImg = (e) => {
     e.stopPropagation();
@@ -275,63 +347,43 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
             </div>
             <div className="col-4">
               <label>Category</label>
-              <CustomController
-                name={"category"}
-                control={control}
-                error={errors.category}
-                value={options.find(
-                  (option) => option.value === getValues("category")
-                )}
-                rules={{ required: true }}
-                messages={{ required: "Category is Required" }}
-                render={({ onChange, ...field }) => {
-                  return (
-                    <DropDown
-                      {...field}
-                      name="category"
-                      placeholder="Select Category"
-                      options={options}
-                      onChange={(option) => {
-                        setKnowledgeDetails((prevState) => ({
-                          ...prevState,
-                          category: option.value,
-                        }));
-                        onChange(option.value);
-                      }}
-                    />
-                  );
+              <MultiSelect
+                options={categoryList}
+                placeholder="Select Category"
+                onChange={(option) => {
+                  setCategory(option);
+                  handlecategoryId(option);
                 }}
+                id="category"
+                plusSymbol={true}
+                toggle={() => TogglePopup("Category")}
+                btnLabel="Create Category"
               />
+              {!category && isSubmit && (
+                <span style={{ color: "#dc3545" }} className="">
+                  Category is Required
+                </span>
+              )}
             </div>
             <div className="col-4">
               <label>Sub Category</label>
-              <CustomController
-                name={"subcategory"}
-                control={control}
-                value={status.find(
-                  (option) => option.value === getValues("subcategory")
-                )}
-                error={errors.subcategory}
-                rules={{ required: true }}
-                messages={{ required: "Subcategory is Required" }}
-                render={({ onChange, ...field }) => {
-                  return (
-                    <DropDown
-                      {...field}
-                      name="subcategory"
-                      placeholder="Select Sub Category"
-                      options={options}
-                      onChange={(option) => {
-                        setKnowledgeDetails((prevState) => ({
-                          ...prevState,
-                          subcategory: option.value,
-                        }));
-                        onChange(option.value);
-                      }}
-                    />
-                  );
+              <MultiSelect
+                options={subCategoryList}
+                placeholder="Select Sub Category"
+                onChange={(option) => {
+                  setSubCategory(option);
+                  handleSubcategoryId(option);
                 }}
+                id="subCategory"
+                plusSymbol={true}
+                toggle={() => TogglePopup("subCategory")}
+                btnLabel="Create Sub Category"
               />
+              {!subCategory && isSubmit && (
+                <span style={{ color: "#dc3545" }} className="">
+                  Sub Category is Required
+                </span>
+              )}
             </div>
             <div className="col-4 my-3">
               <label>Content URL LinK</label>
@@ -492,7 +544,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
             <div className="col-md-2 ">
               <NormalButton
                 className="loginButton"
-                onClick={handleSubmit(onSubmit)}
+                onClick={handleFormSubmit}
                 label={edit ? "Update" : "Add Content"}
                 isLoading={loading}
               />
@@ -509,6 +561,21 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
               ? "Knowledge Center Added Successfully"
               : "Knowledge Center update Successfully"
           }
+        />
+      </div>
+      <div>
+        <CategoryModal
+          modalOpen={categoryModal}
+          onCancel={() => setCategoryModal(false)}
+          refresh={() => listCategorys(currentPage)}
+        />
+      </div>
+      <div>
+        <SubCategoryModal
+          modalOpen={subCategoryModal}
+          onCancel={() => setSubCategoryModal(false)}
+          categoryId={categoryId}
+          refresh={() => listSubCategorys(currentPage)}
         />
       </div>
     </div>
