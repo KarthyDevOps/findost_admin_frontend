@@ -14,7 +14,7 @@ import { addCategory } from "service/Cms";
 // helpers
 import { history } from "helpers";
 
-const CategoryModal = ({ modalOpen, onCancel , Refresh }) => {
+const CategoryModal = ({ modalOpen, onCancel, refresh }) => {
   const { register, handleSubmit, errors, reset } = useForm({
     mode: "onChange",
   });
@@ -29,11 +29,11 @@ const CategoryModal = ({ modalOpen, onCancel , Refresh }) => {
       let response = await addCategory(body);
       if (response.status === 200) {
         setModal(true);
+        refresh();
         const timeout = setTimeout(() => {
           setModal(false);
           reset({ categoryName: "" });
           onCancel();
-          Refresh();
         }, 1000);
         return () => clearTimeout(timeout);
       } else {

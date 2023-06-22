@@ -30,12 +30,11 @@ const SubCategoryModal = ({ modalOpen, onCancel, categoryId, refresh }) => {
       let response = await addSubCategory(body);
       if (response.status === 200) {
         setModal(true);
+        refresh();
         const timeout = setTimeout(() => {
           setModal(false);
           reset({ subCategoryName: "" });
           onCancel();
-          refresh();
-          // history.push("/admin/faq-management");
         }, 1000);
         return () => clearTimeout(timeout);
       } else {
