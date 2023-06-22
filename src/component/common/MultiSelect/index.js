@@ -84,11 +84,13 @@ const MultiSelect = ({
           ) : (
             <ul>
               {options?.length > 0 ? (
-                options.map(({ name }, index) => {
+                options.map((category, index) => {
                   return (
-                    <li key={index} onClick={() => handleCustomer(name)}>
-                      {name}
+                    <>
+                    <li key={index} onClick={() => handleCustomer(category.name)}>
+                      {category.name}
                     </li>
+                    </>
                   );
                 })
               ) : (

@@ -478,3 +478,27 @@ export const addCategory = async (data) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
+export const getSubCategoryList = async (params) => {
+  let request = await axios({
+    method: "get",
+    url: `${endpoints.cms.LIST_SUB_CATEGORY}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params: params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const addSubCategory = async (data) => {
+  const request = await axios({
+    method: "post",
+    url: endpoints.cms.CREATE_SUB_CATEGORY,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: data,
+  }).catch(axiosErrorHandler);
+  return request;
+};
