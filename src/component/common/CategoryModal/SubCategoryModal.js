@@ -10,11 +10,11 @@ import { Toast } from "service/toast";
 // service
 import { useForm } from "react-hook-form";
 import { Modal } from "antd";
-import { addCategory } from "service/Cms";
+import { addSubCategory } from "service/Cms";
 // helpers
 import { history } from "helpers";
 
-const CategoryModal = ({ modalOpen, onCancel, refresh }) => {
+const SubCategoryModal = ({ modalOpen, onCancel, categoryId, refresh }) => {
   const { register, handleSubmit, errors, reset } = useForm({
     mode: "onChange",
   });
@@ -24,15 +24,16 @@ const CategoryModal = ({ modalOpen, onCancel, refresh }) => {
   const onSubmit = async (data) => {
     try {
       const body = {
-        name: data.categoryName,
+        name: data.subCategoryName,
+        categoryId: categoryId,
       };
-      let response = await addCategory(body);
+      let response = await addSubCategory(body);
       if (response.status === 200) {
         setModal(true);
         refresh();
         const timeout = setTimeout(() => {
           setModal(false);
-          reset({ categoryName: "" });
+          reset({ subCategoryName: "" });
           onCancel();
         }, 1000);
         return () => clearTimeout(timeout);
@@ -53,23 +54,23 @@ const CategoryModal = ({ modalOpen, onCancel, refresh }) => {
         className="catelog-modal"
       >
         <div className="my-3">
-          <h4>Add Category</h4>
+          <h4>Add Sub Category</h4>
           <div className="my-3">
-            <label>Category Name</label>
+            <label>Sub Category Name</label>
             <InputBox
               className="add_staff w-100"
               type={"text"}
-              placeholder="Enter Category Name"
-              name="categoryName"
+              placeholder="Enter Sub Category Name"
+              name="subCategoryName"
               errors={errors}
               register={register({
                 required: true,
               })}
             />
             <FormErrorMessage
-              error={errors.categoryName}
+              error={errors.subCategoryName}
               messages={{
-                required: "Category Name is Required",
+                required: "SubCategory Name is Required",
               }}
             />
           </div>
@@ -77,7 +78,7 @@ const CategoryModal = ({ modalOpen, onCancel, refresh }) => {
             <NormalButton
               className="loginButton"
               onClick={handleSubmit(onSubmit)}
-              label={"Add Category"}
+              label={"Add SubCategory"}
             />
           </div>
         </div>
@@ -86,11 +87,11 @@ const CategoryModal = ({ modalOpen, onCancel, refresh }) => {
         <SuccessModal
           modalOpen={modal}
           onCancel={() => setModal(false)}
-          successMsg={"New Category Added Successfully"}
+          successMsg={"New Sub Category Added Successfully"}
         />
       </div>
     </div>
   );
 };
 
-export default CategoryModal;
+export default SubCategoryModal;

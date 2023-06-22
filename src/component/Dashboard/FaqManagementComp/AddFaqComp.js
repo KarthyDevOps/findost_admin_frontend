@@ -4,6 +4,9 @@ import { BsArrowLeft } from "react-icons/bs";
 //styles
 import "./style.scss";
 //internal components
+import MultiSelect from "component/common/MultiSelect";
+import CategoryModal from "component/common/CategoryModal/CategoryModal";
+import SubCategoryModal from "component/common/CategoryModal/SubCategoryModal";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import InputBox from "component/common/InputBox/InputBox";
 import TextEditor from "component/common/TextEditor/TextEditor";
@@ -13,11 +16,15 @@ import CustomController from "component/common/Controller";
 import FormErrorMessage from "component/common/ErrorMessage";
 //service
 import { Toast } from "service/toast";
-import { addFAQ, getFAQ, updateFAQ, getCategoryList } from "service/Cms";
+import {
+  addFAQ,
+  getFAQ,
+  updateFAQ,
+  getCategoryList,
+  getSubCategoryList,
+} from "service/Cms";
 //helpers
 import { history } from "helpers";
-import MultiSelect from "component/common/MultiSelect";
-import CategoryModal from "component/common/CategoryModal/CategoryModal";
 
 const AddFaqComp = ({ create, view, remove }) => {
   const {
@@ -28,7 +35,6 @@ const AddFaqComp = ({ create, view, remove }) => {
     errors,
     control,
     reset,
-    setError,
   } = useForm({
     mode: "onChange",
   });
@@ -36,13 +42,15 @@ const AddFaqComp = ({ create, view, remove }) => {
   const [edit, setEdit] = useState(false);
   const [quill, setQuill] = useState("");
   const [loading, setLoading] = useState(false);
-
   const [category, setCategory] = useState("");
+  const [subCategory, setSubCategory] = useState("");
   const [categoryModal, setCategoryModal] = useState(false);
+  const [subCategoryModal, setSubCategoryModal] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [categoryList, setCategoryList] = useState([]);
+  const [subCategoryList, setSubCategoryList] = useState([]);
+  const [categoryId, setCategoryId] = useState("");
   const [FAQDetails, setFAQDetails] = useState({
-    subcategory: "",
     status: "",
   });
   const [currentPage, setCurrentPage] = useState(1);
@@ -74,10 +82,6 @@ const AddFaqComp = ({ create, view, remove }) => {
 
   useEffect(() => {
     setValue(
-      "subcategory",
-      options.find((option) => option.value === FAQDetails.subcategory)
-    );
-    setValue(
       "status",
       status.find((option) => option.value === FAQDetails.status)
     );
@@ -96,10 +100,9 @@ const AddFaqComp = ({ create, view, remove }) => {
           content: data?.answer,
         });
         setQuill(data?.answer);
-
+        setCategory(data?.category);
+        setSubCategory(data?.subCategory);
         setFAQDetails({
-          category: data.category,
-          subcategory: data.subCategory,
           status: data.isActive ? "active" : "inActive",
         });
       } else {
@@ -122,7 +125,7 @@ const AddFaqComp = ({ create, view, remove }) => {
         let body = {
           title: data.title,
           answer: data.content,
-          subCategory: FAQDetails.subcategory,
+          subCategory: subCategory,
           category: category,
         };
         if (FAQDetails.status === "active") {
@@ -160,7 +163,7 @@ const AddFaqComp = ({ create, view, remove }) => {
         let body = {
           title: data.title,
           answer: data.content,
-          subCategory: FAQDetails.subcategory,
+          subCategory: subCategory,
           category: category,
         };
         if (FAQDetails.status === "active") {
@@ -192,7 +195,14 @@ const AddFaqComp = ({ create, view, remove }) => {
     console.log("type :>> ", type);
     if (type === "Category") {
       setCategoryModal(true);
+    } else {
+      setSubCategoryModal(true);
     }
+  };
+
+  const handlecategoryId = (option) => {
+    let newCategory = categoryList.find((x) => x.name === option);
+    setCategoryId(newCategory?.categoryId);
   };
 
   const handleFormSubmit = (e) => {
@@ -217,12 +227,29 @@ const AddFaqComp = ({ create, view, remove }) => {
     }
   };
 
+  const listSubCategorys = async (page) => {
+    try {
+      let params = {
+        page: page,
+      };
+      let response = await getSubCategoryList(params);
+      if (response.status === 200 && response?.data?.data?.list.length > 0) {
+        setSubCategoryList(response?.data?.data?.list);
+      } else {
+        setSubCategoryList([]);
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
+  };
+
   useEffect(() => {
     if (id) {
       setEdit(true);
       getFAQDetails();
     }
     listCategorys(currentPage);
+    listSubCategorys(currentPage);
   }, []);
 
   return (
@@ -278,7 +305,10 @@ const AddFaqComp = ({ create, view, remove }) => {
               <MultiSelect
                 options={categoryList}
                 placeholder="Select Category"
-                onChange={(option) => setCategory(option)}
+                onChange={(option) => {
+                  setCategory(option);
+                  handlecategoryId(option);
+                }}
                 id="category"
                 plusSymbol={true}
                 toggle={() => TogglePopup("Category")}
@@ -292,33 +322,20 @@ const AddFaqComp = ({ create, view, remove }) => {
             </div>
             <div className="col-4">
               <label>Sub Category</label>
-              <CustomController
-                name={"subcategory"}
-                control={control}
-                error={errors.subcategory}
-                value={status.find(
-                  (option) => option.value === getValues("subcategory")
-                )}
-                rules={{ required: true }}
-                messages={{ required: "Sub Category is Required" }}
-                render={({ onChange, ...field }) => {
-                  return (
-                    <DropDown
-                      {...field}
-                      name="subcategory"
-                      placeholder="Select Sub Category"
-                      options={options}
-                      onChange={(option) => {
-                        setFAQDetails((prevState) => ({
-                          ...prevState,
-                          subcategory: option.value,
-                        }));
-                        onChange(option.value);
-                      }}
-                    />
-                  );
-                }}
+              <MultiSelect
+                options={subCategoryList}
+                placeholder="Select Sub Category"
+                onChange={(option) => setSubCategory(option)}
+                id="subCategory"
+                plusSymbol={true}
+                toggle={() => TogglePopup("subCategory")}
+                btnLabel="Create Sub Category"
               />
+              {!subCategory && isSubmit && (
+                <span style={{ color: "#dc3545" }} className="">
+                  Sub Category is Required
+                </span>
+              )}
             </div>
             <div className="col-4 ">
               <label>FAQ Status</label>
@@ -389,7 +406,7 @@ const AddFaqComp = ({ create, view, remove }) => {
                 onClick={handleFormSubmit}
                 label={edit ? "Update" : "Add FAQ"}
                 isLoading={loading}
-                />
+              />
             </div>
           </div>
         </div>
@@ -409,6 +426,15 @@ const AddFaqComp = ({ create, view, remove }) => {
         <CategoryModal
           modalOpen={categoryModal}
           onCancel={() => setCategoryModal(false)}
+          refresh={() => listCategorys(currentPage)}
+        />
+      </div>
+      <div>
+        <SubCategoryModal
+          modalOpen={subCategoryModal}
+          onCancel={() => setSubCategoryModal(false)}
+          categoryId={categoryId}
+          refresh={() => listSubCategorys(currentPage)}
         />
       </div>
     </div>
