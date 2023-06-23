@@ -87,59 +87,43 @@ const DashboardComp = () => {
 
   const columnSeries = [
     {
-      name: "Net Profit",
-      data: [44, 55, 57, 56],
-    },
-    {
-      name: "Revenue",
-      data: [76, 85, 101, 98],
-    },
-    {
-      name: "Free Cash Flow",
-      data: [35, 41, 36, 26],
+       name: 'Series 1',
+      data: [21, 22, 10, 28, 16, 30],
     },
   ];
   const columnOptions = {
     chart: {
-      type: "bar",
       height: 350,
+      type: "bar",
       toolbar: {
         show: false,
       },
     },
+    // colors: colors,
     plotOptions: {
       bar: {
         horizontal: false,
-        columnWidth: "55%",
+        columnWidth: "75%",
         endingShape: "rounded",
+        distributed: true,
       },
     },
     dataLabels: {
       enabled: false,
     },
-    stroke: {
-      show: true,
-      width: 2,
-      colors: ["transparent"],
+    legend: {
+      show: false,
     },
     xaxis: {
-      categories: ["Feb", "Mar", "Apr", "May"],
-    },
-
-    yaxis: {
-      title: {
-        text: "$ (thousands)",
-      },
+      categories: ["0", "1", "2", "3", "4", "5"],
     },
     fill: {
       opacity: 1,
     },
-
     tooltip: {
       enabled: false,
     },
   };
-
   const pieSeries = [44, 55, 13, 43];
   const donutSeries = [44, 55, 41, 17];
 
@@ -195,9 +179,9 @@ const DashboardComp = () => {
           );
         })}
       </div>
-      <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 my-5">
-        <div className="chart_background2">
-        <span>Lorem ipsem</span>
+      <div className="d-flex flex-wrap align-items-center my-4">
+        <div className="chart_background2 mr-2">
+          <span>Lorem ipsem</span>
           <Chart
             options={columnOptions}
             series={columnSeries}
@@ -206,9 +190,14 @@ const DashboardComp = () => {
           />
         </div>
         <div className="chart_background">
-        <span>Lorem ipsem</span>
+          <span>Lorem ipsemmm</span>
           <Chart
-            options={barOptions}
+            options={{
+              ...barOptions,
+              stroke: {
+                width: 1,
+              },
+            }}
             series={barSeries}
             type="line"
             height={350}
