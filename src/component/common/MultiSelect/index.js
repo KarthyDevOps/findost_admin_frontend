@@ -10,6 +10,7 @@ import { debounce } from "helpers/index";
 
 const MultiSelect = ({
   options: propsOptions,
+  subOptions: subPropsOptions,
   placeholder = "Search",
   btnLabel = "",
   plusSymbol = true,
@@ -29,6 +30,8 @@ const MultiSelect = ({
     return null;
   },
   defaultValue,
+  catId = "",
+  subCatId = "",
   userIds = [],
   isMulti,
   isLoading = false,
@@ -36,6 +39,7 @@ const MultiSelect = ({
   const searchRef = useRef();
   let [isOpen, setIsOpen] = useState(false);
   const [options, setOptions] = useState(propsOptions || []);
+  const [subOptions, setSubOptions] = useState(subPropsOptions || []);
 
   useClickOutSide(searchRef, () => setIsOpen(false));
 
@@ -54,16 +58,35 @@ const MultiSelect = ({
     else onSearch("");
     setIsOpen(false);
   };
+  const handleCustomerSub = (name) => {
+    onChange(name);
+    document.getElementById(id).value = isMulti ? "" : name;
+    if (!isMulti) setLabel(name);
+    else onSearch("");
+    setIsOpen(false);
+  };
 
   useEffect(() => {
     if (propsOptions) {
       let temp = propsOptions;
-      if (userIds?.length > 0) {
-        temp = temp.filter((opt) => !userIds.includes(opt.value));
+      if (catId?.length > 0) {
+        temp = temp?.find((opt) => catId === opt._id);
+        handleCustomer(temp?.name);
       }
-      setOptions(temp);
+      setOptions(propsOptions);
     }
-  }, [propsOptions, userIds]);
+  }, [propsOptions, catId]);
+
+  useEffect(() => {
+    if (subPropsOptions) {
+      let sample = subPropsOptions;
+      if (subCatId?.length > 0) {
+        sample = sample?.find((opt) => subCatId === opt._id);
+        handleCustomerSub(sample?.name);
+      }
+      setSubOptions(subPropsOptions);
+    }
+  }, [subPropsOptions, subCatId]);
 
   return (
     <div className={styles.search_container} ref={searchRef}>
@@ -81,15 +104,39 @@ const MultiSelect = ({
             <div className="d-flex justify-content-center w-100">
               <NewLoader size="sm" />
             </div>
-          ) : (
+          ) : propsOptions ? (
             <ul>
               {options?.length > 0 ? (
                 options.map((category, index) => {
                   return (
                     <>
-                    <li key={index} onClick={() => handleCustomer(category.name)}>
-                      {category.name}
-                    </li>
+                      <li
+                        key={index}
+                        onClick={() => handleCustomer(category.name)}
+                      >
+                        {category.name}
+                      </li>
+                    </>
+                  );
+                })
+              ) : (
+                <div className="no-record py-1">
+                  <span>No Records Found</span>
+                </div>
+              )}
+            </ul>
+          ) : (
+            <ul>
+              {subOptions?.length > 0 ? (
+                subOptions.map((category, index) => {
+                  return (
+                    <>
+                      <li
+                        key={index}
+                        onClick={() => handleCustomerSub(category.name)}
+                      >
+                        {category.name}
+                      </li>
                     </>
                   );
                 })
