@@ -62,7 +62,8 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
   const [subCategoryList, setSubCategoryList] = useState([]);
   const [categoryId, setCategoryId] = useState("");
   const [categoryMasterId, setCategoryMasterId] = useState("");
-
+  const [catId, setCatId] = useState("");
+  const [subCatId, setSubCatId] = useState("");
   const [subCategoryId, setSubCategoryId] = useState("");
   const [DocFileName, setDocFileName] = useState("");
   const [KnowledgeDetails, setKnowledgeDetails] = useState({
@@ -114,8 +115,8 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           content: data?.description,
           contentURL: data?.contentUrlLink,
         });
-        setCategory(data?.category);
-        setSubCategory(data?.subCategory);
+        setCatId(data?.category);
+        setSubCatId(data?.subCategory);
         setQuill(data?.description);
         setDocURL(data?.documentPathS3);
         setDocFileName(data?.fileOriginalName);
@@ -355,6 +356,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                   handlecategoryId(option);
                 }}
                 id="category"
+                catId={catId}
                 plusSymbol={true}
                 toggle={() => TogglePopup("Category")}
                 btnLabel="Create Category"
@@ -368,13 +370,14 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
             <div className="col-4">
               <label>Sub Category</label>
               <MultiSelect
-                options={subCategoryList}
+                subOptions={subCategoryList}
                 placeholder="Select Sub Category"
                 onChange={(option) => {
                   setSubCategory(option);
                   handleSubcategoryId(option);
                 }}
                 id="subCategory"
+                subCatId={subCatId}
                 plusSymbol={true}
                 toggle={() => TogglePopup("subCategory")}
                 btnLabel="Create Sub Category"

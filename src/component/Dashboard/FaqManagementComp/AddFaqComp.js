@@ -51,26 +51,14 @@ const AddFaqComp = ({ create, view, remove }) => {
   const [subCategoryList, setSubCategoryList] = useState([]);
   const [categoryId, setCategoryId] = useState("");
   const [categoryMasterId, setCategoryMasterId] = useState("");
-
+  const [catId,setCatId] = useState("");
+  const [subCatId, setSubCatId] = useState("");
   const [subCategoryId, setSubCategoryId] = useState("");
   const [FAQDetails, setFAQDetails] = useState({
     status: "",
   });
   const [currentPage, setCurrentPage] = useState(1);
-  const options = [
-    {
-      label: "one",
-      value: "one",
-    },
-    {
-      label: "Two",
-      value: "two",
-    },
-    {
-      label: "Three",
-      value: "three",
-    },
-  ];
+
   const status = [
     {
       label: "Active",
@@ -96,15 +84,15 @@ const AddFaqComp = ({ create, view, remove }) => {
         faqId: id,
       };
       let response = await getFAQ(params);
-      if (response.status === 200) {
+      if (response.status === 200 ) {
         const data = response?.data.data;
         reset({
           title: data?.title,
           content: data?.answer,
         });
         setQuill(data?.answer);
-        setCategoryMasterId(data?.category);
-        setSubCategoryId(data?.subCategory);
+        setCatId(data?.category);
+        setSubCatId(data?.subCategory);
         setFAQDetails({
           status: data.isActive ? "active" : "inActive",
         });
@@ -196,7 +184,6 @@ const AddFaqComp = ({ create, view, remove }) => {
   };
 
   const TogglePopup = (type) => {
-    console.log("type :>> ", type);
     if (type === "Category") {
       setCategoryModal(true);
     } else {
@@ -211,7 +198,6 @@ const AddFaqComp = ({ create, view, remove }) => {
   };
   const handleSubcategoryId = (option) => {
     let newCategory = subCategoryList.find((x) => x.name === option);
-    console.log(newCategory);
     setSubCategoryId(newCategory?._id);
   };
 
@@ -321,6 +307,7 @@ const AddFaqComp = ({ create, view, remove }) => {
                   handlecategoryId(option);
                 }}
                 id="category"
+                catId={catId}
                 plusSymbol={true}
                 toggle={() => TogglePopup("Category")}
                 btnLabel="Create Category"
@@ -334,13 +321,14 @@ const AddFaqComp = ({ create, view, remove }) => {
             <div className="col-4">
               <label>Sub Category</label>
               <MultiSelect
-                options={subCategoryList}
+                subOptions={subCategoryList}
                 placeholder="Select Sub Category"
                 onChange={(option) => {
                   setSubCategory(option);
                   handleSubcategoryId(option);
                 }}
-                id="subCategory"
+                subCatId={subCatId}
+                id="subCategory"  
                 plusSymbol={true}
                 toggle={() => TogglePopup("subCategory")}
                 btnLabel="Create Sub Category"
@@ -352,7 +340,7 @@ const AddFaqComp = ({ create, view, remove }) => {
               )}
             </div>
             <div className="col-4 ">
-              <label>FAQ Status</label>
+              <label >FAQ Status</label>
               <CustomController
                 name={"status"}
                 control={control}
