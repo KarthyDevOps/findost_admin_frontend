@@ -8,11 +8,20 @@ import NormalButton from "component/common/NormalButton/NormalButton";
 import TableComp from "component/common/TableComp/TableComp";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import Loader from "component/common/Loader";
+import MultiSelect from "component/common/MultiSelect";
+import CategoryModal from "component/common/CategoryModal/CategoryModal";
+import SubCategoryModal from "component/common/CategoryModal/SubCategoryModal";
 import EmptyTable from "component/common/TableComp/EmptyTable";
 import CustomController from "component/common/Controller";
 import NormalMultiSelect from "component/common/NormalMultiSelect";
 //service
-import { getFAQList, deleteFAQList, bulkDeleteFaq } from "service/Cms";
+import {
+  getFAQList,
+  deleteFAQList,
+  getCategoryList,
+  getSubCategoryList,
+  bulkDeleteFaq,
+} from "service/Cms";
 import { Toast } from "service/toast";
 //helpers
 import { history, debounceFunction } from "helpers";
@@ -27,11 +36,18 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
   const [status, setStatus] = useState("");
   const [bulkDelete, setBulkDelete] = useState(false);
   const [deleteId, setDeleteId] = useState([]);
-  const [SubCategory, setSubCategory] = useState("");
   const [active, setIsactive] = useState("");
   const [searchTitle, setSearch] = useState("");
   const [Category, setCategory] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [SubCategory, setSubCategory] = useState("");
+  const [categoryModal, setCategoryModal] = useState(false);
+  const [subCategoryModal, setSubCategoryModal] = useState(false);
+  const [categoryList, setCategoryList] = useState([]);
+  const [subCategoryList, setSubCategoryList] = useState([]);
+  const [categoryId, setCategoryId] = useState("");
+  const [categoryMasterId, setCategoryMasterId] = useState("");
+  const [subCategoryId, setSubCategoryId] = useState("");
   const [modalVisible, setModalVisible] = useState({
     id: null,
     show: false,
@@ -76,34 +92,58 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
       value: "inActive",
     },
   ];
-  const CategoryOptions = [
-    {
-      label: "One",
-      value: "one",
-    },
-    {
-      label: "Two",
-      value: "two",
-    },
-    {
-      label: "Three",
-      value: "three",
-    },
-  ];
-  const SubCategoryOptions = [
-    {
-      label: "One",
-      value: "one",
-    },
-    {
-      label: "Two",
-      value: "two",
-    },
-    {
-      label: "Three",
-      value: "three",
-    },
-  ];
+
+  const handlecategoryId = (option) => {
+    let newCategory = categoryList.find((x) => x.name === option);
+    setCategoryId(newCategory?.categoryId);
+    setCategoryMasterId(newCategory?._id);
+  };
+  const handleSubcategoryId = (option) => {
+    let newCategory = subCategoryList.find((x) => x.name === option);
+    setSubCategoryId(newCategory?._id);
+  };
+
+  const listCategorys = async (page) => {
+    try {
+      let params = {
+        page: page,
+      };
+      let response = await getCategoryList(params);
+      if (response.status === 200 && response?.data?.data?.list.length > 0) {
+        setCategoryList(response?.data?.data?.list);
+        console.log("first", response?.data?.data?.list);
+      } else {
+        setCategoryList([]);
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
+  };
+
+  const listSubCategorys = async (page) => {
+    try {
+      let params = {
+        page: page,
+      };
+      let response = await getSubCategoryList(params);
+      if (response.status === 200 && response?.data?.data?.list.length > 0) {
+        setSubCategoryList(response?.data?.data?.list);
+      } else {
+        setSubCategoryList([]);
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(currentPage);
+  }, [searchTitle, Category, SubCategory, status]);
+
+  useEffect(() => {
+    listCategorys(currentPage);
+    listSubCategorys(currentPage);
+  }, []);
 
   const handleOpenModal = (id) => {
     setModalVisible({
@@ -120,8 +160,8 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
         page: page,
         limit: 10,
         search: searchTitle,
-        category: Category,
-        subCategory: SubCategory,
+        category: categoryMasterId,
+        subCategory: subCategoryId,
       };
       if (status) {
         status === "active"
@@ -148,10 +188,6 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
     setCurrentPage(page.selected);
     fetchData(page);
   };
-
-  useEffect(() => {
-    fetchData(currentPage);
-  }, [searchTitle, Category, SubCategory, status]);
 
   const handleDeleteItem = async () => {
     if (modalVisible.show && modalVisible.id) {
@@ -217,49 +253,27 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
             />
           </div>
           <div className="cursor-pointer" style={{ minWidth: "180px" }}>
-            <CustomController
-              name={"Categoty"}
-              control={control}
-              error={errors?.Category}
-              defaultValue={Category}
-              rules={{ required: false }}
-              render={({ onChange, ...fields }) => {
-                return (
-                  <NormalMultiSelect
-                    {...fields}
-                    placeholder={"Filter by Category"}
-                    options={CategoryOptions}
-                    name="Category"
-                    handleChange={(e, { value } = {}) => {
-                      onChange(value);
-                      setCategory(value);
-                    }}
-                  />
-                );
+            <MultiSelect
+              options={categoryList}
+              placeholder="Filter by Category"
+              onChange={(option) => {
+                setCategory(option);
+                handlecategoryId(option);
               }}
+              id="category"
+              plusSymbol={false}
             />
           </div>
           <div className="cursor-pointer" style={{ minWidth: "200px" }}>
-            <CustomController
-              name={"SubCategoty"}
-              control={control}
-              error={errors?.SubCategory}
-              defaultValue={SubCategory}
-              rules={{ required: false }}
-              render={({ onChange, ...fields }) => {
-                return (
-                  <NormalMultiSelect
-                    {...fields}
-                    placeholder={"Filter by Sub Category"}
-                    options={SubCategoryOptions}
-                    name="SubCategoty"
-                    handleChange={(e, { value } = {}) => {
-                      onChange(value);
-                      setSubCategory(value);
-                    }}
-                  />
-                );
+            <MultiSelect
+              subOptions={subCategoryList}
+              placeholder="Filter by Sub Category"
+              onChange={(option) => {
+                setSubCategory(option);
+                handleSubcategoryId(option);
               }}
+              id="subCategory"
+              plusSymbol={false}
             />
           </div>
           <div className="cursor-pointer" style={{ minWidth: "150px" }}>
@@ -335,15 +349,15 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
           </div>
         ) : (
           <div className="">
-          <EmptyTable
-            EditAction={edit}
-            DeleteAction={remove}
-            includedKeys={includedKeys}
-          />
-          <p className="d-flex align-items-center justify-content-center mt-5 pt-5">
-            No Data Available
-          </p>
-        </div>
+            <EmptyTable
+              EditAction={edit}
+              DeleteAction={remove}
+              includedKeys={includedKeys}
+            />
+            <p className="d-flex align-items-center justify-content-center mt-5 pt-5">
+              No Data Available
+            </p>
+          </div>
         )}
         <DeleteModal
           modalOpen={modalVisible.show}
@@ -352,6 +366,21 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
             deleteId.length > 0 ? handleBulkDelete : handleDeleteItem
           }
           DeleteMessage={"Are you sure you want to delete ?"}
+        />
+      </div>
+      <div>
+        <CategoryModal
+          modalOpen={categoryModal}
+          onCancel={() => setCategoryModal(false)}
+          refresh={() => listCategorys(currentPage)}
+        />
+      </div>
+      <div>
+        <SubCategoryModal
+          modalOpen={subCategoryModal}
+          onCancel={() => setSubCategoryModal(false)}
+          categoryId={categoryId}
+          refresh={() => listSubCategorys(currentPage)}
         />
       </div>
     </div>
