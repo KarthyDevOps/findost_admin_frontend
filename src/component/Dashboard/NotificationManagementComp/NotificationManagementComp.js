@@ -96,13 +96,14 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
       setIsLoading(true);
       setBulkDelete(false);
       let params = {
-        page: page,
+        page: page ? page : 1,
         limit: 10,
         search: search,
       };
       let response = await getNotificationTemplateList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
         setTemplateData(response?.data?.data?.list);
+        localStorage.setItem("noOfLists", response?.data?.data?.list.length);
         setPageCount(response?.data?.data?.pageMeta?.pageCount);
         setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
       } else {
@@ -120,13 +121,14 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
       setIsLoading(true);
       setBulkDelete(false);
       let params = {
-        page: page,
+        page: page ? page : 1,
         limit: 10,
         search: search,
       };
       let response = await getNotificationHistoryList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
         setHistoryData(response?.data?.data?.list);
+        localStorage.setItem("noOfLists", response?.data?.data?.list.length);
         setPageCount(response?.data?.data?.pageMeta?.pageCount);
         setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
       } else {
@@ -155,7 +157,14 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
         let response = await deleteNotificationTemplate(params);
         if (response.status === 200) {
           Toast({ type: "success", message: response.data.message });
-          getTemplateList(currentPage);
+          const activeLists = JSON.parse(localStorage.getItem("noOfLists"));
+          if (activeLists === 1) {
+            getTemplateList(currentPage > 1 ? currentPage - 1 : 1);
+            localStorage.removeItem("noOfLists");
+          } else {
+            getTemplateList(currentPage);
+            localStorage.removeItem("noOfLists");
+          }
         }
       } else {
         let params = {
@@ -164,7 +173,14 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
         let response = await deleteNotificationHistory(params);
         if (response.status === 200) {
           Toast({ type: "success", message: response.data.message });
-          getHistoryList(currentPage);
+          const activeLists = JSON.parse(localStorage.getItem("noOfLists"));
+          if (activeLists === 1) {
+            getHistoryList(currentPage > 1 ? currentPage - 1 : 1);
+            localStorage.removeItem("noOfLists");
+          } else {
+            getHistoryList(currentPage);
+            localStorage.removeItem("noOfLists");
+          }
         }
       }
     }
@@ -206,12 +222,20 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
         let response = await bulkDeleteNotificationTemplate(body);
         if (response.status === 200) {
           Toast({ type: "success", message: response.data.message });
-          getTemplateList(currentPage);
+          const activeLists = JSON.parse(localStorage.getItem("noOfLists"));
+          if (activeLists === deleteId.length) {
+            getTemplateList(currentPage > 1 ? currentPage - 1 : 1);
+            localStorage.removeItem("noOfLists");
+            deleteId.length = 0;
+          } else {
+            getTemplateList(currentPage);
+            localStorage.removeItem("noOfLists");
+            deleteId.length = 0;
+          }
         } else {
           Toast({ type: "error", message: response.data.message });
         }
       }
-      deleteId.length = 0;
     } else {
       if (deleteId.length > 0) {
         let body = {
@@ -220,12 +244,20 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
         let response = await BulkDeleteNotificationHistory(body);
         if (response.status === 200) {
           Toast({ type: "success", message: response.data.message });
-          getHistoryList(currentPage);
+          const activeLists = JSON.parse(localStorage.getItem("noOfLists"));
+          if (activeLists === deleteId.length) {
+            getHistoryList(currentPage > 1 ? currentPage - 1 : 1);
+            localStorage.removeItem("noOfLists");
+            deleteId.length = 0;
+          } else {
+            getHistoryList(currentPage);
+            localStorage.removeItem("noOfLists");
+            deleteId.length = 0;
+          }
         } else {
           Toast({ type: "error", message: response.data.message });
         }
       }
-      deleteId.length = 0;
     }
     setModalVisible({ show: false, id: null });
   };
@@ -233,9 +265,19 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
   useEffect(() => {
     handleTab(tabValue);
     if (tabValue === 1) {
-      getHistoryList(currentPage);
+      if (localStorage.getItem("editPage")) {
+        getHistoryList(localStorage.getItem("editPage"));
+        localStorage.removeItem("editPage");
+      } else {
+        getHistoryList(1);
+      }
     } else {
-      getTemplateList(currentPage);
+      if (localStorage.getItem("editPage")) {
+        getTemplateList(localStorage.getItem("editPage"));
+        localStorage.removeItem("editPage");
+      } else {
+        getTemplateList(1);
+      }
     }
   }, [tabValue, search]);
 
@@ -426,8 +468,8 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
           }
           DeleteMessage={
             activeTab === 0
-              ? "Are you sure you want to delete Notification Template?"
-              : "Are you sure you want to delete Notification History?"
+              ? "Are you sure you want to delete Template?"
+              : "Are you sure you want to delete History?"
           }
         />
       </div>

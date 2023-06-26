@@ -74,10 +74,6 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
     }
   };
 
-  useEffect(() => {
-    getProductsList(currentPage);
-  }, [search]);
-
   const handleOpenModal = (id) => {
     setModalVisible({
       id: id,
@@ -136,6 +132,15 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
     }
     setModalVisible({ show: false, id: null });
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("editPage")) {
+      getProductsList(localStorage.getItem("editPage"));
+      localStorage.removeItem("editPage");
+    } else {
+      getProductsList(1);
+    }
+  }, [search]);
 
   return (
     <Fragment>
@@ -204,10 +209,7 @@ const ProductManagementComp = ({ create, view, edit, remove }) => {
           </div>
         ) : (
           <div className="">
-            <EmptyTable
-              EditAction={edit}
-              includedKeys={includedKeys}
-            />
+            <EmptyTable EditAction={edit} includedKeys={includedKeys} />
             <p className="d-flex align-items-center justify-content-center mt-5 pt-5">
               No Data Available
             </p>

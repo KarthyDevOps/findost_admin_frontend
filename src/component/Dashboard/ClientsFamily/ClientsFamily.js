@@ -32,7 +32,7 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
     {
       label: "Client Id",
       value: "clientId",
-      width : "50%"
+      width: "50%",
     },
     {
       label: "Client Name",
@@ -53,7 +53,7 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
     {
       label: "Relationship",
       value: "relationShip",
-      width : "50%"
+      width: "50%",
     },
   ];
 
@@ -63,13 +63,12 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
       setBulkDelete(false);
 
       let params = {
-        page: page,
+        page: page ? page : 1,
         limit: 10,
         search: searchStaff,
       };
       let response = await getClientList(params);
-      if (response.status === 200 && response?.data?.data?.list) {
-        console.log("response", response?.data?.data);
+      if (response.status === 200 && response?.data?.data?.list.length > 0) {
         setData(response?.data?.data?.list);
         setPageCount(response?.data?.data?.pageMeta?.pageCount);
         setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
@@ -134,15 +133,20 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
       let response = await bulkDeleteClient(body);
       if (response.status === 200) {
         Toast({ type: "success", message: response.data.message });
-        deleteId.length = 0;
         fetchClientList(currentPage);
+        deleteId.length = 0;
       }
     }
     setModalVisible({ show: false, id: null });
   };
 
   useEffect(() => {
-    fetchClientList(currentPage);
+    if (localStorage.getItem("editPage")) {
+      fetchClientList(localStorage.getItem("editPage"));
+      localStorage.removeItem("editPage");
+    } else {
+      fetchClientList(currentPage);
+    }
   }, [searchStaff, role, status]);
 
   return (
@@ -196,15 +200,15 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
           </div>
         ) : (
           <div className="">
-          <EmptyTable
-            EditAction={edit}
-            DeleteAction={remove}
-            includedKeys={includedKeys}
-          />
-          <p className="d-flex align-items-center justify-content-center mt-5 pt-5">
-            No Data Available
-          </p>
-        </div>
+            <EmptyTable
+              EditAction={edit}
+              DeleteAction={remove}
+              includedKeys={includedKeys}
+            />
+            <p className="d-flex align-items-center justify-content-center mt-5 pt-5">
+              No Data Available
+            </p>
+          </div>
         )}
       </div>
       <div>
