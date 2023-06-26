@@ -8,12 +8,17 @@ import NormalButton from "component/common/NormalButton/NormalButton";
 import TableComp from "component/common/TableComp/TableComp";
 import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import Loader from "component/common/Loader";
+import MultiSelect from "component/common/MultiSelect";
+import CategoryModal from "component/common/CategoryModal/CategoryModal";
+import SubCategoryModal from "component/common/CategoryModal/SubCategoryModal";
 import CustomController from "component/common/Controller";
 import NormalMultiSelect from "component/common/NormalMultiSelect";
 //service
 import {
   getKnowledgeList,
   deleteKnowledge,
+  getCategoryList,
+  getSubCategoryList,
   bulkDeleteKnowledge,
 } from "service/Cms";
 import { Toast } from "service/toast";
@@ -30,10 +35,17 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
   const [searchTitle, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [deleteId, setDeleteId] = useState([]);
-  const [Category, setCategory] = useState("");
-  const [SubCategory, setSubCategory] = useState("");
   const [status, setStatus] = useState("");
   const [bulkDelete, setBulkDelete] = useState(false);
+  const [Category, setCategory] = useState("");
+  const [SubCategory, setSubCategory] = useState("");
+  const [categoryModal, setCategoryModal] = useState(false);
+  const [subCategoryModal, setSubCategoryModal] = useState(false);
+  const [categoryList, setCategoryList] = useState([]);
+  const [subCategoryList, setSubCategoryList] = useState([]);
+  const [categoryId, setCategoryId] = useState("");
+  const [categoryMasterId, setCategoryMasterId] = useState("");
+  const [subCategoryId, setSubCategoryId] = useState("");
   const [modalVisible, setModalVisible] = useState({
     id: null,
     show: false,
@@ -80,34 +92,54 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
       value: "inActive",
     },
   ];
-  const CategoryOptions = [
-    {
-      label: "One",
-      value: "one",
-    },
-    {
-      label: "Two",
-      value: "two",
-    },
-    {
-      label: "Three",
-      value: "three",
-    },
-  ];
-  const SubCategoryOptions = [
-    {
-      label: "One",
-      value: "one",
-    },
-    {
-      label: "Two",
-      value: "two",
-    },
-    {
-      label: "Three",
-      value: "three",
-    },
-  ];
+
+  const handlecategoryId = (option) => {
+    let newCategory = categoryList.find((x) => x.name === option);
+    setCategoryId(newCategory?.categoryId);
+    setCategoryMasterId(newCategory?._id);
+  };
+  const handleSubcategoryId = (option) => {
+    let newCategory = subCategoryList.find((x) => x.name === option);
+    setSubCategoryId(newCategory?._id);
+  };
+
+  const listCategorys = async (page) => {
+    try {
+      let params = {
+        page: page,
+      };
+      let response = await getCategoryList(params);
+      if (response.status === 200 && response?.data?.data?.list.length > 0) {
+        setCategoryList(response?.data?.data?.list);
+        console.log("first", response?.data?.data?.list);
+      } else {
+        setCategoryList([]);
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
+  };
+
+  const listSubCategorys = async (page) => {
+    try {
+      let params = {
+        page: page,
+      };
+      let response = await getSubCategoryList(params);
+      if (response.status === 200 && response?.data?.data?.list.length > 0) {
+        setSubCategoryList(response?.data?.data?.list);
+      } else {
+        setSubCategoryList([]);
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
+  };
+
+  useEffect(() => {
+    listCategorys(currentPage);
+    listSubCategorys(currentPage);
+  }, []);
 
   const fetchData = async (page) => {
     setIsLoading(true);
@@ -117,8 +149,8 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
         page: page ? page : 1,
         limit: 10,
         search: searchTitle,
-        category: Category,
-        subCategory: SubCategory,
+        category: categoryMasterId,
+        subCategory: subCategoryId,
       };
       if (status) {
         status === "active"
@@ -242,49 +274,27 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
             />
           </div>
           <div className="cursor-pointer" style={{ width: "170px" }}>
-            <CustomController
-              name={"Categoty"}
-              control={control}
-              error={errors?.Category}
-              defaultValue={Category}
-              rules={{ required: false }}
-              render={({ onChange, ...fields }) => {
-                return (
-                  <NormalMultiSelect
-                    {...fields}
-                    placeholder={"Filter by Category"}
-                    options={CategoryOptions}
-                    name="Category"
-                    handleChange={(e, { value } = {}) => {
-                      onChange(value);
-                      setCategory(value);
-                    }}
-                  />
-                );
+            <MultiSelect
+              options={categoryList}
+              placeholder="Filter by Category"
+              onChange={(option) => {
+                setCategory(option);
+                handlecategoryId(option);
               }}
+              id="category"
+              plusSymbol={false}
             />
           </div>
           <div className="cursor-pointer" style={{ width: "200px" }}>
-            <CustomController
-              name={"SubCategory"}
-              control={control}
-              error={errors?.SubCategory}
-              defaultValue={SubCategory}
-              rules={{ required: false }}
-              render={({ onChange, ...fields }) => {
-                return (
-                  <NormalMultiSelect
-                    {...fields}
-                    placeholder={"Filter by Sub Category"}
-                    options={SubCategoryOptions}
-                    name="SubCategory"
-                    handleChange={(e, { value } = {}) => {
-                      onChange(value);
-                      setSubCategory(value);
-                    }}
-                  />
-                );
+            <MultiSelect
+              subOptions={subCategoryList}
+              placeholder="Filter by Sub Category"
+              onChange={(option) => {
+                setSubCategory(option);
+                handleSubcategoryId(option);
               }}
+              id="subCategory"
+              plusSymbol={false}
             />
           </div>
           <div className="cursor-pointer" style={{ width: "150px" }}>
@@ -377,6 +387,22 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
               deleteId.length > 0 ? handleBulkDelete : handleDeleteItem
             }
             DeleteMessage={"Are you sure you want to delete?"}
+          />
+        </div>
+
+        <div>
+          <CategoryModal
+            modalOpen={categoryModal}
+            onCancel={() => setCategoryModal(false)}
+            refresh={() => listCategorys(currentPage)}
+          />
+        </div>
+        <div>
+          <SubCategoryModal
+            modalOpen={subCategoryModal}
+            onCancel={() => setSubCategoryModal(false)}
+            categoryId={categoryId}
+            refresh={() => listSubCategorys(currentPage)}
           />
         </div>
       </div>

@@ -169,7 +169,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
               <FormErrorMessage
                 error={errors.email}
                 messages={{
-                  required: "Email is required",
+                  required: "Email is Required",
                   pattern: "Invalid Email",
                 }}
               />
@@ -219,7 +219,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
               <FormErrorMessage
                 error={errors.relativeName}
                 messages={{
-                  required: "Relative Name is required",
+                  required: "Relative Name is Required",
                   pattern: "No space between name",
                 }}
               />
@@ -281,7 +281,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
         <SuccessModal
           modalOpen={modal}
           onCancel={() => setModal(false)}
-          successMsg={"Client Family update Successfully"}
+          successMsg={"Client Family Update Successfully"}
         />
       </div>
     </div>
