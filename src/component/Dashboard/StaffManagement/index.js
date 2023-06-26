@@ -67,7 +67,7 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
       setBulkDelete(false);
 
       let params = {
-        page: page,
+        page: page ? page : 1,
         limit: 10,
         search: searchStaff,
         role: role,
@@ -81,6 +81,7 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
         setIsactive(response?.data?.data?.list[0].isactive);
         setData(response?.data?.data?.list);
+        localStorage.setItem("noOfLists", response?.data?.data?.list.length);
         setPageCount(response?.data?.data?.pageMeta?.pageCount);
         setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
       } else {
@@ -114,7 +115,14 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
         let response = await deleteStaff(params);
         if (response.status === 200) {
           Toast({ type: "success", message: response.data.message });
-          getStaffListApi(currentPage);
+          const activeLists = JSON.parse(localStorage.getItem("noOfLists"));
+          if (activeLists === 1) {
+            getStaffListApi(currentPage > 1 ? currentPage - 1 : 1);
+            localStorage.removeItem("noOfLists");
+          } else {
+            getStaffListApi(currentPage);
+            localStorage.removeItem("noOfLists");
+          }
         }
       }
       setModalVisible({ show: false, id: null });
@@ -149,12 +157,20 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
         let response = await bulkDeleteStaff(body);
         if (response.status === 200) {
           Toast({ type: "success", message: response.data.message });
-          getStaffListApi(currentPage);
+          const activeLists = JSON.parse(localStorage.getItem("noOfLists"));
+          if (activeLists === deleteId.length) {
+            getStaffListApi(currentPage > 1 ? currentPage - 1 : 1);
+            localStorage.removeItem("noOfLists");
+            deleteId.length = 0;
+          } else {
+            getStaffListApi(currentPage);
+            localStorage.removeItem("noOfLists");
+            deleteId.length = 0;
+          }
         } else {
           Toast({ type: "error", message: response.data.message });
         }
       }
-      deleteId.length = 0;
     } catch (e) {
       console.log("e :>> ", e);
     }
@@ -162,7 +178,12 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
   };
 
   useEffect(() => {
-    getStaffListApi(currentPage);
+    if (localStorage.getItem("editPage")) {
+      getStaffListApi(localStorage.getItem("editPage"));
+      localStorage.removeItem("editPage");
+    } else {
+      getStaffListApi(1);
+    }
   }, [searchStaff, role, status]);
 
   return (
