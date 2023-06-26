@@ -87,10 +87,34 @@ const DashboardComp = () => {
 
   const columnSeries = [
     {
-       name: 'Series 1',
-      data: [21, 22, 10, 28, 16, 30],
+      name: "Graph name 1",
+      data: [20, 0, 0, 0, 0, 0],
+
     },
+    
+    {
+      name: "Graph name 2",
+      data: [0, 11, 0, 0, 0, 0],
+    },
+    {
+      name: "Graph name 3",
+      data: [0, 0, 56, 0, 0, 0],
+    },
+    {
+      name: "Graph name 4",
+      data: [0, 0, 0, 70, 0, 0],
+    },
+    {
+      name: "Graph name 4",
+      data: [0, 0, 0, 0, 20, 0],
+    },
+    {
+      name: "Graph name 5",
+      data: [0, 0, 0, 0, 0, 15],
+    },
+    // Add more series as needed
   ];
+
   const columnOptions = {
     chart: {
       height: 350,
@@ -98,24 +122,28 @@ const DashboardComp = () => {
       toolbar: {
         show: false,
       },
+     
     },
-    // colors: colors,
     plotOptions: {
       bar: {
         horizontal: false,
-        columnWidth: "75%",
-        endingShape: "rounded",
-        distributed: true,
+        columnWidth: "80%", // Adjust the value here to set the desired width of each bar
+        endingShape: "square",
+        distributed: false,
+        barHeight: "100%", // Adjust the value here to set the desired height of each bar
+        dataLabels: {
+          position: "top", // Adjust the position of data labels as needed
+        },
       },
+    },
+    legend: {
+      position: "bottom",
     },
     dataLabels: {
       enabled: false,
     },
-    legend: {
-      show: false,
-    },
     xaxis: {
-      categories: ["0", "1", "2", "3", "4", "5"],
+      categories: [""],
     },
     fill: {
       opacity: 1,
@@ -124,6 +152,14 @@ const DashboardComp = () => {
       enabled: false,
     },
   };
+  
+  
+
+  const filteredColumnSeries = columnSeries.map((series) => ({
+    name: series.name,
+    data: series.data.filter((value) => value !== 0),
+  }));
+
   const pieSeries = [44, 55, 13, 43];
   const donutSeries = [44, 55, 41, 17];
 
@@ -183,11 +219,17 @@ const DashboardComp = () => {
         <div className="chart_background2 mr-2">
           <span>Lorem ipsem</span>
           <Chart
+            // options={{
+            //   ...columnOptions,
+
+            // }}
             options={columnOptions}
-            series={columnSeries}
+            series={filteredColumnSeries}
             type="bar"
             height={350}
           />
+
+        
         </div>
         <div className="chart_background">
           <span>Lorem ipsemmm</span>

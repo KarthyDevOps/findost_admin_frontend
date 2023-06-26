@@ -33,6 +33,8 @@ const SendNotificationComp = () => {
   const [users, setUsers] = useState([]);
   const [modal, setModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
+
   const id = localStorage.getItem("editId");
 
   const getHistoryDetails = async () => {
@@ -62,7 +64,7 @@ const SendNotificationComp = () => {
     }
   };
 
-  const onsubmit = async (data) => {
+  const onSubmit = async (data) => {
     if (!edit) {
       try {
         setLoading(true);
@@ -122,6 +124,11 @@ const SendNotificationComp = () => {
     }
   };
 
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    setIsSubmit(true);
+    handleSubmit(onSubmit)();
+  };
   const handleUser = (index) => {
     users.splice(index, 1);
     setUsers([...users]);
@@ -226,12 +233,18 @@ const SendNotificationComp = () => {
                           alt=""
                           onClick={(e) => handleUser(index)}
                           className="cursor-pointer"
+                        
                         />
                       </span>
                     </>
                   );
                 })}
             </div>
+            {users.length == 0 && isSubmit && (
+              <span style={{ color: "#dc3545" }} className="">
+                Users is Required
+              </span>
+            )}
             <div className="col-1"></div>
           </div>
           <div className="my-4">
@@ -249,7 +262,7 @@ const SendNotificationComp = () => {
               <FormErrorMessage
                 error={errors.content}
                 messages={{
-                  required: "Notification Content is required",
+                  required: "Notification Content is Required",
                   pattern: "Please enter a valid content",
                 }}
               />
@@ -271,7 +284,7 @@ const SendNotificationComp = () => {
                 className="loginButton"
                 label={"Send Notification"}
                 isLoading={loading}
-                onClick={handleSubmit(onsubmit)}
+                onClick={handleFormSubmit}
               />
             </div>
           </div>

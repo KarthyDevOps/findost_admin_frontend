@@ -160,7 +160,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                     <FormErrorMessage
                       error={errors.siteUrl}
                       messages={{
-                        required: "URL is required",
+                        required: "URL is Required",
                         pattern: "Invalid URL",
                       }}
                     />
@@ -184,7 +184,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                     <FormErrorMessage
                       error={errors.supportNumber}
                       messages={{
-                        required: "Support Number is required",
+                        required: "Support Number is Required",
                         pattern: "Invalid Number",
                       }}
                     />
@@ -205,7 +205,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                     <FormErrorMessage
                       error={errors.emailId}
                       messages={{
-                        required: "Mail ID is required",
+                        required: "Mail ID is Required",
                         pattern: "Invalid Mail ID",
                       }}
                     />

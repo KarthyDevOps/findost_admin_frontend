@@ -426,8 +426,8 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
           }
           DeleteMessage={
             activeTab === 0
-              ? "Are you sure you want to delete Notification Template?"
-              : "Are you sure you want to delete Notification History?"
+              ? "Are you sure you want to delete ?"
+              : "Are you sure you want to delete ?"
           }
         />
       </div>
