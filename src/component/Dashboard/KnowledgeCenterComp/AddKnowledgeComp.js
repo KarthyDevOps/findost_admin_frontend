@@ -341,7 +341,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
               <FormErrorMessage
                 error={errors.title}
                 messages={{
-                  required: "Title is required",
+                  required: "Title is Required",
                   pattern: "Title is Invalid",
                 }}
               />
@@ -404,7 +404,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
               <FormErrorMessage
                 error={errors.contentURL}
                 messages={{
-                  required: "URL is required",
+                  required: "URL is Required",
                   pattern: "Invalid URL",
                 }}
               />
