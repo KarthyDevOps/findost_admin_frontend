@@ -146,7 +146,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
     setBulkDelete(false);
     try {
       let params = {
-        page: page,
+        page: page ? page : 1,
         limit: 10,
         search: searchTitle,
         category: categoryMasterId,
@@ -161,6 +161,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
         setIsactive(response?.data?.data?.list[0].isactive);
         setData(response?.data?.data?.list);
+        localStorage.setItem("noOfLists", response?.data?.data?.list.length);
         setPageCount(response?.data?.data?.pageMeta?.pageCount);
         setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
       } else {
@@ -172,10 +173,6 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchData(currentPage);
-  }, [searchTitle, Category, SubCategory, status]);
 
   const handleOpenModal = (id) => {
     setModalVisible({
@@ -197,7 +194,14 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
       let response = await deleteKnowledge(params);
       if (response.status === 200) {
         Toast({ type: "success", message: response.data.message });
-        fetchData();
+        const activeLists = JSON.parse(localStorage.getItem("noOfLists"));
+        if (activeLists === 1) {
+          fetchData(currentPage > 1 ? currentPage - 1 : 1);
+          localStorage.removeItem("noOfLists");
+        } else {
+          fetchData(currentPage);
+          localStorage.removeItem("noOfLists");
+        }
       }
     }
     setModalVisible({ show: false, id: null });
@@ -228,12 +232,29 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
       let response = await bulkDeleteKnowledge(body);
       if (response.status === 200) {
         Toast({ type: "success", message: response.data.message });
-        deleteId.length = 0;
-        fetchData(currentPage);
+        const activeLists = JSON.parse(localStorage.getItem("noOfLists"));
+        if (activeLists === deleteId.length) {
+          fetchData(currentPage > 1 ? currentPage - 1 : 1);
+          localStorage.removeItem("noOfLists");
+          deleteId.length = 0;
+        } else {
+          fetchData(currentPage);
+          localStorage.removeItem("noOfLists");
+          deleteId.length = 0;
+        }
       }
     }
     setModalVisible({ show: false, id: null });
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("editPage")) {
+      fetchData(localStorage.getItem("editPage"));
+      localStorage.removeItem("editPage");
+    } else {
+      fetchData(1);
+    }
+  }, [searchTitle, Category, SubCategory, status]);
 
   return (
     <div className="px-5 py-3 knowledge_center">

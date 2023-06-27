@@ -191,6 +191,8 @@ function TableComp(props) {
                           onClick={() => {
                             localStorage.removeItem("editId");
                             localStorage.setItem("editId", obj._id);
+                            localStorage.removeItem("editPage");
+                            localStorage.setItem("editPage", currentPage);
                             history.push(`${editRouteName}`);
                           }}
                         />
