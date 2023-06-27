@@ -67,8 +67,11 @@ const SendNotificationComp = () => {
   const onSubmit = async (data) => {
     if (!edit) {
       try {
+        if (users.length === 0) {
+          Toast({ type: "error", message: "Please select a Users" });
+          return;
+        }
         setLoading(true);
-
         const body = {
           title: data.title,
           description: data.content,
@@ -95,8 +98,11 @@ const SendNotificationComp = () => {
       }
     } else {
       try {
+        if (users.length === 0) {
+          Toast({ type: "error", message: "Please select a Users" });
+          return;
+        }
         setLoading(true);
-
         const body = {
           title: data.title,
           description: data.content,
@@ -233,7 +239,6 @@ const SendNotificationComp = () => {
                           alt=""
                           onClick={(e) => handleUser(index)}
                           className="cursor-pointer"
-                        
                         />
                       </span>
                     </>
