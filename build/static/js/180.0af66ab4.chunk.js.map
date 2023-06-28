@@ -1,0 +1,1 @@
+{"version":3,"sources":["assets/fonts/helvetica/Helvetica-Bold.ttf"],"names":["module","exports"],"mappings":"qFAAAA,EAAOC,QAAU,IAA0B","file":"static/js/180.0af66ab4.chunk.js","sourcesContent":["module.exports = __webpack_public_path__ + \"static/media/Helvetica-Bold.d13db1fe.ttf\";"],"sourceRoot":""}
