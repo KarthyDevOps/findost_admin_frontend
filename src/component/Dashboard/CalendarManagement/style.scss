@@ -7,6 +7,16 @@
   color: #000000;
 }
 
+.staff_Search {
+  position: relative;
+}
+
+.search_iconic {
+  position: absolute;
+  top: 11px;
+  left: 16px;
+}
+
 .clients_family,
 .edit_client {
   h6 {
@@ -37,6 +47,7 @@
   }
 }
 .date_of_birth {
+  position: relative;
   width: 100% !important;
   .react-datepicker-wrapper {
     width: 100%;
@@ -133,13 +144,11 @@
   bottom: 0%;
   left: 0%;
   right: 0%;
-
   font-family: "Helvetica";
   font-style: normal;
   font-weight: 400;
   font-size: 15px;
   line-height: 14px;
-
   color: #7e7e7e;
 }
 
@@ -159,10 +168,13 @@
   position: absolute;
   top: 0%;
   object-fit: contain;
-  z-index: 100;
   bottom: 0%;
   left: 0%;
   right: 0%;
   width: 100%;
   height: 100%;
+}
+.start-date-container {
+  position: absolute;
+  z-index: 2;
 }

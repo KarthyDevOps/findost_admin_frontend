@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 // styles
 import "./style.scss";
 // internal components
@@ -9,17 +9,24 @@ import NormalButton from "component/common/NormalButton/NormalButton";
 import EmptyTable from "component/common/TableComp/EmptyTable";
 // services
 // import { getStaffList, deleteStaff, bulkDeleteStaff } from "service/Auth";
+import { useForm } from "react-hook-form";
+import { BsSearch } from "react-icons/bs";
 import { Toast } from "service/toast";
 // helpers
-import { history } from "helpers";
+import { history, debounceFunction } from "helpers";
+import InputBox from "component/common/InputBox/InputBox";
 
 const CalendarManagementComp = ({ create, view, edit, remove }) => {
+  const { errors, control } = useForm({
+    mode: "onChange",
+  });
   const [data, setData] = useState([]);
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [bulkDelete, setBulkDelete] = useState(false);
   const [deleteId, setDeleteId] = useState([]);
+  const [search, setSearch] = useState("");
   const [modalVisible, setModalVisible] = useState({
     id: null,
     show: false,
@@ -75,6 +82,13 @@ const CalendarManagementComp = ({ create, view, edit, remove }) => {
     //   setIsLoading(false);
     // }
   };
+
+  const handleSearchChange = useCallback(
+    debounceFunction((value) => {
+      setSearch(value);
+    }, 500),
+    []
+  );
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -160,13 +174,33 @@ const CalendarManagementComp = ({ create, view, edit, remove }) => {
       getCalendarListApi(1);
     }
   }, []);
+
+
   return (
     <>
       <div className="staff_table px-5 py-3">
         <p className="staff_title m-0">Calendar Management</p>
-        <div className="flex align-items-center justify-content-end">
-          <div className="flex align-items-center" style={{ gap: "1em" }}>
-            <div className="cursor-pointer" style={{ minWidth: "150px" }}>
+          <div className="d-flex align-items-center justify-content-between" >
+            <div
+              className="pl-0 my-3 staff_Search cursor-pointer"
+              style={{ width: "300px" }}
+            >
+              <InputBox
+                className="login_input"
+                type={"text"}
+                placeholder="Search by Id, Event Name"
+                errors={errors}
+                name="search"
+                Iconic
+                value={search}
+                onChange={(e) => handleSearchChange(e.target.value)}
+              />
+              <i className="search_iconic">
+                <BsSearch size={18} style={{ color: "#7E7E7E" }} />
+              </i>
+            </div>
+            <div className="d-flex justify-content-end">
+            <div className="cursor-pointer">
               {bulkDelete && remove && (
                 <NormalButton
                   className="authButton1"
@@ -176,26 +210,26 @@ const CalendarManagementComp = ({ create, view, edit, remove }) => {
               )}
             </div>
             {/* {create && ( */}
-              <div className="cursor-pointer" style={{ minWidth: "150px" }}>
-                <NormalButton
-                  className="loginButton1"
-                  label={"Create Event"}
-                  onClick={() => {
-                    localStorage.removeItem("editId");
-                    history.push("/admin/calendar-management/add-calendar");
-                  }}
-                />
-              </div>
+            <div className="cursor-pointer">
+              <NormalButton
+                className="loginButton1"
+                label={"Create Event"}
+                onClick={() => {
+                  localStorage.removeItem("editId");
+                  history.push("/admin/calendar-management/add-calendar");
+                }}
+              />
+            </div>
             {/* )} */}
+            </div>
           </div>
-        </div>
         {isLoading ? (
           <Loader
             loading={isLoading}
             className="d-flex align-items-center justify-content-center"
           />
         ) : data.length > 0 ? (
-          <div className="my-4">
+          <div className="">
             <TableComp
               data={data}
               EditAction={edit}
@@ -211,7 +245,7 @@ const CalendarManagementComp = ({ create, view, edit, remove }) => {
             />
           </div>
         ) : (
-          <div className="my-4">
+          <div className="">
             <EmptyTable
               EditAction={true}
               DeleteAction={true}

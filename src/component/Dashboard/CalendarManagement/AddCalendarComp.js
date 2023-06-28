@@ -41,7 +41,7 @@ const AddCalendarComp = ({ edit, view }) => {
   const [endDate, setEndDate] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [image, setImage] = useState("");
-
+  const [editEvent, setEditEvent] = useState(false);
   const newStartDate = new Date(startDate);
   const newEndDate = new Date(endDate);
   const id = localStorage.getItem("editId");
@@ -109,11 +109,11 @@ const AddCalendarComp = ({ edit, view }) => {
     setImage(null);
   };
 
-//   useEffect(() => {
-//     if (id) {
-//       getEventDetails();
-//     }
-//   }, []);
+  //   useEffect(() => {
+  //     if (id) {
+  //       getEventDetails();
+  //     }
+  //   }, []);
 
   return (
     <div className="px-5 py-3">
@@ -125,7 +125,7 @@ const AddCalendarComp = ({ edit, view }) => {
             style={{ cursor: "pointer" }}
           />
         </i>
-        <h6 className="m-0">{"Add Event"}</h6>
+        <h6 className="m-0">{editEvent ? "Edit Event" : "Add Event"}</h6>
       </div>
       <form>
         <div className="client_box p-5">
@@ -153,7 +153,7 @@ const AddCalendarComp = ({ edit, view }) => {
             </div>
             <div className="col-md-4">
               <label>Start Date</label>
-              <div className="date_of_birth">
+              <div className="date_of_birth start-date-container">
                 <CustomController
                   name={"startDate"}
                   control={control}
@@ -178,6 +178,7 @@ const AddCalendarComp = ({ edit, view }) => {
                         placeholder="Start Date"
                         minDate={new Date()}
                         maxDate={newEndDate.setDate(newEndDate.getDate() - 1)}
+                        // className="start-date-picker"
                       />
                     );
                   }}
@@ -322,7 +323,7 @@ const AddCalendarComp = ({ edit, view }) => {
             <div className="col-md-2 p-0">
               <NormalButton
                 className="loginButton"
-                label={"Add Event"}
+                label={editEvent ? "Update Event" : "Add Event"}
                 onClick={handleSubmit(onSubmit)}
                 isLoading={loading}
               />
@@ -335,7 +336,11 @@ const AddCalendarComp = ({ edit, view }) => {
         <SuccessModal
           modalOpen={modal}
           onCancel={() => setModal(false)}
-          successMsg={"Calendar Event Created Successfully"}
+          successMsg={
+            editEvent
+              ? "Calendar Event Updated Successfully"
+              : "Calendar Event Created Successfully"
+          }
         />
       </div>
     </div>
