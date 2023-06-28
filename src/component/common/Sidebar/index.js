@@ -24,8 +24,6 @@ import { useEffect } from "react";
 import { getadminPrivileges } from "helpers/privileges";
 import { useDispatch } from "react-redux";
 
-
-
 const subNavLink = [
   {
     to: "/admin/settings",
@@ -50,6 +48,7 @@ function Sidebar({ classes, window, privilegesData }) {
     productManagement,
     siteSettingsManagement,
     staffManagement,
+    feemanagement,
     templateManagement,
     // calendarManagement
   } = privilegesData ?? {};
@@ -71,7 +70,7 @@ function Sidebar({ classes, window, privilegesData }) {
               if (!knowledgeCenterManagement?.view && to?.startsWith("/admin/knowledge-center")) return;
               if (!siteSettingsManagement?.view && to?.startsWith("/admin/site-settings")) return;
               if (!clientFamilyManagement?.view && to?.startsWith("/admin/clients-family")) return;
-              // if (!calendarManagement?.view && to?.startsWith("/admin/calendar-management")) return;
+
               return (
                 <>
                   <NavLink
@@ -108,24 +107,23 @@ function Sidebar({ classes, window, privilegesData }) {
                               )}
                             </span>
 
-                            <span
-                              className={
-                                location.pathname.startsWith(to)
-                                  ? "activeBar"
-                                  : "inActiveBar"
-                              }
-                            >
-                              {label}
-                            </span>
-                          </ListItemText>
-                        </div>
-                      </ListItem>
-                    </div>
-                  </NavLink>
-                </>
-              );
-            }
-          )
+                          <span
+                            className={
+                              location.pathname.startsWith(to)
+                                ? "activeBar"
+                                : "inActiveBar"
+                            }
+                          >
+                            {label}
+                          </span>
+                        </ListItemText>
+                      </div>
+                    </ListItem>
+                  </div>
+                </NavLink>
+              </>
+            );
+          })
         )}
       </List>
       {/* <hr className="mx-3 bg-white" /> */}
