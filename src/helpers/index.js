@@ -23,6 +23,11 @@ import Noti_a from "assets/images/Noti_a.svg";
 import Product_a from "assets/images/Product_a.svg";
 import Site_a from "assets/images/Site_a.svg";
 import Temp_a from "assets/images/Temp_a.svg";
+import calendarMt from "assets/images/CalendarIA.svg";
+import calenderD from "assets/images/calendarD.svg";
+import feeIA from "assets/images/feeIA.svg";
+import feeDark from "assets/images/feeDark.svg";
+
 // internal components
 import { reducers } from "../reducer";
 import routers from "routes/routes";
@@ -294,6 +299,13 @@ export const navLink = [
     privilegesName: "contentManagement",
   },
   {
+    to: "/admin/calendar-management",
+    label: "Calendar Management",
+    iconName: calenderD,
+    inactiveIcon: calendarMt,
+    privilegesName: "calendarManagement",
+  },
+  {
     to: "/admin/template-management",
     label: "Template Management",
     iconName: Temp_a,
@@ -317,8 +329,8 @@ export const navLink = [
   {
     to: "/admin/fee-management",
     label: "Fee Management",
-    iconName: Faq_a,
-    inactiveIcon: faqMt,
+    iconName: feeDark,
+    inactiveIcon: feeIA,
     privilegesName: "feeManagement",
   },
   {
@@ -398,6 +410,8 @@ export const managementOptions = {
   knowledgeCenterManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   clientFamilyManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   siteSettingsManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+  calendarManagement : ["VIEW", "EDIT", "ADD", "DELETE"],
+  FeeManagement : ["VIEW", "EDIT", "ADD", "DELETE"],
 };
 
 export const options = [

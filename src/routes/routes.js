@@ -249,6 +249,22 @@ const routers = [
         auth: false,
         exact: true,
       },
+      {
+        component: "CalendarManagement",
+        path: "/calendar-management",
+        componentPath: "pages/Dashboard/CalendarManagement/CalendarManagement",
+        name: "CalendarManagement",
+        auth: false,
+        exact: true,
+      },
+      {
+        component: "AddCalendarManagement",
+        path: "/calendar-management/add-calendar",
+        componentPath: "pages/Dashboard/CalendarManagement/AddCalendarManagement",
+        name: "AddCalendarManagement",
+        auth: false,
+        exact: true,
+      },
     ],
   },
 ];

@@ -38,7 +38,6 @@ function Sidebar({ classes, window, privilegesData }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
-
   const {
     contentManagement,
     faqManagement,
@@ -51,6 +50,7 @@ function Sidebar({ classes, window, privilegesData }) {
     staffManagement,
     feemanagement,
     templateManagement,
+    // calendarManagement
   } = privilegesData ?? {};
 
   const location = useLocation();
@@ -71,41 +71,41 @@ function Sidebar({ classes, window, privilegesData }) {
               if (!siteSettingsManagement?.view && to?.startsWith("/admin/site-settings")) return;
               if (!clientFamilyManagement?.view && to?.startsWith("/admin/clients-family")) return;
 
-            return (
-              <>
-                <NavLink
-                  key={`nav-bar-${index}`}
-                  to={to}
-                  onClick={
-                    to !== "/something" ? () => setActiveIndex(index) : ""
-                  }
-                  style={{ textDecoration: "none" }}
-                >
-                  <div
-                    style={{
-                      borderLeft: location.pathname.startsWith(to)
-                        ? "5px solid #292929"
-                        : "5px solid #ffffff",
-                    }}
+              return (
+                <>
+                  <NavLink
+                    key={`nav-bar-${index}`}
+                    to={to}
+                    onClick={
+                      to !== "/something" ? () => setActiveIndex(index) : ""
+                    }
+                    style={{ textDecoration: "none" }}
                   >
-                    <ListItem
-                      button
-                      className={
-                        // to?.includes(location.pathname)
-                        location.pathname.startsWith(to)
-                          ? "active-div"
-                          : "inActive-div"
-                      }
+                    <div
+                      style={{
+                        borderLeft: location.pathname.startsWith(to)
+                          ? "5px solid #292929"
+                          : "5px solid #ffffff"
+                      }}
                     >
-                      <div>
-                        <ListItemText>
-                          <span className="mr-3">
-                            {location.pathname.startsWith(to) ? (
-                              <img src={iconName} alt="" />
-                            ) : (
-                              <img src={inactiveIcon} alt="" />
-                            )}
-                          </span>
+                      <ListItem
+                        button
+                        className={
+                          // to?.includes(location.pathname)
+                          location.pathname.startsWith(to)
+                            ? "active-div"
+                            : "inActive-div"
+                        }
+                      >
+                        <div>
+                          <ListItemText>
+                            <span className="mr-3">
+                              {location.pathname.startsWith(to) ? (
+                                <img src={iconName} alt="" />
+                              ) : (
+                                <img src={inactiveIcon} alt="" />
+                              )}
+                            </span>
 
                           <span
                             className={
