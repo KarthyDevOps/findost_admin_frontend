@@ -24,8 +24,6 @@ import { useEffect } from "react";
 import { getadminPrivileges } from "helpers/privileges";
 import { useDispatch } from "react-redux";
 
-
-
 const subNavLink = [
   {
     to: "/admin/settings",
@@ -51,6 +49,7 @@ function Sidebar({ classes, window, privilegesData }) {
     productManagement,
     siteSettingsManagement,
     staffManagement,
+    feemanagement,
     templateManagement,
   } = privilegesData ?? {};
 
@@ -59,73 +58,108 @@ function Sidebar({ classes, window, privilegesData }) {
     <div>
       <List className={classes.nav} style={{ textDecoration: "none" }}>
         {React.Children.toArray(
-          navLink.map(
-            ({ to, label, iconName, inactiveIcon }, index) => {
-              if (!staffManagement?.view && to?.startsWith("/admin/staff-management")) return;
-              if (!productManagement?.view && to?.startsWith("/admin/product-management")) return;
-              if (!feedbackManagement?.view && to?.startsWith("/admin/feedBack-management")) return;
-              if (!notificationManagement?.view && to?.startsWith("/admin/notification-management")) return;
-              if (!contentManagement?.view && to?.startsWith("/admin/content-management")) return;
-              if (!templateManagement?.view && to?.startsWith("/admin/template-management")) return;
-              if (!faqManagement?.view && to?.startsWith("/admin/faq-management")) return;
-              if (!knowledgeCenterManagement?.view && to?.startsWith("/admin/knowledge-center")) return;
-              if (!siteSettingsManagement?.view && to?.startsWith("/admin/site-settings")) return;
-              if (!clientFamilyManagement?.view && to?.startsWith("/admin/clients-family")) return;
+          navLink.map(({ to, label, iconName, inactiveIcon }, index) => {
+            if (
+              !staffManagement?.view &&
+              to?.startsWith("/admin/staff-management")
+            )
+              return;
+            if (
+              !productManagement?.view &&
+              to?.startsWith("/admin/product-management")
+            )
+              return;
+            if (
+              !feedbackManagement?.view &&
+              to?.startsWith("/admin/feedBack-management")
+            )
+              return;
+            if (
+              !notificationManagement?.view &&
+              to?.startsWith("/admin/notification-management")
+            )
+              return;
+            if (
+              !contentManagement?.view &&
+              to?.startsWith("/admin/content-management")
+            )
+              return;
+            if (
+              !templateManagement?.view &&
+              to?.startsWith("/admin/template-management")
+            )
+              return;
+            if (!faqManagement?.view && to?.startsWith("/admin/faq-management"))
+              return;
+            if (
+              !knowledgeCenterManagement?.view &&
+              to?.startsWith("/admin/knowledge-center")
+            )
+              return;
+            if (
+              !siteSettingsManagement?.view &&
+              to?.startsWith("/admin/site-settings")
+            )
+              return;
+            if (
+              !clientFamilyManagement?.view &&
+              to?.startsWith("/admin/clients-family")
+            )
+              return;
 
-              return (
-                <>
-                  <NavLink
-                    key={`nav-bar-${index}`}
-                    to={to}
-                    onClick={
-                      to !== "/something" ? () => setActiveIndex(index) : ""
-                    }
-                    style={{ textDecoration: "none" }}
+            return (
+              <>
+                <NavLink
+                  key={`nav-bar-${index}`}
+                  to={to}
+                  onClick={
+                    to !== "/something" ? () => setActiveIndex(index) : ""
+                  }
+                  style={{ textDecoration: "none" }}
+                >
+                  <div
+                    style={{
+                      borderLeft: location.pathname.startsWith(to)
+                        ? "5px solid #292929"
+                        : "5px solid #ffffff",
+                    }}
                   >
-                    <div
-                      style={{
-                        borderLeft: location.pathname.startsWith(to)
-                          ? "5px solid #292929"
-                          : "5px solid #ffffff"
-                      }}
+                    <ListItem
+                      button
+                      className={
+                        // to?.includes(location.pathname)
+                        location.pathname.startsWith(to)
+                          ? "active-div"
+                          : "inActive-div"
+                      }
                     >
-                      <ListItem
-                        button
-                        className={
-                          // to?.includes(location.pathname)
-                          location.pathname.startsWith(to)
-                            ? "active-div"
-                            : "inActive-div"
-                        }
-                      >
-                        <div>
-                          <ListItemText>
-                            <span className="mr-3">
-                              {location.pathname.startsWith(to) ? (
-                                <img src={iconName} alt="" />
-                              ) : (
-                                <img src={inactiveIcon} alt="" />
-                              )}
-                            </span>
+                      <div>
+                        <ListItemText>
+                          <span className="mr-3">
+                            {location.pathname.startsWith(to) ? (
+                              <img src={iconName} alt="" />
+                            ) : (
+                              <img src={inactiveIcon} alt="" />
+                            )}
+                          </span>
 
-                            <span
-                              className={
-                                location.pathname.startsWith(to)
-                                  ? "activeBar"
-                                  : "inActiveBar"
-                              }
-                            >
-                              {label}
-                            </span>
-                          </ListItemText>
-                        </div>
-                      </ListItem>
-                    </div>
-                  </NavLink>
-                </>
-              );
-            }
-          )
+                          <span
+                            className={
+                              location.pathname.startsWith(to)
+                                ? "activeBar"
+                                : "inActiveBar"
+                            }
+                          >
+                            {label}
+                          </span>
+                        </ListItemText>
+                      </div>
+                    </ListItem>
+                  </div>
+                </NavLink>
+              </>
+            );
+          })
         )}
       </List>
       {/* <hr className="mx-3 bg-white" /> */}

@@ -172,6 +172,22 @@ const routers = [
         exact: true,
       },
       {
+        component: "FeeManagement",
+        path: "/fee-management",
+        componentPath: "pages/Dashboard/FeeManagement/FeeManagement",
+        name: "FeeManagement",
+        auth: false,
+        exact: true,
+      },
+      {
+        component: "AddFee",
+        path: "/fee-management/add-fee",
+        componentPath: "pages/Dashboard/FeeManagement/AddFee",
+        name: "AddFee",
+        auth: false,
+        exact: true,
+      },
+      {
         component: "KnowledgeCenter",
         path: "/knowledge-center",
         componentPath:

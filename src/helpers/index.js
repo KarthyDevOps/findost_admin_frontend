@@ -315,6 +315,13 @@ export const navLink = [
     privilegesName: "knowledgeCenterManagement",
   },
   {
+    to: "/admin/fee-management",
+    label: "Fee Management",
+    iconName: Faq_a,
+    inactiveIcon: faqMt,
+    privilegesName: "feeManagement",
+  },
+  {
     to: "/admin/clients-family",
     label: "Client's Family",
     iconName: Client_a,
