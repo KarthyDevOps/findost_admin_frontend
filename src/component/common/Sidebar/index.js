@@ -40,7 +40,6 @@ function Sidebar({ classes, window, privilegesData }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
-
   const {
     contentManagement,
     faqManagement,
@@ -52,6 +51,7 @@ function Sidebar({ classes, window, privilegesData }) {
     siteSettingsManagement,
     staffManagement,
     templateManagement,
+    // calendarManagement
   } = privilegesData ?? {};
 
   const location = useLocation();
@@ -71,7 +71,7 @@ function Sidebar({ classes, window, privilegesData }) {
               if (!knowledgeCenterManagement?.view && to?.startsWith("/admin/knowledge-center")) return;
               if (!siteSettingsManagement?.view && to?.startsWith("/admin/site-settings")) return;
               if (!clientFamilyManagement?.view && to?.startsWith("/admin/clients-family")) return;
-
+              // if (!calendarManagement?.view && to?.startsWith("/admin/calendar-management")) return;
               return (
                 <>
                   <NavLink

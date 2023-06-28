@@ -18,6 +18,12 @@ const adminPrivileges = () => async (dispatch, getState) => {
       "edit": true,
       "remove": true
     },
+    "calendarManagement": {
+      "create": true,
+      "view": true,
+      "edit": true,
+      "remove": true
+    },
   };
   try {
     console.log("toto privelage Callll")
@@ -38,6 +44,12 @@ const adminPrivileges = () => async (dispatch, getState) => {
 export const getadminPrivileges = async (dispatch) => {
   let filteredData = {
     "dashboard": {
+      "create": true,
+      "view": true,
+      "edit": true,
+      "remove": true
+    },
+    "calendarManagement": {
       "create": true,
       "view": true,
       "edit": true,
