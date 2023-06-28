@@ -151,9 +151,9 @@ const AddCalendarComp = ({ edit, view }) => {
                 }}
               />
             </div>
-            <div className="col-md-4">
+            <div className="col-md-4 p-0">
               <label>Start Date</label>
-              <div className="date_of_birth start-date-container">
+              <div className="date_of_birth">
                 <CustomController
                   name={"startDate"}
                   control={control}
@@ -178,7 +178,6 @@ const AddCalendarComp = ({ edit, view }) => {
                         placeholder="Start Date"
                         minDate={new Date()}
                         maxDate={newEndDate.setDate(newEndDate.getDate() - 1)}
-                        // className="start-date-picker"
                       />
                     );
                   }}
