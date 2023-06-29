@@ -173,3 +173,17 @@
   width: 100%;
   height: 100%;
 }
+
+.time-zone .ant-picker {
+  border-radius: 10px;
+  width: 325px;
+  height: 45px;
+  font-size: 14px;
+}
+.ant-picker-time-panel {
+  width: 325px;
+}
+.ant-picker-input > input {
+  font-weight: 500;
+  font-size: 14px;
+}

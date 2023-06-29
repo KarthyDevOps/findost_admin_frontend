@@ -4,6 +4,7 @@ export const baseURL = "http://doodlebluelive.com";
 export const userUrl = `${baseURL}:2277/user/api/v1`;
 export const communicationUrl = `${baseURL}:2275/communication/v1`;
 export const cms = `${baseURL}:2274/cms/v1`;
+export const CalendarUrl = `${baseURL}:2275/communication/admin/v1`;
 
 //PRE PRODUCTION
 
@@ -74,5 +75,12 @@ export const endpoints = {
     NOTIFICATION_HISTORY_GET: `${communicationUrl}/notification-management/get`,
     NOTIFICATION_HISTORY_DELETE: `${communicationUrl}/notification-management/delete`,
     NOTIFICATION_HISTORY_UPDATE: `${communicationUrl}/notification-management/update`,
+  },
+  calendar: {
+    CALENDAR_EVENT_CREATE: `${CalendarUrl}/schedule/create`,
+    CALENDAR_EVENT_LIST: `${CalendarUrl}/schedule/list`,
+    CALENDAR_EVENT_GET: `${CalendarUrl}/schedule/get`,
+    CALENDAR_EVENT_DELETE: `${CalendarUrl}/schedule/delete`,
+    CALENDAR_EVENT_UPDATE: `${CalendarUrl}/schedule/update`,
   },
 };

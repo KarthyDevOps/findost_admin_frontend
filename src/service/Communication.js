@@ -148,3 +148,4 @@ export const updateNotificationHistory = async (body, id) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+

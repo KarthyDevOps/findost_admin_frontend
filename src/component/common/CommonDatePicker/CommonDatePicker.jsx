@@ -12,7 +12,8 @@ const CommonDatePicker = ({
   minDate,
   dateFormat = "dd/MM/yyyy",
   isClearable = false,
-  id = "datepicker"
+  id = "datepicker",
+  showTimeSelect,showTimeSelectOnly
 }) => {
 
   const handleIconClick = () => document?.getElementById?.(id)?.click?.();
@@ -29,6 +30,10 @@ const CommonDatePicker = ({
         maxDate={maxDate}
         minDate={minDate}
         dateFormat={dateFormat}
+        showTimeSelect={  showTimeSelect}
+        showTimeSelectOnly={showTimeSelectOnly}
+        timeFormat="HH:mm"
+        timeIntervals={15}
       />
       <span className={styles.icon} onClick={handleIconClick}>
         <AiOutlineCalendar size={25} />
