@@ -11,6 +11,7 @@ import Loader from "component/common/Loader";
 import EmptyTable from "component/common/TableComp/EmptyTable";
 //service
 import { Toast } from "service/toast";
+import { bulkDeleteSegment, deleteSegment, getSegmentList } from "service/Auth";
 //helpers
 import { history, debounceFunction } from "helpers";
 
@@ -41,18 +42,18 @@ const SegmentSelection = ({
   const includedKeys = [
     {
       label: "Id",
-      value: "id",
+      value: "segmentId",
       width: "50%",
     },
 
     {
       label: "Segment",
-      value: "Segments",
+      value: "segmentName",
       // width: "60%",
     },
     {
       label: "Charges",
-      value: "Charges",
+      value: "segmentCharge",
       // width: "60%",
     },
   ];
@@ -65,28 +66,28 @@ const SegmentSelection = ({
   };
 
   const fetchData = async (page) => {
-    // try {
-    //   setIsLoading(true);
-    //   setBulkDelete(false);
-    //   let params = {
-    //     page: page ? page : 1,
-    //     limit: 10,
-    //     search: search,
-    //   };
-    //   let response = await getFAQList(params);
-    //   if (response.status === 200 && response?.data?.data?.list.length > 0) {
-    //     setData(response?.data?.data?.list);
-    //     localStorage.setItem("noOfLists", response?.data?.data?.list.length);
-    //     setPageCount(response?.data?.data?.pageMeta?.pageCount);
-    //     setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
-    //   } else {
-    //     setData([]);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    try {
+      setIsLoading(true);
+      setBulkDelete(false);
+      let params = {
+        page: page ? page : 1,
+        limit: 10,
+        search: search,
+      };
+      let response = await getSegmentList(params);
+      if (response.status === 200 && response?.data?.data?.list.length > 0) {
+        setData(response?.data?.data?.list);
+        localStorage.setItem("noOfLists", response?.data?.data?.list.length);
+        setPageCount(response?.data?.data?.pageMeta?.pageCount);
+        setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
+      } else {
+        setData([]);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handlePageChange = (page) => {
@@ -94,24 +95,24 @@ const SegmentSelection = ({
   };
 
   const handleDeleteItem = async () => {
-    // if (modalVisible.show && modalVisible.id) {
-    //   let params = {
-    //     id: modalVisible.id,
-    //   };
-    //   let response = await deleteFAQList(params);
-    //   if (response.status === 200) {
-    //     Toast({ type: "success", message: response.data.message });
-    //     const activeLists = JSON.parse(localStorage.getItem("noOfLists"));
-    //     if (activeLists === 1) {
-    //       fetchData(currentPage > 1 ? currentPage - 1 : 1);
-    //       localStorage.removeItem("noOfLists");
-    //     } else {
-    //       fetchData(currentPage);
-    //       localStorage.removeItem("noOfLists");
-    //     }
-    //   }
-    // }
-    // setModalVisible({ show: false, id: null });
+    if (modalVisible.show && modalVisible.id) {
+      let params = {
+        id: modalVisible.id,
+      };
+      let response = await deleteSegment(params);
+      if (response.status === 200) {
+        Toast({ type: "success", message: response.data.message });
+        const activeLists = JSON.parse(localStorage.getItem("noOfLists"));
+        if (activeLists === 1) {
+          fetchData(currentPage > 1 ? currentPage - 1 : 1);
+          localStorage.removeItem("noOfLists");
+        } else {
+          fetchData(currentPage);
+          localStorage.removeItem("noOfLists");
+        }
+      }
+    }
+    setModalVisible({ show: false, id: null });
   };
 
   const handleSearchChange = useCallback(
@@ -132,26 +133,26 @@ const SegmentSelection = ({
   };
 
   const handleBulkDelete = async () => {
-    // if (deleteId.length > 0) {
-    //   let body = {
-    //     ids: deleteId,
-    //   };
-    //   let response = await bulkDeleteFaq(body);
-    //   if (response.status === 200) {
-    //     Toast({ type: "success", message: response.data.message });
-    //     const activeLists = JSON.parse(localStorage.getItem("noOfLists"));
-    //     if (activeLists === deleteId.length) {
-    //       fetchData(currentPage > 1 ? currentPage - 1 : 1);
-    //       localStorage.removeItem("noOfLists");
-    //       deleteId.length = 0;
-    //     } else {
-    //       fetchData(currentPage);
-    //       localStorage.removeItem("noOfLists");
-    //       deleteId.length = 0;
-    //     }
-    //   }
-    // }
-    // setModalVisible({ show: false, id: null });
+    if (deleteId.length > 0) {
+      let body = {
+        ids: deleteId,
+      };
+      let response = await bulkDeleteSegment(body);
+      if (response.status === 200) {
+        Toast({ type: "success", message: response.data.message });
+        const activeLists = JSON.parse(localStorage.getItem("noOfLists"));
+        if (activeLists === deleteId.length) {
+          fetchData(currentPage > 1 ? currentPage - 1 : 1);
+          localStorage.removeItem("noOfLists");
+          deleteId.length = 0;
+        } else {
+          fetchData(currentPage);
+          localStorage.removeItem("noOfLists");
+          deleteId.length = 0;
+        }
+      }
+    }
+    setModalVisible({ show: false, id: null });
   };
 
   useEffect(() => {
@@ -165,8 +166,8 @@ const SegmentSelection = ({
 
   return (
     <div className="faq_head">
-      <div className="d-flex align-items-center justify-content-between">
-        <div className="cursor-pointer my-4">
+      <div className="row p-0 align-items-center">
+        <div className="col-md-3 my-3">
           <InputBox
             className="login_input Notification_input"
             type={"text"}
@@ -178,28 +179,26 @@ const SegmentSelection = ({
             onChange={(e) => handleSearchChange(e.target.value)}
           />
         </div>
-        <div className="flex align-items-center" style={{ gap: "1em" }}>
-          <div className="cursor-pointer">
-            {bulkDelete && remove && (
-              <NormalButton
-                className="authButton1"
-                label={"Delete"}
-                onClick={handleOpenModal}
-              />
-            )}
-          </div>
-          {
-            <div className="cursor-pointer">
-              <NormalButton
-                loginButton1
-                label={"Add Segment"}
-                onClick={() => {
-                  localStorage.removeItem("editId");
-                  history.push("/admin/fee-management/add-fee");
-                }}
-              />
-            </div>
-          }
+        <div className="col-md-5"></div>
+        <div className="col-md-2">
+          {bulkDelete && (
+            <NormalButton
+              className="authButton1"
+              label={"Delete"}
+              onClick={handleOpenModal}
+            />
+          )}
+        </div>
+
+        <div className="col-md-2 m-0">
+          <NormalButton
+            loginButton1
+            label={"Add Segment"}
+            onClick={() => {
+              localStorage.removeItem("editId");
+              history.push("/admin/fee-management/add-fee");
+            }}
+          />
         </div>
       </div>
       <div className="row align-items-center">
@@ -212,8 +211,8 @@ const SegmentSelection = ({
           <div className=" px-3">
             <TableComp
               data={data}
-              EditAction={edit}
-              DeleteAction={remove}
+              EditAction
+              DeleteAction
               includedKeys={includedKeys}
               pageCount={pageCount}
               currentPage={currentPage}

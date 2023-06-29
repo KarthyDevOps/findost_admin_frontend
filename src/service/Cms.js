@@ -502,3 +502,5 @@ export const addSubCategory = async (data) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
+
