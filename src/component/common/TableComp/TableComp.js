@@ -154,6 +154,11 @@ function TableComp(props) {
                           </a>
                         </td>
                       );
+                      // date formatter
+                    } else if (statusKey === "date") {
+                      return (
+                        <td key={key}>{moment(value).format("MMM DD YYYY")}</td>
+                      );
                       // date and time formatter
                     } else if (
                       moment(value, "YYYY-MM-DDTHH:mm:ss.SSSZ", true).isValid()
