@@ -1,1 +1,0 @@
-{"version":3,"sources":["assets/fonts/helvetica/Helvetica-BoldOblique.ttf"],"names":["module","exports"],"mappings":"qFAAAA,EAAOC,QAAU,IAA0B","file":"static/js/181.43f06bd8.chunk.js","sourcesContent":["module.exports = __webpack_public_path__ + \"static/media/Helvetica-BoldOblique.1243b706.ttf\";"],"sourceRoot":""}

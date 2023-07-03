@@ -1,1 +1,0 @@
-{"version":3,"sources":["logo.svg"],"names":["module","exports"],"mappings":"qFAAAA,EAAOC,QAAU,IAA0B","file":"static/js/212.715db52c.chunk.js","sourcesContent":["module.exports = __webpack_public_path__ + \"static/media/logo.25bf045c.svg\";"],"sourceRoot":""}
