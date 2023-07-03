@@ -15,79 +15,111 @@ import { useForm } from "react-hook-form";
 import Dropzone from "react-dropzone";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { BsArrowLeft } from "react-icons/bs";
-import { getClient, updateClient } from "service/Auth";
+import {
+  addCalendarEvent,
+  updateCalendarEvent,
+  getCalendarEvent,
+} from "service/Calendar";
 import { Toast } from "service/toast";
+import { Space, TimePicker } from "antd";
 import { uploadImage } from "service/Auth";
+import moment from "moment";
 //helper
 import { history } from "helpers";
 
 const AddCalendarComp = ({ edit, view }) => {
-  const {
-    register,
-    handleSubmit,
-    errors,
-    setValue,
-    reset,
-    control,
-    getValues,
-  } = useForm({
+  const { register, handleSubmit, errors, reset, control } = useForm({
     mode: "onChange",
   });
 
   const [modal, setModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [ClientDetails, setClientDetails] = useState({ relationShip: "" });
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [image, setImage] = useState("");
   const [editEvent, setEditEvent] = useState(false);
-  const newStartDate = new Date(startDate);
-  const newEndDate = new Date(endDate);
+  const [date, setDate] = useState("");
   const id = localStorage.getItem("editId");
 
   const getEventDetails = async () => {
-    // try {
-    //   let response = await getClient(params);
-    //   if (response.status === 200) {
-    //     const data = response?.data?.data?.data;
-    //     reset({
-    //       clientName: data?.clientName,
-    //       email: data?.email,
-    //       relativeName: data?.relativeName,
-    //       dateOfBirth: new Date(data?.dateOfBirth),
-    //     });
-    //     setClientDetails({
-    //       relationShip: data.relationShip,
-    //     });
-    //   } else {
-    //     Toast({ type: "error", message: response.data.message });
-    //   }
-    // } catch (e) {
-    //   console.log("e :>> ", e);
-    // }
+    try {
+      let params = {
+        id: id,
+      };
+      let response = await getCalendarEvent(params);
+      if (response.status === 200) {
+        const data = response?.data?.data;
+        reset({
+          eventName: data?.summary,
+          meetLink: data?.description,
+        });
+        setDate(new Date(data?.date));
+        setImage(data?.imageUrlS3);
+        setImageUrl(data?.imageUrl);
+        setStartTime(data?.startTime);
+        setEndTime(data?.endTime);
+      } else {
+        Toast({ type: "error", message: response.data.message });
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
   };
 
   const onSubmit = async (data) => {
-    console.log("data :>> ", data);
-    try {
-      setLoading(true);
-      let body = {};
-      //   let response = await updateClient(body, id);
-      //   if (response.status === 200) {
-      //     setModal(true);
-      //     const timeout = setTimeout(() => {
-      //       setModal(false);
-      //       reset(ClientDetails);
-      //       history.push("/admin/clients-family");
-      //     }, 1000);
-      //     setLoading(false);
-      //     return () => clearTimeout(timeout);
-      //   } else {
-      //     Toast({ type: "error", message: response.data.message });
-      //   }
-    } catch (e) {
-      console.log(e);
+    if (!editEvent) {
+      try {
+        setLoading(true);
+        let body = {
+          summary: data.eventName,
+          date: date,
+          startTime: startTime,
+          endTime: endTime,
+          imageUrl: imageUrl,
+          description: data.meetLink,
+        };
+        let response = await addCalendarEvent(body);
+        if (response.status === 200) {
+          setModal(true);
+          const timeout = setTimeout(() => {
+            setModal(false);
+            history.push("/admin/calendar-management");
+          }, 1000);
+          setLoading(false);
+          return () => clearTimeout(timeout);
+        } else {
+          Toast({ type: "error", message: response.data.message });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      try {
+        setLoading(true);
+        let body = {
+          summary: data.eventName,
+          date: date,
+          startTime: startTime,
+          endTime: endTime,
+          imageUrl: imageUrl,
+          description: data.meetLink,
+        };
+        let response = await updateCalendarEvent(body, id);
+        if (response.status === 200) {
+          setModal(true);
+          const timeout = setTimeout(() => {
+            setModal(false);
+            history.push("/admin/calendar-management");
+          }, 1000);
+          setLoading(false);
+          return () => clearTimeout(timeout);
+        } else {
+          Toast({ type: "error", message: response.data.message });
+        }
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 
@@ -109,11 +141,12 @@ const AddCalendarComp = ({ edit, view }) => {
     setImage(null);
   };
 
-  //   useEffect(() => {
-  //     if (id) {
-  //       getEventDetails();
-  //     }
-  //   }, []);
+  useEffect(() => {
+    if (id) {
+      setEditEvent(true);
+      getEventDetails();
+    }
+  }, []);
 
   return (
     <div className="px-5 py-3">
@@ -152,32 +185,31 @@ const AddCalendarComp = ({ edit, view }) => {
               />
             </div>
             <div className="col-md-4 p-0">
-              <label>Start Date</label>
+              <label>Event Date</label>
               <div className="date_of_birth">
                 <CustomController
-                  name={"startDate"}
+                  name={"date"}
                   control={control}
-                  error={errors.startDate}
-                  defaultValue={startDate}
-                  rules={{ required: true }}
+                  error={errors.date}
+                  defaultValue={date}
+                  rules={{ required: date ? false : true }}
                   messages={{
-                    required: "Start Date is Required",
+                    required: "Date is Required",
                   }}
-                  render={({ onChange, ...field }) => {
+                  render={({ onChange, value, ...field }) => {
                     return (
                       <CommonDatePicker
                         clientDatePicker
-                        name="startDate"
+                        name="date"
                         {...field}
-                        id="startDate"
-                        value={startDate}
+                        id="date"
+                        value={date}
                         onChange={(date) => {
                           onChange(date);
-                          setStartDate(date);
+                          setDate(date);
                         }}
-                        placeholder="Start Date"
+                        placeholder="Select Date"
                         minDate={new Date()}
-                        maxDate={newEndDate.setDate(newEndDate.getDate() - 1)}
                       />
                     );
                   }}
@@ -185,34 +217,66 @@ const AddCalendarComp = ({ edit, view }) => {
               </div>
             </div>
             <div className="col-md-4">
-              <label>End Date</label>
-              <div className="date_of_birth">
+              <label>Start Time</label>
+              <div className="time-zone">
                 <CustomController
-                  name={"endDate"}
+                  name="startTime"
                   control={control}
-                  error={errors.endDate}
-                  defaultValue={endDate}
-                  rules={{ required: true }}
-                  messages={{
-                    required: "End Date is Required",
-                  }}
-                  render={({ onChange, ...field }) => {
+                  error={errors.startTime}
+                  defaultValue={
+                    startTime ? moment(startTime, "hh:mm a") : startTime
+                  }
+                  rules={{ required: startTime ? false : true }}
+                  messages={{ required: "Start Time is Required" }}
+                  render={({ onChange, value, ...field }) => {
                     return (
-                      <CommonDatePicker
-                        clientDatePicker
-                        {...field}
-                        id="endDate"
-                        name="endDate"
-                        value={endDate}
-                        onChange={(date) => {
-                          onChange(date);
-                          setEndDate(date);
-                        }}
-                        placeholder="End Date"
-                        minDate={newStartDate.setDate(
-                          newStartDate.getDate() + 1
-                        )}
-                      />
+                      <Space wrap>
+                        <TimePicker
+                          {...field}
+                          value={
+                            startTime ? moment(startTime, "hh:mm a") : startTime
+                          }
+                          use12Hours
+                          name="startTime"
+                          format="h:mm a"
+                          onChange={(time, timeString) => {
+                            onChange(moment(timeString));
+                            setStartTime(timeString);
+                          }}
+                          placeholder="Start Time"
+                        />
+                      </Space>
+                    );
+                  }}
+                />
+              </div>
+            </div>
+            <div className="col-md-4 my-3">
+              <label>End Time</label>
+              <div className="time-zone">
+                <CustomController
+                  name="endTime"
+                  control={control}
+                  error={errors.endTime}
+                  defaultValue={endTime ? moment(endTime, "hh:mm a") : endTime}
+                  rules={{ required: endTime ? false : true }}
+                  messages={{ required: "End Time is Required" }}
+                  render={({ onChange, value, ...field }) => {
+                    return (
+                      <Space wrap>
+                        <TimePicker
+                          {...field}
+                          value={endTime ? moment(endTime, "hh:mm a") : endTime}
+                          use12Hours
+                          name="endTime"
+                          format="h:mm a"
+                          onChange={(time, timeString) => {
+                            onChange(timeString);
+                            setEndTime(timeString);
+                          }}
+                          placeholder="End Time"
+                        />
+                      </Space>
                     );
                   }}
                 />
@@ -223,7 +287,7 @@ const AddCalendarComp = ({ edit, view }) => {
               <InputBox
                 className="add_staff"
                 type={"text"}
-                placeholder="Enter Meet LinK"
+                placeholder="Enter Meet Link"
                 name="meetLink"
                 errors={errors}
                 register={register({
@@ -234,8 +298,8 @@ const AddCalendarComp = ({ edit, view }) => {
               <FormErrorMessage
                 error={errors.meetLink}
                 messages={{
-                  required: "Meet LinK is Required",
-                  pattern: "Invalid Meet LinK",
+                  required: "Meet Link is Required",
+                  pattern: "Invalid Meet Link",
                 }}
               />
             </div>

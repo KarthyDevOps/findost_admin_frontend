@@ -410,8 +410,8 @@ export const managementOptions = {
   knowledgeCenterManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   clientFamilyManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   siteSettingsManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-  calendarManagement : ["VIEW", "EDIT", "ADD", "DELETE"],
-  FeeManagement : ["VIEW", "EDIT", "ADD", "DELETE"],
+  calendarManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+  FeeManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
 };
 
 export const options = [
@@ -429,7 +429,7 @@ export const options = [
   },
 ];
 
-export const categoryOptions = ["option1","option2", "option3"]
+export const categoryOptions = ["option1", "option2", "option3"];
 
 export const feedbackStatus = [
   {
@@ -448,6 +448,6 @@ export const feedbackStatus = [
     label: "Closed",
     value: "Closed",
   },
-]
+];
 
 export const InitialSpaceNotAllowed = /^[A-Za-z][A-Za-z\s]*$/;

@@ -87,16 +87,20 @@ function TableComp(props) {
             {includedKeys.map((key) => {
               return (
                 <>
-                  <th className="" key={key} style={{ ...(key?.width ? { width: key?.width } : {}) }}>
+                  <th
+                    className=""
+                    key={key}
+                    style={{ ...(key?.width ? { width: key?.width } : {}) }}
+                  >
                     {key.label}
                   </th>
                 </>
               );
             })}
 
-            {(DeleteAction || ReadAction || EditAction) &&
-              <th className="action_place" > Actions</th>
-            }
+            {(DeleteAction || ReadAction || EditAction) && (
+              <th className="action_place"> Actions</th>
+            )}
           </tr>
         </thead>
 
@@ -134,11 +138,20 @@ function TableComp(props) {
                       // for id
                     } else if (statusKey.includes("id")) {
                       return <td key={key}>{value}</td>;
-                      // date and time formatter
                     } else if (statusKey.includes("producticons3")) {
                       return (
                         <td key={key}>
-                          <a href={value} target="_blank"><img src={value} alt={value} className="img" />{" "}</a>
+                          <a href={value} target="_blank">
+                            <img src={value} alt={value} className="img" />{" "}
+                          </a>
+                        </td>
+                      );
+                    } else if (statusKey.includes("imageurls3")) {
+                      return (
+                        <td key={key}>
+                          <a href={value} target="_blank">
+                            <img src={value} alt={value} className="img" />{" "}
+                          </a>
                         </td>
                       );
                       // date and time formatter
@@ -150,7 +163,6 @@ function TableComp(props) {
                           {moment(value).format("MMM DD YYYY hh:mm a")}
                         </td>
                       );
-                      // for HTML tags
                     } else if (
                       typeof value === "string" &&
                       /<[a-z][\s\S]*>/i.test(value)

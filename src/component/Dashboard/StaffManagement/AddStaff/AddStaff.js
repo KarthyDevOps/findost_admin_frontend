@@ -69,7 +69,6 @@ const AddStaff = ({ create, view, remove }) => {
   };
 
   const onSubmit = async (data) => {
-    console.log("dataform :>> ", data);
     if (!edit) {
       try {
         setLoading(true);

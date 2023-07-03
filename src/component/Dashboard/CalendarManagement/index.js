@@ -8,9 +8,13 @@ import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import EmptyTable from "component/common/TableComp/EmptyTable";
 // services
-// import { getStaffList, deleteStaff, bulkDeleteStaff } from "service/Auth";
 import { useForm } from "react-hook-form";
 import { BsSearch } from "react-icons/bs";
+import {
+  getCalendarEventsList,
+  deleteCalendarEvent,
+  BulkDeleteCalendarEvent,
+} from "service/Calendar";
 import { Toast } from "service/toast";
 // helpers
 import { history, debounceFunction } from "helpers";
@@ -35,52 +39,62 @@ const CalendarManagementComp = ({ create, view, edit, remove }) => {
   const includedKeys = [
     {
       label: "Event Image",
-      value: "adminId",
+      value: "imageUrlS3",
+      width: "50%",
     },
     {
       label: "Event Id",
-      value: "adminId",
+      value: "adminScheduleId",
+      width: "40%",
     },
     {
       label: "Event Name",
-      value: "name",
+      value: "summary",
+      width: "50%",
     },
     {
-      label: "Start Date",
-      value: "email",
+      label: "Event Date",
+      value: "date",
+      width: "70%",
     },
     {
-      label: "End Date",
-      value: "role",
+      label: "Start Time",
+      value: "startTime",
+      width: "30%",
+    },
+    {
+      label: "End Time",
+      value: "endTime",
+      width: "30%",
     },
     {
       label: "Meet Link",
-      value: "isActive",
+      value: "description",
     },
   ];
 
   const getCalendarListApi = async (page) => {
-    // try {
-    //   setIsLoading(true);
-    //   setBulkDelete(false);
-    //   let params = {
-    //     page: page ? page : 1,
-    //     limit: 10,
-    //   };
-    //   let response = await getStaffList(params);
-    //   if (response.status === 200 && response?.data?.data?.list.length > 0) {
-    //     setData(response?.data?.data?.list);
-    //     localStorage.setItem("noOfLists", response?.data?.data?.list.length);
-    //     setPageCount(response?.data?.data?.pageMeta?.pageCount);
-    //     setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
-    //   } else {
-    //     setData([]);
-    //   }
-    // } catch (e) {
-    //   console.log("e :>> ", e);
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    try {
+      setIsLoading(true);
+      let params = {
+        page: page ? page : 1,
+        limit: 10,
+        search: search,
+      };
+      let response = await getCalendarEventsList(params);
+      if (response.status === 200 && response?.data?.data?.list.length > 0) {
+        setData(response?.data?.data?.list);
+        localStorage.setItem("noOfLists", response?.data?.data?.list.length);
+        setPageCount(response?.data?.data?.pageMeta?.pageCount);
+        setCurrentPage(response?.data?.data?.pageMeta?.currentPage);
+      } else {
+        setData([]);
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSearchChange = useCallback(
@@ -103,28 +117,28 @@ const CalendarManagementComp = ({ create, view, edit, remove }) => {
   };
 
   const handleDeleteItem = async () => {
-    // try {
-    //   if (modalVisible.show && modalVisible.id) {
-    //     let params = {
-    //       id: modalVisible.id,
-    //     };
-    //     let response = await deleteStaff(params);
-    //     if (response.status === 200) {
-    //       Toast({ type: "success", message: response.data.message });
-    //       const activeLists = JSON.parse(localStorage.getItem("noOfLists"));
-    //       if (activeLists === 1) {
-    //         getCalendarListApi(currentPage > 1 ? currentPage - 1 : 1);
-    //         localStorage.removeItem("noOfLists");
-    //       } else {
-    //         getCalendarListApi(currentPage);
-    //         localStorage.removeItem("noOfLists");
-    //       }
-    //     }
-    //   }
-    //   setModalVisible({ show: false, id: null });
-    // } catch (e) {
-    //   console.log("e :>> ", e);
-    // }
+    try {
+      if (modalVisible.show && modalVisible.id) {
+        let params = {
+          id: modalVisible.id,
+        };
+        let response = await deleteCalendarEvent(params);
+        if (response.status === 200) {
+          Toast({ type: "success", message: response.data.message });
+          const activeLists = JSON.parse(localStorage.getItem("noOfLists"));
+          if (activeLists === 1) {
+            getCalendarListApi(currentPage > 1 ? currentPage - 1 : 1);
+            localStorage.removeItem("noOfLists");
+          } else {
+            getCalendarListApi(currentPage);
+            localStorage.removeItem("noOfLists");
+          }
+        }
+      }
+      setModalVisible({ show: false, id: null });
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
   };
 
   const handleBulk = (id) => {
@@ -138,32 +152,33 @@ const CalendarManagementComp = ({ create, view, edit, remove }) => {
   };
 
   const handleBulkDelete = async () => {
-    // try {
-    //   if (deleteId.length > 0) {
-    //     let body = {
-    //       ids: deleteId,
-    //     };
-    //     let response = await bulkDeleteStaff(body);
-    //     if (response.status === 200) {
-    //       Toast({ type: "success", message: response.data.message });
-    //       const activeLists = JSON.parse(localStorage.getItem("noOfLists"));
-    //       if (activeLists === deleteId.length) {
-    //         getCalendarListApi(currentPage > 1 ? currentPage - 1 : 1);
-    //         localStorage.removeItem("noOfLists");
-    //         deleteId.length = 0;
-    //       } else {
-    //         getCalendarListApi(currentPage);
-    //         localStorage.removeItem("noOfLists");
-    //         deleteId.length = 0;
-    //       }
-    //     } else {
-    //       Toast({ type: "error", message: response.data.message });
-    //     }
-    //   }
-    // } catch (e) {
-    //   console.log("e :>> ", e);
-    // }
-    // setModalVisible({ show: false, id: null });
+    try {
+      if (deleteId.length > 0) {
+        let body = {
+          ids: deleteId,
+        };
+        let response = await BulkDeleteCalendarEvent(body);
+        if (response.status === 200) {
+          Toast({ type: "success", message: response.data.message });
+          setBulkDelete(false);
+          const activeLists = JSON.parse(localStorage.getItem("noOfLists"));
+          if (activeLists === deleteId.length) {
+            getCalendarListApi(currentPage > 1 ? currentPage - 1 : 1);
+            localStorage.removeItem("noOfLists");
+            deleteId.length = 0;
+          } else {
+            getCalendarListApi(currentPage);
+            localStorage.removeItem("noOfLists");
+            deleteId.length = 0;
+          }
+        } else {
+          Toast({ type: "error", message: response.data.message });
+        }
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
+    setModalVisible({ show: false, id: null });
   };
 
   useEffect(() => {
@@ -173,35 +188,34 @@ const CalendarManagementComp = ({ create, view, edit, remove }) => {
     } else {
       getCalendarListApi(1);
     }
-  }, []);
-
+  }, [search]);
 
   return (
     <>
       <div className="staff_table px-5 py-3">
         <p className="staff_title m-0">Calendar Management</p>
-          <div className="d-flex align-items-center justify-content-between" >
-            <div
-              className="pl-0 my-3 staff_Search cursor-pointer"
-              style={{ width: "300px" }}
-            >
-              <InputBox
-                className="login_input"
-                type={"text"}
-                placeholder="Search by Id, Event Name"
-                errors={errors}
-                name="search"
-                Iconic
-                value={search}
-                onChange={(e) => handleSearchChange(e.target.value)}
-              />
-              <i className="search_iconic">
-                <BsSearch size={18} style={{ color: "#7E7E7E" }} />
-              </i>
-            </div>
-            <div className="d-flex justify-content-end">
-            <div className="cursor-pointer">
-              {bulkDelete && remove && (
+        <div className="d-flex align-items-center justify-content-between">
+          <div
+            className="pl-0 my-3 staff_Search cursor-pointer"
+            style={{ width: "300px" }}
+          >
+            <InputBox
+              className="login_input"
+              type={"text"}
+              placeholder="Search by Id, Event Name"
+              errors={errors}
+              name="search"
+              Iconic
+              value={search}
+              onChange={(e) => handleSearchChange(e.target.value)}
+            />
+            <i className="search_iconic">
+              <BsSearch size={18} style={{ color: "#7E7E7E" }} />
+            </i>
+          </div>
+          <div className="d-flex justify-content-end">
+            <div className="cursor-pointer mr-3" style={{ minWidth: "150px" }}>
+              {bulkDelete && (
                 <NormalButton
                   className="authButton1"
                   label={"Delete"}
@@ -210,7 +224,7 @@ const CalendarManagementComp = ({ create, view, edit, remove }) => {
               )}
             </div>
             {/* {create && ( */}
-            <div className="cursor-pointer">
+            <div className="cursor-pointer" style={{ minWidth: "150px" }}>
               <NormalButton
                 className="loginButton1"
                 label={"Create Event"}
@@ -221,8 +235,8 @@ const CalendarManagementComp = ({ create, view, edit, remove }) => {
               />
             </div>
             {/* )} */}
-            </div>
           </div>
+        </div>
         {isLoading ? (
           <Loader
             loading={isLoading}
@@ -232,8 +246,8 @@ const CalendarManagementComp = ({ create, view, edit, remove }) => {
           <div className="">
             <TableComp
               data={data}
-              EditAction={edit}
-              DeleteAction={remove}
+              EditAction={true}
+              DeleteAction={true}
               includedKeys={includedKeys}
               pageCount={pageCount}
               onPageChange={handlePageChange}
