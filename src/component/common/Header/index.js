@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 // style
 import "./header.scss";
 // images
@@ -8,11 +9,10 @@ import bell from "assets/images/bell.svg";
 import findostLogo from "assets/images/findostLogo.svg";
 // services
 import { Dropdown } from "react-bootstrap";
-import { AiOutlineLogout } from "react-icons/ai"
+import { AiOutlineLogout } from "react-icons/ai";
 import { logout } from "service/utilities";
 import { Toast } from "service/toast";
 import { decodeJWT } from "service/helpers";
-
 
 const Header = () => {
   const [data, setData] = useState({});
@@ -25,6 +25,9 @@ const Header = () => {
   useEffect(() => {
     getAdminData();
   }, []);
+
+  // get staff details
+  const staffName = useSelector((state) => state?.home?.staffDetails[0]?.name);
 
   return (
     <>
@@ -48,7 +51,7 @@ const Header = () => {
                 {isdropToggle ? "down" : "up"}
               </span> */}
               </Dropdown.Toggle>
-              <Dropdown.Menu  id="drop">
+              <Dropdown.Menu id="drop">
                 <Dropdown.Item
                   href="#"
                   onClick={() => {
@@ -59,15 +62,21 @@ const Header = () => {
                     });
                   }}
                 >
-                  <i><AiOutlineLogout size={22} color="#DD2025" className="mb-1" /></i>&nbsp;&nbsp;
-                  Logout
+                  <i>
+                    <AiOutlineLogout
+                      size={22}
+                      color="#DD2025"
+                      className="mb-1"
+                    />
+                  </i>
+                  &nbsp;&nbsp; Logout
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
           {location?.pathname === "/admin/dashboard" && (
             <div className="header_overlay">
-              <h6>Hi, Username</h6>
+              <h6>Hi, {staffName}</h6>
             </div>
           )}
         </div>

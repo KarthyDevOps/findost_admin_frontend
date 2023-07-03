@@ -88,6 +88,9 @@ const AddStaff = ({ create, view, remove }) => {
             knowledgeCenterManagement: data.knowledgeCenterManagement,
             siteSettingsManagement: data.siteSettingsManagement,
             clientFamilyManagement: data.clientFamilyManagement,
+            segmentManagement:data.segmentManagement,
+            registersettingsManagement:data.registersettingsManagement,
+            scheduleManagement:data.scheduleManagement
           },
         };
         if (staffDetails.status === "active") {
@@ -133,6 +136,9 @@ const AddStaff = ({ create, view, remove }) => {
             knowledgeCenterManagement: data.knowledgeCenterManagement,
             siteSettingsManagement: data.siteSettingsManagement,
             clientFamilyManagement: data.clientFamilyManagement,
+            segmentManagement:data.segmentManagement,
+            registersettingsManagement:data.registersettingsManagement,
+            scheduleManagement:data.scheduleManagement
           },
         };
         if (staffDetails.status === "active") {

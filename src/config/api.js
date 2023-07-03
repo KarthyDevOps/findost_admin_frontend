@@ -4,7 +4,7 @@ export const baseURL = "http://doodlebluelive.com";
 export const userUrl = `${baseURL}:2277/user/api/v1`;
 export const communicationUrl = `${baseURL}:2275/communication/v1`;
 export const cms = `${baseURL}:2274/cms/v1`;
-export const CalendarUrl = `${baseURL}:2275/communication/admin/v1`;
+export const CalendarUrl = `${baseURL}:2275/communication/v1/admin`;
 
 //PRE PRODUCTION
 

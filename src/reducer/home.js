@@ -1,4 +1,5 @@
 const initialState = {
+  staffDetails : {},
   privileges: {
     "dashboard": {
       "create": true,
@@ -76,6 +77,11 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         privileges: payload
       };
+      case "STAFF_DETAILS":
+        return {
+          ...state,
+          staffDetails: payload
+        };
     default:
       return state;
   }

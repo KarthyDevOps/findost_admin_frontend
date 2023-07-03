@@ -26,7 +26,7 @@ import Temp_a from "assets/images/Temp_a.svg";
 import calendarMt from "assets/images/CalendarIA.svg";
 import calenderD from "assets/images/calendarD.svg";
 import feeIA from "assets/images/feeIA.svg";
-import feeDark from "assets/images/FeeDark.svg";
+import feeDark from "assets/images/feeDark.svg";
 
 // internal components
 import { reducers } from "../reducer";
@@ -410,8 +410,9 @@ export const managementOptions = {
   knowledgeCenterManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   clientFamilyManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   siteSettingsManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-  calendarManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-  FeeManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+  segmentManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+  registersettingsManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+  scheduleManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
 };
 
 export const options = [

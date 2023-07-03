@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import React, { useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Toast } from "service/toast";
 import { Link } from "react-router-dom";
 import rectangle from "../../../assets/images/Rectangle.svg";
@@ -112,7 +112,7 @@ const LoginComp = () => {
                     type={isShowPassword ? "text" : "password"}
                     name="password"
                     onChange={setpassword}
-                    register={register({  
+                    register={register({
                       required: "Password is required",
                       minLength: {
                         value: 8,
@@ -147,7 +147,8 @@ const LoginComp = () => {
                       maxLength: "Password should must contain only 16",
                       pattern:
                         "Password must contain at least one uppercase and lowercase letter",
-                      containsDigit: "Password must contain at least one Numeric",
+                      containsDigit:
+                        "Password must contain at least one Numeric",
                       containsSpecial:
                         "Password must contain at least one special character",
                     }}

@@ -27,11 +27,10 @@ import moment from "moment";
 //helper
 import { history } from "helpers";
 
-const AddCalendarComp = ({ edit, view }) => {
+const AddCalendarComp = ({ calendarAccess }) => {
   const { register, handleSubmit, errors, reset, control } = useForm({
     mode: "onChange",
   });
-
   const [modal, setModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [startTime, setStartTime] = useState("");

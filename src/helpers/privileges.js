@@ -1,4 +1,4 @@
-import { privilegesData } from "action/home";
+import { privilegesData, staffDetails } from "action/home";
 import { getStaff } from "service/Auth";
 
 const getPermissionObj = (arr = []) => {
@@ -18,22 +18,11 @@ const adminPrivileges = () => async (dispatch, getState) => {
       "edit": true,
       "remove": true
     },
-    "calendarManagement": {
-      "create": true,
-      "view": true,
-      "edit": true,
-      "remove": true
-    },
-    "feeManagement": {
-      "create": true,
-      "view": true,
-      "edit": true,
-      "remove": true
-    },
   };
   try {
     console.log("toto privelage Callll")
     let { data: { data = [], status } } = await getStaff();
+    dispatch(staffDetails(data))
     if (data?.[0]?.permissions) {
       for (let [key, value] of Object.entries(data?.[0]?.permissions)) {
         filteredData[key] = getPermissionObj(value);
@@ -55,22 +44,11 @@ export const getadminPrivileges = async (dispatch) => {
       "edit": true,
       "remove": true
     },
-    "calendarManagement": {
-      "create": true,
-      "view": true,
-      "edit": true,
-      "remove": true
-    },
-    "feeManagement": {
-      "create": true,
-      "view": true,
-      "edit": true,
-      "remove": true
-    },
   };
   try {
     console.log("toto privelage gettttt")
     let { data: { data = [], status } } = await getStaff();
+    dispatch(staffDetails(data))
     if (data?.[0]?.permissions) {
       for (let [key, value] of Object.entries(data?.[0]?.permissions)) {
         filteredData[key] = getPermissionObj(value);

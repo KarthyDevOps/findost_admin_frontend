@@ -16,10 +16,8 @@ import { bulkDeleteSegment, deleteSegment, getSegmentList } from "service/Auth";
 import { history, debounceFunction } from "helpers";
 
 const SegmentSelection = ({
-  create,
-  view,
-  edit,
-  remove,
+  segmentAccess,
+  registrationAccess,
   currentPage,
   setCurrentPage,
   pageCount,
@@ -28,7 +26,6 @@ const SegmentSelection = ({
   const { errors, control } = useForm({
     mode: "onChange",
   });
-
   const [data, setData] = useState([]);
   const [bulkDelete, setBulkDelete] = useState(false);
   const [deleteId, setDeleteId] = useState([]);
@@ -181,7 +178,7 @@ const SegmentSelection = ({
         </div>
         <div className="col-md-5"></div>
         <div className="col-md-2">
-          {bulkDelete && (
+          {bulkDelete && segmentAccess?.remove && (
             <NormalButton
               className="authButton1"
               label={"Delete"}
@@ -189,17 +186,18 @@ const SegmentSelection = ({
             />
           )}
         </div>
-
-        <div className="col-md-2 m-0">
-          <NormalButton
-            loginButton1
-            label={"Add Segment"}
-            onClick={() => {
-              localStorage.removeItem("editId");
-              history.push("/admin/fee-management/add-fee");
-            }}
-          />
-        </div>
+        {segmentAccess?.create && (
+          <div className="col-md-2 m-0">
+            <NormalButton
+              loginButton1
+              label={"Add Segment"}
+              onClick={() => {
+                localStorage.removeItem("editId");
+                history.push("/admin/fee-management/add-fee");
+              }}
+            />
+          </div>
+        )}
       </div>
       <div className="row align-items-center">
         {isLoading ? (
@@ -211,8 +209,8 @@ const SegmentSelection = ({
           <div className=" px-3">
             <TableComp
               data={data}
-              EditAction
-              DeleteAction
+              EditAction={segmentAccess?.edit}
+              DeleteAction={segmentAccess?.remove}
               includedKeys={includedKeys}
               pageCount={pageCount}
               currentPage={currentPage}
@@ -227,8 +225,8 @@ const SegmentSelection = ({
         ) : (
           <div className=" px-3">
             <EmptyTable
-              EditAction={true}
-              DeleteAction={true}
+              EditAction={segmentAccess?.edit}
+              DeleteAction={segmentAccess?.remove}
               includedKeys={includedKeys}
             />
             <p className="d-flex align-items-center justify-content-center mt-5 pt-5">
