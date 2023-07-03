@@ -8,10 +8,13 @@ import DeleteModal from "component/common/DeleteModal/DeleteModal";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import EmptyTable from "component/common/TableComp/EmptyTable";
 // services
-// import { getStaffList, deleteStaff, bulkDeleteStaff } from "service/Auth";
 import { useForm } from "react-hook-form";
 import { BsSearch } from "react-icons/bs";
-import { getCalendarEventsList,deleteCalendarEvent } from "service/Calendar";
+import {
+  getCalendarEventsList,
+  deleteCalendarEvent,
+  BulkDeleteCalendarEvent,
+} from "service/Calendar";
 import { Toast } from "service/toast";
 // helpers
 import { history, debounceFunction } from "helpers";
@@ -37,32 +40,32 @@ const CalendarManagementComp = ({ create, view, edit, remove }) => {
     {
       label: "Event Image",
       value: "imageUrlS3",
-      width : "50%"
+      width: "50%",
     },
-    // {
-    //   label: "Event Id",
-    //   value: "adminScheduleId",
-    //   width : "40%"
-    // },
+    {
+      label: "Event Id",
+      value: "adminScheduleId",
+      width: "40%",
+    },
     {
       label: "Event Name",
       value: "summary",
-      width : "50%"
+      width: "50%",
     },
     {
       label: "Event Date",
       value: "date",
-      width : "70%"
+      width: "70%",
     },
     {
       label: "Start Time",
       value: "startTime",
-      width : "30%"
+      width: "30%",
     },
     {
       label: "End Time",
       value: "endTime",
-      width : "30%"
+      width: "30%",
     },
     {
       label: "Meet Link",
@@ -76,6 +79,7 @@ const CalendarManagementComp = ({ create, view, edit, remove }) => {
       let params = {
         page: page ? page : 1,
         limit: 10,
+        search: search,
       };
       let response = await getCalendarEventsList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
@@ -148,32 +152,33 @@ const CalendarManagementComp = ({ create, view, edit, remove }) => {
   };
 
   const handleBulkDelete = async () => {
-    // try {
-    //   if (deleteId.length > 0) {
-    //     let body = {
-    //       ids: deleteId,
-    //     };
-    //     let response = await bulkDeleteStaff(body);
-    //     if (response.status === 200) {
-    //       Toast({ type: "success", message: response.data.message });
-    //       const activeLists = JSON.parse(localStorage.getItem("noOfLists"));
-    //       if (activeLists === deleteId.length) {
-    //         getCalendarListApi(currentPage > 1 ? currentPage - 1 : 1);
-    //         localStorage.removeItem("noOfLists");
-    //         deleteId.length = 0;
-    //       } else {
-    //         getCalendarListApi(currentPage);
-    //         localStorage.removeItem("noOfLists");
-    //         deleteId.length = 0;
-    //       }
-    //     } else {
-    //       Toast({ type: "error", message: response.data.message });
-    //     }
-    //   }
-    // } catch (e) {
-    //   console.log("e :>> ", e);
-    // }
-    // setModalVisible({ show: false, id: null });
+    try {
+      if (deleteId.length > 0) {
+        let body = {
+          ids: deleteId,
+        };
+        let response = await BulkDeleteCalendarEvent(body);
+        if (response.status === 200) {
+          Toast({ type: "success", message: response.data.message });
+          setBulkDelete(false);
+          const activeLists = JSON.parse(localStorage.getItem("noOfLists"));
+          if (activeLists === deleteId.length) {
+            getCalendarListApi(currentPage > 1 ? currentPage - 1 : 1);
+            localStorage.removeItem("noOfLists");
+            deleteId.length = 0;
+          } else {
+            getCalendarListApi(currentPage);
+            localStorage.removeItem("noOfLists");
+            deleteId.length = 0;
+          }
+        } else {
+          Toast({ type: "error", message: response.data.message });
+        }
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
+    setModalVisible({ show: false, id: null });
   };
 
   useEffect(() => {
@@ -183,7 +188,7 @@ const CalendarManagementComp = ({ create, view, edit, remove }) => {
     } else {
       getCalendarListApi(1);
     }
-  }, []);
+  }, [search]);
 
   return (
     <>
@@ -209,8 +214,8 @@ const CalendarManagementComp = ({ create, view, edit, remove }) => {
             </i>
           </div>
           <div className="d-flex justify-content-end">
-            <div className="cursor-pointer">
-              {bulkDelete && remove && (
+            <div className="cursor-pointer mr-3" style={{ minWidth: "150px" }}>
+              {bulkDelete && (
                 <NormalButton
                   className="authButton1"
                   label={"Delete"}
@@ -219,7 +224,7 @@ const CalendarManagementComp = ({ create, view, edit, remove }) => {
               )}
             </div>
             {/* {create && ( */}
-            <div className="cursor-pointer">
+            <div className="cursor-pointer" style={{ minWidth: "150px" }}>
               <NormalButton
                 className="loginButton1"
                 label={"Create Event"}
