@@ -1,28 +1,23 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 // Internal Component
 import AddFeeComp from "component/Dashboard/FeeManagementComp/AddFeeComp";
-// Helpers
-import { checkAndReturnViewableComponent, history } from 'helpers';
-import { getadminPrivileges } from "helpers/privileges";
 
-const AddFee = ({ privilegesData = {} }) => {
-  // const dispatch = useDispatch();
-  // const { feeManagement = {} } = privilegesData || {};
-
-  // useEffect(() => {
-  //   getadminPrivileges(dispatch);
-  // }, []);
-
-  // useEffect(() => {
-  //   const redirectTo = checkAndReturnViewableComponent(privilegesData, feeManagement);
-  //   if (redirectTo) return history.push(redirectTo?.to);
-  // }, [privilegesData]);
+const AddFee = () => {
+  // access for segment management
+  const segmentAccess = useSelector(
+    (state) => state?.home?.privileges?.segmentManagement
+  );
+  // access for segment management
+  const registrationAccess = useSelector(
+    (state) => state?.home?.privileges?.registersettingsManagement
+  );
 
   return (
     <div>
       <AddFeeComp
-      //  {...feeManagement} 
+        segmentAccess={segmentAccess}
+        registrationAccess={registrationAccess}
       />
     </div>
   );

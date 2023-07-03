@@ -20,7 +20,7 @@ import { Toast } from "service/toast";
 import { history, debounceFunction } from "helpers";
 import InputBox from "component/common/InputBox/InputBox";
 
-const CalendarManagementComp = ({ create, view, edit, remove }) => {
+const CalendarManagementComp = ({ calendarAccess }) => {
   const { errors, control } = useForm({
     mode: "onChange",
   });
@@ -215,7 +215,7 @@ const CalendarManagementComp = ({ create, view, edit, remove }) => {
           </div>
           <div className="d-flex justify-content-end">
             <div className="cursor-pointer mr-3" style={{ minWidth: "150px" }}>
-              {bulkDelete && (
+              {bulkDelete && calendarAccess?.remove && (
                 <NormalButton
                   className="authButton1"
                   label={"Delete"}
@@ -223,18 +223,18 @@ const CalendarManagementComp = ({ create, view, edit, remove }) => {
                 />
               )}
             </div>
-            {/* {create && ( */}
-            <div className="cursor-pointer" style={{ minWidth: "150px" }}>
-              <NormalButton
-                className="loginButton1"
-                label={"Create Event"}
-                onClick={() => {
-                  localStorage.removeItem("editId");
-                  history.push("/admin/calendar-management/add-calendar");
-                }}
-              />
-            </div>
-            {/* )} */}
+            {calendarAccess?.create && (
+              <div className="cursor-pointer" style={{ minWidth: "150px" }}>
+                <NormalButton
+                  className="loginButton1"
+                  label={"Create Event"}
+                  onClick={() => {
+                    localStorage.removeItem("editId");
+                    history.push("/admin/calendar-management/add-calendar");
+                  }}
+                />
+              </div>
+            )}
           </div>
         </div>
         {isLoading ? (
@@ -246,8 +246,8 @@ const CalendarManagementComp = ({ create, view, edit, remove }) => {
           <div className="">
             <TableComp
               data={data}
-              EditAction={true}
-              DeleteAction={true}
+              EditAction={calendarAccess?.edit}
+              DeleteAction={calendarAccess?.remove}
               includedKeys={includedKeys}
               pageCount={pageCount}
               onPageChange={handlePageChange}
@@ -261,8 +261,8 @@ const CalendarManagementComp = ({ create, view, edit, remove }) => {
         ) : (
           <div className="">
             <EmptyTable
-              EditAction={true}
-              DeleteAction={true}
+              EditAction={calendarAccess?.edit}
+              DeleteAction={calendarAccess?.remove}
               includedKeys={includedKeys}
             />
             <p className="d-flex align-items-center justify-content-center mt-5 pt-5">

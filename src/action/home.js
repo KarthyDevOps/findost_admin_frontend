@@ -5,3 +5,10 @@ export const privilegesData = (payload) => {
   };
 }
 
+export const staffDetails = (payload) => {
+  return {
+    payload,
+    type: "STAFF_DETAILS",
+  };
+}
+
