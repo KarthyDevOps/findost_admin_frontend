@@ -170,7 +170,7 @@ export const forgotPassword = async (data) => {
   return request;
 };
 
-export const resetPassword = async (data,token) => {
+export const resetPassword = async (data, token) => {
   let request = await axios({
     method: "post",
     url: endpoints.auth.RESET_PASSWORD,
@@ -178,7 +178,6 @@ export const resetPassword = async (data,token) => {
       Authorization: `Bearer ${token || localStorage.getItem("token")}`,
     },
     data: data,
-
   }).catch(axiosErrorHandler);
   return request;
 };
@@ -191,6 +190,101 @@ export const uploadImage = (formData) => {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
     data: formData,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const getSegmentList = async (params) => {
+  let request = await axios({
+    method: "get",
+    url: `${endpoints.auth.LIST_SEGMENT}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params: params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const addSegment = async (data) => {
+  let request = await axios({
+    method: "post",
+    url: endpoints.auth.ADD_SEGMENT,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: data,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const getSegment = async (params) => {
+  console.log("params", params);
+  const request = await axios({
+    method: "get",
+    url: endpoints.auth.GET_SEGMENT,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const deleteSegment = async (params) => {
+  const request = await axios({
+    method: "delete",
+    url: endpoints.auth.DELETE_SEGMENT,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const bulkDeleteSegment = async (body) => {
+  const request = await axios({
+    method: "delete",
+    url: endpoints.auth.DELETE_SEGMENT,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+export const updateSegment = async (body, id) => {
+  const request = await axios({
+    method: "put",
+    url: `${endpoints.auth.UPDATE_SEGMENT}?id=${id}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+export const updateRegisterFee = async (body, id) => {
+  const request = await axios({
+    method: "put",
+    url: `${endpoints.auth.UPDATE_REGISTER_FEE}?id=${id}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body, 
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const getRegisterFee = async (params) => {
+  const request = await axios({
+    method: "get",
+    url: `${endpoints.auth.GET_REGISTER_FEE}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params,
   }).catch(axiosErrorHandler);
   return request;
 };

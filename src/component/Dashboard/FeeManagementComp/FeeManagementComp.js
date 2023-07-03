@@ -12,6 +12,7 @@ import { BsArrowLeft } from "react-icons/bs";
 import { history, debounceFunction } from "helpers";
 import SegmentSelection from "./SegmentSelection";
 import FormErrorMessage from "component/common/ErrorMessage";
+import { getRegisterFee, updateRegisterFee } from "service/Auth";
 
 const FeeManagementComp = ({ create, view, edit, remove }) => {
   const { register, handleSubmit, errors, reset } = useForm({
@@ -21,6 +22,7 @@ const FeeManagementComp = ({ create, view, edit, remove }) => {
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [modal, setModal] = useState(false);
 
   var url = new URL(document.URL);
   const params = url.searchParams;
@@ -31,8 +33,66 @@ const FeeManagementComp = ({ create, view, edit, remove }) => {
     history.push(`fee-management?tab=${tab}`);
   };
 
+  // const id = localStorage.getItem("editId");
+  const id = "649d0321c8d6b9e6f3ae6f4d";
+
+  const getFeeDetails = async () => {
+    try {
+      const params = {
+        id: "649d0321c8d6b9e6f3ae6f4d",
+      };
+      let response = await getRegisterFee(params);
+      if (response.status === 200) {
+        const data = response?.data.data;
+        if (data.length > 0) {
+        } else {
+        }
+        reset({
+          applicationFee: data?.applicationFee,
+          depositFee: data?.securityDeposit,
+        });
+      } else {
+        Toast({ type: "error", message: response.data.message });
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
+  };
+
+  useEffect(() => {
+    getFeeDetails();
+  }, []);
+
   const onSubmit = async (data) => {
-    console.log("data :>> ", data);
+    try {
+      setLoading(true);
+      let body = {
+        applicationFee: data.applicationFee,
+        securityDeposit: data.depositFee,
+      };
+      let response = await updateRegisterFee(body, id);
+      if (response.status === 200) {
+        setModal(true);
+        Toast({ type: "success", message: "updated successfully" });
+
+        const timeout = setTimeout(() => {
+          setModal(false);
+          reset();
+          history.push("/admin/fee-management?tab=1");
+          getFeeDetails();
+        }, 1000);
+        setLoading(false);
+
+        return () => clearTimeout(timeout);
+      } else {
+        setLoading(false);
+        Toast({ type: "error", message: response.data.message });
+        getFeeDetails();
+      }
+    } catch (e) {
+      setLoading(false);
+      console.log(e);
+    }
   };
 
   useEffect(() => {

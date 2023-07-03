@@ -24,6 +24,13 @@ export const endpoints = {
     GET_CLIENT: `${userUrl}/clientFamily/getProfile`,
     UPDATE_CLIENT: `${userUrl}/clientFamily/updateProfile`,
     IMAGE_UPLOAD: `${userUrl}/upload/image`,
+    ADD_SEGMENT: `${userUrl}/segment/addSegment`,
+    LIST_SEGMENT: `${userUrl}/segment/list`,
+    GET_SEGMENT: `${userUrl}/segment/getSegment`,
+    UPDATE_SEGMENT: `${userUrl}/segment/updateSegment`,
+    DELETE_SEGMENT: `${userUrl}/segment/deleteSegment`,
+    GET_REGISTER_FEE: `${userUrl}/registerSetting/get`,
+    UPDATE_REGISTER_FEE: `${userUrl}/registerSetting/update`,
   },
 
   cms: {

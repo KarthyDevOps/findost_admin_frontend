@@ -13,6 +13,7 @@ import { Toast } from "service/toast";
 // import {} from "service/Cms";
 //helpers
 import { history } from "helpers";
+import { addSegment, getSegment, updateSegment } from "service/Auth";
 
 const AddFeeComp = ({ create, view, remove }) => {
   const { register, handleSubmit, errors, reset } = useForm({
@@ -25,75 +26,75 @@ const AddFeeComp = ({ create, view, remove }) => {
   const id = localStorage.getItem("editId");
 
   const getSegmentDetails = async () => {
-    // try {
-    //   const params = {
-    //     id: id,
-    //   };
-    //   let response = await getFAQ(params);
-    //   if (response.status === 200) {
-    //     const data = response?.data.data;
-    //     reset({
-    //       segment: data?.title,
-    //       charges: data?.answer,
-    //     });
-    //   } else {
-    //     Toast({ type: "error", message: response.data.message });
-    //   }
-    // } catch (e) {
-    //   console.log("e :>> ", e);
-    // }
+    try {
+      const params = {
+        id: id,
+      };
+      let response = await getSegment(params);
+      if (response.status === 200) {
+        const data = response?.data.data;
+        reset({
+          segment: data?.segmentName,
+          charges: data?.segmentCharge,
+        });
+      } else {
+        Toast({ type: "error", message: response.data.message });
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
   };
 
   const onSubmit = async (data) => {
-    console.log('data :>> ', data);
+    console.log("data :>> ", data);
     if (!edit) {
-      // try {
-      //   setLoading(true);
-      //   let body = {
-      //     segment: data.segment,
-      //     charges: data.charges,
-      //   };
-      //   let response = await addFAQ(body);
-      //   if (response.status === 200) {
-      //     setModal(true);
-      //     const timeout = setTimeout(() => {
-      //       setModal(false);
-      //       reset({ segment: "", charges: "" });
-      //       history.push("/admin/fee-management");
-      //     }, 1000);
-      //     setLoading(false);
-      //     return () => clearTimeout(timeout);
-      //   } else {
-      //     Toast({ type: "error", message: response.data.message });
-      //     setLoading(false);
-      //   }
-      // } catch (e) {
-      //   console.log(e);
-      // }
+      try {
+        setLoading(true);
+        let body = {
+          segmentName: data.segment,
+          segmentCharge: data.charges,
+        };
+        let response = await addSegment(body);
+        if (response.status === 200) {
+          setModal(true);
+          const timeout = setTimeout(() => {
+            setModal(false);
+            reset({ segment: "", charges: "" });
+            history.push("/admin/fee-management");
+          }, 1000);
+          setLoading(false);
+          return () => clearTimeout(timeout);
+        } else {
+          Toast({ type: "error", message: response.data.message });
+          setLoading(false);
+        }
+      } catch (e) {
+        console.log(e);
+      }
     } else {
-      // try {
-      //   setLoading(true);
-      //   let body = {
-      //     segment: data.segment,
-      //     charges: data.charges,
-      //   };
-      //   let response = await updateFAQ(body, id);
-      //   if (response.status === 200) {
-      //     setModal(true);
-      //     const timeout = setTimeout(() => {
-      //       setModal(false);
-      //       reset({ segment: "", charges: "" });
-      //       history.push("/admin/fee-management");
-      //     }, 1000);
-      //     setLoading(false);
-      //     return () => clearTimeout(timeout);
-      //   } else {
-      //     Toast({ type: "error", message: response.data.message });
-      //     setLoading(false);
-      //   }
-      // } catch (e) {
-      //   console.log(e);
-      // }
+      try {
+        setLoading(true);
+        let body = {
+          segmentName: data.segment,
+          segmentCharge: data.charges,
+        };
+        let response = await updateSegment(body, id);
+        if (response.status === 200) {
+          setModal(true);
+          const timeout = setTimeout(() => {
+            setModal(false);
+            reset({ segment: "", charges: "" });
+            history.push("/admin/fee-management");
+          }, 1000);
+          setLoading(false);
+          return () => clearTimeout(timeout);
+        } else {
+          Toast({ type: "error", message: response.data.message });
+          setLoading(false);
+        }
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 
