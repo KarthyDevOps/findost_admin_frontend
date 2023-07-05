@@ -88,7 +88,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
           reset();
           history.push("/admin/site-settings");
           getSiteDetails();
-        }, 1000);
+        }, 2000);
         return () => clearTimeout(timeout);
       } else {
         Toast({ type: "error", message: response.data.message });

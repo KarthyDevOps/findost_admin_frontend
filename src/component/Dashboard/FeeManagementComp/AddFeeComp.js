@@ -61,7 +61,7 @@ const AddFeeComp = ({ create, view, remove }) => {
             setModal(false);
             reset({ segment: "", charges: "" });
             history.push("/admin/fee-management");
-          }, 1000);
+          }, 2000);
           setLoading(false);
           return () => clearTimeout(timeout);
         } else {
@@ -85,7 +85,7 @@ const AddFeeComp = ({ create, view, remove }) => {
             setModal(false);
             reset({ segment: "", charges: "" });
             history.push("/admin/fee-management");
-          }, 1000);
+          }, 2000);
           setLoading(false);
           return () => clearTimeout(timeout);
         } else {

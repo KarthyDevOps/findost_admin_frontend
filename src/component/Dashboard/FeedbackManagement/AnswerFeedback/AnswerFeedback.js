@@ -62,7 +62,7 @@ const AnswerFeedbackcomp = ({ create, view, edit, remove }) => {
           setModal(false);
           reset({ answer: "" });
           history.push("/admin/feedBack-management");
-        }, 1000);
+        }, 2000);
         return () => clearTimeout(timeout);
       }
     } catch (e) {

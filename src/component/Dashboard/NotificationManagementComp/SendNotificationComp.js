@@ -84,7 +84,7 @@ const SendNotificationComp = () => {
             setModal(false);
             reset({ title: "", content: "", users: [] });
             history.push("/admin/notification-management?tab=1");
-          }, 1000);
+          }, 2000);
           setLoading(false);
 
           return () => clearTimeout(timeout);
@@ -115,7 +115,7 @@ const SendNotificationComp = () => {
             setModal(false);
             reset({ title: "", content: "", users: [] });
             history.push("/admin/notification-management?tab=1");
-          }, 1000);
+          }, 2000);
           setLoading(false);
 
           return () => clearTimeout(timeout);
@@ -268,7 +268,7 @@ const SendNotificationComp = () => {
                 error={errors.content}
                 messages={{
                   required: "Notification Content is Required",
-                  pattern: "Please enter a valid content",
+                  pattern: "Please Enter a valid content",
                 }}
               />
             </div>

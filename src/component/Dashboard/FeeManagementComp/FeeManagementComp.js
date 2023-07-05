@@ -80,7 +80,7 @@ const FeeManagementComp = ({ segmentAccess, registrationAccess }) => {
           reset();
           history.push("/admin/fee-management?tab=1");
           getFeeDetails();
-        }, 1000);
+        }, 2000);
         setLoading(false);
 
         return () => clearTimeout(timeout);

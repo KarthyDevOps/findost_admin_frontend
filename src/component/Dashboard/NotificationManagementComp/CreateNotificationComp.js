@@ -75,7 +75,7 @@ const CreateNotificationComp = ({ create, view, remove }) => {
             setModal(false);
             reset({ title: "", content: "" });
             history.push("/admin/notification-management?tab=0");
-          }, 1000);
+          }, 2000);
           setLoading(false);
           return () => clearTimeout(timeout);
         } else {
@@ -103,7 +103,7 @@ const CreateNotificationComp = ({ create, view, remove }) => {
             setModal(false);
             reset({ title: "", content: "" });
             history.push("/admin/notification-management");
-          }, 1000);
+          }, 2000);
           setLoading(false);
 
           return () => clearTimeout(timeout);
@@ -158,7 +158,7 @@ const CreateNotificationComp = ({ create, view, remove }) => {
               error={errors.title}
               messages={{
                 required: "Notification Title is Required",
-                pattern: "Please enter a Valid Title",
+                pattern: "Please Enter a Valid Title",
               }}
             />
           </div>

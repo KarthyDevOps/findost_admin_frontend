@@ -106,7 +106,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
           setModal(false);
           reset(ClientDetails);
           history.push("/admin/clients-family");
-        }, 1000);
+        }, 2000);
         setLoading(false);
         return () => clearTimeout(timeout);
       } else {

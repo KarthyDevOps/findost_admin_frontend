@@ -105,7 +105,7 @@ const AddStaff = ({ create, view, remove }) => {
             setModal(false);
             reset(staffDetails);
             history.push("/admin/staff-management");
-          }, 1000);
+          }, 2000);
           setLoading(false);
 
           return () => clearTimeout(timeout);
@@ -153,7 +153,7 @@ const AddStaff = ({ create, view, remove }) => {
             setModal(false);
             reset(staffDetails);
             history.push("/admin/staff-management");
-          }, 1000);
+          }, 2000);
           setLoading(false);
 
           return () => clearTimeout(timeout);
@@ -272,7 +272,7 @@ const AddStaff = ({ create, view, remove }) => {
                 error={errors.name}
                 messages={{
                   required: "Name is Required",
-                  pattern: "Please enter a Valid Name",
+                  pattern: "Please Enter a Valid Name",
                 }}
               />
             </div>

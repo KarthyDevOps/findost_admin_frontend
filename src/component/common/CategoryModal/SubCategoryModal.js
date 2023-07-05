@@ -35,7 +35,7 @@ const SubCategoryModal = ({ modalOpen, onCancel, categoryId, refresh }) => {
           setModal(false);
           reset({ subCategoryName: "" });
           onCancel();
-        }, 1000);
+        }, 2000);
         return () => clearTimeout(timeout);
       } else {
         Toast({ type: "error", message: response.data.message });

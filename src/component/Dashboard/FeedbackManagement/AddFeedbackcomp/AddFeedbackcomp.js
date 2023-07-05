@@ -39,7 +39,7 @@ const AddFeedbackcomp = ({ create, view, edit, remove }) => {
           setModal(false);
           reset();
           history.push("/admin/feedBack-management");
-        }, 1000);
+        }, 2000);
         return () => clearTimeout(timeout);
       }else{
         Toast({ type: "error", message: response.data.message });

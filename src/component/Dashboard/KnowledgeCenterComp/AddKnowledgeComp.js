@@ -165,7 +165,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
             setloading(false);
             reset(KnowledgeDetails);
             history.push("/admin/knowledge-center");
-          }, 1000);
+          }, 2000);
           return () => clearTimeout(timeout);
         } else {
           Toast({ type: "error", message: response.data.message });
@@ -205,7 +205,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
 
             reset(KnowledgeDetails);
             history.push("/admin/knowledge-center");
-          }, 1000);
+          }, 2000);
           return () => clearTimeout(timeout);
         } else {
           setloading(false);

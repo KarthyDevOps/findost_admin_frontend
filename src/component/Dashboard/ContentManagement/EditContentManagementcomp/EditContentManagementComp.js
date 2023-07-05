@@ -116,7 +116,7 @@ const EditContentManagementComp = ({ create, view, remove }) => {
 
             reset(contentDetails);
             history.push("/admin/content-management");
-          }, 1000);
+          }, 2000);
           return () => clearTimeout(timeout);
         } else {
           Toast({ type: "error", message: response.data.message });
@@ -149,7 +149,7 @@ const EditContentManagementComp = ({ create, view, remove }) => {
 
             reset(contentDetails);
             history.push("/admin/content-management");
-          }, 1000);
+          }, 2000);
           return () => clearTimeout(timeout);
         } else {
           Toast({ type: "error", message: response.data.message });

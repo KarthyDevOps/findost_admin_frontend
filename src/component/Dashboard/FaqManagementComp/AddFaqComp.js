@@ -131,7 +131,7 @@ const AddFaqComp = ({ create, view, remove }) => {
             setModal(false);
             reset(FAQDetails);
             history.push("/admin/faq-management");
-          }, 1000);
+          }, 2000);
           setLoading(false);
 
           return () => clearTimeout(timeout);
@@ -169,7 +169,7 @@ const AddFaqComp = ({ create, view, remove }) => {
             setModal(false);
             reset(FAQDetails);
             history.push("/admin/faq-management");
-          }, 1000);
+          }, 2000);
           setLoading(false);
 
           return () => clearTimeout(timeout);
@@ -349,7 +349,7 @@ const AddFaqComp = ({ create, view, remove }) => {
                   (option) => option.value === getValues("status")
                 )}
                 rules={{ required: true }}
-                messages={{ required: " Status is Required" }}
+                messages={{ required: "Status is Required" }}
                 render={({ onChange, ...field }) => {
                   return (
                     <DropDown
