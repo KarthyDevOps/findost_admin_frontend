@@ -45,7 +45,7 @@ const CalendarManagementComp = ({ calendarAccess }) => {
     {
       label: "Event Id",
       value: "adminScheduleId",
-      width: "40%",
+      width: "30%",
     },
     {
       label: "Event Name",
@@ -55,17 +55,17 @@ const CalendarManagementComp = ({ calendarAccess }) => {
     {
       label: "Event Date",
       value: "date",
-      width: "70%",
+      width: "50%",
     },
     {
       label: "Start Time",
       value: "startTime",
-      width: "30%",
+      width: "50%",
     },
     {
       label: "End Time",
       value: "endTime",
-      width: "30%",
+      width: "50%",
     },
     {
       label: "Meet Link",

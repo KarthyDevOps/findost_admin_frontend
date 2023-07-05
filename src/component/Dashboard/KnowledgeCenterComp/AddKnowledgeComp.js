@@ -160,13 +160,12 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
         let response = await addKnowledge(body);
         if (response.status === 200) {
           setModal(true);
-          const timeout = setTimeout(() => {
+          setTimeout(() => {
             setModal(false);
             setloading(false);
             reset(KnowledgeDetails);
             history.push("/admin/knowledge-center");
-          }, 1000);
-          return () => clearTimeout(timeout);
+          }, 2000);
         } else {
           Toast({ type: "error", message: response.data.message });
           setloading(false);
@@ -199,14 +198,12 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
         let response = await updateKnowledge(body, id);
         if (response.status === 200) {
           setModal(true);
-          const timeout = setTimeout(() => {
+          setTimeout(() => {
             setModal(false);
             setloading(false);
-
             reset(KnowledgeDetails);
             history.push("/admin/knowledge-center");
-          }, 1000);
-          return () => clearTimeout(timeout);
+          }, 2000);
         } else {
           setloading(false);
           Toast({ type: "error", message: response.data.message });

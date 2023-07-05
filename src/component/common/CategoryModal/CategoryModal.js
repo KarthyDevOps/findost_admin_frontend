@@ -30,12 +30,11 @@ const CategoryModal = ({ modalOpen, onCancel, refresh }) => {
       if (response.status === 200) {
         setModal(true);
         refresh();
-        const timeout = setTimeout(() => {
+      setTimeout(() => {
           setModal(false);
           reset({ categoryName: "" });
           onCancel();
-        }, 1000);
-        return () => clearTimeout(timeout);
+        }, 2000);
       } else {
         Toast({ type: "error", message: response.data.message });
       }
