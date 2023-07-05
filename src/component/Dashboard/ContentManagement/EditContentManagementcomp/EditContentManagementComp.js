@@ -110,14 +110,13 @@ const EditContentManagementComp = ({ create, view, remove }) => {
         let response = await updateContent(body, id);
         if (response.status === 200) {
           setModal(true);
-          const timeout = setTimeout(() => {
+          setTimeout(() => {
             setModal(false);
             setloading(false);
 
             reset(contentDetails);
             history.push("/admin/content-management");
           }, 2000);
-          return () => clearTimeout(timeout);
         } else {
           Toast({ type: "error", message: response.data.message });
         }
@@ -143,14 +142,13 @@ const EditContentManagementComp = ({ create, view, remove }) => {
         let response = await addContent(body);
         if (response.status === 200) {
           setModal(true);
-          const timeout = setTimeout(() => {
+          setTimeout(() => {
             setModal(false);
             setloading(false);
 
             reset(contentDetails);
             history.push("/admin/content-management");
           }, 2000);
-          return () => clearTimeout(timeout);
         } else {
           Toast({ type: "error", message: response.data.message });
         }

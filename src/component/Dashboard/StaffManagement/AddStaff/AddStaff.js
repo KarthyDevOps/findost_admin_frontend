@@ -88,9 +88,9 @@ const AddStaff = ({ create, view, remove }) => {
             knowledgeCenterManagement: data.knowledgeCenterManagement,
             siteSettingsManagement: data.siteSettingsManagement,
             clientFamilyManagement: data.clientFamilyManagement,
-            segmentManagement:data.segmentManagement,
-            registersettingsManagement:data.registersettingsManagement,
-            scheduleManagement:data.scheduleManagement
+            segmentManagement: data.segmentManagement,
+            registersettingsManagement: data.registersettingsManagement,
+            scheduleManagement: data.scheduleManagement,
           },
         };
         if (staffDetails.status === "active") {
@@ -101,14 +101,12 @@ const AddStaff = ({ create, view, remove }) => {
         let response = await addStaff(body);
         if (response.status === 200) {
           setModal(true);
-          const timeout = setTimeout(() => {
+          setTimeout(() => {
             setModal(false);
             reset(staffDetails);
             history.push("/admin/staff-management");
           }, 2000);
           setLoading(false);
-
-          return () => clearTimeout(timeout);
         } else {
           setLoading(false);
 
@@ -136,9 +134,9 @@ const AddStaff = ({ create, view, remove }) => {
             knowledgeCenterManagement: data.knowledgeCenterManagement,
             siteSettingsManagement: data.siteSettingsManagement,
             clientFamilyManagement: data.clientFamilyManagement,
-            segmentManagement:data.segmentManagement,
-            registersettingsManagement:data.registersettingsManagement,
-            scheduleManagement:data.scheduleManagement
+            segmentManagement: data.segmentManagement,
+            registersettingsManagement: data.registersettingsManagement,
+            scheduleManagement: data.scheduleManagement,
           },
         };
         if (staffDetails.status === "active") {
@@ -149,14 +147,12 @@ const AddStaff = ({ create, view, remove }) => {
         let response = await updateStaff(body, id);
         if (response.status === 200) {
           setModal(true);
-          const timeout = setTimeout(() => {
+          setTimeout(() => {
             setModal(false);
             reset(staffDetails);
             history.push("/admin/staff-management");
           }, 2000);
           setLoading(false);
-
-          return () => clearTimeout(timeout);
         } else {
           setLoading(false);
 

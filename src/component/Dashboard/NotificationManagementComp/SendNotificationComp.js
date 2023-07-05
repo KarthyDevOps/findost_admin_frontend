@@ -80,14 +80,12 @@ const SendNotificationComp = () => {
         let response = await addNotificationHistory(body);
         if (response.status === 200) {
           setModal(true);
-          const timeout = setTimeout(() => {
+          setTimeout(() => {
             setModal(false);
             reset({ title: "", content: "", users: [] });
             history.push("/admin/notification-management?tab=1");
           }, 2000);
           setLoading(false);
-
-          return () => clearTimeout(timeout);
         } else {
           setLoading(false);
 
@@ -111,14 +109,12 @@ const SendNotificationComp = () => {
         let response = await updateNotificationHistory(body, id);
         if (response.status === 200) {
           setModal(true);
-          const timeout = setTimeout(() => {
+          setTimeout(() => {
             setModal(false);
             reset({ title: "", content: "", users: [] });
             history.push("/admin/notification-management?tab=1");
           }, 2000);
           setLoading(false);
-
-          return () => clearTimeout(timeout);
         } else {
           setLoading(false);
 

@@ -49,7 +49,7 @@ const AnswerFeedbackcomp = ({ create, view, edit, remove }) => {
       if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
         Toast({ type: "error", message: "Description is Required" });
         return;
-      } 
+      }
       let body = {
         userId: userId,
         userName: userName,
@@ -58,12 +58,11 @@ const AnswerFeedbackcomp = ({ create, view, edit, remove }) => {
       let response = await updateFeedback(body, id);
       if (response.status === 200) {
         setModal(true);
-        const timeout = setTimeout(() => {
+        setTimeout(() => {
           setModal(false);
           reset({ answer: "" });
           history.push("/admin/feedBack-management");
         }, 2000);
-        return () => clearTimeout(timeout);
       }
     } catch (e) {
       console.log(e);

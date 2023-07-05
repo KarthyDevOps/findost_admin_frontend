@@ -51,7 +51,7 @@ const AddFaqComp = ({ create, view, remove }) => {
   const [subCategoryList, setSubCategoryList] = useState([]);
   const [categoryId, setCategoryId] = useState("");
   const [categoryMasterId, setCategoryMasterId] = useState("");
-  const [catId,setCatId] = useState("");
+  const [catId, setCatId] = useState("");
   const [subCatId, setSubCatId] = useState("");
   const [subCategoryId, setSubCategoryId] = useState("");
   const [FAQDetails, setFAQDetails] = useState({
@@ -84,7 +84,7 @@ const AddFaqComp = ({ create, view, remove }) => {
         faqId: id,
       };
       let response = await getFAQ(params);
-      if (response.status === 200 ) {
+      if (response.status === 200) {
         const data = response?.data.data;
         reset({
           title: data?.title,
@@ -127,14 +127,12 @@ const AddFaqComp = ({ create, view, remove }) => {
         let response = await addFAQ(body);
         if (response.status === 200) {
           setModal(true);
-          const timeout = setTimeout(() => {
+          setTimeout(() => {
             setModal(false);
             reset(FAQDetails);
             history.push("/admin/faq-management");
           }, 2000);
           setLoading(false);
-
-          return () => clearTimeout(timeout);
         } else {
           Toast({ type: "error", message: response.data.message });
           setLoading(false);
@@ -165,14 +163,12 @@ const AddFaqComp = ({ create, view, remove }) => {
         let response = await updateFAQ(body, id);
         if (response.status === 200) {
           setModal(true);
-          const timeout = setTimeout(() => {
+          setTimeout(() => {
             setModal(false);
             reset(FAQDetails);
             history.push("/admin/faq-management");
           }, 2000);
           setLoading(false);
-
-          return () => clearTimeout(timeout);
         } else {
           Toast({ type: "error", message: response.data.message });
           setLoading(false);
@@ -328,7 +324,7 @@ const AddFaqComp = ({ create, view, remove }) => {
                   handleSubcategoryId(option);
                 }}
                 subCatId={subCatId}
-                id="subCategory"  
+                id="subCategory"
                 plusSymbol={true}
                 toggle={() => TogglePopup("subCategory")}
                 btnLabel="Create Sub Category"
@@ -340,7 +336,7 @@ const AddFaqComp = ({ create, view, remove }) => {
               )}
             </div>
             <div className="col-4 ">
-              <label >FAQ Status</label>
+              <label>FAQ Status</label>
               <CustomController
                 name={"status"}
                 control={control}

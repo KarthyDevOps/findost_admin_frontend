@@ -74,16 +74,13 @@ const FeeManagementComp = ({ segmentAccess, registrationAccess }) => {
       if (response.status === 200) {
         setModal(true);
         Toast({ type: "success", message: "updated successfully" });
-
-        const timeout = setTimeout(() => {
+        setTimeout(() => {
           setModal(false);
           reset();
           history.push("/admin/fee-management?tab=1");
           getFeeDetails();
         }, 2000);
         setLoading(false);
-
-        return () => clearTimeout(timeout);
       } else {
         setLoading(false);
         Toast({ type: "error", message: response.data.message });
@@ -136,78 +133,80 @@ const FeeManagementComp = ({ segmentAccess, registrationAccess }) => {
             registrationAccess={registrationAccess}
           />
         </>
-      ) : registrationAccess?.create && (
-        <>
-          <div className="add_faq py-3">
-            <form>
-              <div className="Add_faq p-5 my-3">
-                <div className="row">
-                  <div className="col-6">
-                    <label>Application Fee</label>
-                    <InputBox
-                      className="add_staff"
-                      type={"text"}
-                      placeholder="Enter Application Fee"
-                      name="applicationFee"
-                      errors={errors}
-                      register={register({
-                        required: true,
-                        pattern: /^\d+(\.\d+)?$/,
-                      })}
-                    />
-                    <FormErrorMessage
-                      error={errors.applicationFee}
-                      messages={{
-                        required: "Application Fee is Required",
-                        pattern: "Application Fee is Invalid",
-                      }}
-                    />
-                  </div>
-                  <div className="col-6">
-                    <label>Security Deposit</label>
-                    <InputBox
-                      className="add_staff"
-                      type={"text"}
-                      placeholder="Enter Security Deposit"
-                      name="depositFee"
-                      errors={errors}
-                      register={register({
-                        required: true,
-                        pattern: /^\d+(\.\d+)?$/,
-                      })}
-                    />
-                    <FormErrorMessage
-                      error={errors.depositFee}
-                      messages={{
-                        required: "Security Deposit is Required",
-                        pattern: "Security Deposit is Invalid",
-                      }}
-                    />
-                  </div>
-                </div>
-                <div className="d-flex align-items-center justify-content-end mt-2 p-0 pt-5">
-                  <div className="col-md-2">
-                    <NormalButton
-                      className="authButton1"
-                      label={"Cancel"}
-                      onClick={() => history.push("/admin/fee-management")}
-                    />
-                  </div>
-                  {registrationAccess?.create && (
-                    <div className="col-md-2 pl-3 p-0">
-                      <NormalButton
-                        className="loginButton"
-                        onClick={handleSubmit(onSubmit)}
-                        label={"Submit"}
-                        isLoading={loading}
+      ) : (
+        registrationAccess?.create && (
+          <>
+            <div className="add_faq py-3">
+              <form>
+                <div className="Add_faq p-5 my-3">
+                  <div className="row">
+                    <div className="col-6">
+                      <label>Application Fee</label>
+                      <InputBox
+                        className="add_staff"
+                        type={"text"}
+                        placeholder="Enter Application Fee"
+                        name="applicationFee"
+                        errors={errors}
+                        register={register({
+                          required: true,
+                          pattern: /^\d+(\.\d+)?$/,
+                        })}
+                      />
+                      <FormErrorMessage
+                        error={errors.applicationFee}
+                        messages={{
+                          required: "Application Fee is Required",
+                          pattern: "Application Fee is Invalid",
+                        }}
                       />
                     </div>
-                  )}
+                    <div className="col-6">
+                      <label>Security Deposit</label>
+                      <InputBox
+                        className="add_staff"
+                        type={"text"}
+                        placeholder="Enter Security Deposit"
+                        name="depositFee"
+                        errors={errors}
+                        register={register({
+                          required: true,
+                          pattern: /^\d+(\.\d+)?$/,
+                        })}
+                      />
+                      <FormErrorMessage
+                        error={errors.depositFee}
+                        messages={{
+                          required: "Security Deposit is Required",
+                          pattern: "Security Deposit is Invalid",
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="d-flex align-items-center justify-content-end mt-2 p-0 pt-5">
+                    <div className="col-md-2">
+                      <NormalButton
+                        className="authButton1"
+                        label={"Cancel"}
+                        onClick={() => history.push("/admin/fee-management")}
+                      />
+                    </div>
+                    {registrationAccess?.create && (
+                      <div className="col-md-2 pl-3 p-0">
+                        <NormalButton
+                          className="loginButton"
+                          onClick={handleSubmit(onSubmit)}
+                          label={"Submit"}
+                          isLoading={loading}
+                        />
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </form>
-          </div>
-        </>
+              </form>
+            </div>
+          </>
+        )
       )}
     </div>
   );

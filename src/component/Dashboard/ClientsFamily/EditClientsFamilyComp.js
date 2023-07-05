@@ -102,13 +102,12 @@ const EditClientsFamilyComp = ({ edit, view }) => {
       let response = await updateClient(body, id);
       if (response.status === 200) {
         setModal(true);
-        const timeout = setTimeout(() => {
+        setTimeout(() => {
           setModal(false);
           reset(ClientDetails);
           history.push("/admin/clients-family");
         }, 2000);
         setLoading(false);
-        return () => clearTimeout(timeout);
       } else {
         Toast({ type: "error", message: response.data.message });
       }

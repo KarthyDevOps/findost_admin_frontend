@@ -134,14 +134,12 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
         let response = await addTemplate(body);
         if (response.status === 200) {
           setModal(true);
-          const timeout = setTimeout(() => {
+          setTimeout(() => {
             setModal(false);
             reset(TemplateDetails);
             history.push("/admin/template-management");
           }, 2000);
           setLoading(false);
-
-          return () => clearTimeout(timeout);
         } else {
           setLoading(false);
 
@@ -176,12 +174,11 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
         let response = await updateTemplate(body, templateId);
         if (response.status === 200) {
           setModal(true);
-          const timeout = setTimeout(() => {
+          setTimeout(() => {
             setModal(false);
             reset(TemplateDetails);
             history.push("/admin/template-management");
           }, 2000);
-          return () => clearTimeout(timeout);
         } else {
           setLoading(false);
 

@@ -82,12 +82,11 @@ const AddCalendarComp = ({ calendarAccess }) => {
         let response = await addCalendarEvent(body);
         if (response.status === 200) {
           setModal(true);
-          const timeout = setTimeout(() => {
+          setTimeout(() => {
             setModal(false);
             history.push("/admin/calendar-management");
           }, 2000);
           setLoading(false);
-          return () => clearTimeout(timeout);
         } else {
           Toast({ type: "error", message: response.data.message });
         }
@@ -108,12 +107,11 @@ const AddCalendarComp = ({ calendarAccess }) => {
         let response = await updateCalendarEvent(body, id);
         if (response.status === 200) {
           setModal(true);
-          const timeout = setTimeout(() => {
+          setTimeout(() => {
             setModal(false);
             history.push("/admin/calendar-management");
           }, 2000);
           setLoading(false);
-          return () => clearTimeout(timeout);
         } else {
           Toast({ type: "error", message: response.data.message });
         }
@@ -321,7 +319,7 @@ const AddCalendarComp = ({ calendarAccess }) => {
                   }}
                 />
               </div>
-            </div>  
+            </div>
             <div className="col-4 my-3">
               <label>Meet Link</label>
               <InputBox
