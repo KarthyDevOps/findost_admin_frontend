@@ -106,75 +106,78 @@ const AddFaqComp = ({ create, view, remove }) => {
 
   const onSubmit = async (data) => {
     if (!edit) {
-      try {
-        if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
-          Toast({ type: "error", message: "FAQ Status is Required" });
-          return;
-        }
-        setModal(true);
-        setLoading(true);
-        let body = {
-          title: data.title,
-          answer: data.content,
-          subCategory: subCategoryId,
-          category: categoryMasterId,
-        };
-        if (FAQDetails.status === "active") {
-          body.isActive = true;
-        } else {
-          body.isActive = false;
-        }
-        let response = await addFAQ(body);
-        if (response.status === 200) {
+      if (category && subCategory) {
+        try {
+          if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+            Toast({ type: "error", message: "FAQ Status is Required" });
+            return;
+          }
           setModal(true);
-          setTimeout(() => {
-            setModal(false);
-            reset(FAQDetails);
-            history.push("/admin/faq-management");
-          }, 2000);
-          setLoading(false);
-        } else {
-          Toast({ type: "error", message: response.data.message });
-          setLoading(false);
+          setLoading(true);
+          let body = {
+            title: data.title,
+            answer: data.content,
+            subCategory: subCategoryId,
+            category: categoryMasterId,
+          };
+          if (FAQDetails.status === "active") {
+            body.isActive = true;
+          } else {
+            body.isActive = false;
+          }
+          let response = await addFAQ(body);
+          if (response.status === 200) {
+            setModal(true);
+            setTimeout(() => {
+              setModal(false);
+              reset(FAQDetails);
+              history.push("/admin/faq-management");
+            }, 2000);
+            setLoading(false);
+          } else {
+            Toast({ type: "error", message: response.data.message });
+            setLoading(false);
+          }
+        } catch (e) {
+          console.log(e);
         }
-      } catch (e) {
-        console.log(e);
       }
     } else {
-      try {
-        if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
-          Toast({ type: "error", message: "FAQ Status is Required" });
-          return;
-        }
-        setLoading(true);
-
-        setModal(true);
-        let body = {
-          title: data.title,
-          answer: data.content,
-          category: categoryMasterId,
-          subCategory: subCategoryId,
-        };
-        if (FAQDetails.status === "active") {
-          body.isActive = true;
-        } else {
-          body.isActive = false;
-        }
-        let response = await updateFAQ(body, id);
-        if (response.status === 200) {
+      if (category && subCategory) {
+        try {
+          if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+            Toast({ type: "error", message: "FAQ Status is Required" });
+            return;
+          }
+          setLoading(true);
           setModal(true);
-          setTimeout(() => {
-            setModal(false);
-            reset(FAQDetails);
-            history.push("/admin/faq-management");
-          }, 2000);
-          setLoading(false);
-        } else {
-          Toast({ type: "error", message: response.data.message });
-          setLoading(false);
+          let body = {
+            title: data.title,
+            answer: data.content,
+            category: categoryMasterId,
+            subCategory: subCategoryId,
+          };
+          if (FAQDetails.status === "active") {
+            body.isActive = true;
+          } else {
+            body.isActive = false;
+          }
+          let response = await updateFAQ(body, id);
+          if (response.status === 200) {
+            setModal(true);
+            setTimeout(() => {
+              setModal(false);
+              reset(FAQDetails);
+              history.push("/admin/faq-management");
+            }, 2000);
+            setLoading(false);
+          } else {
+            Toast({ type: "error", message: response.data.message });
+            setLoading(false);
+          }
+        } catch (e) {
+          console.log(e);
         }
-      } catch (e) {
-        console.log(e);
       }
     }
   };
@@ -191,6 +194,7 @@ const AddFaqComp = ({ create, view, remove }) => {
     let newCategory = categoryList.find((x) => x.name === option);
     setCategoryId(newCategory?.categoryId);
     setCategoryMasterId(newCategory?._id);
+    listSubCategorys(newCategory?.categoryId);
   };
   const handleSubcategoryId = (option) => {
     let newCategory = subCategoryList.find((x) => x.name === option);
@@ -211,7 +215,6 @@ const AddFaqComp = ({ create, view, remove }) => {
       let response = await getCategoryList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
         setCategoryList(response?.data?.data?.list);
-        console.log("first", response?.data?.data?.list);
       } else {
         setCategoryList([]);
       }
@@ -220,10 +223,11 @@ const AddFaqComp = ({ create, view, remove }) => {
     }
   };
 
-  const listSubCategorys = async (page) => {
+  const listSubCategorys = async (catId) => {
     try {
       let params = {
-        page: page,
+        page: currentPage,
+        categoryId: catId,
       };
       let response = await getSubCategoryList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
@@ -242,7 +246,7 @@ const AddFaqComp = ({ create, view, remove }) => {
       getFAQDetails();
     }
     listCategorys(currentPage);
-    listSubCategorys(currentPage);
+    // listSubCategorys(currentPage);
   }, []);
 
   return (

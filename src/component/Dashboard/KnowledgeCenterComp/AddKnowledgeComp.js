@@ -135,86 +135,89 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
 
   const onSubmit = async (data) => {
     if (!edit) {
-      try {
-        setloading(true);
-        if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
-          Toast({ type: "error", message: "Description is Required" });
-          return;
-        }
-        setModal(true);
-
-        let body = {
-          title: data.title,
-          subCategory: subCategoryId,
-          category: categoryMasterId,
-          description: data?.content,
-          contentUrlLink: data?.contentURL,
-          documentPath: newDoc ? newDoc : DocURL,
-          fileOriginalName: DocFileName,
-        };
-        if (KnowledgeDetails.status === "active") {
-          body.isActive = true;
-        } else {
-          body.isActive = false;
-        }
-        let response = await addKnowledge(body);
-        if (response.status === 200) {
+      if (category && subCategory) {
+        try {
+          setloading(true);
+          if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+            Toast({ type: "error", message: "Description is Required" });
+            return;
+          }
           setModal(true);
-          setTimeout(() => {
-            setModal(false);
+
+          let body = {
+            title: data.title,
+            subCategory: subCategoryId,
+            category: categoryMasterId,
+            description: data?.content,
+            contentUrlLink: data?.contentURL,
+            documentPath: newDoc ? newDoc : DocURL,
+            fileOriginalName: DocFileName,
+          };
+          if (KnowledgeDetails.status === "active") {
+            body.isActive = true;
+          } else {
+            body.isActive = false;
+          }
+          let response = await addKnowledge(body);
+          if (response.status === 200) {
+            setModal(true);
+            setTimeout(() => {
+              setModal(false);
+              setloading(false);
+              reset(KnowledgeDetails);
+              history.push("/admin/knowledge-center");
+            }, 2000);
+          } else {
+            Toast({ type: "error", message: response.data.message });
             setloading(false);
-            reset(KnowledgeDetails);
-            history.push("/admin/knowledge-center");
-          }, 2000);
-        } else {
-          Toast({ type: "error", message: response.data.message });
-          setloading(false);
+          }
+        } catch (e) {
+          console.log(e);
         }
-      } catch (e) {
-        console.log(e);
       }
     } else {
-      try {
-        if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
-          Toast({ type: "error", message: "Description is Required" });
-          return;
-        }
-        setModal(true);
-        setloading(true);
-        let body = {
-          title: data.title,
-          contentUrlLink: data?.contentURL,
-          subCategory: subCategoryId,
-          category: categoryMasterId,
-          description: data?.content,
-          documentPath: newDoc ? newDoc : DocURL,
-          fileOriginalName: DocFileName,
-        };
-        if (KnowledgeDetails.status === "active") {
-          body.isActive = true;
-        } else {
-          body.isActive = false;
-        }
-        let response = await updateKnowledge(body, id);
-        if (response.status === 200) {
+      if (category && subCategory) {
+        try {
+          if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+            Toast({ type: "error", message: "Description is Required" });
+            return;
+          }
           setModal(true);
-          setTimeout(() => {
-            setModal(false);
+          setloading(true);
+          let body = {
+            title: data.title,
+            contentUrlLink: data?.contentURL,
+            subCategory: subCategoryId,
+            category: categoryMasterId,
+            description: data?.content,
+            documentPath: newDoc ? newDoc : DocURL,
+            fileOriginalName: DocFileName,
+          };
+          if (KnowledgeDetails.status === "active") {
+            body.isActive = true;
+          } else {
+            body.isActive = false;
+          }
+          let response = await updateKnowledge(body, id);
+          if (response.status === 200) {
+            setModal(true);
+            setTimeout(() => {
+              setModal(false);
+              setloading(false);
+              reset(KnowledgeDetails);
+              history.push("/admin/knowledge-center");
+            }, 2000);
+          } else {
             setloading(false);
-            reset(KnowledgeDetails);
-            history.push("/admin/knowledge-center");
-          }, 2000);
-        } else {
-          setloading(false);
-          Toast({ type: "error", message: response.data.message });
+            Toast({ type: "error", message: response.data.message });
+          }
+        } catch (e) {
+          console.log(e);
         }
-      } catch (e) {
-        console.log(e);
       }
     }
   };
   const TogglePopup = (type) => {
-    console.log("type :>> ", type);
     if (type === "Category") {
       setCategoryModal(true);
     } else {
@@ -226,6 +229,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
     let newCategory = categoryList.find((x) => x.name === option);
     setCategoryId(newCategory?.categoryId);
     setCategoryMasterId(newCategory?._id);
+    listSubCategorys(newCategory?.categoryId);
   };
   const handleSubcategoryId = (option) => {
     let newCategory = subCategoryList.find((x) => x.name === option);
@@ -255,10 +259,11 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
     }
   };
 
-  const listSubCategorys = async (page) => {
+  const listSubCategorys = async (catId) => {
     try {
       let params = {
-        page: page,
+        page: currentPage,
+        categoryId: catId,
       };
       let response = await getSubCategoryList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {

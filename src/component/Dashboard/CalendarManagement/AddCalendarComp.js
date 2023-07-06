@@ -159,6 +159,7 @@ const AddCalendarComp = ({ calendarAccess }) => {
 
   const disabledMinute = () => {
     const currentMinute = today.getMinutes();
+    console.log('currentMinute :>> ', currentMinute);
     const disabledMinuteRange = Array.from(
       { length: currentMinute },
       (_, i) => i
@@ -167,13 +168,16 @@ const AddCalendarComp = ({ calendarAccess }) => {
   };
 
   const disabledEndMinute = () => {
-    const currentMinute = currentMinuteTime;
+    const currentMinute = Number(currentMinuteTime) + 1;
     const disabledMinuteRange = Array.from(
       { length: currentMinute },
       (_, i) => i
     );
     return disabledMinuteRange;
   };
+
+  const currentDate = moment()
+  console.log('currentDate :>> ', currentDate._d);
 
   useEffect(() => {
     if (id) {
@@ -278,14 +282,16 @@ const AddCalendarComp = ({ calendarAccess }) => {
                             setStartTime(timeString);
                           }}
                           placeholder="Start Time"
-                          // disabledHours={disabledHours}
-                          // disabledMinutes={disabledMinute}
+                          disabledHours={date === today ? disabledHours : null}
+                          disabledMinutes={disabledMinute}
                         />
                       </Space>
                     );
                   }}
                 />
               </div>
+              {console.log("date",date)}
+              {console.log("today",today)}
             </div>
             <div className="col-md-4 my-3">
               <label>End Time</label>
