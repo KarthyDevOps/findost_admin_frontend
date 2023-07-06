@@ -26,7 +26,7 @@ import Temp_a from "assets/images/Temp_a.svg";
 import calendarMt from "assets/images/CalendarIA.svg";
 import calenderD from "assets/images/calendarD.svg";
 import feeIA from "assets/images/feeIA.svg";
-import feeDark from "assets/images/feeDark.svg";
+import feeDark from "assets/images/FeeDark.svg";
 
 // internal components
 import { reducers } from "../reducer";
@@ -35,7 +35,7 @@ import routers from "routes/routes";
 import { Toast } from "service/toast";
 import moment from "moment";
 import CryptoJS from "crypto-js";
-
+x
 export const store = createStore(
   reducers,
   applyMiddleware(thunk.withExtraArgument({ Toast }))
