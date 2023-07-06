@@ -19,6 +19,8 @@ const SubCategoryModal = ({ modalOpen, onCancel, categoryId, refresh }) => {
     mode: "onChange",
   });
 
+  console.log('categoryId :>> ', categoryId);
+
   const [modal, setModal] = useState(false);
 
   const onSubmit = async (data) => {
