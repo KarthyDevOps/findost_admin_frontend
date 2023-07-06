@@ -282,16 +282,14 @@ const AddCalendarComp = ({ calendarAccess }) => {
                             setStartTime(timeString);
                           }}
                           placeholder="Start Time"
-                          disabledHours={date === today ? disabledHours : null}
-                          disabledMinutes={disabledMinute}
+                          // disabledHours={date === today ? disabledHours : null}
+                          // disabledMinutes={disabledMinute}
                         />
                       </Space>
                     );
                   }}
                 />
               </div>
-              {console.log("date",date)}
-              {console.log("today",today)}
             </div>
             <div className="col-md-4 my-3">
               <label>End Time</label>
