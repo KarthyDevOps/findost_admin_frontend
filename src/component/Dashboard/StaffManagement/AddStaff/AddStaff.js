@@ -309,40 +309,40 @@ const AddStaff = ({ create, view, remove }) => {
                   minLength: edit
                     ? false
                     : {
-                        value: 8,
-                      },
+                      value: 8,
+                    },
                   maxLength: edit
                     ? false
                     : {
-                        value: 16,
-                      },
+                      value: 16,
+                    },
                   pattern: edit
                     ? false
                     : {
-                        value: /^(?=.*[A-Z])(?=.*[a-z])/,
-                      },
+                      value: /^(?=.*[A-Z])/,
+                    },
                   validate: edit
                     ? false
                     : {
-                        containsDigit: (value) => /^(?=.*[0-9])/.test(value),
-                        containsSpecial: (value) =>
-                          /^(?=.*[!@#$%^&*])/.test(value),
-                      },
+                      lowercase: (value) =>
+                        /^(?=.*[a-z])/.test(value),
+                      containsDigit: (value) => /^(?=.*[0-9])/.test(value),
+                      containsSpecial: (value) =>
+                        /^(?=.*[!@#$%^&*])/.test(value),
+                    },
                 })}
               />
 
               <FormErrorMessage
                 error={errors.password}
                 messages={{
-                  required: "Password is Required",
-                  validate: "Passwords do not match",
-                  minLength: "Password must contain atleast 8 letters",
-                  maxLength: "Password should must contain only 16",
-                  pattern:
-                    "Password must contain at least one uppercase and lowercase letter",
+                  required: "Password is required",
+                  minLength: "Password must contain at least 8 letters",
+                  maxLength: "Password should contain at most 16 characters",
+                  pattern: "Password must contain at least one uppercase letter",
+                  lowercase: "Password must contain at least one lowercase letter",
                   containsDigit: "Password must contain at least one Numeric",
-                  containsSpecial:
-                    "Password must contain at least one special character",
+                  containsSpecial: "Password must contain at least one special character",
                 }}
               />
             </div>

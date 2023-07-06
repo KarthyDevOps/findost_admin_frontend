@@ -116,25 +116,20 @@ const LoginComp = () => {
                       required: "Password is required",
                       minLength: {
                         value: 8,
-                        message: "Password must contain at least 8 characters",
                       },
                       maxLength: {
                         value: 16,
-                        message:
-                          "Password must contain a maximum of 16 characters",
                       },
                       pattern: {
-                        value: /^(?=.*[A-Z])(?=.*[a-z])/,
-                        message:
-                          "Password must contain at least one uppercase and lowercase letter",
+                        value: /^(?=.*[A-Z])/,
                       },
                       validate: {
+                        lowercase: (value) =>
+                          /^(?=.*[a-z])/.test(value) || "Password must contain at least one lowercase letter",
                         containsDigit: (value) =>
-                          /^(?=.*[0-9])/.test(value) ||
-                          "Password must contain at least one Numeric",
+                          /^(?=.*[0-9])/.test(value) || "Password must contain at least one numeric digit",
                         containsSpecial: (value) =>
-                          /^(?=.*[!@#$%^&*])/.test(value) ||
-                          "Password must contain at least one special character",
+                          /^(?=.*[!@#$%^&*])/.test(value) || "Password must contain at least one special character",
                       },
                     })}
                   />
@@ -142,15 +137,12 @@ const LoginComp = () => {
                     error={errors.password}
                     messages={{
                       required: "Password is required",
-                      validate: "Passwords do not match",
-                      minLength: "Password must contain atleast 8 letters",
-                      maxLength: "Password should must contain only 16",
-                      pattern:
-                        "Password must contain at least one uppercase and lowercase letter",
-                      containsDigit:
-                        "Password must contain at least one Numeric",
-                      containsSpecial:
-                        "Password must contain at least one special character",
+                      minLength: "Password must contain at least 8 letters",
+                      maxLength: "Password should contain at most 16 characters",
+                      pattern: "Password must contain at least one uppercase letter",
+                      lowercase: "Password must contain at least one lowercase letter",
+                      containsDigit: "Password must contain at least one Numeric",
+                      containsSpecial: "Password must contain at least one special character",
                     }}
                   />
                   <span className="eyeIcons">
