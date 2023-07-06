@@ -35,7 +35,6 @@ import routers from "routes/routes";
 import { Toast } from "service/toast";
 import moment from "moment";
 import CryptoJS from "crypto-js";
-x
 export const store = createStore(
   reducers,
   applyMiddleware(thunk.withExtraArgument({ Toast }))
