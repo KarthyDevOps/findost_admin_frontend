@@ -57,13 +57,12 @@ const AddFeeComp = ({ create, view, remove }) => {
         let response = await addSegment(body);
         if (response.status === 200) {
           setModal(true);
-          const timeout = setTimeout(() => {
+          setTimeout(() => {
             setModal(false);
             reset({ segment: "", charges: "" });
             history.push("/admin/fee-management");
-          }, 1000);
+          }, 2000);
           setLoading(false);
-          return () => clearTimeout(timeout);
         } else {
           Toast({ type: "error", message: response.data.message });
           setLoading(false);
@@ -81,13 +80,12 @@ const AddFeeComp = ({ create, view, remove }) => {
         let response = await updateSegment(body, id);
         if (response.status === 200) {
           setModal(true);
-          const timeout = setTimeout(() => {
+          setTimeout(() => {
             setModal(false);
             reset({ segment: "", charges: "" });
             history.push("/admin/fee-management");
-          }, 1000);
+          }, 2000);
           setLoading(false);
-          return () => clearTimeout(timeout);
         } else {
           Toast({ type: "error", message: response.data.message });
           setLoading(false);

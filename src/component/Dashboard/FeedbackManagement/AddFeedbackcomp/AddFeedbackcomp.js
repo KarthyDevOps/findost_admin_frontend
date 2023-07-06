@@ -22,7 +22,6 @@ const AddFeedbackcomp = ({ create, view, edit, remove }) => {
   const [modal, setModal] = useState(false);
   const [quill, setQuill] = useState("");
 
-
   const onSubmit = async (data) => {
     try {
       if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
@@ -35,13 +34,12 @@ const AddFeedbackcomp = ({ create, view, edit, remove }) => {
       let response = await addFeedback(body);
       if (response.status === 200) {
         setModal(true);
-        const timeout = setTimeout(() => {
+        setTimeout(() => {
           setModal(false);
           reset();
           history.push("/admin/feedBack-management");
-        }, 1000);
-        return () => clearTimeout(timeout);
-      }else{
+        }, 2000);
+      } else {
         Toast({ type: "error", message: response.data.message });
       }
     } catch (e) {
@@ -86,8 +84,7 @@ const AddFeedbackcomp = ({ create, view, edit, remove }) => {
                             {...fields}
                             onChange={(description) => {
                               onChange(description);
-                      setQuill(description);
-
+                              setQuill(description);
                             }}
                             name={"description"}
                           />

@@ -71,13 +71,12 @@ const CreateNotificationComp = ({ create, view, remove }) => {
         if (response.status === 200) {
           setModal(true);
 
-          const timeout = setTimeout(() => {
+          setTimeout(() => {
             setModal(false);
             reset({ title: "", content: "" });
             history.push("/admin/notification-management?tab=0");
-          }, 1000);
+          }, 2000);
           setLoading(false);
-          return () => clearTimeout(timeout);
         } else {
           Toast({ type: "error", message: response.data.message });
         }
@@ -98,15 +97,12 @@ const CreateNotificationComp = ({ create, view, remove }) => {
         let response = await updateNotificationTemplate(body, id);
         if (response.status === 200) {
           setModal(true);
-
-          const timeout = setTimeout(() => {
+          setTimeout(() => {
             setModal(false);
             reset({ title: "", content: "" });
             history.push("/admin/notification-management");
-          }, 1000);
+          }, 2000);
           setLoading(false);
-
-          return () => clearTimeout(timeout);
         } else {
           setLoading(false);
 
@@ -158,7 +154,7 @@ const CreateNotificationComp = ({ create, view, remove }) => {
               error={errors.title}
               messages={{
                 required: "Notification Title is Required",
-                pattern: "Please enter a Valid Title",
+                pattern: "Please Enter a Valid Title",
               }}
             />
           </div>

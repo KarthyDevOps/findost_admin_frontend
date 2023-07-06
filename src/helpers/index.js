@@ -382,6 +382,10 @@ export const statusOptions = [
 
 export const roleOptions = [
   {
+    label: "All",
+    value: "all",
+  },
+  {
     label: "Super Admin",
     value: "SUPER ADMIN",
   },
@@ -397,6 +401,7 @@ export const roleOptions = [
     label: "Sub Admin",
     value: "SUB ADMIN",
   },
+
 ];
 
 export const managementOptions = {

@@ -119,14 +119,12 @@ const AddProductcomp = ({ create, view, remove }) => {
       let response = await updateProduct(body, id);
       if (response.status === 200) {
         setModal(true);
-        const timeout = setTimeout(() => {
+        setTimeout(() => {
           setModal(false);
           reset();
           history.push("/admin/product-management");
-        }, 1000);
+        }, 2000);
         setLoading(false);
-
-        return () => clearTimeout(timeout);
       }
     } catch (e) {
       console.log(e);
@@ -189,7 +187,7 @@ const AddProductcomp = ({ create, view, remove }) => {
                     error={errors.productName}
                     messages={{
                       required: "Product Name is Required",
-                      pattern: "Please enter a Valid Name",
+                      pattern: "Please Enter a Valid Name",
                     }}
                   />
                 </div>

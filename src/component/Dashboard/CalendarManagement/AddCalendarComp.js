@@ -40,6 +40,7 @@ const AddCalendarComp = ({ calendarAccess }) => {
   const [editEvent, setEditEvent] = useState(false);
   const [date, setDate] = useState("");
   const id = localStorage.getItem("editId");
+  let today = new Date();
 
   const getEventDetails = async () => {
     try {
@@ -81,12 +82,11 @@ const AddCalendarComp = ({ calendarAccess }) => {
         let response = await addCalendarEvent(body);
         if (response.status === 200) {
           setModal(true);
-          const timeout = setTimeout(() => {
+          setTimeout(() => {
             setModal(false);
             history.push("/admin/calendar-management");
-          }, 1000);
+          }, 2000);
           setLoading(false);
-          return () => clearTimeout(timeout);
         } else {
           Toast({ type: "error", message: response.data.message });
         }
@@ -107,12 +107,11 @@ const AddCalendarComp = ({ calendarAccess }) => {
         let response = await updateCalendarEvent(body, id);
         if (response.status === 200) {
           setModal(true);
-          const timeout = setTimeout(() => {
+          setTimeout(() => {
             setModal(false);
             history.push("/admin/calendar-management");
-          }, 1000);
+          }, 2000);
           setLoading(false);
-          return () => clearTimeout(timeout);
         } else {
           Toast({ type: "error", message: response.data.message });
         }
@@ -138,6 +137,42 @@ const AddCalendarComp = ({ calendarAccess }) => {
   const deleteImage = (e) => {
     e.stopPropagation();
     setImage(null);
+  };
+
+  const currentStartTime =
+    startTime.length > 7 ? startTime.slice(0, 2) : startTime.slice(0, 1);
+
+  const currentMinuteTime =
+    startTime.length > 7 ? startTime.slice(3, 5) : startTime.slice(2, 4);
+
+  const disabledHours = () => {
+    const currentHour = today.getHours() % 12 || 12;
+    const disabledHourRange = Array.from({ length: currentHour }, (_, i) => i);
+    return disabledHourRange;
+  };
+
+  const disabledEndHours = () => {
+    const currentHour = currentStartTime;
+    const disabledHourRange = Array.from({ length: currentHour }, (_, i) => i);
+    return disabledHourRange;
+  };
+
+  const disabledMinute = () => {
+    const currentMinute = today.getMinutes();
+    const disabledMinuteRange = Array.from(
+      { length: currentMinute },
+      (_, i) => i
+    );
+    return disabledMinuteRange;
+  };
+
+  const disabledEndMinute = () => {
+    const currentMinute = currentMinuteTime;
+    const disabledMinuteRange = Array.from(
+      { length: currentMinute },
+      (_, i) => i
+    );
+    return disabledMinuteRange;
   };
 
   useEffect(() => {
@@ -243,6 +278,8 @@ const AddCalendarComp = ({ calendarAccess }) => {
                             setStartTime(timeString);
                           }}
                           placeholder="Start Time"
+                          // disabledHours={disabledHours}
+                          // disabledMinutes={disabledMinute}
                         />
                       </Space>
                     );
@@ -274,6 +311,8 @@ const AddCalendarComp = ({ calendarAccess }) => {
                             setEndTime(timeString);
                           }}
                           placeholder="End Time"
+                          disabledHours={disabledEndHours}
+                          disabledMinutes={disabledEndMinute}
                         />
                       </Space>
                     );

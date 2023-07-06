@@ -80,16 +80,15 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
         siteFavIcon: SiteFavLogoUrl,
         sitelogo: SiteLogoUrl,
       };
-      let response = await updateSiteSetting(body,id);
+      let response = await updateSiteSetting(body, id);
       if (response.status === 200) {
         setModal(true);
-        const timeout = setTimeout(() => {
+        setTimeout(() => {
           setModal(false);
           reset();
           history.push("/admin/site-settings");
           getSiteDetails();
-        }, 1000);
-        return () => clearTimeout(timeout);
+        }, 2000);
       } else {
         Toast({ type: "error", message: response.data.message });
         getSiteDetails();

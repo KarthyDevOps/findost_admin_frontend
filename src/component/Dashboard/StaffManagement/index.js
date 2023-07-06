@@ -70,7 +70,7 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
         page: page ? page : 1,
         limit: 10,
         search: searchStaff,
-        role: role,
+        role: role === "all" ? "" : role,
       };
       if (status) {
         status === "active"
