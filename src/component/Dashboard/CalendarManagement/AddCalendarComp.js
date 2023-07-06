@@ -42,6 +42,18 @@ const AddCalendarComp = ({ calendarAccess }) => {
   const id = localStorage.getItem("editId");
   let today = new Date();
 
+  // Time validation
+  const EventDate = moment(date).format("MMM DD YYYY");
+  const currentDate = new Date();
+  currentDate.setHours(0, 0, 0, 0);
+  const todayDate = moment(currentDate).format("MMM DD YYYY");
+
+  const currentStartTime =
+    startTime.length > 7 ? startTime.slice(0, 2) : startTime.slice(0, 1);
+
+  const currentMinuteTime =
+    startTime.length > 7 ? startTime.slice(3, 5) : startTime.slice(2, 4);
+
   const getEventDetails = async () => {
     try {
       let params = {
@@ -139,12 +151,6 @@ const AddCalendarComp = ({ calendarAccess }) => {
     setImage(null);
   };
 
-  const currentStartTime =
-    startTime.length > 7 ? startTime.slice(0, 2) : startTime.slice(0, 1);
-
-  const currentMinuteTime =
-    startTime.length > 7 ? startTime.slice(3, 5) : startTime.slice(2, 4);
-
   const disabledHours = () => {
     const currentHour = today.getHours() % 12 || 12;
     const disabledHourRange = Array.from({ length: currentHour }, (_, i) => i);
@@ -159,9 +165,8 @@ const AddCalendarComp = ({ calendarAccess }) => {
 
   const disabledMinute = () => {
     const currentMinute = today.getMinutes();
-    console.log('currentMinute :>> ', currentMinute);
     const disabledMinuteRange = Array.from(
-      { length: currentMinute },
+      { length: currentMinute + 1 },
       (_, i) => i
     );
     return disabledMinuteRange;
@@ -176,8 +181,12 @@ const AddCalendarComp = ({ calendarAccess }) => {
     return disabledMinuteRange;
   };
 
-  const currentDate = moment()
-  console.log('currentDate :>> ', currentDate._d);
+  useEffect(() => {
+    if (EventDate === todayDate) {
+      setStartTime("");
+      setEndTime("");
+    }
+  }, [date]);
 
   useEffect(() => {
     if (id) {
@@ -282,8 +291,12 @@ const AddCalendarComp = ({ calendarAccess }) => {
                             setStartTime(timeString);
                           }}
                           placeholder="Start Time"
-                          // disabledHours={date === today ? disabledHours : null}
-                          // disabledMinutes={disabledMinute}
+                          disabledHours={
+                            EventDate === todayDate ? disabledHours : null
+                          }
+                          disabledMinutes={
+                            EventDate === todayDate ? disabledMinute : null
+                          }
                         />
                       </Space>
                     );
