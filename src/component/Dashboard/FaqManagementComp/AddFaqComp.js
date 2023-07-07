@@ -246,7 +246,7 @@ const AddFaqComp = ({ create, view, remove }) => {
       getFAQDetails();
     }
     listCategorys(currentPage);
-    // listSubCategorys(currentPage);
+    // listSubCategorys();
   }, []);
 
   return (
@@ -302,6 +302,7 @@ const AddFaqComp = ({ create, view, remove }) => {
               <MultiSelect
                 options={categoryList}
                 placeholder="Select Category"
+                defaultValue={category}
                 onChange={(option) => {
                   setCategory(option);
                   handlecategoryId(option);
@@ -322,6 +323,7 @@ const AddFaqComp = ({ create, view, remove }) => {
               <label>Sub Category</label>
               <MultiSelect
                 subOptions={subCategoryList}
+                defaultValue={subCategory}
                 placeholder="Select Sub Category"
                 onChange={(option) => {
                   setSubCategory(option);

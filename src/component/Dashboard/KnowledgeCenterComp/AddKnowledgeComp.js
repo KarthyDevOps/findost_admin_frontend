@@ -10,6 +10,7 @@ import "./style.scss";
 import cloudIcon from "../../../assets/images/uploadcloud.svg";
 //internal components
 import MultiSelect from "component/common/MultiSelect";
+import Loader from "component/common/Loader";
 import CategoryModal from "component/common/CategoryModal/CategoryModal";
 import SubCategoryModal from "component/common/CategoryModal/SubCategoryModal";
 
@@ -66,6 +67,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
   const [subCatId, setSubCatId] = useState("");
   const [subCategoryId, setSubCategoryId] = useState("");
   const [DocFileName, setDocFileName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [KnowledgeDetails, setKnowledgeDetails] = useState({
     status: "",
   });
@@ -278,17 +280,22 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
 
   //handle drop docfunction
   const handleDrop = async (droppedimage) => {
-    let body = new FormData();
-    for (let index = 0; index < droppedimage.length; index++) {
-      const file = droppedimage[index];
-      body.append("data", file);
-      // console.log("File name:", file.name);
-      setDocFileName(file.name);
-      let response = await uploadImage(body);
-      if (response.status == 200) {
-        setNewDoc(response?.data?.data?.data?.key);
-        setDocURL(response?.data?.data?.data?.s3URL);
+    try {
+      setIsLoading(true);
+      let body = new FormData();
+      for (let index = 0; index < droppedimage.length; index++) {
+        const file = droppedimage[index];
+        body.append("data", file);
+        setDocFileName(file.name);
+        let response = await uploadImage(body);
+        if (response.status === 200) {
+          setIsLoading(false);
+          setNewDoc(response?.data?.data?.data?.key);
+          setDocURL(response?.data?.data?.data?.s3URL);
+        }
       }
+    } catch (e) {
+      console.log("e :>> ", e);
     }
   };
 
@@ -298,7 +305,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
       getKnowledgeDetails();
     }
     listCategorys(currentPage);
-    listSubCategorys(currentPage);
+    // listSubCategorys(currentPage);
   }, []);
 
   const cancelImg = (e) => {
@@ -452,22 +459,29 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                           </div>
                         </>
                       )}
-                      {DocURL && (
-                        <span
-                          style={{
-                            position: "absolute",
-                            top: "10px",
-                            right: "10px",
-                            cursor: "pointer",
-                            zIndex: 1,
-                          }}
-                          onClick={cancelImg}
-                        >
-                          <AiOutlineCloseCircle
-                            size={24}
-                            style={{ color: "red" }}
-                          />
-                        </span>
+                      {isLoading ? (
+                        <Loader
+                          loading={isLoading}
+                          className="d-flex align-items-center justify-content-center"
+                        />
+                      ) : (
+                        DocURL && (
+                          <span
+                            style={{
+                              position: "absolute",
+                              top: "10px",
+                              right: "10px",
+                              cursor: "pointer",
+                              zIndex: 1000,
+                            }}
+                            onClick={cancelImg}
+                          >
+                            <AiOutlineCloseCircle
+                              size={24}
+                              style={{ color: "red" }}
+                            />
+                          </span>
+                        )
                       )}
                     </div>
                   </div>
