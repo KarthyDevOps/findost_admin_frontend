@@ -9,6 +9,7 @@ import "./style.scss";
 import cloudIcon from "../../../../assets/images/uploadcloud.svg";
 //internal components
 import InputBox from "component/common/InputBox/InputBox";
+import Loader from "component/common/Loader";
 import CustomController from "component/common/Controller";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import FormErrorMessage from "component/common/ErrorMessage";
@@ -39,6 +40,8 @@ const AddProductcomp = ({ create, view, remove }) => {
   const [loading, setLoading] = useState(false);
   const [newProductImg, setNewProductImg] = useState(null);
   const [ProductIcon, setProductIcon] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const options = [
     {
       label: "Mutual Funds",
@@ -132,6 +135,8 @@ const AddProductcomp = ({ create, view, remove }) => {
   };
 
   const handleDrop = async (droppedimage) => {
+    try {
+      setIsLoading(true);
     let body = new FormData();
     for (let index = 0; index < droppedimage.length; index++) {
       const file = droppedimage[index];
@@ -142,6 +147,9 @@ const AddProductcomp = ({ create, view, remove }) => {
         setProductIcon(response?.data?.data?.data?.s3URL);
       }
     }
+  } catch (e) {
+    console.log("e :>> ", e);
+  }
   };
   const cancelImg = (e) => {
     e.stopPropagation();
@@ -257,7 +265,13 @@ const AddProductcomp = ({ create, view, remove }) => {
                             </div>
                           </>
                         )}
-                        {ProductIcon && (
+                          {isLoading ? (
+                        <Loader
+                          loading={isLoading}
+                          className="d-flex align-items-center justify-content-center"
+                        />
+                      ) : (
+                        ProductIcon && (
                           <span
                             style={{
                               position: "absolute",
@@ -274,7 +288,8 @@ const AddProductcomp = ({ create, view, remove }) => {
                               style={{ color: "red" }}
                             />
                           </span>
-                        )}
+                        )
+                      )}
                       </div>
                     </div>
                   )}

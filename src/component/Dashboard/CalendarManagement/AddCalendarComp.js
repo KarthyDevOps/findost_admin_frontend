@@ -4,6 +4,7 @@ import "./style.scss";
 // images
 import cloudIcon from "assets/images/uploadcloud.svg";
 //internal components
+import Loader from "component/common/Loader";
 import CustomController from "component/common/Controller";
 import FormErrorMessage from "component/common/ErrorMessage";
 import InputBox from "component/common/InputBox/InputBox";
@@ -39,6 +40,7 @@ const AddCalendarComp = ({ calendarAccess }) => {
   const [image, setImage] = useState("");
   const [editEvent, setEditEvent] = useState(false);
   const [date, setDate] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const id = localStorage.getItem("editId");
   let today = new Date();
 
@@ -134,15 +136,21 @@ const AddCalendarComp = ({ calendarAccess }) => {
   };
 
   const handleDrop = async (droppedimage) => {
-    let body = new FormData();
-    for (let index = 0; index < droppedimage.length; index++) {
-      const file = droppedimage[index];
-      body.append("data", file);
-      let response = await uploadImage(body);
-      if (response.status == 200) {
-        setImageUrl(response?.data?.data?.data?.key);
-        setImage(response?.data?.data?.data?.s3URL);
+    try {
+      setIsLoading(true);
+      let body = new FormData();
+      for (let index = 0; index < droppedimage.length; index++) {
+        const file = droppedimage[index];
+        body.append("data", file);
+        let response = await uploadImage(body);
+        if (response.status === 200) {
+          setIsLoading(false);
+          setImageUrl(response?.data?.data?.data?.key);
+          setImage(response?.data?.data?.data?.s3URL);
+        }
       }
+    } catch (e) {
+      console.log("e :>> ", e);
     }
   };
 
@@ -166,14 +174,14 @@ const AddCalendarComp = ({ calendarAccess }) => {
   const disabledMinute = () => {
     const currentMinute = today.getMinutes();
     const disabledMinuteRange = Array.from(
-      { length: currentMinute + 1 },
+      { length: currentMinute },
       (_, i) => i
     );
     return disabledMinuteRange;
   };
 
   const disabledEndMinute = () => {
-    const currentMinute = Number(currentMinuteTime) + 1;
+    const currentMinute = currentMinuteTime;
     const disabledMinuteRange = Array.from(
       { length: currentMinute },
       (_, i) => i
@@ -291,6 +299,7 @@ const AddCalendarComp = ({ calendarAccess }) => {
                             setStartTime(timeString);
                           }}
                           placeholder="Start Time"
+                          clearIcon={false}
                           disabledHours={
                             EventDate === todayDate ? disabledHours : null
                           }
@@ -328,6 +337,8 @@ const AddCalendarComp = ({ calendarAccess }) => {
                             setEndTime(timeString);
                           }}
                           placeholder="End Time"
+                          clearIcon={false}
+                          disabled={!startTime}
                           disabledHours={disabledEndHours}
                           disabledMinutes={disabledEndMinute}
                         />
@@ -396,24 +407,31 @@ const AddCalendarComp = ({ calendarAccess }) => {
                               label="Browse"
                             />
                           </div>
-                        </>
+                        </> 
                       )}
-                      {image && (
-                        <span
-                          style={{
-                            position: "absolute",
-                            top: "10px",
-                            right: "10px",
-                            cursor: "pointer",
-                            zIndex: 1000,
-                          }}
-                          onClick={deleteImage}
-                        >
-                          <AiOutlineCloseCircle
-                            size={24}
-                            style={{ color: "red" }}
-                          />
-                        </span>
+                      {isLoading ? (  
+                        <Loader
+                          loading={isLoading}
+                          className="d-flex align-items-center justify-content-center"
+                        />
+                      ) : (
+                        image && (
+                          <span
+                            style={{
+                              position: "absolute",
+                              top: "10px",
+                              right: "10px",
+                              cursor: "pointer",
+                              zIndex: 1000,
+                            }}
+                            onClick={deleteImage}
+                          >
+                            <AiOutlineCloseCircle
+                              size={24}
+                              style={{ color: "red" }}
+                            />
+                          </span>
+                        )
                       )}
                     </div>
                   </div>

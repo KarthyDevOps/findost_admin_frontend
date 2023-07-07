@@ -75,7 +75,7 @@ const MultiSelect = ({
       }
       setOptions(propsOptions);
     }
-  }, [propsOptions, catId]);
+  }, [propsOptions]);
 
   useEffect(() => {
     if (subPropsOptions) {
@@ -86,7 +86,7 @@ const MultiSelect = ({
       }
       setSubOptions(subPropsOptions);
     }
-  }, [subPropsOptions, subCatId]);
+  }, [subPropsOptions]);
 
   return (
     <div className={styles.search_container} ref={searchRef}>

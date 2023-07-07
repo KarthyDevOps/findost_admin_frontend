@@ -30,7 +30,8 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
   const [SiteFavLogo, setSiteFavLogo] = useState("");
   const [SiteLogoUrl, setSiteLogoUrl] = useState("");
   const [SiteLogo, setSiteLogo] = useState("");
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoad, setIsLoad] = useState(false);
   const id = localStorage.getItem("editId");
 
   const getSiteDetails = async () => {
@@ -98,27 +99,40 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
     }
   };
   const handleDrop = async (droppedimage) => {
-    let body = new FormData();
-    for (let index = 0; index < droppedimage.length; index++) {
-      const file = droppedimage[index];
-      body.append("data", file);
-      let response = await uploadImage(body);
-      if (response.status == 200) {
-        setSiteFavLogoUrl(response?.data?.data?.data?.key);
-        setSiteFavLogo(response?.data?.data?.data?.s3URL);
+    try {
+      setIsLoad(true);
+      let body = new FormData();
+      for (let index = 0; index < droppedimage.length; index++) {
+        const file = droppedimage[index];
+        body.append("data", file);
+        let response = await uploadImage(body);
+        if (response.status == 200) {
+          setIsLoad(false);
+          setSiteFavLogoUrl(response?.data?.data?.data?.key);
+          setSiteFavLogo(response?.data?.data?.data?.s3URL);
+        }
       }
+    } catch (e) {
+      console.log("e :>> ", e);
     }
   };
+
   const handleDropLogo = async (droppedimage) => {
-    let body = new FormData();
-    for (let index = 0; index < droppedimage.length; index++) {
-      const file = droppedimage[index];
-      body.append("data", file);
-      let response = await uploadImage(body);
-      if (response.status == 200) {
-        setSiteLogoUrl(response?.data?.data?.data?.key);
-        setSiteLogo(response?.data?.data?.data?.s3URL);
+    try {
+      setIsLoading(true);
+      let body = new FormData();
+      for (let index = 0; index < droppedimage.length; index++) {
+        const file = droppedimage[index];
+        body.append("data", file);
+        let response = await uploadImage(body);
+        if (response.status == 200) {
+          setIsLoading(false);
+          setSiteLogoUrl(response?.data?.data?.data?.key);
+          setSiteLogo(response?.data?.data?.data?.s3URL);
+        }
       }
+    } catch (e) {
+      console.log("e :>> ", e);
     }
   };
   const deleteFavLogo = (e) => {
@@ -226,7 +240,12 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                         <div {...getRootProps({ className: "dropzone" })}>
                           <div className=" border border-secondary-subtle   ">
                             <input {...getInputProps()} multiple={false} />
-                            {SiteFavLogo ? (
+                            {isLoad ? (
+                              <Loader
+                                loading={isLoad}
+                                className="d-flex align-items-center justify-content-center"
+                              />
+                            ) : SiteFavLogo ? (
                               <>
                                 <img
                                   src={SiteFavLogo}
@@ -297,7 +316,12 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                         <div {...getRootProps({ className: "dropzone" })}>
                           <div className=" border border-secondary-subtle   ">
                             <input {...getInputProps()} multiple={false} />
-                            {SiteLogo ? (
+                            {isLoading ? (
+                              <Loader
+                                loading={isLoading}
+                                className="d-flex align-items-center justify-content-center"
+                              />
+                            ) : SiteLogo ? (
                               <>
                                 <img
                                   src={SiteLogo}
