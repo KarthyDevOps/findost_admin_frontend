@@ -43,18 +43,10 @@ const AddCalendarComp = ({ calendarAccess }) => {
   const [isLoading, setIsLoading] = useState(false);
   const id = localStorage.getItem("editId");
   let today = new Date();
-
-  // Time validation
-  const EventDate = moment(date).format("MMM DD YYYY");
   const currentDate = new Date();
   currentDate.setHours(0, 0, 0, 0);
   const todayDate = moment(currentDate).format("MMM DD YYYY");
-
-  const currentStartTime =
-    startTime.length > 7 ? startTime.slice(0, 2) : startTime.slice(0, 1);
-
-  const currentMinuteTime =
-    startTime.length > 7 ? startTime.slice(3, 5) : startTime.slice(2, 4);
+  const EventDate = moment().format("MMM DD YYYY");
 
   const getEventDetails = async () => {
     try {
@@ -82,6 +74,44 @@ const AddCalendarComp = ({ calendarAccess }) => {
   };
 
   const onSubmit = async (data) => {
+    // Time Validation
+    const currentTime = moment().format("HH:mm");
+    const newStartTime = moment(startTime, "hh:mm A").format("HH:mm");
+    const newEndTime = moment(endTime, "hh:mm A").format("HH:mm");
+    if (startTime == endTime) {
+      Toast({ type: "info", message: "start and end time should not be same" });
+      return;
+    }
+
+    if (
+      EventDate == moment(date).format("MMM DD YYYY") &&
+      newStartTime < currentTime
+    ) {
+      Toast({ type: "info", message: "Previous time not allowed" });
+      return;
+    }
+
+    if (
+      EventDate == moment(date).format("MMM DD YYYY") &&
+      newStartTime > newEndTime
+    ) {
+      Toast({
+        type: "info",
+        message: "End time should be greater than start time.",
+      });
+      return;
+    }
+    if (
+      EventDate !== moment(date).format("MMM DD YYYY") &&
+      startTime > endTime
+    ) {
+      Toast({
+        type: "info",
+        message: "End time should be greater than start time.",
+      });
+      return;
+    }
+
     if (!editEvent) {
       try {
         setLoading(true);
@@ -157,36 +187,6 @@ const AddCalendarComp = ({ calendarAccess }) => {
   const deleteImage = (e) => {
     e.stopPropagation();
     setImage(null);
-  };
-
-  const disabledHours = () => {
-    const currentHour = today.getHours() % 12 || 12;
-    const disabledHourRange = Array.from({ length: currentHour }, (_, i) => i);
-    return disabledHourRange;
-  };
-
-  const disabledEndHours = () => {
-    const currentHour = currentStartTime;
-    const disabledHourRange = Array.from({ length: currentHour }, (_, i) => i);
-    return disabledHourRange;
-  };
-
-  const disabledMinute = () => {
-    const currentMinute = today.getMinutes();
-    const disabledMinuteRange = Array.from(
-      { length: currentMinute },
-      (_, i) => i
-    );
-    return disabledMinuteRange;
-  };
-
-  const disabledEndMinute = () => {
-    const currentMinute = currentMinuteTime;
-    const disabledMinuteRange = Array.from(
-      { length: currentMinute },
-      (_, i) => i
-    );
-    return disabledMinuteRange;
   };
 
   useEffect(() => {
@@ -271,7 +271,7 @@ const AddCalendarComp = ({ calendarAccess }) => {
                 />
               </div>
             </div>
-            <div className="col-md-4">
+            <div className="col-md-4 startTimeHead">
               <label>Start Time</label>
               <div className="time-zone">
                 <CustomController
@@ -300,12 +300,6 @@ const AddCalendarComp = ({ calendarAccess }) => {
                           }}
                           placeholder="Start Time"
                           clearIcon={false}
-                          disabledHours={
-                            EventDate === todayDate ? disabledHours : null
-                          }
-                          disabledMinutes={
-                            EventDate === todayDate ? disabledMinute : null
-                          }
                         />
                       </Space>
                     );
@@ -339,8 +333,6 @@ const AddCalendarComp = ({ calendarAccess }) => {
                           placeholder="End Time"
                           clearIcon={false}
                           disabled={!startTime}
-                          disabledHours={disabledEndHours}
-                          disabledMinutes={disabledEndMinute}
                         />
                       </Space>
                     );
@@ -348,7 +340,7 @@ const AddCalendarComp = ({ calendarAccess }) => {
                 />
               </div>
             </div>
-            <div className="col-4 my-3">
+            <div className="col-4 my-3 p-0">
               <label>Meet Link</label>
               <InputBox
                 className="add_staff"
@@ -407,9 +399,9 @@ const AddCalendarComp = ({ calendarAccess }) => {
                               label="Browse"
                             />
                           </div>
-                        </> 
+                        </>
                       )}
-                      {isLoading ? (  
+                      {isLoading ? (
                         <Loader
                           loading={isLoading}
                           className="d-flex align-items-center justify-content-center"
