@@ -26,7 +26,7 @@ import Temp_a from "assets/images/Temp_a.svg";
 import calendarMt from "assets/images/CalendarIA.svg";
 import calenderD from "assets/images/calendarD.svg";
 import feeIA from "assets/images/feeIA.svg";
-import feeDark from "assets/images/feeDark.svg";
+import feeDark from "assets/images/FeeDark.svg";
 
 // internal components
 import { reducers } from "../reducer";
@@ -383,10 +383,6 @@ export const roleOptions = [
   {
     label: "All",
     value: "all",
-  },
-  {
-    label: "Super Admin",
-    value: "SUPER ADMIN",
   },
   {
     label: "Admin",
