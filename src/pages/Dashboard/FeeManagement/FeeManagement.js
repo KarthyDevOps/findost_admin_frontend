@@ -4,21 +4,14 @@ import { useSelector } from "react-redux";
 import FeeManagementComp from "component/Dashboard/FeeManagementComp/FeeManagementComp";
 
 const FeeManagement = () => {
-  // access for segment management
-  const segmentAccess = useSelector(
-    (state) => state?.home?.privileges?.segmentManagement
-  );
-  // access for segment management
-  const registrationAccess = useSelector(
-    (state) => state?.home?.privileges?.registersettingsManagement
+  // access for Fee management
+  const feeAccess = useSelector(
+    (state) => state?.home?.privileges?.feeManagement
   );
 
   return (
     <div>
-      <FeeManagementComp
-        segmentAccess={segmentAccess}
-        registrationAccess={registrationAccess}
-      />
+      <FeeManagementComp feeAccess={feeAccess} />
     </div>
   );
 };

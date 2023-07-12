@@ -438,7 +438,7 @@ const AddFaqComp = ({ create, view, remove }) => {
           modalOpen={subCategoryModal}
           onCancel={() => setSubCategoryModal(false)}
           categoryId={categoryId}
-          refresh={() => listSubCategorys(currentPage)}
+          refresh={() => listSubCategorys(categoryId)}
         />
       </div>
     </div>

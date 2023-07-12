@@ -49,8 +49,7 @@ function Sidebar({ classes, window, privilegesData }) {
     siteSettingsManagement,
     staffManagement,
     templateManagement,
-    segmentManagement,
-    registersettingsManagement,
+    feeManagement,
     scheduleManagement
   } = privilegesData ?? {};
 
@@ -72,8 +71,7 @@ function Sidebar({ classes, window, privilegesData }) {
               if (!siteSettingsManagement?.view && to?.startsWith("/admin/site-settings")) return;
               if (!clientFamilyManagement?.view && to?.startsWith("/admin/clients-family")) return;
               if (!scheduleManagement?.view && to?.startsWith("/admin/calendar-management")) return;
-              if (!registersettingsManagement?.view && to?.startsWith("/admin/fee-management")) return;
-              if (!segmentManagement?.view && to?.startsWith("/admin/fee-management")) return;
+              if (!feeManagement?.view && to?.startsWith("/admin/fee-management")) return;
               return (
                 <>
                   <NavLink

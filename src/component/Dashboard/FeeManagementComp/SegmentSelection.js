@@ -16,8 +16,7 @@ import { bulkDeleteSegment, deleteSegment, getSegmentList } from "service/Auth";
 import { history, debounceFunction } from "helpers";
 
 const SegmentSelection = ({
-  segmentAccess,
-  registrationAccess,
+  feeAccess,
   currentPage,
   setCurrentPage,
   pageCount,
@@ -178,7 +177,7 @@ const SegmentSelection = ({
         </div>
         <div className="col-md-5"></div>
         <div className="col-md-2">
-          {bulkDelete && segmentAccess?.remove && (
+          {bulkDelete && feeAccess?.remove && (
             <NormalButton
               className="authButton1"
               label={"Delete"}
@@ -186,7 +185,7 @@ const SegmentSelection = ({
             />
           )}
         </div>
-        {segmentAccess?.create && (
+        {feeAccess?.create && (
           <div className="col-md-2 m-0">
             <NormalButton
               loginButton1
@@ -209,8 +208,8 @@ const SegmentSelection = ({
           <div className=" px-3">
             <TableComp
               data={data}
-              EditAction={segmentAccess?.edit}
-              DeleteAction={segmentAccess?.remove}
+              EditAction={feeAccess?.edit}
+              DeleteAction={feeAccess?.remove}
               includedKeys={includedKeys}
               pageCount={pageCount}
               currentPage={currentPage}
@@ -225,8 +224,8 @@ const SegmentSelection = ({
         ) : (
           <div className=" px-3">
             <EmptyTable
-              EditAction={segmentAccess?.edit}
-              DeleteAction={segmentAccess?.remove}
+              EditAction={feeAccess?.edit}
+              DeleteAction={feeAccess?.remove}
               includedKeys={includedKeys}
             />
             <p className="d-flex align-items-center justify-content-center mt-5 pt-5">
