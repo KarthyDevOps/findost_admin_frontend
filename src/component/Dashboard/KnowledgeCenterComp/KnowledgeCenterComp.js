@@ -265,7 +265,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
             <InputBox
               className="login_input Notification_input"
               type={"text"}
-              placeholder="Search by Id, Title, Email"
+              placeholder="Search by Id, Title"
               name="search"
               Iconic
               Search

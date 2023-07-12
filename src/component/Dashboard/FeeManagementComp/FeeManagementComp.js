@@ -14,7 +14,7 @@ import SegmentSelection from "./SegmentSelection";
 import FormErrorMessage from "component/common/ErrorMessage";
 import { getRegisterFee, updateRegisterFee } from "service/Auth";
 
-const FeeManagementComp = ({ segmentAccess, registrationAccess }) => {
+const FeeManagementComp = ({ feeAccess }) => {
   const { register, handleSubmit, errors, reset } = useForm({
     mode: "onChange",
   });
@@ -129,12 +129,11 @@ const FeeManagementComp = ({ segmentAccess, registrationAccess }) => {
             currentPage={currentPage}
             pageCount={pageCount}
             setPageCount={setPageCount}
-            segmentAccess={segmentAccess}
-            registrationAccess={registrationAccess}
+            feeAccess={feeAccess}
           />
         </>
       ) : (
-        registrationAccess?.create && (
+        feeAccess?.create && (
           <>
             <div className="add_faq py-3">
               <form>
@@ -191,7 +190,7 @@ const FeeManagementComp = ({ segmentAccess, registrationAccess }) => {
                         onClick={() => history.push("/admin/fee-management")}
                       />
                     </div>
-                    {registrationAccess?.create && (
+                    {feeAccess?.create && (
                       <div className="col-md-2 pl-3 p-0">
                         <NormalButton
                           className="loginButton"

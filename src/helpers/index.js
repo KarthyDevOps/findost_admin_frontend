@@ -26,7 +26,7 @@ import Temp_a from "assets/images/Temp_a.svg";
 import calendarMt from "assets/images/CalendarIA.svg";
 import calenderD from "assets/images/calendarD.svg";
 import feeIA from "assets/images/feeIA.svg";
-import feeDark from "assets/images/FeeDark.svg";
+import feeDark from "assets/images/feeDark.svg";
 
 // internal components
 import { reducers } from "../reducer";
@@ -302,7 +302,7 @@ export const navLink = [
     label: "Calendar Management",
     iconName: calenderD,
     inactiveIcon: calendarMt,
-    privilegesName: "calendarManagement",
+    privilegesName: "scheduleManagement",
   },
   {
     to: "/admin/template-management",
@@ -349,7 +349,7 @@ export const navLink = [
 ];
 
 export const getCompNameByPrivelegeName = (name) =>
-  navLink?.find((a) => a?.privilegesName === name)?.label || name;
+navLink?.find((a) => a?.privilegesName === name)?.label || name;
 
 export const checkAndReturnViewableComponent = (
   previleges,
@@ -410,8 +410,7 @@ export const managementOptions = {
   knowledgeCenterManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   clientFamilyManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   siteSettingsManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-  segmentManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
-  registersettingsManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+  feeManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   scheduleManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
 };
 

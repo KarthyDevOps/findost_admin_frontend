@@ -126,7 +126,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
             style={{ cursor: "pointer" }}
           />
         </i>
-        <p className="m-0">{"Client’s Family"}</p>
+        <h6 className="m-0">{"Edit Client's Family"}</h6>
       </div>
       <form>
         <div className="client_box p-5">

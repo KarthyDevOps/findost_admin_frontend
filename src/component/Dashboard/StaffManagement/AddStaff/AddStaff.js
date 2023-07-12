@@ -88,8 +88,7 @@ const AddStaff = ({ create, view, remove }) => {
             knowledgeCenterManagement: data.knowledgeCenterManagement,
             siteSettingsManagement: data.siteSettingsManagement,
             clientFamilyManagement: data.clientFamilyManagement,
-            segmentManagement: data.segmentManagement,
-            registersettingsManagement: data.registersettingsManagement,
+            feeManagement: data.feeManagement,
             scheduleManagement: data.scheduleManagement,
           },
         };
@@ -134,8 +133,7 @@ const AddStaff = ({ create, view, remove }) => {
             knowledgeCenterManagement: data.knowledgeCenterManagement,
             siteSettingsManagement: data.siteSettingsManagement,
             clientFamilyManagement: data.clientFamilyManagement,
-            segmentManagement: data.segmentManagement,
-            registersettingsManagement: data.registersettingsManagement,
+            feeManagement: data.feeManagement,
             scheduleManagement: data.scheduleManagement,
           },
         };
@@ -309,40 +307,42 @@ const AddStaff = ({ create, view, remove }) => {
                   minLength: edit
                     ? false
                     : {
-                      value: 8,
-                    },
+                        value: 8,
+                      },
                   maxLength: edit
                     ? false
                     : {
-                      value: 16,
-                    },
+                        value: 16,
+                      },
                   pattern: edit
                     ? false
                     : {
-                      value: /^(?=.*[A-Z])/,
-                    },
+                        value: /^(?=.*[A-Z])/,
+                      },
                   validate: edit
                     ? false
                     : {
-                      lowercase: (value) =>
-                        /^(?=.*[a-z])/.test(value),
-                      containsDigit: (value) => /^(?=.*[0-9])/.test(value),
-                      containsSpecial: (value) =>
-                        /^(?=.*[!@#$%^&*])/.test(value),
-                    },
+                        lowercase: (value) => /^(?=.*[a-z])/.test(value),
+                        containsDigit: (value) => /^(?=.*[0-9])/.test(value),
+                        containsSpecial: (value) =>
+                          /^(?=.*[!@#$%^&*])/.test(value),
+                      },
                 })}
               />
 
               <FormErrorMessage
                 error={errors.password}
                 messages={{
-                  required: "Password is required",
+                  required: "Password is Required",
                   minLength: "Password must contain at least 8 letters",
                   maxLength: "Password should contain at most 16 characters",
-                  pattern: "Password must contain at least one uppercase letter",
-                  lowercase: "Password must contain at least one lowercase letter",
+                  pattern:
+                    "Password must contain at least one uppercase letter",
+                  lowercase:
+                    "Password must contain at least one lowercase letter",
                   containsDigit: "Password must contain at least one Numeric",
-                  containsSpecial: "Password must contain at least one special character",
+                  containsSpecial:
+                    "Password must contain at least one special character",
                 }}
               />
             </div>

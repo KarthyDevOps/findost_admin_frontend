@@ -227,7 +227,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                   <FormErrorMessage
                     error={errors.title}
                     messages={{
-                      required: "Title is required",
+                      required: "Title is Required",
                       pattern: "Please Enter a Valid Title",
                     }}
                   />

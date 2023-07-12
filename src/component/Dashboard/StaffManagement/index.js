@@ -23,6 +23,8 @@ const StaffManagementComp = ({ create, view, edit, remove }) => {
     mode: "onChange",
   });
 
+  console.log('edit,remove :>> ', edit,remove);
+
   const [data, setData] = useState([]);
   const [searchStaff, setSearchStaff] = useState("");
   const [role, setRole] = useState("");
