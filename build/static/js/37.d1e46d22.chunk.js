@@ -1,2 +1,0 @@
-(this.webpackJsonpadmin=this.webpackJsonpadmin||[]).push([[37,131],{176:function(e,n,a){"use strict";a.r(n),a.d(n,"default",(function(){return r}));var t=a(108),i=a(1),c=a.n(i),o=a(1292),s=(a(688),["handleChange"]);function r(e){var n=e.handleChange,a=Object(t.a)(e,s);return c.a.createElement(o.a,Object.assign({},a,{id:"timepicker",step:a.step,enabled:!0,allowEdit:!1,openOnFocus:!0,showClearButton:!1,placeholder:"Select a Time",onChange:n}))}},688:function(e,n,a){}}]);
-//# sourceMappingURL=37.d1e46d22.chunk.js.map
