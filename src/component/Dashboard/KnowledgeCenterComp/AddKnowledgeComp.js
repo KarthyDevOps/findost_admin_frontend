@@ -204,10 +204,10 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           if (response.status === 200) {
             setModal(true);
             setTimeout(() => {
-              setModal(false);
-              setloading(false);
-              reset(KnowledgeDetails);
-              history.push("/admin/knowledge-center");
+              // setModal(false);
+              // setloading(false);
+              // reset(KnowledgeDetails);
+              // history.push("/admin/knowledge-center");
             }, 2000);
           } else {
             setloading(false);
