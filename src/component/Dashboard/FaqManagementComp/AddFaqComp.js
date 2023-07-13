@@ -380,7 +380,7 @@ const AddFaqComp = ({ create, view, remove }) => {
               error={errors.content}
               rules={{ required: true }}
               messages={{
-                required: "FAQ status is Required",
+                required: "FAQ Status is Required",
               }}
               render={({ onChange, ...field }) => {
                 return (

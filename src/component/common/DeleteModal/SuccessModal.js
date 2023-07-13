@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Modal } from "antd";
 import "./style.scss";
-import successImg from "assets/images/SuccessImg.svg";
+import successImg from "assets/images/successImg.png";
 
 const SuccessModal = ({ successMsg, modalOpen, onCancel }) => {
   return (
