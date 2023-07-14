@@ -51,6 +51,8 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
   const [edit, setEdit] = useState(false);
   const [newDoc, setNewDoc] = useState(null);
   const [DocURL, setDocURL] = useState("");
+  const [NewImage, setNewImage] = useState(null);
+  const [ImageURL, setImageURL] = useState("");
   const [quill, setQuill] = useState("");
   const [loading, setloading] = useState(false);
   const [category, setCategory] = useState("");
@@ -67,7 +69,11 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
   const [subCatId, setSubCatId] = useState("");
   const [subCategoryId, setSubCategoryId] = useState("");
   const [DocFileName, setDocFileName] = useState("");
+  const [ImageFileName, setImageFileName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingImage, setIsLoadingImage] = useState(false);
+  const [ImageLogo, setImageLogo] = useState("");
+  const [isLoad, setIsLoad] = useState(false);
   const [KnowledgeDetails, setKnowledgeDetails] = useState({
     status: "",
   });
@@ -121,7 +127,9 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
         setSubCatId(data?.subCategory);
         setQuill(data?.description);
         setDocURL(data?.documentPathS3);
+        setImageLogo(data?.image)
         setDocFileName(data?.fileOriginalName);
+        setImageFileName(data?.fileImageOriginalName);
         setKnowledgeDetails({
           category: data.category,
           subcategory: data.subCategory,
@@ -154,6 +162,8 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
             contentUrlLink: data?.contentURL,
             documentPath: newDoc ? newDoc : DocURL,
             fileOriginalName: DocFileName,
+            fileImageOriginalName: ImageFileName,
+            documentImagePath: NewImage ? NewImage : ImageLogo,
           };
           if (KnowledgeDetails.status === "active") {
             body.isActive = true;
@@ -194,6 +204,9 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
             description: data?.content,
             documentPath: newDoc ? newDoc : DocURL,
             fileOriginalName: DocFileName,
+            fileImageOriginalName: ImageFileName,
+            documentImagePath: NewImage ? NewImage : ImageLogo,
+
           };
           if (KnowledgeDetails.status === "active") {
             body.isActive = true;
@@ -204,10 +217,10 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           if (response.status === 200) {
             setModal(true);
             setTimeout(() => {
-              // setModal(false);
-              // setloading(false);
-              // reset(KnowledgeDetails);
-              // history.push("/admin/knowledge-center");
+              setModal(false);
+              setloading(false);
+              reset(KnowledgeDetails);
+              history.push("/admin/knowledge-center");
             }, 2000);
           } else {
             setloading(false);
@@ -249,6 +262,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
     try {
       let params = {
         page: page,
+        type: "knowledgeCenter",
       };
       let response = await getCategoryList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
@@ -298,6 +312,25 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
       console.log("e :>> ", e);
     }
   };
+  const handleDropImage = async (droppedimage) => {
+    try {
+      setIsLoadingImage(true);
+      let body = new FormData();
+      for (let index = 0; index < droppedimage.length; index++) {
+        const file = droppedimage[index];
+        body.append("data", file);
+        setImageFileName(file.name);
+        let response = await uploadImage(body);
+        if (response.status === 200) {
+          setIsLoadingImage(false);
+          setNewImage(response?.data?.data?.data?.key);
+          setImageLogo(response?.data?.data?.data?.s3URL);
+        }
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
+  };
 
   useEffect(() => {
     if (id) {
@@ -311,6 +344,10 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
   const cancelImg = (e) => {
     e.stopPropagation();
     setDocURL(null);
+  };
+  const deleteImage = (e) => {
+    e.stopPropagation();
+    setImageLogo(null);
   };
 
   // Redirect to document
@@ -366,9 +403,9 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 }}
                 id="category"
                 catId={catId}
-                plusSymbol={true}
-                toggle={() => TogglePopup("Category")}
-                btnLabel="Create Category"
+                plusSymbol={false}
+              // toggle={() => TogglePopup("Category")}
+              // btnLabel="Create Category"
               />
               {!category && isSubmit && (
                 <span style={{ color: "#dc3545" }} className="">
@@ -418,11 +455,46 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 }}
               />
             </div>
+
+            <div className="col-4 my-3">
+              <label>Status</label>
+              <CustomController
+                name={"status"}
+                control={control}
+                error={errors.status}
+                defaultValue={KnowledgeDetails.status}
+                value={status.find(
+                  (option) => option.value === getValues("status")
+                )}
+                rules={{ required: true }}
+                messages={{ required: "Status is Required" }}
+                render={({ onChange, ...field }) => {
+                  return (
+                    <DropDown
+                      {...field}
+                      name="status"
+                      placeholder="Select Status"
+                      options={status}
+                      onChange={(option) => {
+                        setKnowledgeDetails((prevState) => ({
+                          ...prevState,
+                          status: option.value,
+                        }));
+                        onChange(option.value);
+                      }}
+                    />
+                  );
+                }}
+              />
+            </div>
+          </div>
+          <div className="row">
+
             <div className="col-4 mt-3 mb-4">
               <label className="Product_description">Upload Document</label>
               <Dropzone
                 onDrop={handleDrop}
-                accept=".pdf,xl,.xlsx,doc"
+                accept=".pdf,xl,.xlsx,.doc,.jpg,.png"
                 maxSize={3072000}
                 errors={errors}
                 {...register("dropZoneField", {
@@ -496,38 +568,87 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 />
               )}
             </div>
-            <div className="col-4 my-3">
-              <label>Status</label>
-              <CustomController
-                name={"status"}
-                control={control}
-                error={errors.status}
-                defaultValue={KnowledgeDetails.status}
-                value={status.find(
-                  (option) => option.value === getValues("status")
+
+            <div className="col-4 mt-3 mb-4">
+              <label className="Product_description">Image Thumbanail</label>
+              <Dropzone
+                onDrop={handleDropImage}
+                accept=".jpg,.png"
+                maxSize={3072000}
+                errors={errors}
+                {...register("dropZoneField", {
+                  required: NewImage || ImageURL ? false : true,
+                })}
+              >
+                {({ getRootProps, getInputProps }) => (
+                  <div {...getRootProps({ className: "dropzone" })}>
+                    <div className=" border border-secondary-subtle   ">
+                      <input {...getInputProps()} multiple={false} />
+                      {ImageLogo ? (
+                        <div className="doc_name_display">
+                          <img
+                            src={ImageLogo}
+                            alt="image"
+                            className="preview_image"
+                          ></img>
+                          <p onClick={handleRedirect}>{ImageFileName}</p>
+                        </div>
+                      ) : (
+                        <>
+                          <span className="cloud_icon">
+                            <img src={cloudIcon} alt="icon"></img>
+                          </span>
+                          <div className="drag_text">
+                            <p>Drag your files here to start uploading or</p>
+                          </div>
+                          <div className="drag_btn">
+                            <NormalButton
+                              onClick={(e) => e.preventDefault()}
+                              uploadBrowseBtn
+                              label="Browse"
+                            />
+                          </div>
+                        </>
+                      )}
+                      {isLoadingImage ? (
+                        <Loader
+                          loading={isLoadingImage}
+                          className="d-flex align-items-center justify-content-center"
+                        />
+                      ) : (
+                        ImageLogo && (
+                          <span
+                            style={{
+                              position: "absolute",
+                              top: "10px",
+                              right: "10px",
+                              cursor: "pointer",
+                              zIndex: 1000,
+                            }}
+                            onClick={deleteImage}
+                          >
+                            <AiOutlineCloseCircle
+                              size={24}
+                              style={{ color: "red" }}
+                            />
+                          </span>
+                        )
+                      )}
+                    </div>
+                  </div>
                 )}
-                rules={{ required: true }}
-                messages={{ required: "Status is Required" }}
-                render={({ onChange, ...field }) => {
-                  return (
-                    <DropDown
-                      {...field}
-                      name="status"
-                      placeholder="Select Status"
-                      options={status}
-                      onChange={(option) => {
-                        setKnowledgeDetails((prevState) => ({
-                          ...prevState,
-                          status: option.value,
-                        }));
-                        onChange(option.value);
-                      }}
-                    />
-                  );
-                }}
-              />
+              </Dropzone>
+              {!NewImage && (
+                <FormErrorMessage
+                  error={errors.dropZoneField}
+                  messages={{
+                    required: "Document is Required",
+                  }}
+                />
+              )}
             </div>
           </div>
+
           <div>
             <label>Description</label>
             <CustomController
