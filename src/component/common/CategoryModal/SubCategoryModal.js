@@ -77,7 +77,7 @@ const SubCategoryModal = ({ modalOpen, onCancel, categoryId, refresh }) => {
             <NormalButton
               className="loginButton"
               onClick={handleSubmit(onSubmit)}
-              label={"Add SubCategory"}
+              label={"Add Sub Category"}
             />
           </div>
         </div>
