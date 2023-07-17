@@ -37,7 +37,7 @@ const SubCategoryModal = ({ modalOpen, onCancel, categoryId, refresh }) => {
           onCancel();
         }, 2000);
       } else {
-        Toast({ type: "error", message: "Category Id is Not Allowed to be Empty" });
+        Toast({ type: "error", message: response.data.message });
       }
     } catch (e) {
       console.log("e :>> ", e);

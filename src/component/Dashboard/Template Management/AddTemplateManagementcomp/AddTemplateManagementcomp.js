@@ -60,10 +60,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
       label: "Predefined Text Message",
       value: "Predefined Text Message",
     },
-    {
-      label: " Broadcast Message To All",
-      value: "Broadcast Message To All",
-    },
+  
   ];
 
   const Templateoptions = [
