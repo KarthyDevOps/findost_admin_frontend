@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 //styles
 import "./style.scss";
 //internal components
+import MultiSelect from "component/common/MultiSelect";
 import InputBox from "component/common/InputBox/InputBox";
 import FormErrorMessage from "component/common/ErrorMessage";
 import TextEditor from "component/common/TextEditor/TextEditor";
@@ -11,11 +12,12 @@ import NormalButton from "component/common/NormalButton/NormalButton";
 import DropDown from "component/common/DropDown/DropDown";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 //services
-import { addTemplate, getTemplate, updateTemplate } from "service/Cms";
+import { addTemplate, getCategoryList, getTemplate, updateTemplate } from "service/Cms";
 import CustomController from "component/common/Controller";
 import { Toast } from "service/toast";
 //helpers
 import { history } from "helpers";
+import CategoryModal from "component/common/CategoryModal/CategoryModal";
 
 const AddTempleteManagementcomp = ({ create, view, remove }) => {
   const {
@@ -34,22 +36,48 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
   const [modal, setModal] = useState(false);
   const [quill, setQuill] = useState("");
   const [loading, setLoading] = useState(false);
+  const [categoryList, setCategoryList] = useState([]);
+  const [category, setCategory] = useState("");
+  const [catId, setCatId] = useState("");
+  const [isSubmit, setIsSubmit] = useState(false);
+  const [categoryId, setCategoryId] = useState("");
+  const [categoryMasterId, setCategoryMasterId] = useState("");
+  const [categoryModal, setCategoryModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const [edit, setEdit] = useState(false);
   const [TemplateDetails, setTemplateDetails] = useState({
     type: "",
     status: "",
+    Templatetype: " ",
   });
   // console.log('first', TemplateDetails)
   const options = [
     {
-      label: " Pre Template Message",
-      value: "pre template message",
+      label: "Template Based Message",
+      value: "Template Based Message",
     },
     {
-      label: " Post Template Message",
-      value: "post template message",
+      label: "Predefined Text Message",
+      value: "Predefined Text Message",
+    },
+  
+  ];
+
+  const Templateoptions = [
+    {
+      label: "Images",
+      value: "Images",
+    },
+    {
+      label: "Text",
+      value: "Text",
+    },
+    {
+      label: "Infographics",
+      value: "Infographics",
     },
   ];
+
   const status = [
     {
       label: "Active",
@@ -67,6 +95,9 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
     setValue(
       "type",
       options.find((option) => option.value === TemplateDetails.type)
+    ); setValue(
+      "Templatetype",
+      Templateoptions.find((option) => option.value === TemplateDetails.Templatetype)
     );
     setValue(
       "status",
@@ -125,6 +156,8 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
           title: data.title,
           description: data.content,
           type: TemplateDetails.type,
+          Template: TemplateDetails.Templatetype,
+
         };
         if (TemplateDetails.status === "active") {
           body.isActive = true;
@@ -165,6 +198,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
           title: data.title,
           description: data.content,
           type: TemplateDetails.type,
+          Template: TemplateDetails.Templatetype,
         };
         if (TemplateDetails.status === "active") {
           body.isActive = true;
@@ -187,6 +221,43 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
       } catch (e) {
         console.log(e);
       }
+    }
+  };
+
+  const handleFormSubmit = (e) => {
+    setIsSubmit(true);
+    e.preventDefault();
+    handleSubmit(onSubmit)();
+  };
+
+
+  const listCategorys = async (page) => {
+    try {
+      let params = {
+        page: page,
+        type: "Faq",
+      };
+      let response = await getCategoryList(params);
+      if (response.status === 200 && response?.data?.data?.list.length > 0) {
+        setCategoryList(response?.data?.data?.list);
+      } else {
+        setCategoryList([]);
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
+  };
+
+  const handlecategoryId = (option) => {
+    let newCategory = categoryList.find((x) => x.name === option);
+    setCategoryId(newCategory?.categoryId);
+    setCategoryMasterId(newCategory?._id);
+    // listSubCategorys(newCategory?.categoryId);
+  };
+
+  const TogglePopup = (type) => {
+    if (type === "Category") {
+      setCategoryModal(true);
     }
   };
 
@@ -293,6 +364,64 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                   />
                 </div>
               </div>
+              <div class="row gx-5">
+                {TemplateDetails.type === "Template Based Message" &&
+
+                  <div class="col-4">
+                    <label className="Product_description">Template Type</label>
+                    <CustomController
+                      name={"Templatetype"}
+                      control={control}
+                      error={errors.Templatetype}
+                      // defaultValue={role}
+                      value={Templateoptions.find(
+                        (option) => option.value === getValues("Templatetype")
+                      )}
+                      rules={{ required: true }}
+                      messages={{ required: "Template type is Required" }}
+                      render={({ onChange, ...field }) => {
+                        return (
+                          <DropDown
+                            {...field}
+                            name="Templatetype"
+                            placeholder="Select Template Status"
+                            options={Templateoptions}
+                            onChange={(Templatetype) => {
+                              setTemplateDetails((prevState) => ({
+                                ...prevState,
+                                Templatetype: Templatetype.value,
+                              }));
+                              onChange(Templatetype.value);
+                            }}
+                          />
+                        );
+                      }}
+                    />
+                  </div>
+                }
+                <div className="col-4 mt-2">
+                  <label>Category</label>
+                  <MultiSelect
+                    options={categoryList}
+                    placeholder="Select Category"
+                    defaultValue={category}
+                    onChange={(option) => {
+                      setCategory(option);
+                      handlecategoryId(option);
+                    }}
+                    id="category"
+                    catId={catId}
+                    plusSymbol={true}
+                    toggle={() => TogglePopup("Category")}
+                    btnLabel="Create Category"
+                  />
+                  {!category && isSubmit && (
+                    <span style={{ color: "#dc3545" }} className="">
+                      Category is Required
+                    </span>
+                  )}
+                </div>
+              </div>
               <div className="row gx-5 mt-4">
                 <div className="col">
                   <label className="Product_description ms-3">
@@ -339,7 +468,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                   <div className="col-2 ">
                     <NormalButton
                       loginButton
-                      onClick={handleSubmit(onSubmit)}
+                      onClick={handleFormSubmit}
                       label={!edit ? "Add Template" : "Update"}
                       isLoading={loading}
                     >
@@ -360,6 +489,13 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                 ? "Template Message Content Updated Successfully"
                 : "New Template Added Successfully"
             }
+          />
+        </div>
+        <div>
+          <CategoryModal
+            modalOpen={categoryModal}
+            onCancel={() => setCategoryModal(false)}
+            refresh={() => listCategorys(currentPage)}
           />
         </div>
       </div>

@@ -349,7 +349,7 @@ export const navLink = [
 ];
 
 export const getCompNameByPrivelegeName = (name) =>
-navLink?.find((a) => a?.privilegesName === name)?.label || name;
+  navLink?.find((a) => a?.privilegesName === name)?.label || name;
 
 export const checkAndReturnViewableComponent = (
   previleges,

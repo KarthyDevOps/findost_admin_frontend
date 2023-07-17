@@ -202,8 +202,8 @@ const AddFaqComp = ({ create, view, remove }) => {
   };
 
   const handleFormSubmit = (e) => {
-    e.preventDefault();
-    setIsSubmit(true);
+   setIsSubmit(true);
+     e.preventDefault();
     handleSubmit(onSubmit)();
   };
 
@@ -211,6 +211,7 @@ const AddFaqComp = ({ create, view, remove }) => {
     try {
       let params = {
         page: page,
+        type: "Faq",
       };
       let response = await getCategoryList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
