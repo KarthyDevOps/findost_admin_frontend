@@ -1,12 +1,18 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { useForm } from "react-hook-form";
+import Dropzone from "react-dropzone";
+import { AiOutlineCloseCircle } from "react-icons/ai";
+
 //styles
 import "./style.scss";
+//assets
+import cloudIcon from "../../../../assets/images/uploadcloud.svg";
 //internal components
 import MultiSelect from "component/common/MultiSelect";
 import InputBox from "component/common/InputBox/InputBox";
 import FormErrorMessage from "component/common/ErrorMessage";
+import Loader from "component/common/Loader/index";
 import TextEditor from "component/common/TextEditor/TextEditor";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import DropDown from "component/common/DropDown/DropDown";
@@ -15,6 +21,8 @@ import SuccessModal from "component/common/DeleteModal/SuccessModal";
 import { addTemplate, getCategoryList, getTemplate, updateTemplate } from "service/Cms";
 import CustomController from "component/common/Controller";
 import { Toast } from "service/toast";
+import { uploadImage } from "service/Auth";
+
 //helpers
 import { history } from "helpers";
 import CategoryModal from "component/common/CategoryModal/CategoryModal";
@@ -45,28 +53,33 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
   const [categoryModal, setCategoryModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [edit, setEdit] = useState(false);
+  const [isLoad, setIsLoad] = useState(false);
+  const [SiteImageLogo, setImageLogo] = useState("");
+  const [categoryType, setcategoryType] = useState("")
+  const [TemplateTypeId, setTemplateTypeId] = useState("");
+
   const [TemplateDetails, setTemplateDetails] = useState({
     type: "",
     status: "",
     Templatetype: " ",
   });
-  // console.log('first', TemplateDetails)
+
   const options = [
     {
       label: "Template Based Message",
-      value: "Template Based Message",
+      value: "template",
     },
     {
       label: "Predefined Text Message",
-      value: "Predefined Text Message",
+      value: "preDefined",
     },
-  
+
   ];
 
   const Templateoptions = [
     {
       label: "Images",
-      value: "Images",
+      value: "Image",
     },
     {
       label: "Text",
@@ -74,7 +87,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
     },
     {
       label: "Infographics",
-      value: "Infographics",
+      value: "Info Graphics",
     },
   ];
 
@@ -103,6 +116,8 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
       "status",
       status.find((option) => option.value === TemplateDetails.status)
     );
+
+
   }, [TemplateDetails, setValue]);
 
   const getTemplateDetails = async () => {
@@ -117,14 +132,20 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
         reset({
           title: data?.title,
           content: data?.description,
+
         });
         setQuill(data?.description);
+        setCatId(data?.categoryId)
 
         console.log("data", data);
+        setImageLogo(data?.imagePath);
         setTemplateDetails({
           type: data.type,
           status: data.isActive ? "active" : "inActive",
+          Templatetype: data.templateType
         });
+        listCategorys(1, data.type === "preDefined" ? "preDefinedText" : data.templateType === "Image" ? "templateTypeImage" : data.templateType === "Text" ? "templateTypeText" : "templateTypeInfoGraphics")
+
       } else {
         Toast({ type: "error", message: response.data.message });
       }
@@ -133,12 +154,36 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
     }
   };
 
+
   useEffect(() => {
     if (templateId) {
       setEdit(true);
       getTemplateDetails();
     }
   }, []);
+
+  const handleDrop = async (droppedimage) => {
+    try {
+      setIsLoad(true);
+      let body = new FormData();
+      for (let index = 0; index < droppedimage.length; index++) {
+        const file = droppedimage[index];
+        body.append("data", file);
+        let response = await uploadImage(body);
+        if (response.status == 200) {
+          setIsLoad(false);
+          setImageLogo(response?.data?.data?.data?.s3URL);
+        }
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
+  };
+
+  const deleteFavLogo = (e) => {
+    e.stopPropagation();
+    setImageLogo(null);
+  };
 
   const onSubmit = async (data) => {
     if (!edit) {
@@ -156,7 +201,9 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
           title: data.title,
           description: data.content,
           type: TemplateDetails.type,
-          Template: TemplateDetails.Templatetype,
+          templateType: TemplateDetails.type === "template" ? TemplateDetails.Templatetype : "",
+          categoryId: TemplateTypeId,
+          imagePath: SiteImageLogo,
 
         };
         if (TemplateDetails.status === "active") {
@@ -198,7 +245,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
           title: data.title,
           description: data.content,
           type: TemplateDetails.type,
-          Template: TemplateDetails.Templatetype,
+          templateType: TemplateDetails.type === "template" ? TemplateDetails.Templatetype : "",
         };
         if (TemplateDetails.status === "active") {
           body.isActive = true;
@@ -231,14 +278,15 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
   };
 
 
-  const listCategorys = async (page) => {
+  const listCategorys = async (page, type) => {
     try {
       let params = {
         page: page,
-        type: "Faq",
+        type: type,
       };
       let response = await getCategoryList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
+        setTemplateTypeId(response?.data?.data?.list[0]._id);
         setCategoryList(response?.data?.data?.list);
       } else {
         setCategoryList([]);
@@ -252,7 +300,6 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
     let newCategory = categoryList.find((x) => x.name === option);
     setCategoryId(newCategory?.categoryId);
     setCategoryMasterId(newCategory?._id);
-    // listSubCategorys(newCategory?.categoryId);
   };
 
   const TogglePopup = (type) => {
@@ -280,9 +327,9 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
         </div>
         <form>
           <div className="d-flex col-12   boder_box align-items-center">
-            <div class="container ">
-              <div class="row gx-5">
-                <div class="col-4">
+            <div className="container ">
+              <div className="row gx-5">
+                <div className="col-4">
                   <label className="Product_description">Message Title</label>
                   <InputBox
                     className="login_input"
@@ -303,7 +350,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                     }}
                   />
                 </div>
-                <div class="col-3">
+                <div className="col-3">
                   <label className="Product_description">Message Type</label>
                   <CustomController
                     name={"type"}
@@ -325,13 +372,17 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                               type: option.value,
                             }));
                             onChange(option.value);
+                            {
+                              option.value === "preDefined" &&
+                                listCategorys(1, "preDefinedText")
+                            }
                           }}
                         />
                       );
                     }}
                   />
                 </div>
-                <div class="col-3">
+                <div className="col-3">
                   <label className="Product_description">Message Status</label>
                   <CustomController
                     name={"status"}
@@ -364,10 +415,10 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                   />
                 </div>
               </div>
-              <div class="row gx-5">
-                {TemplateDetails.type === "Template Based Message" &&
+              <div className="row gx-5">
+                {TemplateDetails.type === "template" &&
 
-                  <div class="col-4">
+                  <div className="col-4">
                     <label className="Product_description">Template Type</label>
                     <CustomController
                       name={"Templatetype"}
@@ -392,6 +443,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                                 Templatetype: Templatetype.value,
                               }));
                               onChange(Templatetype.value);
+                              listCategorys(1, Templatetype.value === "Image" ? "templateTypeImage" : Templatetype.value === "Text" ? "templateTypeText" : "templateTypeInfoGraphics")
                             }}
                           />
                         );
@@ -399,7 +451,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                     />
                   </div>
                 }
-                <div className="col-4 mt-2">
+                <div className="col-3 mt-2">
                   <label>Category</label>
                   <MultiSelect
                     options={categoryList}
@@ -419,6 +471,84 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                     <span style={{ color: "#dc3545" }} className="">
                       Category is Required
                     </span>
+                  )}
+                </div>
+              </div>
+              <div className="row gx-5">
+                <div className="col-4 mt-4">
+                  <label className="Product_description">Image</label>
+
+                  <Dropzone
+                    onDrop={handleDrop}
+                    accept=".png, .jpeg, .jpg, "
+                    maxSize={3072000}
+                    errors={errors}
+                    {...register("dropZoneLogoField", {
+                      required: SiteImageLogo ? false : true,
+                    })}
+                  >
+                    {({ getRootProps, getInputProps }) => (
+                      <div {...getRootProps({ className: "dropzone" })}>
+                        <div className=" border border-secondary-subtle   ">
+                          <input {...getInputProps()} multiple={false} />
+                          {isLoad ? (
+                            <Loader
+                              loading={isLoad}
+                              className="d-flex align-items-center justify-content-center"
+                            />
+                          ) : SiteImageLogo ? (
+                            <>
+                              <img
+                                src={SiteImageLogo}
+                                alt="SiteImageLogo"
+                                className="preview_image"
+                              ></img>
+                            </>
+                          ) : (
+                            <>
+                              <span className="cloud_icon">
+                                <img src={cloudIcon} alt="icon"></img>
+                              </span>
+                              <p className="drag_text">
+                                Drag your files here to start uploading or
+                              </p>
+                              <div className=" drag_btn ">
+                                <NormalButton
+                                  onClick={(e) => e.preventDefault()}
+                                  addProductbtn
+                                  label="Browse"
+                                />
+                              </div>
+                            </>
+                          )}
+                          {SiteImageLogo && (
+                            <span
+                              style={{
+                                position: "absolute",
+                                top: "10px",
+                                right: "10px",
+                                cursor: "pointer",
+                                zIndex: 1000,
+                              }}
+                              onClick={deleteFavLogo}
+                            >
+                              <AiOutlineCloseCircle
+                                size={24}
+                                style={{ color: "red" }}
+                              />
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </Dropzone>
+                  {!SiteImageLogo && (
+                    <FormErrorMessage
+                      error={errors.dropZoneLogoField}
+                      messages={{
+                        required: "Imagejhdd is Required",
+                      }}
+                    />
                   )}
                 </div>
               </div>
