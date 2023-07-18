@@ -546,7 +546,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                     <FormErrorMessage
                       error={errors.dropZoneLogoField}
                       messages={{
-                        required: "Imagejhdd is Required",
+                        required: "Image is Required",
                       }}
                     />
                   )}
