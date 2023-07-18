@@ -71,6 +71,7 @@ const MultiSelect = ({
       let temp = propsOptions;
       if (catId?.length > 0) {
         temp = temp?.find((opt) => catId === opt._id);
+        console.log('temp', temp)
         handleCustomer(temp?.name);
       }
       setOptions(propsOptions);

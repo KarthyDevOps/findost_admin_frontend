@@ -98,6 +98,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
       console.log(e);
     }
   };
+
   const handleDrop = async (droppedimage) => {
     try {
       setIsLoad(true);
@@ -135,10 +136,12 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
       console.log("e :>> ", e);
     }
   };
+  
   const deleteFavLogo = (e) => {
     e.stopPropagation();
     setSiteFavLogo(null);
   };
+  
   const deleteLogo = (e) => {
     e.stopPropagation();
     setSiteLogo(null);
