@@ -1,2 +1,0 @@
-(this.webpackJsonpadmin=this.webpackJsonpadmin||[]).push([[186],{706:function(t,a,i){t.exports=i.p+"static/media/helvetica-light-587ebe5a59211.9a8c18bd.ttf"}}]);
-//# sourceMappingURL=186.09790ed7.chunk.js.map
