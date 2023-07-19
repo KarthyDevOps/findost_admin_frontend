@@ -27,6 +27,7 @@ import { uploadImage } from "service/Auth";
 import moment from "moment";
 //helper
 import { history } from "helpers";
+import TextBox from "component/common/TextBox/TextBox";
 
 const AddCalendarComp = ({ calendarAccess }) => {
   const { register, handleSubmit, errors, reset, control } = useForm({
@@ -59,6 +60,9 @@ const AddCalendarComp = ({ calendarAccess }) => {
         reset({
           eventName: data?.summary,
           meetLink: data?.description,
+          agenta : data?.agenta,
+          place : data?.place,
+          speakerName : data?.speakerName
         });
         setDate(new Date(data?.date));
         setImage(data?.imageUrlS3);
@@ -74,6 +78,7 @@ const AddCalendarComp = ({ calendarAccess }) => {
   };
 
   const onSubmit = async (data) => {
+    console.log('data :>> ', data);
     // Time Validation
     const currentTime = moment().format("HH:mm");
     const newStartTime = moment(startTime, "hh:mm A").format("HH:mm");
@@ -122,6 +127,9 @@ const AddCalendarComp = ({ calendarAccess }) => {
           endTime: endTime,
           imageUrl: imageUrl,
           description: data.meetLink,
+          agenta : data.agenta,
+          place : data.place,
+          speakerName : data.speakerName
         };
         let response = await addCalendarEvent(body);
         if (response.status === 200) {
@@ -147,6 +155,9 @@ const AddCalendarComp = ({ calendarAccess }) => {
           endTime: endTime,
           imageUrl: imageUrl,
           description: data.meetLink,
+          agenta : data.agenta,
+          place : data.place,
+          speakerName : data.speakerName
         };
         let response = await updateCalendarEvent(body, id);
         if (response.status === 200) {
@@ -361,6 +372,48 @@ const AddCalendarComp = ({ calendarAccess }) => {
                 }}
               />
             </div>
+            <div className="col-md-4 my-3">
+              <label>Place</label>
+              <InputBox
+                className="add_staff"
+                type={"text"}
+                placeholder="Enter Place"
+                name="place"
+                errors={errors}
+                register={register({
+                  required: false,
+                  pattern: /^(?!\s*$).+/,
+                })}
+              />
+              <FormErrorMessage
+                error={errors.place}
+                messages={{
+                  required: "Place is Required",
+                  pattern: "Place Invalid",
+                }}
+              />
+            </div>
+            <div className="col-md-4 my-3">
+              <label>Speaker Name</label>
+              <InputBox
+                className="add_staff"
+                type={"text"}
+                placeholder="Enter Speaker Name"
+                name="speakerName"
+                errors={errors}
+                register={register({
+                  required: false,
+                  pattern: /^(?!\s*$).+/,
+                })}
+              />
+              <FormErrorMessage
+                error={errors.speakerName}
+                messages={{
+                  required: "Speaker Name is Required",
+                  pattern: "Speaker Name Invalid",
+                }}
+              />
+            </div>
             <div className="col-4 mt-4">
               <label className="Product_description">Event Image</label>
               <Dropzone
@@ -438,7 +491,30 @@ const AddCalendarComp = ({ calendarAccess }) => {
                 />
               )}
             </div>
+            <div className="my-4 col-4">
+            <label>Agenta</label>
+            <div className="col-12 content_box p-0">
+              <TextBox
+                cols={5}
+                error={errors}
+                name="agenta"
+                isNotification={true}
+                register={register({
+                  required: false,
+                  pattern: /^(?!\s*$).+/,
+                })}
+              />
+              <FormErrorMessage
+                error={errors.agenta}
+                messages={{
+                  required: "Agenta is Required",
+                  pattern: "Initially Space Not Allowed",
+                }}
+              />
+            </div>
+            </div>
           </div>
+      
           <div className="d-flex align-items-center justify-content-end mt-5 pt-5">
             <div className="col-md-2">
               <NormalButton

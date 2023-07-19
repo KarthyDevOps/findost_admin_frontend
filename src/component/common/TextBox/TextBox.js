@@ -10,7 +10,7 @@ const TextBox = ({
   error = "",
   messages,
   errors,
-  isCreatePiscription = false,
+  isNotification = false,
 }) => {
   return (
     <>
@@ -20,7 +20,7 @@ const TextBox = ({
         name={name}
         ref={register}
         placeholder={placeholder}
-        className={isCreatePiscription ? "piscriptionTextBox" : "textBoxStyle"}
+        className={isNotification ? "piscriptionTextBox" : "textBoxStyle"}
         autoComplete={"off"}
       ></textarea>
       <span className="text-danger fs-13">

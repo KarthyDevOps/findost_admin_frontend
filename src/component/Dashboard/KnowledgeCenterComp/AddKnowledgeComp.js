@@ -13,7 +13,6 @@ import MultiSelect from "component/common/MultiSelect";
 import Loader from "component/common/Loader";
 import CategoryModal from "component/common/CategoryModal/CategoryModal";
 import SubCategoryModal from "component/common/CategoryModal/SubCategoryModal";
-
 import InputBox from "component/common/InputBox/InputBox";
 import DropDown from "component/common/DropDown/DropDown";
 import TextEditor from "component/common/TextEditor/TextEditor";
@@ -78,7 +77,6 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
     status: "",
   });
 
-
   const status = [
     {
       label: "Active",
@@ -116,7 +114,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
         setQuill(data?.description);
         setDocURL(data?.documentPathS3);
         setImageLogo(data?.documentImagePathS3);
-        setNewImage(data?.documentImagePathS3)
+        setNewImage(data?.documentImagePathS3);
         setDocFileName(data?.fileOriginalName);
         setImageFileName(data?.fileImageOriginalName);
         setKnowledgeDetails({
@@ -150,13 +148,16 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           if (category === "Videos" || category === "URLs") {
             body.contentUrlLink = data?.contentURL;
           }
-          if (category == "Videos" || category == "Courses" || category == "Blogs") {
+          if (
+            category == "Videos" ||
+            category == "Courses" ||
+            category == "Blogs"
+          ) {
             body.description = data?.content;
           }
           if (category == "Documents") {
             body.fileOriginalName = DocFileName;
             body.documentPath = newDoc ? newDoc : DocURL;
-
           }
           if (category != "URLs") {
             body.documentImagePath = NewImage ? NewImage : ImageLogo;
@@ -205,13 +206,16 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           if (category === "Videos" || category === "URLs") {
             body.contentUrlLink = data?.contentURL;
           }
-          if (category == "Videos" || category == "Courses" || category == "Blogs") {
+          if (
+            category == "Videos" ||
+            category == "Courses" ||
+            category == "Blogs"
+          ) {
             body.description = data?.content;
           }
           if (category == "Documents") {
             body.fileOriginalName = DocFileName;
             body.documentPath = newDoc ? newDoc : DocURL;
-
           }
           if (category != "URLs") {
             body.documentImagePath = NewImage ? NewImage : ImageLogo;
@@ -417,8 +421,8 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 id="category"
                 catId={catId}
                 plusSymbol={false}
-              // toggle={() => TogglePopup("Category")}
-              // btnLabel="Create Category"
+                // toggle={() => TogglePopup("Category")}
+                // btnLabel="Create Category"
               />
               {!category && isSubmit && (
                 <span style={{ color: "#dc3545" }} className="">
@@ -427,7 +431,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
               )}
             </div>
 
-            {category != "Documents" &&
+            {category != "Documents" && (
               <div className="col-4">
                 <label>Sub Category</label>
                 <MultiSelect
@@ -448,9 +452,10 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                     Sub Category is Required
                   </span>
                 )}
-              </div>}
+              </div>
+            )}
 
-            {(category === "Videos" || category === "URLs") &&
+            {(category === "Videos" || category === "URLs") && (
               <div className="col-4 my-3">
                 <label>Content URL LinK</label>
                 <InputBox
@@ -471,7 +476,8 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                     pattern: "Invalid URL",
                   }}
                 />
-              </div>}
+              </div>
+            )}
 
             <div className="col-4 my-3">
               <label>Status</label>
@@ -506,7 +512,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
             </div>
           </div>
           <div className="row">
-            {category == "Documents" &&
+            {category == "Documents" && (
               <div className="col-4 mt-3 mb-4">
                 <label className="Product_description">Upload Document</label>
                 <Dropzone
@@ -584,8 +590,9 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                     }}
                   />
                 )}
-              </div>}
-            {category != "URLs" &&
+              </div>
+            )}
+            {category != "URLs" && (
               <div className="col-4 mt-3 mb-4">
                 <label className="Product_description">Image Thumbanail</label>
                 <Dropzone
@@ -664,9 +671,11 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                   />
                 )}
               </div>
-            }
+            )}
           </div>
-          {(category == "Videos" || category == "Courses" || category == "Blogs") &&
+          {(category == "Videos" ||
+            category == "Courses" ||
+            category == "Blogs") && (
             <div>
               <label>Description</label>
               <CustomController
@@ -690,7 +699,8 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                   );
                 }}
               />
-            </div>}
+            </div>
+          )}
           <div className="d-flex align-items-center justify-content-end  p-0 pt-4">
             <div className="col-md-2 pl-4 pr-0">
               <NormalButton

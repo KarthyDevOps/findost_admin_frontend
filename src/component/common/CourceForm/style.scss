@@ -1,0 +1,28 @@
+.course-form {
+  background: #ffffff;
+  width: 100%;
+  position: relative;
+
+  .title-close {
+    position: absolute;
+    top: 3%;
+    right: 1%;
+    img {
+      width: 22px;
+      height: 22px;
+    }
+  }
+  .sub-section {
+    background: #f3f3f3;
+    position: relative;
+    .title-sub-close {
+      position: absolute;
+      top: 4%;
+      right: 1%;
+      img {
+        width: 22px;
+        height: 22px;
+      }
+    }
+  }
+}
