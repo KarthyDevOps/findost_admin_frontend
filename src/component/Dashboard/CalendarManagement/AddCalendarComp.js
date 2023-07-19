@@ -117,7 +117,7 @@ const AddCalendarComp = ({ calendarAccess }) => {
         setLoading(true);
         let body = {
           summary: data.eventName,
-          date: date,
+          date: moment(date).format("YYYY-MM-DD"),
           startTime: startTime,
           endTime: endTime,
           imageUrl: imageUrl,
@@ -142,7 +142,7 @@ const AddCalendarComp = ({ calendarAccess }) => {
         setLoading(true);
         let body = {
           summary: data.eventName,
-          date: date,
+          date:moment(date).format("YYYY-MM-DD"),
           startTime: startTime,
           endTime: endTime,
           imageUrl: imageUrl,
