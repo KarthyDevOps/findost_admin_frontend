@@ -710,29 +710,12 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
               />
             </div>
             <div className="col-md-2 ">
-              {!true ? (
-                <>
-                  <NormalButton
-                    className="loginButton"
-                    onClick={() =>
-                      history.push(
-                        "/admin/knowledge-center/add-knowledge/course"
-                      )
-                    }
-                    label={"Next"}
-                    isLoading={loading}
-                  />
-                </>
-              ) : (
-                <>
-                  <NormalButton
-                    className="loginButton"
-                    onClick={handleFormSubmit}
-                    label={edit ? "Update" : "Add Content"}
-                    isLoading={loading}
-                  />
-                </>
-              )}
+              <NormalButton
+                className="loginButton"
+                onClick={handleFormSubmit}
+                label={edit ? "Update" : "Add Content"}
+                isLoading={loading}
+              />
             </div>
           </div>
         </div>
