@@ -232,6 +232,15 @@ const routers = [
         exact: true,
       },
       {
+        component: "Course",
+        path: "/knowledge-center/add-knowledge/course",
+        componentPath:
+          "pages/Dashboard/KnowledgeCenter/Course",
+        name: "Course",
+        auth: false,
+        exact: true,
+      },
+      {
         component: "ClientsFamily",
         path: "/clients-family",
         componentPath:

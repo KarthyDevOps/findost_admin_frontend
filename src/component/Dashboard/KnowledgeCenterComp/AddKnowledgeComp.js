@@ -13,7 +13,6 @@ import MultiSelect from "component/common/MultiSelect";
 import Loader from "component/common/Loader";
 import CategoryModal from "component/common/CategoryModal/CategoryModal";
 import SubCategoryModal from "component/common/CategoryModal/SubCategoryModal";
-
 import InputBox from "component/common/InputBox/InputBox";
 import DropDown from "component/common/DropDown/DropDown";
 import TextEditor from "component/common/TextEditor/TextEditor";
@@ -127,7 +126,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
         setSubCatId(data?.subCategory);
         setQuill(data?.description);
         setDocURL(data?.documentPathS3);
-        setImageLogo(data?.image)
+        setImageLogo(data?.image);
         setDocFileName(data?.fileOriginalName);
         setImageFileName(data?.fileImageOriginalName);
         setKnowledgeDetails({
@@ -206,7 +205,6 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
             fileOriginalName: DocFileName,
             fileImageOriginalName: ImageFileName,
             documentImagePath: NewImage ? NewImage : ImageLogo,
-
           };
           if (KnowledgeDetails.status === "active") {
             body.isActive = true;
@@ -404,8 +402,8 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 id="category"
                 catId={catId}
                 plusSymbol={false}
-              // toggle={() => TogglePopup("Category")}
-              // btnLabel="Create Category"
+                // toggle={() => TogglePopup("Category")}
+                // btnLabel="Create Category"
               />
               {!category && isSubmit && (
                 <span style={{ color: "#dc3545" }} className="">
@@ -434,62 +432,184 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 </span>
               )}
             </div>
-            <div className="col-4 my-3">
-              <label>Content URL LinK</label>
-              <InputBox
-                className="add_staff"
-                type={"text"}
-                placeholder="Enter Content URL LinK"
-                name="contentURL"
-                errors={errors}
-                register={register({
-                  required: true,
-                  pattern: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
-                })}
-              />
-              <FormErrorMessage
-                error={errors.contentURL}
-                messages={{
-                  required: "URL is Required",
-                  pattern: "Invalid URL",
-                }}
-              />
-            </div>
+            {!true ? (
+              <>
+                <div className="col-3 my-3">
+                  <label>Content URL LinK</label>
+                  <InputBox
+                    className="add_staff"
+                    type={"text"}
+                    placeholder="Enter Content URL LinK"
+                    name="contentURL"
+                    errors={errors}
+                    register={register({
+                      required: true,
+                      pattern: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
+                    })}
+                  />
+                  <FormErrorMessage
+                    error={errors.contentURL}
+                    messages={{
+                      required: "URL is Required",
+                      pattern: "Invalid URL",
+                    }}
+                  />
+                </div>
+                <div className="col-3 my-3">
+                  <label>Duration</label>
+                  <CustomController
+                    name={"status"}
+                    control={control}
+                    error={errors.status}
+                    defaultValue={KnowledgeDetails.status}
+                    value={status.find(
+                      (option) => option.value === getValues("status")
+                    )}
+                    rules={{ required: true }}
+                    messages={{ required: "Status is Required" }}
+                    render={({ onChange, ...field }) => {
+                      return (
+                        <DropDown
+                          {...field}
+                          name="status"
+                          placeholder="Select Status"
+                          options={status}
+                          onChange={(option) => {
+                            setKnowledgeDetails((prevState) => ({
+                              ...prevState,
+                              status: option.value,
+                            }));
+                            onChange(option.value);
+                          }}
+                        />
+                      );
+                    }}
+                  />
+                </div>
+                <div className="col-3 my-3">
+                  <label>Level</label>
+                  <CustomController
+                    name={"status"}
+                    control={control}
+                    error={errors.status}
+                    defaultValue={KnowledgeDetails.status}
+                    value={status.find(
+                      (option) => option.value === getValues("status")
+                    )}
+                    rules={{ required: true }}
+                    messages={{ required: "Status is Required" }}
+                    render={({ onChange, ...field }) => {
+                      return (
+                        <DropDown
+                          {...field}
+                          name="status"
+                          placeholder="Select Status"
+                          options={status}
+                          onChange={(option) => {
+                            setKnowledgeDetails((prevState) => ({
+                              ...prevState,
+                              status: option.value,
+                            }));
+                            onChange(option.value);
+                          }}
+                        />
+                      );
+                    }}
+                  />
+                </div>
 
-            <div className="col-4 my-3">
-              <label>Status</label>
-              <CustomController
-                name={"status"}
-                control={control}
-                error={errors.status}
-                defaultValue={KnowledgeDetails.status}
-                value={status.find(
-                  (option) => option.value === getValues("status")
-                )}
-                rules={{ required: true }}
-                messages={{ required: "Status is Required" }}
-                render={({ onChange, ...field }) => {
-                  return (
-                    <DropDown
-                      {...field}
-                      name="status"
-                      placeholder="Select Status"
-                      options={status}
-                      onChange={(option) => {
-                        setKnowledgeDetails((prevState) => ({
-                          ...prevState,
-                          status: option.value,
-                        }));
-                        onChange(option.value);
-                      }}
-                    />
-                  );
-                }}
-              />
-            </div>
+                <div className="col-3 my-3">
+                  <label>Status</label>
+                  <CustomController
+                    name={"status"}
+                    control={control}
+                    error={errors.status}
+                    defaultValue={KnowledgeDetails.status}
+                    value={status.find(
+                      (option) => option.value === getValues("status")
+                    )}
+                    rules={{ required: true }}
+                    messages={{ required: "Status is Required" }}
+                    render={({ onChange, ...field }) => {
+                      return (
+                        <DropDown
+                          {...field}
+                          name="status"
+                          placeholder="Select Status"
+                          options={status}
+                          onChange={(option) => {
+                            setKnowledgeDetails((prevState) => ({
+                              ...prevState,
+                              status: option.value,
+                            }));
+                            onChange(option.value);
+                          }}
+                        />
+                      );
+                    }}
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="col-4 my-3">
+                  <label>Content URL LinK</label>
+                  <InputBox
+                    className="add_staff"
+                    type={"text"}
+                    placeholder="Enter Content URL LinK"
+                    name="contentURL"
+                    errors={errors}
+                    register={register({
+                      required: true,
+                      pattern: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
+                    })}
+                  />
+                  <FormErrorMessage
+                    error={errors.contentURL}
+                    messages={{
+                      required: "URL is Required",
+                      pattern: "Invalid URL",
+                    }}
+                  />
+                </div>
+
+                <div className="col-4 my-3">
+                  <label>Status</label>
+                  <CustomController
+                    name={"status"}
+                    control={control}
+                    error={errors.status}
+                    defaultValue={KnowledgeDetails.status}
+                    value={status.find(
+                      (option) => option.value === getValues("status")
+                    )}
+                    rules={{ required: true }}
+                    messages={{ required: "Status is Required" }}
+                    render={({ onChange, ...field }) => {
+                      return (
+                        <DropDown
+                          {...field}
+                          name="status"
+                          placeholder="Select Status"
+                          options={status}
+                          onChange={(option) => {
+                            setKnowledgeDetails((prevState) => ({
+                              ...prevState,
+                              status: option.value,
+                            }));
+                            onChange(option.value);
+                          }}
+                        />
+                      );
+                    }}
+                  />
+                </div>
+              </>
+            )}
           </div>
-          <div className="row">
 
+          <div className="row">
             <div className="col-4 mt-3 mb-4">
               <label className="Product_description">Upload Document</label>
               <Dropzone
@@ -682,12 +802,25 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
               />
             </div>
             <div className="col-md-2 ">
-              <NormalButton
-                className="loginButton"
-                onClick={handleFormSubmit}
-                label={edit ? "Update" : "Add Content"}
-                isLoading={loading}
-              />
+              {!true ? (
+                <>
+                  <NormalButton
+                    className="loginButton"
+                    onClick={() => history.push("/admin/knowledge-center/add-knowledge/course")}
+                    label={"Next"}
+                    isLoading={loading}
+                  />
+                </>
+              ) : (
+                <>
+                  <NormalButton
+                    className="loginButton"
+                    onClick={handleFormSubmit}
+                    label={edit ? "Update" : "Add Content"}
+                    isLoading={loading}
+                  />
+                </>
+              )}
             </div>
           </div>
         </div>
