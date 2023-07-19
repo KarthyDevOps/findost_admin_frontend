@@ -76,20 +76,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
   const [KnowledgeDetails, setKnowledgeDetails] = useState({
     status: "",
   });
-  const options = [
-    {
-      label: "One",
-      value: "one",
-    },
-    {
-      label: "Two",
-      value: "two",
-    },
-    {
-      label: "Three",
-      value: "three",
-    },
-  ];
+
   const status = [
     {
       label: "Active",
@@ -126,7 +113,8 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
         setSubCatId(data?.subCategory);
         setQuill(data?.description);
         setDocURL(data?.documentPathS3);
-        setImageLogo(data?.image);
+        setImageLogo(data?.documentImagePathS3);
+        setNewImage(data?.documentImagePathS3);
         setDocFileName(data?.fileOriginalName);
         setImageFileName(data?.fileImageOriginalName);
         setKnowledgeDetails({
@@ -155,20 +143,36 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
 
           let body = {
             title: data.title,
-            subCategory: subCategoryId,
             category: categoryMasterId,
-            description: data?.content,
-            contentUrlLink: data?.contentURL,
-            documentPath: newDoc ? newDoc : DocURL,
-            fileOriginalName: DocFileName,
-            fileImageOriginalName: ImageFileName,
-            documentImagePath: NewImage ? NewImage : ImageLogo,
           };
+          if (category === "Videos" || category === "URLs") {
+            body.contentUrlLink = data?.contentURL;
+          }
+          if (
+            category == "Videos" ||
+            category == "Courses" ||
+            category == "Blogs"
+          ) {
+            body.description = data?.content;
+          }
+          if (category == "Documents") {
+            body.fileOriginalName = DocFileName;
+            body.documentPath = newDoc ? newDoc : DocURL;
+          }
+          if (category != "URLs") {
+            body.documentImagePath = NewImage ? NewImage : ImageLogo;
+            body.fileImageOriginalName = ImageFileName;
+          }
+          if (category != "Documents") {
+            body.subCategory = subCategoryId;
+          }
+
           if (KnowledgeDetails.status === "active") {
             body.isActive = true;
           } else {
             body.isActive = false;
           }
+
           let response = await addKnowledge(body);
           if (response.status === 200) {
             setModal(true);
@@ -197,15 +201,30 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           setloading(true);
           let body = {
             title: data.title,
-            contentUrlLink: data?.contentURL,
-            subCategory: subCategoryId,
             category: categoryMasterId,
-            description: data?.content,
-            documentPath: newDoc ? newDoc : DocURL,
-            fileOriginalName: DocFileName,
-            fileImageOriginalName: ImageFileName,
-            documentImagePath: NewImage ? NewImage : ImageLogo,
           };
+          if (category === "Videos" || category === "URLs") {
+            body.contentUrlLink = data?.contentURL;
+          }
+          if (
+            category == "Videos" ||
+            category == "Courses" ||
+            category == "Blogs"
+          ) {
+            body.description = data?.content;
+          }
+          if (category == "Documents") {
+            body.fileOriginalName = DocFileName;
+            body.documentPath = newDoc ? newDoc : DocURL;
+          }
+          if (category != "URLs") {
+            body.documentImagePath = NewImage ? NewImage : ImageLogo;
+            body.fileImageOriginalName = ImageFileName;
+          }
+          if (category != "Documents") {
+            body.subCategory = subCategoryId;
+          }
+
           if (KnowledgeDetails.status === "active") {
             body.isActive = true;
           } else {
@@ -411,388 +430,277 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 </span>
               )}
             </div>
-            <div className="col-4">
-              <label>Sub Category</label>
-              <MultiSelect
-                subOptions={subCategoryList}
-                placeholder="Select Sub Category"
-                onChange={(option) => {
-                  setSubCategory(option);
-                  handleSubcategoryId(option);
+
+            {category != "Documents" && (
+              <div className="col-4">
+                <label>Sub Category</label>
+                <MultiSelect
+                  subOptions={subCategoryList}
+                  placeholder="Select Sub Category"
+                  onChange={(option) => {
+                    setSubCategory(option);
+                    handleSubcategoryId(option);
+                  }}
+                  id="subCategory"
+                  subCatId={subCatId}
+                  plusSymbol={true}
+                  toggle={() => TogglePopup("subCategory")}
+                  btnLabel="Create Sub Category"
+                />
+                {!subCategory && isSubmit && (
+                  <span style={{ color: "#dc3545" }} className="">
+                    Sub Category is Required
+                  </span>
+                )}
+              </div>
+            )}
+
+            {(category === "Videos" || category === "URLs") && (
+              <div className="col-4 my-3">
+                <label>Content URL LinK</label>
+                <InputBox
+                  className="add_staff"
+                  type={"text"}
+                  placeholder="Enter Content URL LinK"
+                  name="contentURL"
+                  errors={errors}
+                  register={register({
+                    required: true,
+                    pattern: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
+                  })}
+                />
+                <FormErrorMessage
+                  error={errors.contentURL}
+                  messages={{
+                    required: "URL is Required",
+                    pattern: "Invalid URL",
+                  }}
+                />
+              </div>
+            )}
+
+            <div className="col-4 my-3">
+              <label>Status</label>
+              <CustomController
+                name={"status"}
+                control={control}
+                error={errors.status}
+                defaultValue={KnowledgeDetails.status}
+                value={status.find(
+                  (option) => option.value === getValues("status")
+                )}
+                rules={{ required: true }}
+                messages={{ required: "Status is Required" }}
+                render={({ onChange, ...field }) => {
+                  return (
+                    <DropDown
+                      {...field}
+                      name="status"
+                      placeholder="Select Status"
+                      options={status}
+                      onChange={(option) => {
+                        setKnowledgeDetails((prevState) => ({
+                          ...prevState,
+                          status: option.value,
+                        }));
+                        onChange(option.value);
+                      }}
+                    />
+                  );
                 }}
-                id="subCategory"
-                subCatId={subCatId}
-                plusSymbol={true}
-                toggle={() => TogglePopup("subCategory")}
-                btnLabel="Create Sub Category"
               />
-              {!subCategory && isSubmit && (
-                <span style={{ color: "#dc3545" }} className="">
-                  Sub Category is Required
-                </span>
-              )}
             </div>
-            {!true ? (
-              <>
-                <div className="col-3 my-3">
-                  <label>Content URL LinK</label>
-                  <InputBox
-                    className="add_staff"
-                    type={"text"}
-                    placeholder="Enter Content URL LinK"
-                    name="contentURL"
-                    errors={errors}
-                    register={register({
-                      required: true,
-                      pattern: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
-                    })}
-                  />
+          </div>
+          <div className="row">
+            {category == "Documents" && (
+              <div className="col-4 mt-3 mb-4">
+                <label className="Product_description">Upload Document</label>
+                <Dropzone
+                  onDrop={handleDrop}
+                  accept=".pdf,xl,.xlsx,.doc,.jpg,.png"
+                  maxSize={3072000}
+                  errors={errors}
+                  {...register("dropZoneField", {
+                    required: newDoc || DocURL ? false : true,
+                  })}
+                >
+                  {({ getRootProps, getInputProps }) => (
+                    <div {...getRootProps({ className: "dropzone" })}>
+                      <div className=" border border-secondary-subtle   ">
+                        <input {...getInputProps()} multiple={false} />
+                        {DocURL ? (
+                          <div className="doc_name_display">
+                            <img
+                              src="https://windowsfileviewer.com/images/types/docx.png"
+                              alt="DocURL"
+                              className="preview_image"
+                            ></img>
+                            <p onClick={handleRedirect}>{DocFileName}</p>
+                          </div>
+                        ) : (
+                          <>
+                            <span className="cloud_icon">
+                              <img src={cloudIcon} alt="icon"></img>
+                            </span>
+                            <div className="drag_text">
+                              <p>Drag your files here to start uploading or</p>
+                            </div>
+                            <div className="drag_btn">
+                              <NormalButton
+                                onClick={(e) => e.preventDefault()}
+                                uploadBrowseBtn
+                                label="Browse"
+                              />
+                            </div>
+                          </>
+                        )}
+                        {isLoading ? (
+                          <Loader
+                            loading={isLoading}
+                            className="d-flex align-items-center justify-content-center"
+                          />
+                        ) : (
+                          DocURL && (
+                            <span
+                              style={{
+                                position: "absolute",
+                                top: "10px",
+                                right: "10px",
+                                cursor: "pointer",
+                                zIndex: 1000,
+                              }}
+                              onClick={cancelImg}
+                            >
+                              <AiOutlineCloseCircle
+                                size={24}
+                                style={{ color: "red" }}
+                              />
+                            </span>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </Dropzone>
+                {!newDoc && (
                   <FormErrorMessage
-                    error={errors.contentURL}
+                    error={errors.dropZoneField}
                     messages={{
-                      required: "URL is Required",
-                      pattern: "Invalid URL",
+                      required: "Document is Required",
                     }}
                   />
-                </div>
-                <div className="col-3 my-3">
-                  <label>Duration</label>
-                  <CustomController
-                    name={"status"}
-                    control={control}
-                    error={errors.status}
-                    defaultValue={KnowledgeDetails.status}
-                    value={status.find(
-                      (option) => option.value === getValues("status")
-                    )}
-                    rules={{ required: true }}
-                    messages={{ required: "Status is Required" }}
-                    render={({ onChange, ...field }) => {
-                      return (
-                        <DropDown
-                          {...field}
-                          name="status"
-                          placeholder="Select Status"
-                          options={status}
-                          onChange={(option) => {
-                            setKnowledgeDetails((prevState) => ({
-                              ...prevState,
-                              status: option.value,
-                            }));
-                            onChange(option.value);
-                          }}
-                        />
-                      );
-                    }}
-                  />
-                </div>
-                <div className="col-3 my-3">
-                  <label>Level</label>
-                  <CustomController
-                    name={"status"}
-                    control={control}
-                    error={errors.status}
-                    defaultValue={KnowledgeDetails.status}
-                    value={status.find(
-                      (option) => option.value === getValues("status")
-                    )}
-                    rules={{ required: true }}
-                    messages={{ required: "Status is Required" }}
-                    render={({ onChange, ...field }) => {
-                      return (
-                        <DropDown
-                          {...field}
-                          name="status"
-                          placeholder="Select Status"
-                          options={status}
-                          onChange={(option) => {
-                            setKnowledgeDetails((prevState) => ({
-                              ...prevState,
-                              status: option.value,
-                            }));
-                            onChange(option.value);
-                          }}
-                        />
-                      );
-                    }}
-                  />
-                </div>
-
-                <div className="col-3 my-3">
-                  <label>Status</label>
-                  <CustomController
-                    name={"status"}
-                    control={control}
-                    error={errors.status}
-                    defaultValue={KnowledgeDetails.status}
-                    value={status.find(
-                      (option) => option.value === getValues("status")
-                    )}
-                    rules={{ required: true }}
-                    messages={{ required: "Status is Required" }}
-                    render={({ onChange, ...field }) => {
-                      return (
-                        <DropDown
-                          {...field}
-                          name="status"
-                          placeholder="Select Status"
-                          options={status}
-                          onChange={(option) => {
-                            setKnowledgeDetails((prevState) => ({
-                              ...prevState,
-                              status: option.value,
-                            }));
-                            onChange(option.value);
-                          }}
-                        />
-                      );
-                    }}
-                  />
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="col-4 my-3">
-                  <label>Content URL LinK</label>
-                  <InputBox
-                    className="add_staff"
-                    type={"text"}
-                    placeholder="Enter Content URL LinK"
-                    name="contentURL"
-                    errors={errors}
-                    register={register({
-                      required: true,
-                      pattern: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
-                    })}
-                  />
+                )}
+              </div>
+            )}
+            {category != "URLs" && (
+              <div className="col-4 mt-3 mb-4">
+                <label className="Product_description">Image Thumbanail</label>
+                <Dropzone
+                  onDrop={handleDropImage}
+                  accept=".jpg,.png"
+                  maxSize={3072000}
+                  errors={errors}
+                  {...register("dropZoneField", {
+                    required: NewImage || ImageURL ? false : true,
+                  })}
+                >
+                  {({ getRootProps, getInputProps }) => (
+                    <div {...getRootProps({ className: "dropzone" })}>
+                      <div className=" border border-secondary-subtle   ">
+                        <input {...getInputProps()} multiple={false} />
+                        {ImageLogo ? (
+                          <div className="doc_name_display">
+                            <img
+                              src={ImageLogo}
+                              alt="image"
+                              className="preview_image"
+                            ></img>
+                            <p onClick={handleRedirect}>{ImageFileName}</p>
+                          </div>
+                        ) : (
+                          <>
+                            <span className="cloud_icon">
+                              <img src={cloudIcon} alt="icon"></img>
+                            </span>
+                            <div className="drag_text">
+                              <p>Drag your files here to start uploading or</p>
+                            </div>
+                            <div className="drag_btn">
+                              <NormalButton
+                                onClick={(e) => e.preventDefault()}
+                                uploadBrowseBtn
+                                label="Browse"
+                              />
+                            </div>
+                          </>
+                        )}
+                        {isLoadingImage ? (
+                          <Loader
+                            loading={isLoadingImage}
+                            className="d-flex align-items-center justify-content-center"
+                          />
+                        ) : (
+                          ImageLogo && (
+                            <span
+                              style={{
+                                position: "absolute",
+                                top: "10px",
+                                right: "10px",
+                                cursor: "pointer",
+                                zIndex: 1000,
+                              }}
+                              onClick={deleteImage}
+                            >
+                              <AiOutlineCloseCircle
+                                size={24}
+                                style={{ color: "red" }}
+                              />
+                            </span>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </Dropzone>
+                {!NewImage && (
                   <FormErrorMessage
-                    error={errors.contentURL}
+                    error={errors.dropZoneField}
                     messages={{
-                      required: "URL is Required",
-                      pattern: "Invalid URL",
+                      required: "Image is Required",
                     }}
                   />
-                </div>
-
-                <div className="col-4 my-3">
-                  <label>Status</label>
-                  <CustomController
-                    name={"status"}
-                    control={control}
-                    error={errors.status}
-                    defaultValue={KnowledgeDetails.status}
-                    value={status.find(
-                      (option) => option.value === getValues("status")
-                    )}
-                    rules={{ required: true }}
-                    messages={{ required: "Status is Required" }}
-                    render={({ onChange, ...field }) => {
-                      return (
-                        <DropDown
-                          {...field}
-                          name="status"
-                          placeholder="Select Status"
-                          options={status}
-                          onChange={(option) => {
-                            setKnowledgeDetails((prevState) => ({
-                              ...prevState,
-                              status: option.value,
-                            }));
-                            onChange(option.value);
-                          }}
-                        />
-                      );
-                    }}
-                  />
-                </div>
-              </>
+                )}
+              </div>
             )}
           </div>
-
-          <div className="row">
-            <div className="col-4 mt-3 mb-4">
-              <label className="Product_description">Upload Document</label>
-              <Dropzone
-                onDrop={handleDrop}
-                accept=".pdf,xl,.xlsx,.doc,.jpg,.png"
-                maxSize={3072000}
-                errors={errors}
-                {...register("dropZoneField", {
-                  required: newDoc || DocURL ? false : true,
-                })}
-              >
-                {({ getRootProps, getInputProps }) => (
-                  <div {...getRootProps({ className: "dropzone" })}>
-                    <div className=" border border-secondary-subtle   ">
-                      <input {...getInputProps()} multiple={false} />
-                      {DocURL ? (
-                        <div className="doc_name_display">
-                          <img
-                            src="https://windowsfileviewer.com/images/types/docx.png"
-                            alt="DocURL"
-                            className="preview_image"
-                          ></img>
-                          <p onClick={handleRedirect}>{DocFileName}</p>
-                        </div>
-                      ) : (
-                        <>
-                          <span className="cloud_icon">
-                            <img src={cloudIcon} alt="icon"></img>
-                          </span>
-                          <div className="drag_text">
-                            <p>Drag your files here to start uploading or</p>
-                          </div>
-                          <div className="drag_btn">
-                            <NormalButton
-                              onClick={(e) => e.preventDefault()}
-                              uploadBrowseBtn
-                              label="Browse"
-                            />
-                          </div>
-                        </>
-                      )}
-                      {isLoading ? (
-                        <Loader
-                          loading={isLoading}
-                          className="d-flex align-items-center justify-content-center"
-                        />
-                      ) : (
-                        DocURL && (
-                          <span
-                            style={{
-                              position: "absolute",
-                              top: "10px",
-                              right: "10px",
-                              cursor: "pointer",
-                              zIndex: 1000,
-                            }}
-                            onClick={cancelImg}
-                          >
-                            <AiOutlineCloseCircle
-                              size={24}
-                              style={{ color: "red" }}
-                            />
-                          </span>
-                        )
-                      )}
-                    </div>
-                  </div>
-                )}
-              </Dropzone>
-              {!newDoc && (
-                <FormErrorMessage
-                  error={errors.dropZoneField}
-                  messages={{
-                    required: "Document is Required",
-                  }}
-                />
-              )}
+          {(category == "Videos" ||
+            category == "Courses" ||
+            category == "Blogs") && (
+            <div>
+              <label>Description</label>
+              <CustomController
+                name={"content"}
+                control={control}
+                error={errors.content}
+                rules={{ required: true }}
+                messages={{
+                  required: "Description is Required",
+                }}
+                render={({ onChange, ...field }) => {
+                  return (
+                    <TextEditor
+                      {...field}
+                      name={"content"}
+                      onChange={(content) => {
+                        onChange(content);
+                        setQuill(content);
+                      }}
+                    />
+                  );
+                }}
+              />
             </div>
-
-            <div className="col-4 mt-3 mb-4">
-              <label className="Product_description">Image Thumbanail</label>
-              <Dropzone
-                onDrop={handleDropImage}
-                accept=".jpg,.png"
-                maxSize={3072000}
-                errors={errors}
-                {...register("dropZoneField", {
-                  required: NewImage || ImageURL ? false : true,
-                })}
-              >
-                {({ getRootProps, getInputProps }) => (
-                  <div {...getRootProps({ className: "dropzone" })}>
-                    <div className=" border border-secondary-subtle   ">
-                      <input {...getInputProps()} multiple={false} />
-                      {ImageLogo ? (
-                        <div className="doc_name_display">
-                          <img
-                            src={ImageLogo}
-                            alt="image"
-                            className="preview_image"
-                          ></img>
-                          <p onClick={handleRedirect}>{ImageFileName}</p>
-                        </div>
-                      ) : (
-                        <>
-                          <span className="cloud_icon">
-                            <img src={cloudIcon} alt="icon"></img>
-                          </span>
-                          <div className="drag_text">
-                            <p>Drag your files here to start uploading or</p>
-                          </div>
-                          <div className="drag_btn">
-                            <NormalButton
-                              onClick={(e) => e.preventDefault()}
-                              uploadBrowseBtn
-                              label="Browse"
-                            />
-                          </div>
-                        </>
-                      )}
-                      {isLoadingImage ? (
-                        <Loader
-                          loading={isLoadingImage}
-                          className="d-flex align-items-center justify-content-center"
-                        />
-                      ) : (
-                        ImageLogo && (
-                          <span
-                            style={{
-                              position: "absolute",
-                              top: "10px",
-                              right: "10px",
-                              cursor: "pointer",
-                              zIndex: 1000,
-                            }}
-                            onClick={deleteImage}
-                          >
-                            <AiOutlineCloseCircle
-                              size={24}
-                              style={{ color: "red" }}
-                            />
-                          </span>
-                        )
-                      )}
-                    </div>
-                  </div>
-                )}
-              </Dropzone>
-              {!NewImage && (
-                <FormErrorMessage
-                  error={errors.dropZoneField}
-                  messages={{
-                    required: "Document is Required",
-                  }}
-                />
-              )}
-            </div>
-          </div>
-
-          <div>
-            <label>Description</label>
-            <CustomController
-              name={"content"}
-              control={control}
-              error={errors.content}
-              rules={{ required: true }}
-              messages={{
-                required: "Description is Required",
-              }}
-              render={({ onChange, ...field }) => {
-                return (
-                  <TextEditor
-                    {...field}
-                    name={"content"}
-                    onChange={(content) => {
-                      onChange(content);
-                      setQuill(content);
-                    }}
-                  />
-                );
-              }}
-            />
-          </div>
+          )}
           <div className="d-flex align-items-center justify-content-end  p-0 pt-4">
             <div className="col-md-2 pl-4 pr-0">
               <NormalButton
@@ -806,7 +714,11 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 <>
                   <NormalButton
                     className="loginButton"
-                    onClick={() => history.push("/admin/knowledge-center/add-knowledge/course")}
+                    onClick={() =>
+                      history.push(
+                        "/admin/knowledge-center/add-knowledge/course"
+                      )
+                    }
                     label={"Next"}
                     isLoading={loading}
                   />
