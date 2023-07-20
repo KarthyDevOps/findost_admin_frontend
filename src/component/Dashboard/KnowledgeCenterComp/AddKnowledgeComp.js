@@ -32,7 +32,6 @@ import { uploadImage } from "service/Auth";
 import { Toast } from "service/toast";
 //helpers
 import { history } from "helpers";
-import CourseForm from "component/common/CourceForm";
 import CourseComp from "./CourseComp";
 
 const AddKnowledgeComp = ({ create, view, remove }) => {
