@@ -60,7 +60,7 @@ const AddCalendarComp = ({ calendarAccess }) => {
         reset({
           eventName: data?.summary,
           meetLink: data?.description,
-          agenta : data?.agenta,
+          agenta : data?.agenda,
           place : data?.place,
           speakerName : data?.speakerName
         });
@@ -127,7 +127,7 @@ const AddCalendarComp = ({ calendarAccess }) => {
           endTime: endTime,
           imageUrl: imageUrl,
           description: data.meetLink,
-          agenta : data.agenta,
+          agenda : data.agenta,
           place : data.place,
           speakerName : data.speakerName
         };
@@ -155,7 +155,7 @@ const AddCalendarComp = ({ calendarAccess }) => {
           endTime: endTime,
           imageUrl: imageUrl,
           description: data.meetLink,
-          agenta : data.agenta,
+          agenda : data.agenta,
           place : data.place,
           speakerName : data.speakerName
         };

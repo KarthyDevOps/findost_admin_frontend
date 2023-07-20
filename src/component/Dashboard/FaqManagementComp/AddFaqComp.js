@@ -443,6 +443,7 @@ const AddFaqComp = ({ create, view, remove }) => {
           onCancel={() => setSubCategoryModal(false)}
           categoryId={categoryId}
           refresh={() => listSubCategorys(categoryId)}
+          type={"Faq"}
         />
       </div>
     </div>
