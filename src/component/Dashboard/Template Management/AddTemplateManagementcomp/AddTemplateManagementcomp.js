@@ -18,7 +18,12 @@ import NormalButton from "component/common/NormalButton/NormalButton";
 import DropDown from "component/common/DropDown/DropDown";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
 //services
-import { addTemplate, getCategoryList, getTemplate, updateTemplate } from "service/Cms";
+import {
+  addTemplate,
+  getCategoryList,
+  getTemplate,
+  updateTemplate,
+} from "service/Cms";
 import CustomController from "component/common/Controller";
 import { Toast } from "service/toast";
 import { uploadImage } from "service/Auth";
@@ -55,7 +60,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
   const [edit, setEdit] = useState(false);
   const [isLoad, setIsLoad] = useState(false);
   const [SiteImageLogo, setImageLogo] = useState("");
-  const [categoryType, setcategoryType] = useState("")
+  const [categoryType, setcategoryType] = useState("");
   const [TemplateTypeId, setTemplateTypeId] = useState("");
 
   const [TemplateDetails, setTemplateDetails] = useState({
@@ -73,7 +78,6 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
       label: "Predefined Text Message",
       value: "preDefined",
     },
-
   ];
 
   const Templateoptions = [
@@ -108,16 +112,17 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
     setValue(
       "type",
       options.find((option) => option.value === TemplateDetails.type)
-    ); setValue(
+    );
+    setValue(
       "Templatetype",
-      Templateoptions.find((option) => option.value === TemplateDetails.Templatetype)
+      Templateoptions.find(
+        (option) => option.value === TemplateDetails.Templatetype
+      )
     );
     setValue(
       "status",
       status.find((option) => option.value === TemplateDetails.status)
     );
-
-
   }, [TemplateDetails, setValue]);
 
   const getTemplateDetails = async () => {
@@ -132,20 +137,27 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
         reset({
           title: data?.title,
           content: data?.description,
-
         });
         setQuill(data?.description);
-        setCatId(data?.categoryId)
+        setCatId(data?.categoryId);
 
         console.log("data", data);
         setImageLogo(data?.imagePath);
         setTemplateDetails({
           type: data.type,
           status: data.isActive ? "active" : "inActive",
-          Templatetype: data.templateType
+          Templatetype: data.templateType,
         });
-        listCategorys(1, data.type === "preDefined" ? "preDefinedText" : data.templateType === "Image" ? "templateTypeImage" : data.templateType === "Text" ? "templateTypeText" : "templateTypeInfoGraphics")
-
+        listCategorys(
+          1,
+          data.type === "preDefined"
+            ? "preDefinedText"
+            : data.templateType === "Image"
+            ? "templateTypeImage"
+            : data.templateType === "Text"
+            ? "templateTypeText"
+            : "templateTypeInfoGraphics"
+        );
       } else {
         Toast({ type: "error", message: response.data.message });
       }
@@ -153,7 +165,6 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
       console.log("e :>> ", e);
     }
   };
-
 
   useEffect(() => {
     if (templateId) {
@@ -201,10 +212,12 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
           title: data.title,
           description: data.content,
           type: TemplateDetails.type,
-          templateType: TemplateDetails.type === "template" ? TemplateDetails.Templatetype : "",
+          templateType:
+            TemplateDetails.type === "template"
+              ? TemplateDetails.Templatetype
+              : "",
           categoryId: TemplateTypeId,
           imagePath: SiteImageLogo,
-
         };
         if (TemplateDetails.status === "active") {
           body.isActive = true;
@@ -245,7 +258,12 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
           title: data.title,
           description: data.content,
           type: TemplateDetails.type,
-          templateType: TemplateDetails.type === "template" ? TemplateDetails.Templatetype : "",
+          templateType:
+            TemplateDetails.type === "template"
+              ? TemplateDetails.Templatetype
+              : "",
+          categoryId: TemplateTypeId,
+          imagePath: SiteImageLogo,
         };
         if (TemplateDetails.status === "active") {
           body.isActive = true;
@@ -271,12 +289,13 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
     }
   };
 
+  console.log("TemplateTypeId :>> ", TemplateTypeId);
+
   const handleFormSubmit = (e) => {
     setIsSubmit(true);
     e.preventDefault();
     handleSubmit(onSubmit)();
   };
-
 
   const listCategorys = async (page, type) => {
     try {
@@ -286,7 +305,6 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
       };
       let response = await getCategoryList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
-        setTemplateTypeId(response?.data?.data?.list[0]._id);
         setCategoryList(response?.data?.data?.list);
       } else {
         setCategoryList([]);
@@ -300,6 +318,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
     let newCategory = categoryList.find((x) => x.name === option);
     setCategoryId(newCategory?.categoryId);
     setCategoryMasterId(newCategory?._id);
+    setTemplateTypeId(newCategory?._id);
   };
 
   const TogglePopup = (type) => {
@@ -372,16 +391,19 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                               type: option.value,
                             }));
                             onChange(option.value);
-                            {
-                              option.value === "preDefined" &&
-                                listCategorys(1, "preDefinedText")
-                            }
+
+                            option.value === "preDefined" &&
+                              listCategorys(1, "preDefinedText");
                           }}
                         />
                       );
                     }}
                   />
                 </div>
+                {console.log(
+                  "TemplateDetails?.Templatetype >> ",
+                  TemplateDetails?.type
+                )}
                 <div className="col-3">
                   <label className="Product_description">Message Status</label>
                   <CustomController
@@ -416,8 +438,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                 </div>
               </div>
               <div className="row gx-5">
-                {TemplateDetails.type === "template" &&
-
+                {TemplateDetails.type === "template" && (
                   <div className="col-4">
                     <label className="Product_description">Template Type</label>
                     <CustomController
@@ -443,14 +464,21 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                                 Templatetype: Templatetype.value,
                               }));
                               onChange(Templatetype.value);
-                              listCategorys(1, Templatetype.value === "Image" ? "templateTypeImage" : Templatetype.value === "Text" ? "templateTypeText" : "templateTypeInfoGraphics")
+                              listCategorys(
+                                1,
+                                Templatetype.value === "Image"
+                                  ? "templateTypeImage"
+                                  : Templatetype.value === "Text"
+                                  ? "templateTypeText"
+                                  : "templateTypeInfoGraphics"
+                              );
                             }}
                           />
                         );
                       }}
                     />
                   </div>
-                }
+                )}
                 <div className="col-3 mt-2">
                   <label>Category</label>
                   <MultiSelect
@@ -473,6 +501,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                     </span>
                   )}
                 </div>
+                {console.log("catId :>> ", catId)}
               </div>
               <div className="row gx-5">
                 <div className="col-4 mt-4">
@@ -528,7 +557,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                                 top: "10px",
                                 right: "10px",
                                 cursor: "pointer",
-                                zIndex: 1000,
+                                // zIndex: 1000,
                               }}
                               onClick={deleteFavLogo}
                             >
@@ -625,9 +654,29 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
           <CategoryModal
             modalOpen={categoryModal}
             onCancel={() => setCategoryModal(false)}
-            refresh={() => listCategorys(currentPage)}
+            refresh={() =>
+              listCategorys(
+                currentPage,
+                TemplateDetails?.type === "preDefined"
+                  ? "preDefinedText"
+                  : TemplateDetails?.Templatetype === "Image"
+                  ? "templateTypeImage"
+                  : TemplateDetails?.Templatetype === "Text"
+                  ? "templateTypeText"
+                  : "templateTypeInfoGraphics"
+              )
+            }
+            type={TemplateDetails?.type === "preDefined" && "preDefinedText"}
+            tempType={
+              TemplateDetails?.Templatetype === "Image"
+                ? "templateTypeImage"
+                : TemplateDetails?.Templatetype === "Text"
+                ? "templateTypeText"
+                : "templateTypeInfoGraphics"
+            }
           />
         </div>
+        {console.log(TemplateDetails?.Templatetype, "TemplateDetails?.type")}
       </div>
     </div>
   );

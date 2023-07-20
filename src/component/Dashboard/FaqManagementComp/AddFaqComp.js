@@ -86,6 +86,7 @@ const AddFaqComp = ({ create, view, remove }) => {
       let response = await getFAQ(params);
       if (response.status === 200) {
         const data = response?.data.data;
+        console.log('datahkcsd :>> ', data);
         reset({
           title: data?.title,
           content: data?.answer,
@@ -192,9 +193,10 @@ const AddFaqComp = ({ create, view, remove }) => {
 
   const handlecategoryId = (option) => {
     let newCategory = categoryList.find((x) => x.name === option);
-    setCategoryId(newCategory?.categoryId);
+    console.log('object :>> ', newCategory?._id);
+    setCategoryId(newCategory?._id);
     setCategoryMasterId(newCategory?._id);
-    listSubCategorys(newCategory?.categoryId);
+    listSubCategorys(newCategory?._id);
   };
   const handleSubcategoryId = (option) => {
     let newCategory = subCategoryList.find((x) => x.name === option);
@@ -432,6 +434,7 @@ const AddFaqComp = ({ create, view, remove }) => {
           modalOpen={categoryModal}
           onCancel={() => setCategoryModal(false)}
           refresh={() => listCategorys(currentPage)}
+          type={"Faq"}
         />
       </div>
       <div>
