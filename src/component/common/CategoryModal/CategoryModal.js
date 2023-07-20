@@ -14,7 +14,7 @@ import { addCategory } from "service/Cms";
 // helpers
 import { history } from "helpers";
 
-const CategoryModal = ({ modalOpen, onCancel, refresh }) => {
+const CategoryModal = ({ modalOpen, onCancel, refresh , type,tempType }) => {
   const { register, handleSubmit, errors, reset } = useForm({
     mode: "onChange",
   });
@@ -25,6 +25,7 @@ const CategoryModal = ({ modalOpen, onCancel, refresh }) => {
     try {
       const body = {
         name: data.categoryName,
+        type: type ? type : tempType
       };
       let response = await addCategory(body);
       if (response.status === 200) {

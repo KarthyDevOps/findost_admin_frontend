@@ -66,12 +66,12 @@ const TemplateManagementComp = ({ create, view, edit, remove }) => {
   ];
   const FilterOption = [
     {
-      label: "Pre Template Message",
-      value: "pre template message",
+      label: "Template Based Message",
+      value: "template",
     },
     {
-      label: "Post Template Message",
-      value: "post template message",
+      label: "Predefined Text Message",
+      value: "preDefined",
     },
   ];
 

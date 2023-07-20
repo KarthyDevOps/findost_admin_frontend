@@ -32,6 +32,8 @@ import { uploadImage } from "service/Auth";
 import { Toast } from "service/toast";
 //helpers
 import { history } from "helpers";
+import CourseForm from "component/common/CourceForm";
+import CourseComp from "./CourseComp";
 
 const AddKnowledgeComp = ({ create, view, remove }) => {
   const {
@@ -73,10 +75,16 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
   const [isLoadingImage, setIsLoadingImage] = useState(false);
   const [ImageLogo, setImageLogo] = useState("");
   const [isLoad, setIsLoad] = useState(false);
+  const [course, setCourse] = useState(false);
   const [KnowledgeDetails, setKnowledgeDetails] = useState({
     status: "",
   });
-
+  const [forms, setForms] = useState([
+    {
+      mainTitle: "",
+      subSections: [{ title: "", durationHr: "", durationMin: "", link: "" }],
+    },
+  ]);
   const status = [
     {
       label: "Active",
@@ -130,124 +138,126 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
     }
   };
 
-  const onSubmit = async (data) => {
-    if (!edit) {
-      if (category && subCategory) {
-        try {
-          setloading(true);
-          if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
-            Toast({ type: "error", message: "Description is Required" });
-            return;
-          }
-          setModal(true);
+  const onSubmit = async (data, forms) => {
+    console.log("data :>> ", data);
+    console.log("forms :>> ", forms);
+    // if (!edit) {
+    //   if (category && subCategory) {
+    //     try {
+    //       setloading(true);
+    //       if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+    //         Toast({ type: "error", message: "Description is Required" });
+    //         return;
+    //       }
+    //       setModal(true);
 
-          let body = {
-            title: data.title,
-            category: categoryMasterId,
-          };
-          if (category === "Videos" || category === "URLs") {
-            body.contentUrlLink = data?.contentURL;
-          }
-          if (
-            category == "Videos" ||
-            category == "Courses" ||
-            category == "Blogs"
-          ) {
-            body.description = data?.content;
-          }
-          if (category == "Documents") {
-            body.fileOriginalName = DocFileName;
-            body.documentPath = newDoc ? newDoc : DocURL;
-          }
-          if (category != "URLs") {
-            body.documentImagePath = NewImage ? NewImage : ImageLogo;
-            body.fileImageOriginalName = ImageFileName;
-          }
-          if (category != "Documents") {
-            body.subCategory = subCategoryId;
-          }
+    //       let body = {
+    //         title: data.title,
+    //         category: categoryMasterId,
+    //       };
+    //       if (category === "Videos" || category === "URLs") {
+    //         body.contentUrlLink = data?.contentURL;
+    //       }
+    //       if (
+    //         category == "Videos" ||
+    //         category == "Courses" ||
+    //         category == "Blogs"
+    //       ) {
+    //         body.description = data?.content;
+    //       }
+    //       if (category == "Documents") {
+    //         body.fileOriginalName = DocFileName;
+    //         body.documentPath = newDoc ? newDoc : DocURL;
+    //       }
+    //       if (category != "URLs") {
+    //         body.documentImagePath = NewImage ? NewImage : ImageLogo;
+    //         body.fileImageOriginalName = ImageFileName;
+    //       }
+    //       if (category != "Documents") {
+    //         body.subCategory = subCategoryId;
+    //       }
 
-          if (KnowledgeDetails.status === "active") {
-            body.isActive = true;
-          } else {
-            body.isActive = false;
-          }
+    //       if (KnowledgeDetails.status === "active") {
+    //         body.isActive = true;
+    //       } else {
+    //         body.isActive = false;
+    //       }
 
-          let response = await addKnowledge(body);
-          if (response.status === 200) {
-            setModal(true);
-            setTimeout(() => {
-              setModal(false);
-              setloading(false);
-              reset(KnowledgeDetails);
-              history.push("/admin/knowledge-center");
-            }, 2000);
-          } else {
-            Toast({ type: "error", message: response.data.message });
-            setloading(false);
-          }
-        } catch (e) {
-          console.log(e);
-        }
-      }
-    } else {
-      if (category && subCategory) {
-        try {
-          if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
-            Toast({ type: "error", message: "Description is Required" });
-            return;
-          }
-          setModal(true);
-          setloading(true);
-          let body = {
-            title: data.title,
-            category: categoryMasterId,
-          };
-          if (category === "Videos" || category === "URLs") {
-            body.contentUrlLink = data?.contentURL;
-          }
-          if (
-            category == "Videos" ||
-            category == "Courses" ||
-            category == "Blogs"
-          ) {
-            body.description = data?.content;
-          }
-          if (category == "Documents") {
-            body.fileOriginalName = DocFileName;
-            body.documentPath = newDoc ? newDoc : DocURL;
-          }
-          if (category != "URLs") {
-            body.documentImagePath = NewImage ? NewImage : ImageLogo;
-            body.fileImageOriginalName = ImageFileName;
-          }
-          if (category != "Documents") {
-            body.subCategory = subCategoryId;
-          }
+    //       let response = await addKnowledge(body);
+    //       if (response.status === 200) {
+    //         setModal(true);
+    //         setTimeout(() => {
+    //           setModal(false);
+    //           setloading(false);
+    //           reset(KnowledgeDetails);
+    //           history.push("/admin/knowledge-center");
+    //         }, 2000);
+    //       } else {
+    //         Toast({ type: "error", message: response.data.message });
+    //         setloading(false);
+    //       }
+    //     } catch (e) {
+    //       console.log(e);
+    //     }
+    //   }
+    // } else {
+    //   if (category && subCategory) {
+    //     try {
+    //       if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+    //         Toast({ type: "error", message: "Description is Required" });
+    //         return;
+    //       }
+    //       setModal(true);
+    //       setloading(true);
+    //       let body = {
+    //         title: data.title,
+    //         category: categoryMasterId,
+    //       };
+    //       if (category === "Videos" || category === "URLs") {
+    //         body.contentUrlLink = data?.contentURL;
+    //       }
+    //       if (
+    //         category == "Videos" ||
+    //         category == "Courses" ||
+    //         category == "Blogs"
+    //       ) {
+    //         body.description = data?.content;
+    //       }
+    //       if (category == "Documents") {
+    //         body.fileOriginalName = DocFileName;
+    //         body.documentPath = newDoc ? newDoc : DocURL;
+    //       }
+    //       if (category != "URLs") {
+    //         body.documentImagePath = NewImage ? NewImage : ImageLogo;
+    //         body.fileImageOriginalName = ImageFileName;
+    //       }
+    //       if (category != "Documents") {
+    //         body.subCategory = subCategoryId;
+    //       }
 
-          if (KnowledgeDetails.status === "active") {
-            body.isActive = true;
-          } else {
-            body.isActive = false;
-          }
-          let response = await updateKnowledge(body, id);
-          if (response.status === 200) {
-            setModal(true);
-            setTimeout(() => {
-              setModal(false);
-              setloading(false);
-              reset(KnowledgeDetails);
-              history.push("/admin/knowledge-center");
-            }, 2000);
-          } else {
-            setloading(false);
-            Toast({ type: "error", message: response.data.message });
-          }
-        } catch (e) {
-          console.log(e);
-        }
-      }
-    }
+    //       if (KnowledgeDetails.status === "active") {
+    //         body.isActive = true;
+    //       } else {
+    //         body.isActive = false;
+    //       }
+    //       let response = await updateKnowledge(body, id);
+    //       if (response.status === 200) {
+    //         setModal(true);
+    //         setTimeout(() => {
+    //           setModal(false);
+    //           setloading(false);
+    //           reset(KnowledgeDetails);
+    //           history.push("/admin/knowledge-center");
+    //         }, 2000);
+    //       } else {
+    //         setloading(false);
+    //         Toast({ type: "error", message: response.data.message });
+    //       }
+    //     } catch (e) {
+    //       console.log(e);
+    //     }
+    //   }
+    // }
   };
   const TogglePopup = (type) => {
     if (type === "Category") {
@@ -269,7 +279,8 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
     setSubCategoryId(newCategory?._id);
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = (e, forms) => {
+    console.log("forms :>> ", forms);
     e.preventDefault();
     setIsSubmit(true);
     handleSubmit(onSubmit)();
@@ -374,379 +385,410 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
   };
 
   return (
-    <div className="px-5 py-3 Add_knowledge">
-      <div className="d-flex my-3 align-items-center">
-        <i className="pr-3">
-          <BsArrowLeft
-            size={28}
-            onClick={() => history.goBack()}
-            style={{ cursor: "pointer" }}
-          />
-        </i>
-        <p className="m-0">{"Knowledge Center"}</p>
-      </div>
-      <form>
-        <div className="knowledge_body p-5">
-          <div className="row">
-            <div className="col-4 pb-3">
-              <label>Title</label>
-              <InputBox
-                className="add_staff"
-                type={"text"}
-                placeholder="Enter Title"
-                name="title"
-                errors={errors}
-                register={register({
-                  required: true,
-                  pattern: /^(?!\s*$).+/,
-                })}
+    <>
+      {!course && (
+        <div className="px-5 py-3 Add_knowledge">
+          <div className="d-flex my-3 align-items-center">
+            <i className="pr-3">
+              <BsArrowLeft
+                size={28}
+                onClick={() => history.goBack()}
+                style={{ cursor: "pointer" }}
               />
-              <FormErrorMessage
-                error={errors.title}
-                messages={{
-                  required: "Title is Required",
-                  pattern: "Title is Invalid",
-                }}
-              />
-            </div>
-            <div className="col-4">
-              <label>Category</label>
-              <MultiSelect
-                options={categoryList}
-                placeholder="Select Category"
-                onChange={(option) => {
-                  setCategory(option);
-                  handlecategoryId(option);
-                }}
-                id="category"
-                catId={catId}
-                plusSymbol={false}
-                // toggle={() => TogglePopup("Category")}
-                // btnLabel="Create Category"
-              />
-              {!category && isSubmit && (
-                <span style={{ color: "#dc3545" }} className="">
-                  Category is Required
-                </span>
-              )}
-            </div>
+            </i>
+            <p className="m-0">{"Knowledge Center"}</p>
+          </div>
+          <form>
+            <div className="knowledge_body p-5">
+              <div className="row">
+                <div className="col-4 pb-3">
+                  <label>Title</label>
+                  <InputBox
+                    className="add_staff"
+                    type={"text"}
+                    placeholder="Enter Title"
+                    name="title"
+                    errors={errors}
+                    register={register({
+                      required: true,
+                      pattern: /^(?!\s*$).+/,
+                    })}
+                  />
+                  <FormErrorMessage
+                    error={errors.title}
+                    messages={{
+                      required: "Title is Required",
+                      pattern: "Title is Invalid",
+                    }}
+                  />
+                </div>
+                <div className="col-4">
+                  <label>Category</label>
+                  <MultiSelect
+                    options={categoryList}
+                    placeholder="Select Category"
+                    onChange={(option) => {
+                      setCategory(option);
+                      handlecategoryId(option);
+                    }}
+                    id="category"
+                    catId={catId}
+                    plusSymbol={false}
+                    // toggle={() => TogglePopup("Category")}
+                    // btnLabel="Create Category"
+                  />
+                  {!category && isSubmit && (
+                    <span style={{ color: "#dc3545" }} className="">
+                      Category is Required
+                    </span>
+                  )}
+                </div>
 
-            {category != "Documents" && (
-              <div className="col-4">
-                <label>Sub Category</label>
-                <MultiSelect
-                  subOptions={subCategoryList}
-                  placeholder="Select Sub Category"
-                  onChange={(option) => {
-                    setSubCategory(option);
-                    handleSubcategoryId(option);
-                  }}
-                  id="subCategory"
-                  subCatId={subCatId}
-                  plusSymbol={true}
-                  toggle={() => TogglePopup("subCategory")}
-                  btnLabel="Create Sub Category"
-                />
-                {!subCategory && isSubmit && (
-                  <span style={{ color: "#dc3545" }} className="">
-                    Sub Category is Required
-                  </span>
-                )}
-              </div>
-            )}
-
-            {(category === "Videos" || category === "URLs") && (
-              <div className="col-4 my-3">
-                <label>Content URL LinK</label>
-                <InputBox
-                  className="add_staff"
-                  type={"text"}
-                  placeholder="Enter Content URL LinK"
-                  name="contentURL"
-                  errors={errors}
-                  register={register({
-                    required: true,
-                    pattern: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
-                  })}
-                />
-                <FormErrorMessage
-                  error={errors.contentURL}
-                  messages={{
-                    required: "URL is Required",
-                    pattern: "Invalid URL",
-                  }}
-                />
-              </div>
-            )}
-
-            <div className="col-4 my-3">
-              <label>Status</label>
-              <CustomController
-                name={"status"}
-                control={control}
-                error={errors.status}
-                defaultValue={KnowledgeDetails.status}
-                value={status.find(
-                  (option) => option.value === getValues("status")
-                )}
-                rules={{ required: true }}
-                messages={{ required: "Status is Required" }}
-                render={({ onChange, ...field }) => {
-                  return (
-                    <DropDown
-                      {...field}
-                      name="status"
-                      placeholder="Select Status"
-                      options={status}
+                {category != "Documents" && (
+                  <div className="col-4">
+                    <label>Sub Category</label>
+                    <MultiSelect
+                      subOptions={subCategoryList}
+                      placeholder="Select Sub Category"
                       onChange={(option) => {
-                        setKnowledgeDetails((prevState) => ({
-                          ...prevState,
-                          status: option.value,
-                        }));
-                        onChange(option.value);
+                        setSubCategory(option);
+                        handleSubcategoryId(option);
+                      }}
+                      id="subCategory"
+                      subCatId={subCatId}
+                      plusSymbol={true}
+                      toggle={() => TogglePopup("subCategory")}
+                      btnLabel="Create Sub Category"
+                    />
+                    {!subCategory && isSubmit && (
+                      <span style={{ color: "#dc3545" }} className="">
+                        Sub Category is Required
+                      </span>
+                    )}
+                  </div>
+                )}
+
+                {(category === "Videos" || category === "URLs") && (
+                  <div className="col-4 my-3">
+                    <label>Content URL LinK</label>
+                    <InputBox
+                      className="add_staff"
+                      type={"text"}
+                      placeholder="Enter Content URL LinK"
+                      name="contentURL"
+                      errors={errors}
+                      register={register({
+                        required: true,
+                        pattern: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
+                      })}
+                    />
+                    <FormErrorMessage
+                      error={errors.contentURL}
+                      messages={{
+                        required: "URL is Required",
+                        pattern: "Invalid URL",
                       }}
                     />
-                  );
-                }}
-              />
-            </div>
-          </div>
-          <div className="row">
-            {category == "Documents" && (
-              <div className="col-4 mt-3 mb-4">
-                <label className="Product_description">Upload Document</label>
-                <Dropzone
-                  onDrop={handleDrop}
-                  accept=".pdf,xl,.xlsx,.doc,.jpg,.png"
-                  maxSize={3072000}
-                  errors={errors}
-                  {...register("dropZoneField", {
-                    required: newDoc || DocURL ? false : true,
-                  })}
-                >
-                  {({ getRootProps, getInputProps }) => (
-                    <div {...getRootProps({ className: "dropzone" })}>
-                      <div className=" border border-secondary-subtle   ">
-                        <input {...getInputProps()} multiple={false} />
-                        {DocURL ? (
-                          <div className="doc_name_display">
-                            <img
-                              src="https://windowsfileviewer.com/images/types/docx.png"
-                              alt="DocURL"
-                              className="preview_image"
-                            ></img>
-                            <p onClick={handleRedirect}>{DocFileName}</p>
-                          </div>
-                        ) : (
-                          <>
-                            <span className="cloud_icon">
-                              <img src={cloudIcon} alt="icon"></img>
-                            </span>
-                            <div className="drag_text">
-                              <p>Drag your files here to start uploading or</p>
-                            </div>
-                            <div className="drag_btn">
-                              <NormalButton
-                                onClick={(e) => e.preventDefault()}
-                                uploadBrowseBtn
-                                label="Browse"
-                              />
-                            </div>
-                          </>
-                        )}
-                        {isLoading ? (
-                          <Loader
-                            loading={isLoading}
-                            className="d-flex align-items-center justify-content-center"
-                          />
-                        ) : (
-                          DocURL && (
-                            <span
-                              style={{
-                                position: "absolute",
-                                top: "10px",
-                                right: "10px",
-                                cursor: "pointer",
-                                zIndex: 1000,
-                              }}
-                              onClick={cancelImg}
-                            >
-                              <AiOutlineCloseCircle
-                                size={24}
-                                style={{ color: "red" }}
-                              />
-                            </span>
-                          )
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </Dropzone>
-                {!newDoc && (
-                  <FormErrorMessage
-                    error={errors.dropZoneField}
-                    messages={{
-                      required: "Document is Required",
+                  </div>
+                )}
+
+                <div className="col-4 my-3">
+                  <label>Status</label>
+                  <CustomController
+                    name={"status"}
+                    control={control}
+                    error={errors.status}
+                    defaultValue={KnowledgeDetails.status}
+                    value={status.find(
+                      (option) => option.value === getValues("status")
+                    )}
+                    rules={{ required: true }}
+                    messages={{ required: "Status is Required" }}
+                    render={({ onChange, ...field }) => {
+                      return (
+                        <DropDown
+                          {...field}
+                          name="status"
+                          placeholder="Select Status"
+                          options={status}
+                          onChange={(option) => {
+                            setKnowledgeDetails((prevState) => ({
+                              ...prevState,
+                              status: option.value,
+                            }));
+                            onChange(option.value);
+                          }}
+                        />
+                      );
                     }}
                   />
+                </div>
+              </div>
+              <div className="row">
+                {category == "Documents" && (
+                  <div className="col-4 mt-3 mb-4">
+                    <label className="Product_description">
+                      Upload Document
+                    </label>
+                    <Dropzone
+                      onDrop={handleDrop}
+                      accept=".pdf,xl,.xlsx,.doc,.jpg,.png"
+                      maxSize={3072000}
+                      errors={errors}
+                      {...register("dropZoneField", {
+                        required: newDoc || DocURL ? false : true,
+                      })}
+                    >
+                      {({ getRootProps, getInputProps }) => (
+                        <div {...getRootProps({ className: "dropzone" })}>
+                          <div className=" border border-secondary-subtle   ">
+                            <input {...getInputProps()} multiple={false} />
+                            {DocURL ? (
+                              <div className="doc_name_display">
+                                <img
+                                  src="https://windowsfileviewer.com/images/types/docx.png"
+                                  alt="DocURL"
+                                  className="preview_image"
+                                ></img>
+                                <p onClick={handleRedirect}>{DocFileName}</p>
+                              </div>
+                            ) : (
+                              <>
+                                <span className="cloud_icon">
+                                  <img src={cloudIcon} alt="icon"></img>
+                                </span>
+                                <div className="drag_text">
+                                  <p>
+                                    Drag your files here to start uploading or
+                                  </p>
+                                </div>
+                                <div className="drag_btn">
+                                  <NormalButton
+                                    onClick={(e) => e.preventDefault()}
+                                    uploadBrowseBtn
+                                    label="Browse"
+                                  />
+                                </div>
+                              </>
+                            )}
+                            {isLoading ? (
+                              <Loader
+                                loading={isLoading}
+                                className="d-flex align-items-center justify-content-center"
+                              />
+                            ) : (
+                              DocURL && (
+                                <span
+                                  style={{
+                                    position: "absolute",
+                                    top: "10px",
+                                    right: "10px",
+                                    cursor: "pointer",
+                                    zIndex: 1000,
+                                  }}
+                                  onClick={cancelImg}
+                                >
+                                  <AiOutlineCloseCircle
+                                    size={24}
+                                    style={{ color: "red" }}
+                                  />
+                                </span>
+                              )
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </Dropzone>
+                    {!newDoc && (
+                      <FormErrorMessage
+                        error={errors.dropZoneField}
+                        messages={{
+                          required: "Document is Required",
+                        }}
+                      />
+                    )}
+                  </div>
+                )}
+                {category != "URLs" && (
+                  <div className="col-4 mt-3 mb-4">
+                    <label className="Product_description">
+                      Image Thumbanail
+                    </label>
+                    <Dropzone
+                      onDrop={handleDropImage}
+                      accept=".jpg,.png"
+                      maxSize={3072000}
+                      errors={errors}
+                      {...register("dropZoneField", {
+                        required: NewImage || ImageURL ? false : true,
+                      })}
+                    >
+                      {({ getRootProps, getInputProps }) => (
+                        <div {...getRootProps({ className: "dropzone" })}>
+                          <div className=" border border-secondary-subtle   ">
+                            <input {...getInputProps()} multiple={false} />
+                            {ImageLogo ? (
+                              <div className="doc_name_display">
+                                <img
+                                  src={ImageLogo}
+                                  alt="image"
+                                  className="preview_image"
+                                ></img>
+                                <p onClick={handleRedirect}>{ImageFileName}</p>
+                              </div>
+                            ) : (
+                              <>
+                                <span className="cloud_icon">
+                                  <img src={cloudIcon} alt="icon"></img>
+                                </span>
+                                <div className="drag_text">
+                                  <p>
+                                    Drag your files here to start uploading or
+                                  </p>
+                                </div>
+                                <div className="drag_btn">
+                                  <NormalButton
+                                    onClick={(e) => e.preventDefault()}
+                                    uploadBrowseBtn
+                                    label="Browse"
+                                  />
+                                </div>
+                              </>
+                            )}
+                            {isLoadingImage ? (
+                              <Loader
+                                loading={isLoadingImage}
+                                className="d-flex align-items-center justify-content-center"
+                              />
+                            ) : (
+                              ImageLogo && (
+                                <span
+                                  style={{
+                                    position: "absolute",
+                                    top: "10px",
+                                    right: "10px",
+                                    cursor: "pointer",
+                                    zIndex: 1000,
+                                  }}
+                                  onClick={deleteImage}
+                                >
+                                  <AiOutlineCloseCircle
+                                    size={24}
+                                    style={{ color: "red" }}
+                                  />
+                                </span>
+                              )
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </Dropzone>
+                    {!NewImage && (
+                      <FormErrorMessage
+                        error={errors.dropZoneField}
+                        messages={{
+                          required: "Image is Required",
+                        }}
+                      />
+                    )}
+                  </div>
                 )}
               </div>
-            )}
-            {category != "URLs" && (
-              <div className="col-4 mt-3 mb-4">
-                <label className="Product_description">Image Thumbanail</label>
-                <Dropzone
-                  onDrop={handleDropImage}
-                  accept=".jpg,.png"
-                  maxSize={3072000}
-                  errors={errors}
-                  {...register("dropZoneField", {
-                    required: NewImage || ImageURL ? false : true,
-                  })}
-                >
-                  {({ getRootProps, getInputProps }) => (
-                    <div {...getRootProps({ className: "dropzone" })}>
-                      <div className=" border border-secondary-subtle   ">
-                        <input {...getInputProps()} multiple={false} />
-                        {ImageLogo ? (
-                          <div className="doc_name_display">
-                            <img
-                              src={ImageLogo}
-                              alt="image"
-                              className="preview_image"
-                            ></img>
-                            <p onClick={handleRedirect}>{ImageFileName}</p>
-                          </div>
-                        ) : (
-                          <>
-                            <span className="cloud_icon">
-                              <img src={cloudIcon} alt="icon"></img>
-                            </span>
-                            <div className="drag_text">
-                              <p>Drag your files here to start uploading or</p>
-                            </div>
-                            <div className="drag_btn">
-                              <NormalButton
-                                onClick={(e) => e.preventDefault()}
-                                uploadBrowseBtn
-                                label="Browse"
-                              />
-                            </div>
-                          </>
-                        )}
-                        {isLoadingImage ? (
-                          <Loader
-                            loading={isLoadingImage}
-                            className="d-flex align-items-center justify-content-center"
-                          />
-                        ) : (
-                          ImageLogo && (
-                            <span
-                              style={{
-                                position: "absolute",
-                                top: "10px",
-                                right: "10px",
-                                cursor: "pointer",
-                                zIndex: 1000,
-                              }}
-                              onClick={deleteImage}
-                            >
-                              <AiOutlineCloseCircle
-                                size={24}
-                                style={{ color: "red" }}
-                              />
-                            </span>
-                          )
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </Dropzone>
-                {!NewImage && (
-                  <FormErrorMessage
-                    error={errors.dropZoneField}
+              {(category == "Videos" ||
+                category == "Courses" ||
+                category == "Blogs") && (
+                <div>
+                  <label>Description</label>
+                  <CustomController
+                    name={"content"}
+                    control={control}
+                    error={errors.content}
+                    rules={{ required: true }}
                     messages={{
-                      required: "Image is Required",
+                      required: "Description is Required",
+                    }}
+                    render={({ onChange, ...field }) => {
+                      return (
+                        <TextEditor
+                          {...field}
+                          name={"content"}
+                          onChange={(content) => {
+                            onChange(content);
+                            setQuill(content);
+                          }}
+                        />
+                      );
                     }}
                   />
-                )}
-              </div>
-            )}
-          </div>
-          {(category == "Videos" ||
-            category == "Courses" ||
-            category == "Blogs") && (
-            <div>
-              <label>Description</label>
-              <CustomController
-                name={"content"}
-                control={control}
-                error={errors.content}
-                rules={{ required: true }}
-                messages={{
-                  required: "Description is Required",
-                }}
-                render={({ onChange, ...field }) => {
-                  return (
-                    <TextEditor
-                      {...field}
-                      name={"content"}
-                      onChange={(content) => {
-                        onChange(content);
-                        setQuill(content);
-                      }}
+                </div>
+              )}
+              <div className="d-flex align-items-center justify-content-end  p-0 pt-4">
+                <div className="col-md-2 pl-4 pr-0">
+                  <NormalButton
+                    className="authButton1"
+                    label={"Cancel"}
+                    onClick={() => history.push("/admin/knowledge-center")}
+                  />
+                </div>
+                {category === "Courses" ? (
+                  <div className="col-md-2 ">
+                    <NormalButton
+                      className="loginButton"
+                      onClick={() => setCourse(true)}
+                      label={"next"}
+                      isLoading={loading}
                     />
-                  );
-                }}
-              />
+                  </div>
+                ) : (
+                  <div className="col-md-2 ">
+                    <NormalButton
+                      className="loginButton"
+                      onClick={handleFormSubmit}
+                      label={edit ? "Update" : "Add Content"}
+                      isLoading={loading}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
-          )}
-          <div className="d-flex align-items-center justify-content-end  p-0 pt-4">
-            <div className="col-md-2 pl-4 pr-0">
-              <NormalButton
-                className="authButton1"
-                label={"Cancel"}
-                onClick={() => history.push("/admin/knowledge-center")}
-              />
-            </div>
-            <div className="col-md-2 ">
-              <NormalButton
-                className="loginButton"
-                onClick={handleFormSubmit}
-                label={edit ? "Update" : "Add Content"}
-                isLoading={loading}
-              />
-            </div>
+          </form>
+          <div>
+            <SuccessModal
+              modalOpen={modal}
+              onCancel={() => setModal(false)}
+              successMsg={
+                !edit
+                  ? "Knowledge Center Added Successfully"
+                  : "Knowledge Center update Successfully"
+              }
+            />
+          </div>
+          <div>
+            <CategoryModal
+              modalOpen={categoryModal}
+              onCancel={() => setCategoryModal(false)}
+              refresh={() => listCategorys(currentPage)}
+            />
+          </div>
+          <div>
+            <SubCategoryModal
+              modalOpen={subCategoryModal}
+              onCancel={() => setSubCategoryModal(false)}
+              categoryId={categoryId}
+              refresh={() => listSubCategorys(currentPage)}
+            />
           </div>
         </div>
-      </form>
-      <div>
-        <SuccessModal
-          modalOpen={modal}
-          onCancel={() => setModal(false)}
-          successMsg={
-            !edit
-              ? "Knowledge Center Added Successfully"
-              : "Knowledge Center update Successfully"
-          }
+      )}
+      {course && (
+        <CourseComp
+          Course={course}
+          setCourse={setCourse}
+          forms={forms}
+          setForms={setForms}
         />
-      </div>
-      <div>
-        <CategoryModal
-          modalOpen={categoryModal}
-          onCancel={() => setCategoryModal(false)}
-          refresh={() => listCategorys(currentPage)}
-        />
-      </div>
-      <div>
-        <SubCategoryModal
-          modalOpen={subCategoryModal}
-          onCancel={() => setSubCategoryModal(false)}
-          categoryId={categoryId}
-          refresh={() => listSubCategorys(currentPage)}
-        />
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 
