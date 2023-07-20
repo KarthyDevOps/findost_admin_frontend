@@ -1,0 +1,2 @@
+(this.webpackJsonpadmin=this.webpackJsonpadmin||[]).push([[46],{150:function(n,t,e){"use strict";e.r(t),e.d(t,"useClickOutSide",(function(){return u}));var c=e(1),u=function(n,t){Object(c.useEffect)((function(){return e("addEventListener"),function(){e("removeEventListener")}}),[]);var e=function(n){["touchstart","mousedown"].forEach((function(t){document[n](t,u)}))},u=function(e){var c=e.target;n.current&&!n.current.contains(c)&&t()}}}}]);
+//# sourceMappingURL=46.3cf6f681.chunk.js.map
