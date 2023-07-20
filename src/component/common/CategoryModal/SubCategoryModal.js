@@ -14,7 +14,7 @@ import { addSubCategory } from "service/Cms";
 // helpers
 import { history } from "helpers";
 
-const SubCategoryModal = ({ modalOpen, onCancel, categoryId, refresh }) => {
+const SubCategoryModal = ({ modalOpen, onCancel, categoryId, refresh,type }) => {
   const { register, handleSubmit, errors, reset } = useForm({
     mode: "onChange",
   });
@@ -26,6 +26,8 @@ const SubCategoryModal = ({ modalOpen, onCancel, categoryId, refresh }) => {
       const body = {
         name: data.subCategoryName,
         categoryId: categoryId,
+        type : type,
+
       };
       let response = await addSubCategory(body);
       if (response.status === 200) {

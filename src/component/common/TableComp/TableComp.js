@@ -138,7 +138,9 @@ function TableComp(props) {
                       // for id
                     } else if (statusKey.includes("id")) {
                       return <td key={key}>{value}</td>;
-                    } else if (statusKey.includes("producticons3")) {
+                    } else if (statusKey.includes("type")) {
+                      return <td key={key}>{value.charAt(0).toUpperCase() + value.slice(1)}</td>;
+                    }else if (statusKey.includes("producticons3")) {
                       return (
                         <td key={key}>
                           <a href={value} target="_blank">

@@ -125,7 +125,7 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
     try {
       let params = {
         page: page,
-        
+        type: "Faq",
       };
       let response = await getSubCategoryList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
