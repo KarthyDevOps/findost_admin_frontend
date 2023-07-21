@@ -67,7 +67,7 @@ const ResetPassword = () => {
                     type={isShowPassword ? "text" : "password"}
                     name="newPassword"
                     register={register({
-                      required: "Password is required",
+                      required: "Password is Required",
                       minLength: {
                         value: 8,
                       },
@@ -91,7 +91,7 @@ const ResetPassword = () => {
                   <FormErrorMessage
                     error={errors.newPassword}
                     messages={{
-                      required: "Password is required",
+                      required: "Password is Required",
                       validate: "Passwords do not match",
                       minLength: "Password must contain at least 8 letters",
                       maxLength: "Password should contain at most 16 characters",
