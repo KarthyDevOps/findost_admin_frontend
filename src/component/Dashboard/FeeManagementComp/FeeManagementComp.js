@@ -73,7 +73,7 @@ const FeeManagementComp = ({ feeAccess }) => {
       let response = await updateRegisterFee(body, id);
       if (response.status === 200) {
         setModal(true);
-        Toast({ type: "success", message: "updated successfully" });
+        Toast({ type: "success", message: "Updated Successfully" });
         setTimeout(() => {
           setModal(false);
           reset();
