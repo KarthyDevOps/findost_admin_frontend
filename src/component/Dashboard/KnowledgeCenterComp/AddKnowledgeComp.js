@@ -173,13 +173,15 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
 
   const onSubmit = async (data) => {
     if (!edit) {
-      if (category && subCategory) {
+      if (category == "Documents" ? category : category && subCategory) {
         try {
-          setloading(true);
-          if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
-            Toast({ type: "error", message: "Description is Required" });
-            return;
+          if (category !== "Documents") {
+            if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+              Toast({ type: "error", message: "Description is Required" });
+              return;
+            }
           }
+          setloading(true);
           let body = {
             title: title,
             category: categoryMasterId,
@@ -195,6 +197,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           if (category == "Documents") {
             body.fileOriginalName = DocFileName;
             body.documentPath = newDoc ? newDoc : DocURL;
+            body.thumbnail = NewImage ? NewImage : ImageLogo;
           }
           if (category === "Blogs") {
             body.thumbnail = NewImage ? NewImage : ImageLogo;
@@ -231,11 +234,13 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
         }
       }
     } else {
-      if (category && subCategory) {
+      if (category === "Documents" ? category : category && subCategory) {
         try {
-          if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
-            Toast({ type: "error", message: "Description is Required" });
-            return;
+          if (category !== "Documents") {
+            if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+              Toast({ type: "error", message: "Description is Required" });
+              return;
+            }
           }
           setloading(true);
           let body = {
@@ -257,6 +262,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           if (category == "Documents") {
             body.fileOriginalName = DocFileName;
             body.documentPath = newDoc ? newDoc : DocURL;
+            body.thumbnail = NewImage ? NewImage : ImageLogo;
           }
           if (category != "URLs") {
             body.documentImagePath = NewImage ? NewImage : ImageLogo;
@@ -631,7 +637,9 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 </div>
               )}
 
-              <div className="col-4 my-3">
+              <div
+                className={category === "Documents" ? "col-4" : "col-4 my-3"}
+              >
                 <label>Status</label>
                 <CustomController
                   name={"status"}
@@ -862,6 +870,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 </div>
               )}
             </div>
+            {console.log("category", category)}
             {(category == "Videos" ||
               category == "Courses" ||
               category == "Blogs") && (
