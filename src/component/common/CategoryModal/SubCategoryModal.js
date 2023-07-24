@@ -27,7 +27,6 @@ const SubCategoryModal = ({ modalOpen, onCancel, categoryId, refresh,type }) => 
         name: data.subCategoryName,
         categoryId: categoryId,
         type : type,
-
       };
       let response = await addSubCategory(body);
       if (response.status === 200) {

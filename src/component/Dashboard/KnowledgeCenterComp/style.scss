@@ -1,6 +1,5 @@
 .knowledge_center,
 .Add_knowledge {
-  
   p {
     font-family: "Helvetica";
     font-style: normal;
@@ -9,7 +8,7 @@
     line-height: 125.99%;
     color: #000000;
   }
-  h6{
+  h6 {
     font-size: 14px;
   }
 }
@@ -117,27 +116,31 @@
   background: #ffffff;
   width: 100%;
   position: relative;
-
-  .course-form-overlay {
-    position: absolute;
-    top: 3%;
-    right: 1%;
-    img {
-      width: 22px;
-      height: 22px;
-    }
+}
+.cource-form-overlay {
+  position: absolute;
+  top: 3%;
+  right: 1%;
+  z-index: 1000;
+  img {
+    width: 22px;
+    height: 22px;
   }
-  .sub-section-overlay {
-    background: #f3f3f3;
-    position: relative;
-    .title-sub-close {
-      position: absolute;
-      top: 4%;
-      right: 1%;
-      img {
-        width: 22px;
-        height: 22px;
-      }
-    }
+}
+
+.sub-section {
+  background: #f3f3f3;
+  position: relative;
+}
+
+
+
+.sub-section-overlay {
+  position: absolute;
+  top: 4%;
+  right: 1%;
+  img {
+    width: 22px;
+    height: 22px;
   }
 }
