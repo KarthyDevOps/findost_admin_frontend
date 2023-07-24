@@ -200,7 +200,6 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           }
           if (category != "URLs") {
             body.documentImagePath = NewImage ? NewImage : ImageLogo;
-            body.fileImageOriginalName = ImageFileName;
           }
           if (category != "Documents") {
             body.subCategory = subCategoryId;
@@ -259,7 +258,6 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           }
           if (category != "URLs") {
             body.documentImagePath = NewImage ? NewImage : ImageLogo;
-            body.fileImageOriginalName = ImageFileName;
           }
           if (category === "Blogs") {
             body.thumbnail = NewImage ? NewImage : ImageLogo;
@@ -766,13 +764,12 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                         <div className=" border border-secondary-subtle   ">
                           <input {...getInputProps()} multiple={false} />
                           {ImageLogo ? (
-                            <div className="doc_name_display">
+                            <div className=" ">
                               <img
                                 src={ImageLogo}
                                 alt="imagee"
-                                className="preview_image"
+                                className="preview_image_view"
                               />
-                              <p onClick={handleRedirect}>{ImageFileName}</p>
                             </div>
                           ) : (
                             <>
@@ -835,35 +832,35 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
             {(category == "Videos" ||
               category == "Courses" ||
               category == "Blogs") && (
-              <div>
-                <label>Description</label>
-                <CustomController
-                  name={"content"}
-                  control={control}
-                  error={errors.content}
-                  rules={{ required: true }}
-                  messages={{
-                    required: "Description is Required",
-                  }}
-                  render={({ onChange, ...field }) => {
-                    return (
-                      <TextEditor
-                        {...field}
-                        name={"content"}
-                        onChange={(content) => {
-                          onChange(content);
-                          setQuill(content);
-                          setCourseForm((prevData) => ({
-                            ...prevData,
-                            description: content,
-                          }));
-                        }}
-                      />
-                    );
-                  }}
-                />
-              </div>
-            )}
+                <div>
+                  <label>Description</label>
+                  <CustomController
+                    name={"content"}
+                    control={control}
+                    error={errors.content}
+                    rules={{ required: true }}
+                    messages={{
+                      required: "Description is Required",
+                    }}
+                    render={({ onChange, ...field }) => {
+                      return (
+                        <TextEditor
+                          {...field}
+                          name={"content"}
+                          onChange={(content) => {
+                            onChange(content);
+                            setQuill(content);
+                            setCourseForm((prevData) => ({
+                              ...prevData,
+                              description: content,
+                            }));
+                          }}
+                        />
+                      );
+                    }}
+                  />
+                </div>
+              )}
           </div>
         ) : (
           <>
