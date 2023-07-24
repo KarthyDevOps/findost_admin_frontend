@@ -17,7 +17,7 @@ import { addStaff, getStaff, updateStaff } from "service/Auth";
 import {
   history,
   getCompNameByPrivelegeName,
-  roleOptions,
+
   statusOptions,
   managementOptions,
 } from "helpers";
@@ -67,6 +67,22 @@ const AddStaff = ({ create, view, remove }) => {
       console.log("e :>> ", e);
     }
   };
+  const roleOptions = [
+
+    {
+      label: "Admin",
+      value: "ADMIN",
+    },
+    {
+      label: "Staff",
+      value: "STAFF",
+    },
+    {
+      label: "Sub Admin",
+      value: "SUB ADMIN",
+    },
+
+  ];
 
   const onSubmit = async (data) => {
     if (!edit) {
@@ -307,26 +323,26 @@ const AddStaff = ({ create, view, remove }) => {
                   minLength: edit
                     ? false
                     : {
-                        value: 8,
-                      },
+                      value: 8,
+                    },
                   maxLength: edit
                     ? false
                     : {
-                        value: 16,
-                      },
+                      value: 16,
+                    },
                   pattern: edit
                     ? false
                     : {
-                        value: /^(?=.*[A-Z])/,
-                      },
+                      value: /^(?=.*[A-Z])/,
+                    },
                   validate: edit
                     ? false
                     : {
-                        lowercase: (value) => /^(?=.*[a-z])/.test(value),
-                        containsDigit: (value) => /^(?=.*[0-9])/.test(value),
-                        containsSpecial: (value) =>
-                          /^(?=.*[!@#$%^&*])/.test(value),
-                      },
+                      lowercase: (value) => /^(?=.*[a-z])/.test(value),
+                      containsDigit: (value) => /^(?=.*[0-9])/.test(value),
+                      containsSpecial: (value) =>
+                        /^(?=.*[!@#$%^&*])/.test(value),
+                    },
                 })}
               />
 

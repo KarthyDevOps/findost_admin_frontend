@@ -60,6 +60,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
   const [edit, setEdit] = useState(false);
   const [isLoad, setIsLoad] = useState(false);
   const [SiteImageLogo, setImageLogo] = useState("");
+  const [SiteImageLogoURl, setImageLogoURl] = useState("");
   const [categoryType, setcategoryType] = useState("");
   const [TemplateTypeId, setTemplateTypeId] = useState("");
 
@@ -142,7 +143,8 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
         setCatId(data?.categoryId);
 
         console.log("data", data);
-        setImageLogo(data?.imagePath);
+        setImageLogo(data?.imagePath)
+        setImageLogoURl(data?.imagePathS3);
         setTemplateDetails({
           type: data.type,
           status: data.isActive ? "active" : "inActive",
@@ -153,10 +155,10 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
           data.type === "preDefined"
             ? "preDefinedText"
             : data.templateType === "Image"
-            ? "templateTypeImage"
-            : data.templateType === "Text"
-            ? "templateTypeText"
-            : "templateTypeInfoGraphics"
+              ? "templateTypeImage"
+              : data.templateType === "Text"
+                ? "templateTypeText"
+                : "templateTypeInfoGraphics"
         );
       } else {
         Toast({ type: "error", message: response.data.message });
@@ -183,7 +185,8 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
         let response = await uploadImage(body);
         if (response.status == 200) {
           setIsLoad(false);
-          setImageLogo(response?.data?.data?.data?.s3URL);
+          setImageLogo(response?.data?.data?.data?.key);
+          setImageLogoURl(response?.data?.data?.data?.s3URL);
         }
       }
     } catch (e) {
@@ -194,6 +197,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
   const deleteFavLogo = (e) => {
     e.stopPropagation();
     setImageLogo(null);
+    setImageLogoURl(null)
   };
 
   const onSubmit = async (data) => {
@@ -469,8 +473,8 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                                 Templatetype.value === "Image"
                                   ? "templateTypeImage"
                                   : Templatetype.value === "Text"
-                                  ? "templateTypeText"
-                                  : "templateTypeInfoGraphics"
+                                    ? "templateTypeText"
+                                    : "templateTypeInfoGraphics"
                               );
                             }}
                           />
@@ -513,7 +517,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                     maxSize={3072000}
                     errors={errors}
                     {...register("dropZoneLogoField", {
-                      required: SiteImageLogo ? false : true,
+                      required: SiteImageLogoURl ? false : true,
                     })}
                   >
                     {({ getRootProps, getInputProps }) => (
@@ -525,10 +529,10 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                               loading={isLoad}
                               className="d-flex align-items-center justify-content-center"
                             />
-                          ) : SiteImageLogo ? (
+                          ) : SiteImageLogoURl ? (
                             <>
                               <img
-                                src={SiteImageLogo}
+                                src={SiteImageLogoURl}
                                 alt="SiteImageLogo"
                                 className="preview_image"
                               ></img>
@@ -550,7 +554,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                               </div>
                             </>
                           )}
-                          {SiteImageLogo && (
+                          {SiteImageLogoURl && (
                             <span
                               style={{
                                 position: "absolute",
@@ -571,7 +575,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                       </div>
                     )}
                   </Dropzone>
-                  {!SiteImageLogo && (
+                  {!SiteImageLogoURl && (
                     <FormErrorMessage
                       error={errors.dropZoneLogoField}
                       messages={{
@@ -660,10 +664,10 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                 TemplateDetails?.type === "preDefined"
                   ? "preDefinedText"
                   : TemplateDetails?.Templatetype === "Image"
-                  ? "templateTypeImage"
-                  : TemplateDetails?.Templatetype === "Text"
-                  ? "templateTypeText"
-                  : "templateTypeInfoGraphics"
+                    ? "templateTypeImage"
+                    : TemplateDetails?.Templatetype === "Text"
+                      ? "templateTypeText"
+                      : "templateTypeInfoGraphics"
               )
             }
             type={TemplateDetails?.type === "preDefined" && "preDefinedText"}
@@ -671,8 +675,8 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
               TemplateDetails?.Templatetype === "Image"
                 ? "templateTypeImage"
                 : TemplateDetails?.Templatetype === "Text"
-                ? "templateTypeText"
-                : "templateTypeInfoGraphics"
+                  ? "templateTypeText"
+                  : "templateTypeInfoGraphics"
             }
           />
         </div>

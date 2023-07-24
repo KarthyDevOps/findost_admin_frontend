@@ -93,7 +93,7 @@ const LoginComp = () => {
                     <FormErrorMessage
                       error={errors.emailId}
                       messages={{
-                        required: "Email is required",
+                        required: "Email is Required",
                         pattern: "Invalid Email Id ",
                       }}
                     />
@@ -113,7 +113,7 @@ const LoginComp = () => {
                     name="password"
                     onChange={setpassword}
                     register={register({
-                      required: "Password is required",
+                      required: "Password is Required",
                       minLength: {
                         value: 8,
                       },
@@ -136,7 +136,7 @@ const LoginComp = () => {
                   <FormErrorMessage
                     error={errors.password}
                     messages={{
-                      required: "Password is required",
+                      required: "Password is Required",
                       minLength: "Password must contain at least 8 letters",
                       maxLength: "Password should contain at most 16 characters",
                       pattern: "Password must contain at least one uppercase letter",
