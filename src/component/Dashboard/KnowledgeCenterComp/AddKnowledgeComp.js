@@ -48,6 +48,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
   });
   const history = useHistory();
   const [title, setTitle] = useState("");
+  const [courseType, setCourseType] = useState("");
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState(false);
   const [newDoc, setNewDoc] = useState(null);
@@ -119,6 +120,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
       title: title,
       content: quill,
       contentURL: courseForm?.thumbnailUrl,
+      courseType: courseType,
     });
     setCatId(courseForm?.category);
     setSubCatId(courseForm?.subCategory);
@@ -141,6 +143,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           contentURL: data?.contentUrlLink,
         });
         setTitle(data?.title);
+        setCourseType(data?.courseType);
         setCatId(data?.category);
         setSubCatId(data?.subCategory);
         setQuill(data?.description);
@@ -163,8 +166,6 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
       console.log("e :>> ", e);
     }
   };
-
-  console.log("forms :>> ", forms);
 
   const onCourseSubmit = () => {
     setCourse(true);
@@ -341,6 +342,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           thumbnail: NewImage ? NewImage : ImageLogo,
           description: quill,
           courseDetails: forms,
+          courseType: courseType,
         };
         if (KnowledgeDetails.status === "active") {
           body.isActive = "true";
@@ -377,6 +379,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           thumbnail: NewImage ? NewImage : ImageLogo,
           description: quill,
           courseDetails: forms,
+          courseType: courseType,
         };
         if (KnowledgeDetails.status === "active") {
           body.isActive = "true";
@@ -663,6 +666,33 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                   }}
                 />
               </div>
+              {category === "Courses" && (
+                <div className="col-4 my-3">
+                  <label>Course Type</label>
+                  <InputBox
+                    className="add_staff"
+                    type={"text"}
+                    placeholder="Enter Course Type"
+                    name="courseType"
+                    errors={errors}
+                    value={courseType}
+                    onChange={(e) => {
+                      setCourseType(e.target.value);
+                    }}
+                    register={register({
+                      required: true,
+                      pattern: /^(?!\s*$).+/,
+                    })}
+                  />
+                  <FormErrorMessage
+                    error={errors.courseType}
+                    messages={{
+                      required: "Course Type is Required",
+                      pattern: "Course Type is Invalid",
+                    }}
+                  />
+                </div>
+              )}
             </div>
             <div className="row">
               {category == "Documents" && (
