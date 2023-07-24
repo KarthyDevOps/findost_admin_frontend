@@ -8,56 +8,59 @@ import { useForm } from "react-hook-form";
 import FormErrorMessage from "component/common/ErrorMessage";
 import InputBox from "component/common/InputBox/InputBox";
 
-const CourseComp = ({ setCourse,forms,setForms }) => {
-  const { register, handleSubmit, errors, control, setValue, reset } = useForm({
-    mode: "onChange",
-  });
-
-  console.log('formskdsbcksdbh :>> ', forms);
-
-  // const [forms, setForms] = useState([
-  //   {
-  //     mainTitle: "",
-  //     subSections: [{ title: "", durationHr: "", durationMin: "", link: "" }],
-  //   },
-  // ]);
-
-  const handleAddTitle = () => {
+const CourseComp = ({
+  setCourse,
+  backtoForm,
+  forms,
+  setForms,
+  errors,
+  register,
+}) => {
+  const handleAddTitle = (e) => {
+    e.preventDefault();
     setForms([
       ...forms,
       {
-        mainTitle: "",
-        subSections: [{ title: "", durationHr: "", durationMin: "", link: "" }],
+        title: "",
+        list: [{ title: "", hrs: "", min: "", link: "" }],
       },
     ]);
   };
 
-  const handleAddSubSection = (index) => {
+  const handleAddSubSection = (index, e) => {
+    e.preventDefault();
     const updatedForms = [...forms];
-    updatedForms[index].subSections.push({
+    updatedForms[index].list.push({
       title: "",
-      durationHr: "",
-      durationMin: "",
+      hrs: "",
+      min: "",
       link: "",
     });
     setForms(updatedForms);
   };
 
+  const handleRemoveTitle = (index) => {
+    const updatedForms = [...forms];
+    updatedForms.splice(index, 1);
+    setForms(updatedForms);
+  };
+
+  const handleRemoveSubSection = (mainIndex, subIndex) => {
+    const updatedForms = [...forms];
+    updatedForms[mainIndex].list.splice(subIndex, 1);
+    setForms(updatedForms);
+  };
+
   const handleMainTitleChange = (index, value) => {
     const updatedForms = [...forms];
-    updatedForms[index].mainTitle = value;
+    updatedForms[index].title = value;
     setForms(updatedForms);
   };
 
   const handleSubSectionChange = (mainIndex, subIndex, fieldName, value) => {
     const updatedForms = [...forms];
-    updatedForms[mainIndex].subSections[subIndex][fieldName] = value;
+    updatedForms[mainIndex].list[subIndex][fieldName] = value;
     setForms(updatedForms);
-  };
-
-  const onSubmit = () => {
-    console.log("Form Data:", forms);
-    // setCourseDetails(forms)
   };
 
   return (
@@ -67,7 +70,11 @@ const CourseComp = ({ setCourse,forms,setForms }) => {
           <i className="pr-3">
             <BsArrowLeft
               size={28}
-              onClick={() => history.goBack()}
+              onClick={(e) => {
+                e.preventDefault();
+                backtoForm();
+                setCourse(false);
+              }}
               style={{ cursor: "pointer" }}
             />
           </i>
@@ -77,18 +84,14 @@ const CourseComp = ({ setCourse,forms,setForms }) => {
           <NormalButton
             className="authButton1"
             label={"Add Title"}
-            onClick={() => handleAddTitle()}
+            onClick={(e) => handleAddTitle(e)}
           />
         </div>
       </div>
-      <form
-        onSubmit={() => {
-          handleSubmit(onSubmit);
-          setCourse(false)
-        }}
-      >
-        <div className="course-form p-5 mt-2">
-          {forms.map((form, mainIndex) => (
+
+      {forms.map((form, mainIndex) => (
+        <>
+          <div className="course-form p-5 mt-5">
             <div key={mainIndex}>
               <div className="row align-items-center mb-5">
                 <div className="col-9">
@@ -96,38 +99,49 @@ const CourseComp = ({ setCourse,forms,setForms }) => {
                   <InputBox
                     className="add_staff"
                     type="text"
+                    name={`forms[${mainIndex}].title`}
                     placeholder="Enter Title"
-                    value={form.mainTitle}
+                    value={form.title}
                     onChange={(e) =>
                       handleMainTitleChange(mainIndex, e.target.value)
                     }
-                    ref={register({
-                      required: "Title is Required",
-                      pattern: {
-                        value: /^(?!\s*$).+/,
-                        message: "Title is Invalid",
-                      },
+                    errors={errors}
+                    register={register({
+                      required: "true",
+                      pattern: /^(?!\s*$).+/,
                     })}
                   />
                   <FormErrorMessage
-                    error={errors[`forms[${mainIndex}].mainTitle`]}
+                    error={
+                      errors.forms &&
+                      errors.forms[mainIndex] &&
+                      errors?.forms[mainIndex]?.title
+                    }
+                    messages={{
+                      required: " Title is Required",
+                      pattern: " Title is Invalid",
+                    }}
                   />
                 </div>
                 <div className="col-3">
                   <NormalButton
                     className="loginButton"
                     label="Add Sub section"
-                    onClick={() => handleAddSubSection(mainIndex)}
+                    onClick={(e) => {
+                      handleAddSubSection(mainIndex, e);
+                      setCourse(true);
+                    }}
                   />
                 </div>
               </div>
-              {form.subSections.map((subSection, subIndex) => (
+              {form.list.map((subSection, subIndex) => (
                 <div key={subIndex} className="sub-section p-3 mb-3">
                   <div className="col-10">
                     <label>Sub Section Title</label>
                     <InputBox
                       className="add_staff"
                       type="text"
+                      name={`forms[${mainIndex}].list[${subIndex}].title`}
                       placeholder="Enter Sub Section Title"
                       value={subSection.title}
                       onChange={(e) =>
@@ -138,20 +152,24 @@ const CourseComp = ({ setCourse,forms,setForms }) => {
                           e.target.value
                         )
                       }
-                      ref={register({
-                        required: "Sub Section Title is Required",
-                        pattern: {
-                          value: /^(?!\s*$).+/,
-                          message: "Sub Section Title is Invalid",
-                        },
+                      errors={errors}
+                      register={register({
+                        required: true,
+                        pattern: /^(?!\s*$).+/,
                       })}
                     />
                     <FormErrorMessage
                       error={
-                        errors[
-                          `forms[${mainIndex}].subSections[${subIndex}].title`
-                        ]
+                        errors.forms &&
+                        errors.forms[mainIndex] &&
+                        errors.forms[mainIndex].list &&
+                        errors.forms[mainIndex].list[subIndex] &&
+                        errors.forms[mainIndex].list[subIndex].title
                       }
+                      messages={{
+                        required: "SubTitle is Required",
+                        pattern: "SubTitle is Invalid",
+                      }}
                     />
                   </div>
                   <div className="row mt-2 p-3">
@@ -161,26 +179,33 @@ const CourseComp = ({ setCourse,forms,setForms }) => {
                         className="add_staff"
                         type={"text"}
                         placeholder="(in hr)"
-                        name="durationHrs"
+                        name={`forms[${mainIndex}].list[${subIndex}].hrs`}
+                        value={subSection.hrs}
                         onChange={(e) =>
                           handleSubSectionChange(
                             mainIndex,
                             subIndex,
-                            "durationHr",
+                            "hrs",
                             e.target.value
                           )
                         }
                         errors={errors}
                         register={register({
                           required: true,
-                          pattern: /^(?!\s*$).+/,
+                          pattern: /^[0-9]+$/,
                         })}
                       />
                       <FormErrorMessage
-                        error={errors.durationHrs}
+                        error={
+                          errors.forms &&
+                          errors.forms[mainIndex] &&
+                          errors.forms[mainIndex].list &&
+                          errors.forms[mainIndex].list[subIndex] &&
+                          errors.forms[mainIndex].list[subIndex].hrs
+                        }
                         messages={{
-                          required: "Duration is Required",
-                          pattern: "Duration is Invalid",
+                          required: "Hrs is Required",
+                          pattern: "Please enter numbers only for hours",
                         }}
                       />
                     </div>
@@ -190,26 +215,33 @@ const CourseComp = ({ setCourse,forms,setForms }) => {
                         className="add_staff"
                         type={"text"}
                         placeholder="( in min)"
-                        name="durationMins"
+                        name={`forms[${mainIndex}].list[${subIndex}].min`}
+                        value={subSection.min}
                         onChange={(e) =>
                           handleSubSectionChange(
                             mainIndex,
                             subIndex,
-                            "durationMin",
+                            "min",
                             e.target.value
                           )
                         }
                         errors={errors}
                         register={register({
                           required: true,
-                          pattern: /^(?!\s*$).+/,
+                          pattern: /^[0-9]+$/,
                         })}
                       />
                       <FormErrorMessage
-                        error={errors.durationMins}
+                        error={
+                          errors.forms &&
+                          errors.forms[mainIndex] &&
+                          errors.forms[mainIndex].list &&
+                          errors.forms[mainIndex].list[subIndex] &&
+                          errors.forms[mainIndex].list[subIndex].min
+                        }
                         messages={{
-                          required: "Duration is Required",
-                          pattern: "Duration is Invalid",
+                          required: "Mins is Required",
+                          pattern: "Please enter numbers only for mins",
                         }}
                       />
                     </div>
@@ -219,7 +251,8 @@ const CourseComp = ({ setCourse,forms,setForms }) => {
                         className="add_staff"
                         type={"text"}
                         placeholder="Enter Link"
-                        name="link"
+                        name={`forms[${mainIndex}].list[${subIndex}].link`}
+                        value={subSection.link}
                         onChange={(e) =>
                           handleSubSectionChange(
                             mainIndex,
@@ -231,11 +264,17 @@ const CourseComp = ({ setCourse,forms,setForms }) => {
                         errors={errors}
                         register={register({
                           required: true,
-                          pattern: /^(?!\s*$).+/,
+                          pattern: /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i,
                         })}
                       />
                       <FormErrorMessage
-                        error={errors.link}
+                        error={
+                          errors.forms &&
+                          errors.forms[mainIndex] &&
+                          errors.forms[mainIndex].list &&
+                          errors.forms[mainIndex].list[subIndex] &&
+                          errors.forms[mainIndex].list[subIndex].link
+                        }
                         messages={{
                           required: "Link is Required",
                           pattern: "Link is Invalid",
@@ -243,21 +282,24 @@ const CourseComp = ({ setCourse,forms,setForms }) => {
                       />
                     </div>
                   </div>
-                  <div className="sub-section-overlay">
+                  <div
+                    onClick={() => handleRemoveSubSection(mainIndex, subIndex)}
+                    className="sub-section-overlay cursor-pointer"
+                  >
                     <img src={closeIcon} alt="Close" />
                   </div>
                 </div>
               ))}
             </div>
-          ))}
-          <div className="cource-form-overlay">
-            <img src={closeIcon} alt="Close" />
+            <div
+              onClick={() => handleRemoveTitle(mainIndex)}
+              className="cource-form-overlay cursor-pointer"
+            >
+              <img src={closeIcon} alt="Close" />
+            </div>
           </div>
-        </div>
-        <div>
-          <NormalButton className="loginButton" label="Submit" type="submit" />
-        </div>
-      </form>
+        </>
+      ))}
     </div>
   );
 };
