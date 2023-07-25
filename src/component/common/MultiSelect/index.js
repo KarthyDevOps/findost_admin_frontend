@@ -58,11 +58,16 @@ const MultiSelect = ({
     else onSearch("");
     setIsOpen(false);
   };
+
   const handleCustomerSub = (name) => {
     onChange(name);
+    if (typeof name !== 'undefined') {
     document.getElementById(id).value = isMulti ? "" : name;
     if (!isMulti) setLabel(name);
     else onSearch("");
+    }else{
+      document.getElementById(id).value = "";
+    }
     setIsOpen(false);
   };
 
@@ -71,7 +76,6 @@ const MultiSelect = ({
       let temp = propsOptions;
       if (catId?.length > 0) {
         temp = temp?.find((opt) => catId === opt._id);
-        console.log('temp', temp)
         handleCustomer(temp?.name);
       }
       setOptions(propsOptions);
