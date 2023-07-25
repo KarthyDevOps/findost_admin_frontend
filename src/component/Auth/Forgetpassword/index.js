@@ -71,7 +71,7 @@ const Forgetpassword = () => {
                   <FormErrorMessage
                     error={errors.emailId}
                     messages={{
-                      required: "Email Id is required",
+                      required: "Email Id is Required",
                       pattern: "Invalid Email Id",
                     }}
                   />
