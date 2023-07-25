@@ -161,7 +161,7 @@ const ResetPassword = () => {
                   <FormErrorMessage
                     error={errors.confirmPassword}
                     messages={{
-                      required: "Password is required",
+                      required: "Password is Required",
                       validate: "Passwords do not match",
                       minLength: "Password must contain atleast 8 letters",
                       maxLength: "Password should must contain only 16",

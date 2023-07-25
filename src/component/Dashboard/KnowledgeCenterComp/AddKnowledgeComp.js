@@ -74,6 +74,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
   const [ImageFileName, setImageFileName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
+  const [urlLink, setUrlLink] = useState("");
   const [ImageLogo, setImageLogo] = useState("");
   const [isLoad, setIsLoad] = useState(false);
   const [course, setCourse] = useState(false);
@@ -144,6 +145,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
         });
         setTitle(data?.title);
         setCourseType(data?.courseType);
+        setUrlLink(data?.contentUrlLink)
         setCatId(data?.category);
         setSubCatId(data?.subCategory);
         setQuill(data?.description);
@@ -171,10 +173,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
     setCourse(true);
   };
 
-  console.log("category :>> ", category);
-
   const onSubmit = async (data) => {
-    console.log("in :>> ", "in");
     if (!edit) {
       if (category == "Documents" ? category : category && subCategory) {
         try {
@@ -335,6 +334,75 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
       ...prevData,
       subCategory: newCategory?._id,
     }));
+  };
+
+  const handleURLs = async (e) => {
+    e.preventDefault();
+    await onURLSubmit();
+  };
+
+  const onURLSubmit = async (data) => {
+    if (!edit) {
+      try {
+        const body = {
+          title: title,
+          category: categoryMasterId,
+          categorySlug: category.toLowerCase(),
+          subCategory: subCategoryId,
+          contentUrlLink: urlLink,
+        };
+        if (KnowledgeDetails.status === "active") {
+          body.isActive = "true";
+        } else {
+          body.isActive = "false";
+        }
+        const response = await addKnowledge(body);
+        if (response.status === 200) {
+          setModal(true);
+          setTimeout(() => {
+            setModal(false);
+            setloading(false);
+            reset(KnowledgeDetails);
+            history.push("/admin/knowledge-center");
+          }, 2000);
+        } else {
+          Toast({ type: "error", message: response.data.message });
+          setloading(false);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      try {
+        const body = {
+          title: title,
+          category: categoryMasterId,
+          categorySlug: category.toLowerCase(),
+          subCategory: subCategoryId,
+          contentUrlLink: urlLink,
+        };
+        if (KnowledgeDetails.status === "active") {
+          body.isActive = "true";
+        } else {
+          body.isActive = "false";
+        }
+        let response = await updateKnowledge(body, id);
+        if (response.status === 200) {
+          setModal(true);
+          setTimeout(() => {
+            setModal(false);
+            setloading(false);
+            reset(KnowledgeDetails);
+            history.push("/admin/knowledge-center");
+          }, 2000);
+        } else {
+          Toast({ type: "error", message: response.data.message });
+          setloading(false);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
   };
 
   const courseOnSubmit = (e) => {
@@ -539,8 +607,6 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
 
   return (
     <div className="px-5 py-3 Add_knowledge">
-      {console.log(category, subCategory, "cat,sub")}
-      {console.log(edit, "edit")}
       {!course && (
         <div className="d-flex my-3 align-items-center">
           <i className="pr-3">
@@ -635,6 +701,10 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                     placeholder="Enter Content URL LinK"
                     name="contentURL"
                     errors={errors}
+                    value={urlLink}
+                    onChange={(e) => {
+                      setUrlLink(e.target.value);
+                    }}
                     register={register({
                       required: true,
                       pattern: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
@@ -721,7 +791,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                   <label className="Product_description">Upload Document</label>
                   <Dropzone
                     onDrop={handleDrop}
-                    accept=".pdf,xl,.xlsx,.doc,.jpg,.png"
+                    accept=".pdf,xl,.xlsx,.doc"
                     maxSize={3072000}
                     errors={errors}
                     {...register("dropZoneField", {
@@ -943,7 +1013,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
               <NormalButton
                 className="loginButton"
                 onClick={handleFormSubmit}
-                label={"next"}
+                label={"Next"}
                 isLoading={loading}
               />
             </div>
@@ -981,12 +1051,21 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
               />
             </div>
             <div className="col-md-2 ">
-              <NormalButton
-                className="loginButton"
-                onClick={handleFormSubmit}
-                label={edit ? "Update" : "Add Content"}
-                isLoading={loading}
-              />
+              {category === "URLs" ? (
+                <NormalButton
+                  className="loginButton"
+                  onClick={handleURLs}
+                  label={edit ? "Update" : "Add Content"}
+                  isLoading={loading}
+                />
+              ) : (
+                <NormalButton
+                  className="loginButton"
+                  onClick={handleFormSubmit}
+                  label={edit ? "Update" : "Add Content"}
+                  isLoading={loading}
+                />
+              )}
             </div>
           </div>
         )}
