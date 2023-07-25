@@ -69,6 +69,15 @@ function TableComp(props) {
     onRowsSelect(updatedRows);
   };
 
+  const getValueForKey = (key, obj) => {
+    if (obj.hasOwnProperty(key)) {
+      const value = obj[key];
+      return value;
+    } else {
+      return "-";
+    }
+  };
+
   return (
     <div className="table-container">
       <table className="data-table">
@@ -120,6 +129,7 @@ function TableComp(props) {
                 )}
                 {includedKeys.map((item) => {
                   const key = item.value;
+                  const value = getValueForKey(key, obj);
                   // status keys color change
                   if (obj.hasOwnProperty(key)) {
                     const value = obj[key];
@@ -193,7 +203,11 @@ function TableComp(props) {
                       );
                     }
                   }
-                  return null;
+                  return (
+                    <td key={key}>
+                      {value}
+                    </td>
+                  );
                 })}
 
                 {(DeleteAction || ReadAction || EditAction) && (
