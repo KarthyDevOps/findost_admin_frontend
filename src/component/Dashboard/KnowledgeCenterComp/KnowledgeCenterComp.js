@@ -110,9 +110,12 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
         type: "knowledgeCenter",
       };
       let response = await getCategoryList(params);
-      if (response.status === 200 && response?.data?.data?.list.length > 0) {
-        setCategoryList(response?.data?.data?.list);
-        console.log("first", response?.data?.data?.list);
+      if (response.status === 200 && response?.data?.data?.list.length > 0) { 
+        let categoryList = [];
+        categoryList = response.data?.data?.list.filter(
+          (x) => x.name !== "FAQ"
+        );
+        setCategoryList(categoryList);
       } else {
         setCategoryList([]);
       }

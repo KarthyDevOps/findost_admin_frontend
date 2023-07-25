@@ -52,7 +52,6 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState(false);
   const [newDoc, setNewDoc] = useState(null);
-  const [DocURL, setDocURL] = useState("");
   const [NewImage, setNewImage] = useState(null);
   const [ImageURL, setImageURL] = useState("");
   const [quill, setQuill] = useState("");
@@ -71,11 +70,10 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
   const [subCatId, setSubCatId] = useState("");
   const [subCategoryId, setSubCategoryId] = useState("");
   const [DocFileName, setDocFileName] = useState("");
-  const [ImageFileName, setImageFileName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
   const [urlLink, setUrlLink] = useState("");
-  const [ImageLogo, setImageLogo] = useState("");
+  const [ImageKey, setImageKey] = useState("");
   const [isLoad, setIsLoad] = useState(false);
   const [course, setCourse] = useState(false);
   const [KnowledgeDetails, setKnowledgeDetails] = useState({
@@ -149,13 +147,11 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
         setCatId(data?.category);
         setSubCatId(data?.subCategory);
         setQuill(data?.description);
-        setDocURL(data?.documentPathS3);
-        setImageLogo(data?.documentImagePathS3);
-        setImageLogo(data?.thumbnailS3);
+        setNewDoc(data?.documentPath);
+        setImageKey(data?.thumbnail);
         setImageURL(data?.thumbnailS3);
         setForms(data?.courseDetails);
         setDocFileName(data?.fileOriginalName);
-        setImageFileName(data?.fileImageOriginalName);
         setKnowledgeDetails({
           category: data.category,
           subcategory: data.subCategory,
@@ -198,19 +194,18 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           }
           if (category == "Documents") {
             body.fileOriginalName = DocFileName;
-            body.documentPath = newDoc ? newDoc : DocURL;
-            body.thumbnail = NewImage ? NewImage : ImageLogo;
+            body.documentPath = newDoc;
+            body.thumbnail = NewImage ? NewImage : ImageKey;
           }
           if (
             category === "Blogs" ||
             category === "FAQ" ||
             category === "Videos"
           ) {
-            body.thumbnail = NewImage ? NewImage : ImageLogo;
+            body.thumbnail = NewImage ? NewImage : ImageKey;
           }
           if (category != "URLs") {
             // body.documentImagePath = NewImage ? NewImage : ImageLogo;
-            body.fileImageOriginalName = ImageFileName;
           }
           if (category != "Documents") {
             body.subCategory = subCategoryId;
@@ -265,19 +260,18 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           if (category == "Courses") body.description = data?.content;
           if (category == "Documents") {
             body.fileOriginalName = DocFileName;
-            body.documentPath = newDoc ? newDoc : DocURL;
-            body.thumbnail = NewImage ? NewImage : ImageLogo;
+            body.documentPath = newDoc;
+            body.thumbnail = NewImage ? NewImage : ImageKey;
           }
           if (
             category === "Blogs" ||
             category === "FAQ" ||
             category === "Videos"
           ) {
-            body.thumbnail = NewImage ? NewImage : ImageLogo;
+            body.thumbnail = NewImage ? NewImage : ImageKey;
           }
           if (category != "URLs") {
             // body.documentImagePath = NewImage ? NewImage : ImageLogo;
-            body.fileImageOriginalName = ImageFileName;
           }
           if (category != "Documents") {
             body.subCategory = subCategoryId;
@@ -423,7 +417,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           category: categoryMasterId,
           categorySlug: category.toLowerCase(),
           subCategory: subCategoryId,
-          thumbnail: NewImage ? NewImage : ImageLogo,
+          thumbnail: NewImage ? NewImage : ImageKey,
           description: quill,
           courseDetails: forms,
           courseType: courseType,
@@ -460,7 +454,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           category: categoryMasterId,
           categorySlug: category.toLowerCase(),
           subCategory: subCategoryId,
-          thumbnail: NewImage ? NewImage : ImageLogo,
+          thumbnail: NewImage ? NewImage : ImageKey,
           description: quill,
           courseDetails: forms,
           courseType: courseType,
@@ -507,7 +501,11 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
       };
       let response = await getCategoryList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
-        setCategoryList(response?.data?.data?.list);
+        let categoryList = [];
+        categoryList = response.data?.data?.list.filter(
+          (x) => x.name !== "FAQ"
+        );
+        setCategoryList(categoryList);
       } else {
         setCategoryList([]);
       }
@@ -547,7 +545,6 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
         if (response.status === 200) {
           setIsLoading(false);
           setNewDoc(response?.data?.data?.data?.key);
-          setDocURL(response?.data?.data?.data?.s3URL);
         }
       }
     } catch (e) {
@@ -562,12 +559,11 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
       for (let index = 0; index < droppedimage.length; index++) {
         const file = droppedimage[index];
         body.append("data", file);
-        setImageFileName(file.name);
         let response = await uploadImage(body);
         if (response.status === 200) {
           setIsLoadingImage(false);
           setNewImage(response?.data?.data?.data?.key);
-          setImageLogo(response?.data?.data?.data?.s3URL);
+          setImageURL(response?.data?.data?.data?.s3URL);
           setCourseForm((prevData) => ({
             ...prevData,
             thumbnailName: file.name,
@@ -591,12 +587,12 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
 
   const cancelImg = (e) => {
     e.stopPropagation();
-    setDocURL(null);
+    setNewDoc(null);
   };
 
   const deleteImage = (e) => {
     e.stopPropagation();
-    setImageLogo(null);
+    setImageURL(null);
   };
 
   // Redirect to document
@@ -795,14 +791,14 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                     maxSize={3072000}
                     errors={errors}
                     {...register("dropZoneField", {
-                      required: newDoc || DocURL ? false : true,
+                      required: newDoc ? false : true,
                     })}
                   >
                     {({ getRootProps, getInputProps }) => (
                       <div {...getRootProps({ className: "dropzone" })}>
                         <div className=" border border-secondary-subtle   ">
                           <input {...getInputProps()} multiple={false} />
-                          {DocURL ? (
+                          {newDoc ? (
                             <div className="doc_name_display">
                               <img
                                 src="https://windowsfileviewer.com/images/types/docx.png"
@@ -836,7 +832,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                               className="d-flex align-items-center justify-content-center"
                             />
                           ) : (
-                            DocURL && (
+                            newDoc && (
                               <span
                                 style={{
                                   position: "absolute",
@@ -886,14 +882,13 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                       <div {...getRootProps({ className: "dropzone" })}>
                         <div className=" border border-secondary-subtle   ">
                           <input {...getInputProps()} multiple={false} />
-                          {ImageLogo ? (
-                            <div className="doc_name_display">
+                          {ImageURL ? (
+                            <div className=" ">
                               <img
-                                src={ImageLogo}
+                                src={ImageURL}
                                 alt="imagee"
-                                className="preview_image"
+                                className="preview_image_view"
                               />
-                              <p onClick={handleRedirect}>{ImageFileName}</p>
                             </div>
                           ) : (
                             <>
@@ -920,7 +915,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                               className="d-flex align-items-center justify-content-center"
                             />
                           ) : (
-                            ImageLogo && (
+                            ImageURL && (
                               <span
                                 style={{
                                   position: "absolute",
@@ -956,35 +951,35 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
             {(category == "Videos" ||
               category == "Courses" ||
               category == "Blogs") && (
-              <div>
-                <label>Description</label>
-                <CustomController
-                  name={"content"}
-                  control={control}
-                  error={errors.content}
-                  rules={{ required: true }}
-                  messages={{
-                    required: "Description is Required",
-                  }}
-                  render={({ onChange, ...field }) => {
-                    return (
-                      <TextEditor
-                        {...field}
-                        name={"content"}
-                        onChange={(content) => {
-                          onChange(content);
-                          setQuill(content);
-                          setCourseForm((prevData) => ({
-                            ...prevData,
-                            description: content,
-                          }));
-                        }}
-                      />
-                    );
-                  }}
-                />
-              </div>
-            )}
+                <div>
+                  <label>Description</label>
+                  <CustomController
+                    name={"content"}
+                    control={control}
+                    error={errors.content}
+                    rules={{ required: true }}
+                    messages={{
+                      required: "Description is Required",
+                    }}
+                    render={({ onChange, ...field }) => {
+                      return (
+                        <TextEditor
+                          {...field}
+                          name={"content"}
+                          onChange={(content) => {
+                            onChange(content);
+                            setQuill(content);
+                            setCourseForm((prevData) => ({
+                              ...prevData,
+                              description: content,
+                            }));
+                          }}
+                        />
+                      );
+                    }}
+                  />
+                </div>
+              )}
           </div>
         ) : (
           <>

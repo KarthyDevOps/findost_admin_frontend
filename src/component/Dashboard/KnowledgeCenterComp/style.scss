@@ -94,6 +94,16 @@
   width: 100%;
   height: 90%;
 }
+.preview_image_view {
+  position: absolute;
+  top: 0%;
+  object-fit: contain;
+  bottom: 0%;
+  left: 0%;
+  right: 0%;
+  width: 100%;
+  height: 100%;
+}
 .doc_name_display {
   width: 100%;
 }
