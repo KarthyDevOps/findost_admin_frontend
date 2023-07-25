@@ -48,6 +48,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
   });
   const history = useHistory();
   const [title, setTitle] = useState("");
+  const [courseType, setCourseType] = useState("");
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState(false);
   const [newDoc, setNewDoc] = useState(null);
@@ -119,6 +120,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
       title: title,
       content: quill,
       contentURL: courseForm?.thumbnailUrl,
+      courseType: courseType,
     });
     setCatId(courseForm?.category);
     setSubCatId(courseForm?.subCategory);
@@ -141,6 +143,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           contentURL: data?.contentUrlLink,
         });
         setTitle(data?.title);
+        setCourseType(data?.courseType);
         setCatId(data?.category);
         setSubCatId(data?.subCategory);
         setQuill(data?.description);
@@ -164,21 +167,21 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
     }
   };
 
-  console.log("forms :>> ", forms);
-
   const onCourseSubmit = () => {
     setCourse(true);
   };
 
   const onSubmit = async (data) => {
     if (!edit) {
-      if (category && subCategory) {
+      if (category == "Documents" ? category : category && subCategory) {
         try {
-          setloading(true);
-          if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
-            Toast({ type: "error", message: "Description is Required" });
-            return;
+          if (category !== "Documents") {
+            if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+              Toast({ type: "error", message: "Description is Required" });
+              return;
+            }
           }
+          setloading(true);
           let body = {
             title: title,
             category: categoryMasterId,
@@ -194,6 +197,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           if (category == "Documents") {
             body.fileOriginalName = DocFileName;
             body.documentPath = newDoc ? newDoc : DocURL;
+            body.thumbnail = NewImage ? NewImage : ImageLogo;
           }
           if (category === "Blogs") {
             body.thumbnail = NewImage ? NewImage : ImageLogo;
@@ -229,11 +233,13 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
         }
       }
     } else {
-      if (category && subCategory) {
+      if (category === "Documents" ? category : category && subCategory) {
         try {
-          if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
-            Toast({ type: "error", message: "Description is Required" });
-            return;
+          if (category !== "Documents") {
+            if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+              Toast({ type: "error", message: "Description is Required" });
+              return;
+            }
           }
           setloading(true);
           let body = {
@@ -255,6 +261,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           if (category == "Documents") {
             body.fileOriginalName = DocFileName;
             body.documentPath = newDoc ? newDoc : DocURL;
+            body.thumbnail = NewImage ? NewImage : ImageLogo;
           }
           if (category != "URLs") {
             body.documentImagePath = NewImage ? NewImage : ImageLogo;
@@ -339,6 +346,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           thumbnail: NewImage ? NewImage : ImageLogo,
           description: quill,
           courseDetails: forms,
+          courseType: courseType,
         };
         if (KnowledgeDetails.status === "active") {
           body.isActive = "true";
@@ -375,6 +383,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
           thumbnail: NewImage ? NewImage : ImageLogo,
           description: quill,
           courseDetails: forms,
+          courseType: courseType,
         };
         if (KnowledgeDetails.status === "active") {
           body.isActive = "true";
@@ -626,7 +635,9 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 </div>
               )}
 
-              <div className="col-4 my-3">
+              <div
+                className={category === "Documents" ? "col-4" : "col-4 my-3"}
+              >
                 <label>Status</label>
                 <CustomController
                   name={"status"}
@@ -661,6 +672,33 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                   }}
                 />
               </div>
+              {category === "Courses" && (
+                <div className="col-4 my-3">
+                  <label>Course Type</label>
+                  <InputBox
+                    className="add_staff"
+                    type={"text"}
+                    placeholder="Enter Course Type"
+                    name="courseType"
+                    errors={errors}
+                    value={courseType}
+                    onChange={(e) => {
+                      setCourseType(e.target.value);
+                    }}
+                    register={register({
+                      required: true,
+                      pattern: /^(?!\s*$).+/,
+                    })}
+                  />
+                  <FormErrorMessage
+                    error={errors.courseType}
+                    messages={{
+                      required: "Course Type is Required",
+                      pattern: "Course Type is Invalid",
+                    }}
+                  />
+                </div>
+              )}
             </div>
             <div className="row">
               {category == "Documents" && (
@@ -829,6 +867,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 </div>
               )}
             </div>
+            {console.log("category", category)}
             {(category == "Videos" ||
               category == "Courses" ||
               category == "Blogs") && (
