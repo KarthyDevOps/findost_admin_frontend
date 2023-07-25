@@ -171,11 +171,14 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
     setCourse(true);
   };
 
+  console.log("category :>> ", category);
+
   const onSubmit = async (data) => {
+    console.log("in :>> ", "in");
     if (!edit) {
       if (category == "Documents" ? category : category && subCategory) {
         try {
-          if (category !== "Documents") {
+          if (category === "Videos" || category === "Blogs") {
             if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
               Toast({ type: "error", message: "Description is Required" });
               return;
@@ -199,11 +202,15 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
             body.documentPath = newDoc ? newDoc : DocURL;
             body.thumbnail = NewImage ? NewImage : ImageLogo;
           }
-          if (category === "Blogs") {
+          if (
+            category === "Blogs" ||
+            category === "FAQ" ||
+            category === "Videos"
+          ) {
             body.thumbnail = NewImage ? NewImage : ImageLogo;
           }
           if (category != "URLs") {
-            body.documentImagePath = NewImage ? NewImage : ImageLogo;
+            // body.documentImagePath = NewImage ? NewImage : ImageLogo;
             body.fileImageOriginalName = ImageFileName;
           }
           if (category != "Documents") {
@@ -215,9 +222,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
             body.isActive = "false";
           }
           let response = await addKnowledge(body);
-          console.log("response :>> ", body);
           if (response.status === 200) {
-            alert("skdhbkhsd");
             setModal(true);
             setTimeout(() => {
               setModal(false);
@@ -236,7 +241,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
     } else {
       if (category === "Documents" ? category : category && subCategory) {
         try {
-          if (category !== "Documents") {
+          if (category === "Videos" || category === "Blogs") {
             if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
               Toast({ type: "error", message: "Description is Required" });
               return;
@@ -264,12 +269,16 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
             body.documentPath = newDoc ? newDoc : DocURL;
             body.thumbnail = NewImage ? NewImage : ImageLogo;
           }
-          if (category != "URLs") {
-            body.documentImagePath = NewImage ? NewImage : ImageLogo;
-            body.fileImageOriginalName = ImageFileName;
-          }
-          if (category === "Blogs") {
+          if (
+            category === "Blogs" ||
+            category === "FAQ" ||
+            category === "Videos"
+          ) {
             body.thumbnail = NewImage ? NewImage : ImageLogo;
+          }
+          if (category != "URLs") {
+            // body.documentImagePath = NewImage ? NewImage : ImageLogo;
+            body.fileImageOriginalName = ImageFileName;
           }
           if (category != "Documents") {
             body.subCategory = subCategoryId;
@@ -318,6 +327,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
       category: newCategory?._id,
     }));
   };
+
   const handleSubcategoryId = (option) => {
     let newCategory = subCategoryList.find((x) => x.name === option);
     setSubCategoryId(newCategory?._id);
@@ -515,6 +525,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
     e.stopPropagation();
     setDocURL(null);
   };
+
   const deleteImage = (e) => {
     e.stopPropagation();
     setImageLogo(null);
@@ -528,6 +539,8 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
 
   return (
     <div className="px-5 py-3 Add_knowledge">
+      {console.log(category, subCategory, "cat,sub")}
+      {console.log(edit, "edit")}
       {!course && (
         <div className="d-flex my-3 align-items-center">
           <i className="pr-3">
@@ -870,7 +883,6 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                 </div>
               )}
             </div>
-            {console.log("category", category)}
             {(category == "Videos" ||
               category == "Courses" ||
               category == "Blogs") && (
