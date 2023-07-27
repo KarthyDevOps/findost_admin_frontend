@@ -1,2 +1,0 @@
-(this.webpackJsonpadmin=this.webpackJsonpadmin||[]).push([[119],{400:function(e,t,a){"use strict";a.r(t);var n=a(1),l=a.n(n),c=a(13),i=a(162);t.default=function(){return localStorage.getItem("token")?l.a.createElement(c.a,{to:"/admin"}):l.a.createElement("div",null,l.a.createElement(i.default,null))}}}]);
-//# sourceMappingURL=119.01ad4074.chunk.js.map
