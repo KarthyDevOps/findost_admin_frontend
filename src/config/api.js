@@ -31,6 +31,7 @@ export const endpoints = {
     DELETE_SEGMENT: `${userUrl}/segment/deleteSegment`,
     GET_REGISTER_FEE: `${userUrl}/registerSetting/get`,
     UPDATE_REGISTER_FEE: `${userUrl}/registerSetting/update`,
+    NOTIFICATION_USER_LIST: `${userUrl}/authorizedPerson/list`,
   },
 
   cms: {

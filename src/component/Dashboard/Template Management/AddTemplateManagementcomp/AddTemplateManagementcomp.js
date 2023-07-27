@@ -3,7 +3,6 @@ import { BsArrowLeft } from "react-icons/bs";
 import { useForm } from "react-hook-form";
 import Dropzone from "react-dropzone";
 import { AiOutlineCloseCircle } from "react-icons/ai";
-
 //styles
 import "./style.scss";
 //assets
@@ -27,7 +26,6 @@ import {
 import CustomController from "component/common/Controller";
 import { Toast } from "service/toast";
 import { uploadImage } from "service/Auth";
-
 //helpers
 import { history } from "helpers";
 import CategoryModal from "component/common/CategoryModal/CategoryModal";
@@ -141,9 +139,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
         });
         setQuill(data?.description);
         setCatId(data?.categoryId);
-
-        console.log("data", data);
-        setImageLogo(data?.imagePath)
+        setImageLogo(data?.imagePath);
         setImageLogoURl(data?.imagePathS3);
         setTemplateDetails({
           type: data.type,
@@ -155,10 +151,10 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
           data.type === "preDefined"
             ? "preDefinedText"
             : data.templateType === "Image"
-              ? "templateTypeImage"
-              : data.templateType === "Text"
-                ? "templateTypeText"
-                : "templateTypeInfoGraphics"
+            ? "templateTypeImage"
+            : data.templateType === "Text"
+            ? "templateTypeText"
+            : "templateTypeInfoGraphics"
         );
       } else {
         Toast({ type: "error", message: response.data.message });
@@ -197,7 +193,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
   const deleteFavLogo = (e) => {
     e.stopPropagation();
     setImageLogo(null);
-    setImageLogoURl(null)
+    setImageLogoURl(null);
   };
 
   const onSubmit = async (data) => {
@@ -292,8 +288,6 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
       }
     }
   };
-
-  console.log("TemplateTypeId :>> ", TemplateTypeId);
 
   const handleFormSubmit = (e) => {
     setIsSubmit(true);
@@ -404,10 +398,6 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                     }}
                   />
                 </div>
-                {console.log(
-                  "TemplateDetails?.Templatetype >> ",
-                  TemplateDetails?.type
-                )}
                 <div className="col-3">
                   <label className="Product_description">Message Status</label>
                   <CustomController
@@ -473,8 +463,8 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                                 Templatetype.value === "Image"
                                   ? "templateTypeImage"
                                   : Templatetype.value === "Text"
-                                    ? "templateTypeText"
-                                    : "templateTypeInfoGraphics"
+                                  ? "templateTypeText"
+                                  : "templateTypeInfoGraphics"
                               );
                             }}
                           />
@@ -505,7 +495,6 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                     </span>
                   )}
                 </div>
-                {console.log("catId :>> ", catId)}
               </div>
               <div className="row gx-5">
                 <div className="col-4 mt-4">
@@ -664,10 +653,10 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
                 TemplateDetails?.type === "preDefined"
                   ? "preDefinedText"
                   : TemplateDetails?.Templatetype === "Image"
-                    ? "templateTypeImage"
-                    : TemplateDetails?.Templatetype === "Text"
-                      ? "templateTypeText"
-                      : "templateTypeInfoGraphics"
+                  ? "templateTypeImage"
+                  : TemplateDetails?.Templatetype === "Text"
+                  ? "templateTypeText"
+                  : "templateTypeInfoGraphics"
               )
             }
             type={TemplateDetails?.type === "preDefined" && "preDefinedText"}
@@ -675,12 +664,11 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
               TemplateDetails?.Templatetype === "Image"
                 ? "templateTypeImage"
                 : TemplateDetails?.Templatetype === "Text"
-                  ? "templateTypeText"
-                  : "templateTypeInfoGraphics"
+                ? "templateTypeText"
+                : "templateTypeInfoGraphics"
             }
           />
         </div>
-        {console.log(TemplateDetails?.Templatetype, "TemplateDetails?.type")}
       </div>
     </div>
   );

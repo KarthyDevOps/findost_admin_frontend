@@ -922,7 +922,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                                   top: "10px",
                                   right: "10px",
                                   cursor: "pointer",
-                                  zIndex: 1000,
+                                  // zIndex: 1000,
                                 }}
                                 onClick={deleteImage}
                               >

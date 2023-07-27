@@ -288,3 +288,15 @@ export const getRegisterFee = async (params) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
+export const getUserList = async (params) => {
+  let request = await axios({
+    method: "get",
+    url: `${endpoints.auth.NOTIFICATION_USER_LIST}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params: params,
+  }).catch(axiosErrorHandler);
+  return request;
+};

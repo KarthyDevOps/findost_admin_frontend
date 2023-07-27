@@ -498,7 +498,7 @@ const AddCalendarComp = ({ calendarAccess }) => {
                 cols={5}
                 error={errors}
                 name="agenta"
-                isNotification={true}
+                isNotification={false}
                 register={register({
                   required: false,
                   pattern: /^(?!\s*$).+/,

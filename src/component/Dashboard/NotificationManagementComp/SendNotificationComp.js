@@ -19,9 +19,11 @@ import {
   getNotificationHistory,
   updateNotificationHistory,
 } from "service/Communication";
+import { getUserList } from "service/Auth";
 import { Toast } from "service/toast";
 // helpers
 import { InitialSpaceNotAllowed, history, options } from "helpers";
+import InputBox from "component/common/InputBox/InputBox";
 
 const SendNotificationComp = () => {
   const { register, handleSubmit, errors, reset, control, getValues } = useForm(
@@ -31,31 +33,46 @@ const SendNotificationComp = () => {
   );
   const [edit, setEdit] = useState(false);
   const [users, setUsers] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
   const [modal, setModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isSubmit, setIsSubmit] = useState(false);
 
   const id = localStorage.getItem("editId");
 
-  const getHistoryDetails = async () => {
+  const ListUsers = async () => {
+    try {
+      let params = {
+        all: true,
+      };
+      let response = await getUserList(params);
+      if (response.status === 200) {
+        let usersArray = response?.data?.data.map((user) => ({
+          label: user.name,
+          value: user._id,
+        }));
+        setUsers(usersArray);
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
+  };
+
+  const getHistoryDetails = async (users) => {
     try {
       let params = {
         id: id,
       };
       let response = await getNotificationHistory(params);
       if (response.status === 200) {
-        console.log("response.data.data :>> ", response?.data?.data?.title);
         reset({
           title: response?.data?.data?.title,
           content: response?.data?.data?.description,
         });
-        setUsers(
-          options.filter((user) => {
-            const userValues = Object.values(response?.data?.data?.userId);
-            return userValues.includes(user.value);
-          })
-        );
-        console.log("users :>> ", users);
+        if (users) {
+          let userIds = response.data?.data?.authorizedPersonId;
+          let newSel = users?.filter((user) => userIds.includes(user.value));
+          setSelectedUsers(newSel);
+        }
       } else {
         Toast({ type: "error", message: response.data.message });
       }
@@ -67,7 +84,7 @@ const SendNotificationComp = () => {
   const onSubmit = async (data) => {
     if (!edit) {
       try {
-        if (users.length === 0) {
+        if (selectedUsers.length === 0) {
           Toast({ type: "error", message: "Please select a Users" });
           return;
         }
@@ -75,7 +92,7 @@ const SendNotificationComp = () => {
         const body = {
           title: data.title,
           description: data.content,
-          userId: data.users.map((user) => user.value),
+          authorizedPersonId: selectedUsers.map((x) => x.value),
         };
         let response = await addNotificationHistory(body);
         if (response.status === 200) {
@@ -96,7 +113,7 @@ const SendNotificationComp = () => {
       }
     } else {
       try {
-        if (users.length === 0) {
+        if (selectedUsers.length === 0) {
           Toast({ type: "error", message: "Please select a Users" });
           return;
         }
@@ -104,7 +121,7 @@ const SendNotificationComp = () => {
         const body = {
           title: data.title,
           description: data.content,
-          userId: users.map((x) => x.value),
+          authorizedPersonId: selectedUsers.map((x) => x.value),
         };
         let response = await updateNotificationHistory(body, id);
         if (response.status === 200) {
@@ -117,7 +134,6 @@ const SendNotificationComp = () => {
           setLoading(false);
         } else {
           setLoading(false);
-
           Toast({ type: "error", message: response.data.message });
         }
       } catch (e) {
@@ -126,22 +142,24 @@ const SendNotificationComp = () => {
     }
   };
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    setIsSubmit(true);
-    handleSubmit(onSubmit)();
-  };
-  const handleUser = (index) => {
-    users.splice(index, 1);
-    setUsers([...users]);
+  const handleUser = (id) => {
+    let updatedUsers = selectedUsers.filter((x) => x.value !== id);
+    setSelectedUsers(updatedUsers);
   };
 
   useEffect(() => {
+    ListUsers();
     if (id) {
       setEdit(true);
       getHistoryDetails();
     }
   }, []);
+
+  useEffect(() => {
+    if (users.length > 0 && id) {
+      getHistoryDetails(users);
+    }
+  }, [users]);
 
   return (
     <div className="px-5">
@@ -160,25 +178,22 @@ const SendNotificationComp = () => {
           <div className="row">
             <div className="col-md-5 my-3">
               <label>Notification Title</label>
-              <CustomController
-                name={"title"}
-                control={control}
-                error={errors?.title}
-                defaultValue={getValues("title")}
-                rules={{ required: true }}
-                messages={{ required: "Notification Title is Required" }}
-                render={({ onChange, ...fields }) => {
-                  return (
-                    <NormalMultiSelect
-                      {...fields}
-                      placeholder={"Select Notification Title"}
-                      options={options}
-                      name="title"
-                      handleChange={(e, { value } = {}) => {
-                        onChange(value);
-                      }}
-                    />
-                  );
+              <InputBox
+                className="add_staff"
+                type={"text"}
+                placeholder="Enter Notification Title"
+                name="title"
+                errors={errors}
+                register={register({
+                  required: true,
+                  pattern: /^(?!\s*$).+/,
+                })}
+              />
+              <FormErrorMessage
+                error={errors.title}
+                messages={{
+                  required: "Notification Title is Required",
+                  pattern: "Please Enter a Valid Title",
                 }}
               />
             </div>
@@ -188,52 +203,46 @@ const SendNotificationComp = () => {
               <CustomController
                 name={"users"}
                 control={control}
-                error={errors.users}
-                rules={{ required: true }}
-                defaultValue={users}
+                error={errors?.users}
+                defaultValue={""}
+                rules={{ required:selectedUsers.length > 0 ? false :  true }}
                 messages={{ required: "Select Users is Required" }}
-                render={({ onChange, ...field }) => {
+                render={({ onChange, ...fields }) => {
                   return (
-                    <DropDown
-                      {...field}
-                      isMulti
-                      placeholder="Select Users"
+                    <NormalMultiSelect
+                      {...fields}
+                      placeholder={"Select Users"}
+                      options={users}
                       name="users"
-                      value={users}
-                      errors={errors.users}
-                      controlShouldRenderValue={false}
-                      options={options}
-                      onChange={(user) => {
-                        onChange(user);
-                        setUsers(user);
+                      value={selectedUsers.map((x) => x.value)}
+                      handleChange={(e) => {
+                        onChange(e);
+                        setSelectedUsers(e?.target?.value);
                       }}
+                      isSearchable={true}
+                      isMulti={true}
+                      isClearable={false}
                     />
                   );
                 }}
               />
             </div>
+            {console.log(selectedUsers, "sele")}
             <div className="col-1"></div>
           </div>
           <div className="my-3">
             <label>Select Users</label>
             <div className=" col-11 users_box p-3">
-              {users.length > 0 &&
-                users.map((user, index) => {
+              {selectedUsers.length > 0 &&
+                selectedUsers.map((user, index) => {
                   return (
                     <>
-                      <span
-                        style={{
-                          background: " #F2F2F2",
-                          borderRadius: "6px",
-                          padding: "10px",
-                          margin: "10px",
-                        }}
-                      >
-                        {user.value} &nbsp;&nbsp;
+                      <span key={index} className="user_item">
+                        {user?.label} &nbsp;&nbsp;
                         <img
                           src={closeIcon}
                           alt=""
-                          onClick={(e) => handleUser(index)}
+                          onClick={(e) => handleUser(user?.value)}
                           className="cursor-pointer"
                         />
                       </span>
@@ -241,11 +250,6 @@ const SendNotificationComp = () => {
                   );
                 })}
             </div>
-            {users.length == 0 && isSubmit && (
-              <span style={{ color: "#dc3545" }} className="">
-                Users is Required
-              </span>
-            )}
             <div className="col-1"></div>
           </div>
           <div className="my-4">
@@ -255,6 +259,7 @@ const SendNotificationComp = () => {
                 cols={5}
                 error={errors}
                 name="content"
+                isNotification
                 register={register({
                   required: true,
                   pattern: InitialSpaceNotAllowed,
@@ -283,9 +288,9 @@ const SendNotificationComp = () => {
             <div className="col-md-3">
               <NormalButton
                 className="loginButton"
-                label={"Send Notification"}
+                label={edit ? "Update" : "Send Notification"}
                 isLoading={loading}
-                onClick={handleFormSubmit}
+                onClick={handleSubmit(onSubmit)}
               />
             </div>
           </div>
@@ -293,7 +298,11 @@ const SendNotificationComp = () => {
             <SuccessModal
               modalOpen={modal}
               onCancel={() => setModal(false)}
-              successMsg={"Notification Sent Successfully"}
+              successMsg={
+                edit
+                  ? "Notification Update Successfully"
+                  : "Notification Sent Successfully"
+              }
             />
           </div>
         </div>
