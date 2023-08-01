@@ -197,7 +197,7 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
   };
 
   const onSubmit = async (data) => {
-    if (!edit) {
+    if (!edit && category) {
       try {
         if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
           Toast({
@@ -207,7 +207,6 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
           return;
         }
         setLoading(true);
-        setModal(true);
         let body = {
           title: data.title,
           description: data.content,
@@ -242,56 +241,55 @@ const AddTempleteManagementcomp = ({ create, view, remove }) => {
         console.log(e);
       }
     } else {
-      try {
-        if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
-          Toast({
-            type: "error",
-            message: "Template Message Content is Required",
-          });
-          return;
-        }
-        setLoading(true);
+      if (category) {
+        try {
+          if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+            Toast({
+              type: "error",
+              message: "Template Message Content is Required",
+            });
+            return;
+          }
+          setLoading(true);
+          let body = {
+            title: data.title,
+            description: data.content,
+            type: TemplateDetails.type,
+            templateType:
+              TemplateDetails.type === "template"
+                ? TemplateDetails.Templatetype
+                : "",
+            categoryId: TemplateTypeId,
+            imagePath: SiteImageLogo,
+          };
+          if (TemplateDetails.status === "active") {
+            body.isActive = true;
+          } else {
+            body.isActive = false;
+          }
+          let response = await updateTemplate(body, templateId);
+          if (response.status === 200) {
+            setModal(true);
+            setTimeout(() => {
+              setModal(false);
+              reset(TemplateDetails);
+              history.push("/admin/template-management");
+            }, 2000);
+          } else {
+            setLoading(false);
 
-        setModal(true);
-
-        let body = {
-          title: data.title,
-          description: data.content,
-          type: TemplateDetails.type,
-          templateType:
-            TemplateDetails.type === "template"
-              ? TemplateDetails.Templatetype
-              : "",
-          categoryId: TemplateTypeId,
-          imagePath: SiteImageLogo,
-        };
-        if (TemplateDetails.status === "active") {
-          body.isActive = true;
-        } else {
-          body.isActive = false;
+            Toast({ type: "error", message: response.data.message });
+          }
+        } catch (e) {
+          console.log(e);
         }
-        let response = await updateTemplate(body, templateId);
-        if (response.status === 200) {
-          setModal(true);
-          setTimeout(() => {
-            setModal(false);
-            reset(TemplateDetails);
-            history.push("/admin/template-management");
-          }, 2000);
-        } else {
-          setLoading(false);
-
-          Toast({ type: "error", message: response.data.message });
-        }
-      } catch (e) {
-        console.log(e);
       }
     }
   };
 
   const handleFormSubmit = (e) => {
-    setIsSubmit(true);
     e.preventDefault();
+    setIsSubmit(true);
     handleSubmit(onSubmit)();
   };
 

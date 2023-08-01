@@ -27,6 +27,7 @@ export const SearchInput = ({
         onChange={debounce(onChange, 500)}
         onFocus={onFocus}
         autoComplete="off"
+        readOnly
       />
       <i style={{color : "#000000"}}><BiChevronDown  size={25} /></i>
       {/* {dropDownSymbol === 'Search' && (
