@@ -867,7 +867,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
               {category != "URLs" && (
                 <div className="col-4 mt-3 mb-4">
                   <label className="Product_description">
-                    Image Thumbanail
+                    Image Thumbnail
                   </label>
                   <Dropzone
                     onDrop={handleDropImage}
