@@ -256,6 +256,7 @@ const CalendarManagementComp = ({ calendarAccess }) => {
               editRouteName={"/admin/calendar-management/add-calendar"}
               handleOpenModal={handleOpenModal}
               onRowsSelect={handleBulk}
+              management={true}
             />
           </div>
         ) : (

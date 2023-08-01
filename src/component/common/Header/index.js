@@ -13,6 +13,7 @@ import { AiOutlineLogout } from "react-icons/ai";
 import { logout } from "service/utilities";
 import { Toast } from "service/toast";
 import { decodeJWT } from "service/helpers";
+import { history } from "helpers";
 
 const Header = () => {
   const [data, setData] = useState({});
@@ -28,6 +29,9 @@ const Header = () => {
 
   // get staff details
   const staffName = useSelector((state) => state?.home?.staffDetails[0]?.name);
+  const staffEmail = useSelector(
+    (state) => state?.home?.staffDetails[0]?.email
+  );
 
   return (
     <>
@@ -36,14 +40,17 @@ const Header = () => {
 
         {/* </div> */}
         <div className="userHeader d-flex align-items-center justify-content-between gap-3 py-3 px-5">
-          <div className="bg-white">
+          <div
+            onClick={() => history.push("/admin/dashboard")}
+            className="bg-white cursor-pointer"
+          >
             <img src={findostLogo} alt="logo"></img>
           </div>
 
           <div>
             <Dropdown className="custom-dropdown mt-1 d-flex align-items-center gap-3">
               <div className="mr-3">
-                <img src={bell} width={45} alt="" />
+                {/* <img src={bell} width={45} alt="" /> */}
               </div>
               <Dropdown.Toggle id="dropdown-basic">
                 <img src={userImg} width={45} alt="" />
@@ -52,6 +59,13 @@ const Header = () => {
               </span> */}
               </Dropdown.Toggle>
               <Dropdown.Menu id="drop">
+                <Dropdown.Item>
+                  <p className="m-0">
+                    {staffName.charAt(0).toUpperCase() + staffName.slice(1)}
+                  </p>
+                  <small className="m-0">{staffEmail}</small>
+                </Dropdown.Item>
+                <hr className="m-0" />
                 <Dropdown.Item
                   href="#"
                   onClick={() => {
