@@ -103,6 +103,7 @@ const AddStaff = ({ create, view, remove }) => {
             clientFamilyManagement: data.clientFamilyManagement,
             feeManagement: data.feeManagement,
             scheduleManagement: data.scheduleManagement,
+            apManagement: data.apManagement,
           },
         };
         if (staffDetails.status === "active") {
@@ -134,6 +135,7 @@ const AddStaff = ({ create, view, remove }) => {
         let body = {
           name: data.name,
           email: data.email,
+          password: data.password,
           role: staffDetails.role,
           permissions: {
             staffManagement: data.staffManagement,
@@ -148,6 +150,7 @@ const AddStaff = ({ create, view, remove }) => {
             clientFamilyManagement: data.clientFamilyManagement,
             feeManagement: data.feeManagement,
             scheduleManagement: data.scheduleManagement,
+            apManagement: data.apManagement,
           },
         };
         if (staffDetails.status === "active") {

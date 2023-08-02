@@ -50,7 +50,8 @@ function Sidebar({ classes, window, privilegesData }) {
     staffManagement,
     templateManagement,
     feeManagement,
-    scheduleManagement
+    scheduleManagement,
+    apManagement
   } = privilegesData ?? {};
 
   const location = useLocation();
@@ -72,6 +73,7 @@ function Sidebar({ classes, window, privilegesData }) {
               if (!clientFamilyManagement?.view && to?.startsWith("/admin/clients-family")) return;
               if (!scheduleManagement?.view && to?.startsWith("/admin/calendar-management")) return;
               if (!feeManagement?.view && to?.startsWith("/admin/fee-management")) return;
+              if (!apManagement?.view && to?.startsWith("/admin/ap-management")) return;
               return (
                 <>
                   <NavLink
