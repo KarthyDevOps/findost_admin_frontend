@@ -40,6 +40,8 @@ function TableComp(props) {
     closed: "#27AE60",
     failed: "#EB5757",
     success: "#27AE60",
+    PENDING : "#EB5757",
+    COMPLETED : "#27AE60",
   };
 
   const handlePageChange = (selectedPage) => {
@@ -70,13 +72,30 @@ function TableComp(props) {
     onRowsSelect(updatedRows);
   };
 
+  // const getValueForKey = (key, obj) => {
+  //   if(key.split(".").length > 1){
+  //     const value =  obj[key.split(".")[0]] ?  obj[key.split(".")[0]][key.split(".")[1]] : "-";
+  //     return value;
+  //   }
+  //   if (obj.hasOwnProperty(key)) {
+  //     const value = obj[key];
+  //     return value;
+  //   } else {
+  //     return "-";
+  //   }
+  // };
+
   const getValueForKey = (key, obj) => {
-    if (obj.hasOwnProperty(key)) {
-      const value = obj[key];
-      return value;
-    } else {
-      return "-";
+    const nestedKeys = key.split(".");
+    let value = obj;
+    for (const nestedKey of nestedKeys) {
+      if (value.hasOwnProperty(nestedKey)) {
+        value = value[nestedKey];
+      } else {
+       return value = "-";
+      }
     }
+    return value;
   };
 
   return (
@@ -135,6 +154,7 @@ function TableComp(props) {
                   if (obj.hasOwnProperty(key)) {
                     const value = obj[key];
                     const label = item.label;
+                    console.log('label :>> ', label);
                     const statusKey = key.toLowerCase();
                     if (statusKey.includes("status")) {
                       const status = value.toLowerCase();
@@ -146,8 +166,7 @@ function TableComp(props) {
                           </span>
                         </td>
                       );
-                      // for id
-                    } else if (statusKey.includes("id")) {
+                    }  else if (statusKey.includes("id")) {
                       return <td key={key}>{value}</td>;
                     } else if (
                       management &&
