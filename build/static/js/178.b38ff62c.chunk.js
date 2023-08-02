@@ -1,2 +1,0 @@
-(this.webpackJsonpadmin=this.webpackJsonpadmin||[]).push([[178],{648:function(a,e,o){a.exports={loader:"NewLoader_loader__1USZt","loader-anime":"NewLoader_loader-anime__39gaX",small:"NewLoader_small__sePhT"}}}]);
-//# sourceMappingURL=178.b38ff62c.chunk.js.map

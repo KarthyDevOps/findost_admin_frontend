@@ -1,0 +1,2 @@
+(this.webpackJsonpadmin=this.webpackJsonpadmin||[]).push([[118],{370:function(n,a,e){"use strict";e.r(a);var t=e(1),s=e.n(t);a.default=function(){return s.a.createElement("div",{className:"px-5 py-3"})}}}]);
+//# sourceMappingURL=118.df465e4d.chunk.js.map
