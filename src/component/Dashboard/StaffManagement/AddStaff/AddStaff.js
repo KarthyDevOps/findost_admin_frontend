@@ -17,7 +17,6 @@ import { addStaff, getStaff, updateStaff } from "service/Auth";
 import {
   history,
   getCompNameByPrivelegeName,
-
   statusOptions,
   managementOptions,
 } from "helpers";
@@ -68,7 +67,6 @@ const AddStaff = ({ create, view, remove }) => {
     }
   };
   const roleOptions = [
-
     {
       label: "Admin",
       value: "ADMIN",
@@ -81,7 +79,6 @@ const AddStaff = ({ create, view, remove }) => {
       label: "Sub Admin",
       value: "SUB ADMIN",
     },
-
   ];
 
   const onSubmit = async (data) => {
@@ -320,29 +317,20 @@ const AddStaff = ({ create, view, remove }) => {
                 defaultValue={staffDetails.password}
                 register={register({
                   required: edit ? false : true,
-                  minLength: edit
-                    ? false
-                    : {
-                      value: 8,
-                    },
-                  maxLength: edit
-                    ? false
-                    : {
-                      value: 16,
-                    },
-                  pattern: edit
-                    ? false
-                    : {
-                      value: /^(?=.*[A-Z])/,
-                    },
-                  validate: edit
-                    ? false
-                    : {
-                      lowercase: (value) => /^(?=.*[a-z])/.test(value),
-                      containsDigit: (value) => /^(?=.*[0-9])/.test(value),
-                      containsSpecial: (value) =>
-                        /^(?=.*[!@#$%^&*])/.test(value),
-                    },
+                  minLength: {
+                    value:  8,
+                  },
+                  maxLength: {
+                    value: 16,
+                  },
+                  pattern: {
+                    value: /^(?=.*[A-Z])/,
+                  },
+                  validate: {
+                    lowercase: (value) => edit ? null : /^(?=.*[a-z])/.test(value),
+                    containsDigit: (value) => edit ? null : /^(?=.*[0-9])/.test(value),
+                    containsSpecial: (value) => edit ? null : /^(?=.*[!@#$%^&*])/.test(value),
+                  },
                 })}
               />
 

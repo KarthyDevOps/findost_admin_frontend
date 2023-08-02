@@ -26,6 +26,7 @@ function TableComp(props) {
     handleOpenModal,
     currentPage,
     onRowsSelect,
+    management = false,
   } = props;
 
   const [selectedRows, setSelectedRows] = useState([]);
@@ -148,9 +149,24 @@ function TableComp(props) {
                       // for id
                     } else if (statusKey.includes("id")) {
                       return <td key={key}>{value}</td>;
+                    } else if (
+                      management &&
+                      statusKey.includes("description")
+                    ) {
+                      return (
+                        <td key={key}>
+                          <a href={value} target="_blank">
+                            {value}
+                          </a>
+                        </td>
+                      );
                     } else if (statusKey.includes("type")) {
-                      return <td key={key}>{value.charAt(0).toUpperCase() + value.slice(1)}</td>;
-                    }else if (statusKey.includes("producticons3")) {
+                      return (
+                        <td key={key}>
+                          {value.charAt(0).toUpperCase() + value.slice(1)}
+                        </td>
+                      );
+                    } else if (statusKey.includes("producticons3")) {
                       return (
                         <td key={key}>
                           <a href={value} target="_blank">
@@ -203,11 +219,7 @@ function TableComp(props) {
                       );
                     }
                   }
-                  return (
-                    <td key={key}>
-                      {value}
-                    </td>
-                  );
+                  return <td key={key}>{value}</td>;
                 })}
 
                 {(DeleteAction || ReadAction || EditAction) && (
