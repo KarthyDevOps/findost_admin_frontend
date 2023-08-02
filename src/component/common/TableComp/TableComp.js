@@ -154,7 +154,6 @@ function TableComp(props) {
                   if (obj.hasOwnProperty(key)) {
                     const value = obj[key];
                     const label = item.label;
-                    console.log('label :>> ', label);
                     const statusKey = key.toLowerCase();
                     if (statusKey.includes("status")) {
                       const status = value.toLowerCase();
