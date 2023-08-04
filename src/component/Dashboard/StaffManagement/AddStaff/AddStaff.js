@@ -106,6 +106,8 @@ const AddStaff = ({ create, view, remove }) => {
             clientFamilyManagement: data.clientFamilyManagement,
             feeManagement: data.feeManagement,
             scheduleManagement: data.scheduleManagement,
+            leadManagement: data.leadManagement,
+
           },
         };
         if (staffDetails.status === "active") {
@@ -151,6 +153,7 @@ const AddStaff = ({ create, view, remove }) => {
             clientFamilyManagement: data.clientFamilyManagement,
             feeManagement: data.feeManagement,
             scheduleManagement: data.scheduleManagement,
+            leadManagement: data.leadManagement,
           },
         };
         if (staffDetails.status === "active") {

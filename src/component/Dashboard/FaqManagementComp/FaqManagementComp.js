@@ -46,6 +46,8 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
   const [categoryList, setCategoryList] = useState([]);
   const [subCategoryList, setSubCategoryList] = useState([]);
   const [categoryId, setCategoryId] = useState("");
+  const [catId, setCatId] = useState("");
+  const [subCatId, setSubCatId] = useState("");
   const [categoryMasterId, setCategoryMasterId] = useState("");
   const [subCategoryId, setSubCategoryId] = useState("");
   const [modalVisible, setModalVisible] = useState({
@@ -126,6 +128,7 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
       let params = {
         page: page,
         type: "Faq",
+        returnAll: true,
       };
       let response = await getSubCategoryList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
@@ -283,11 +286,14 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
             <MultiSelect
               options={categoryList}
               placeholder="Filter by Category"
+              defaultValue={Category}
               onChange={(option) => {
                 setCategory(option);
                 handlecategoryId(option);
               }}
               id="category"
+              catId={catId}
+
               plusSymbol={false}
             />
           </div>
@@ -295,10 +301,12 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
             <MultiSelect
               subOptions={subCategoryList}
               placeholder="Filter by Sub Category"
+              defaultValue={SubCategory}
               onChange={(option) => {
                 setSubCategory(option);
                 handleSubcategoryId(option);
               }}
+              subCatId={subCatId}
               id="subCategory"
               plusSymbol={false}
             />

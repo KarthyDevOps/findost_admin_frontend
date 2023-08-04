@@ -110,7 +110,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
         type: "knowledgeCenter",
       };
       let response = await getCategoryList(params);
-      if (response.status === 200 && response?.data?.data?.list.length > 0) { 
+      if (response.status === 200 && response?.data?.data?.list.length > 0) {
         let categoryList = [];
         categoryList = response.data?.data?.list.filter(
           (x) => x.name !== "FAQ"
@@ -129,6 +129,7 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
       let params = {
         page: page,
         type: "knowledgeCenter",
+        returnAll: true,
       };
       let response = await getSubCategoryList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {

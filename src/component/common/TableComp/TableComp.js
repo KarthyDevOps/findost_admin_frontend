@@ -8,6 +8,7 @@ import ReadImg from "assets/images/ReadImg.svg";
 // services
 import ReactPaginate from "react-paginate";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
+import { Tooltip } from 'antd';
 import moment from "moment";
 // helpers
 import { history } from "helpers";
@@ -70,14 +71,17 @@ function TableComp(props) {
   };
 
   const getValueForKey = (key, obj) => {
-    if (obj.hasOwnProperty(key)) {
-      const value = obj[key];
-      return value;
-    } else {
-      return "-";
+    const nestedKeys = key.split(".");
+    let value = obj;
+    for (const nestedKey of nestedKeys) {
+      if (value.hasOwnProperty(nestedKey)) {
+        value = value[nestedKey];
+      } else {
+        return (value = "-");
+      }
     }
+    return value;
   };
-
   return (
     <div className="table-container">
       <table className="data-table">
@@ -146,11 +150,19 @@ function TableComp(props) {
                         </td>
                       );
                       // for id
-                    } else if (statusKey.includes("id")) {
+                    }
+                    else if (statusKey.includes("aditionalinfo")) {
+                      return (
+                        <Tooltip title={value} color={"#fff"} key={"#fff"}>
+                          <td key={key}>{value}</td>
+                        </Tooltip>
+                      );
+                    }
+                    else if (statusKey.includes("id")) {
                       return <td key={key}>{value}</td>;
                     } else if (statusKey.includes("type")) {
                       return <td key={key}>{value.charAt(0).toUpperCase() + value.slice(1)}</td>;
-                    }else if (statusKey.includes("producticons3")) {
+                    } else if (statusKey.includes("producticons3")) {
                       return (
                         <td key={key}>
                           <a href={value} target="_blank">

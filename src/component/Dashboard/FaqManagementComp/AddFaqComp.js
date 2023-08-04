@@ -204,8 +204,8 @@ const AddFaqComp = ({ create, view, remove }) => {
   };
 
   const handleFormSubmit = (e) => {
-   setIsSubmit(true);
-     e.preventDefault();
+    setIsSubmit(true);
+    e.preventDefault();
     handleSubmit(onSubmit)();
   };
 
