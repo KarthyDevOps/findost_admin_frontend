@@ -1,5 +1,5 @@
 import React from "react";
-import ViewApComp from "component/Dashboard/ApManagement/ViewApComp";
+import ViewApComp from "component/Dashboard/ApManagement/ViewAp/ViewApComp";
 
 const ViewApManagement = () => {
   return (

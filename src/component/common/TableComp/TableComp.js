@@ -5,6 +5,7 @@ import "./style.scss";
 import editIcon from "assets/images/editIcon.svg";
 import deleteIcon from "assets/images/deleteIcon.svg";
 import ReadImg from "assets/images/ReadImg.svg";
+import viewIcon from "assets/images/viewIcon.svg";
 // services
 import ReactPaginate from "react-paginate";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
@@ -40,8 +41,8 @@ function TableComp(props) {
     closed: "#27AE60",
     failed: "#EB5757",
     success: "#27AE60",
-    PENDING : "#EB5757",
-    COMPLETED : "#27AE60",
+    PENDING: "#EB5757",
+    COMPLETED: "#27AE60",
   };
 
   const handlePageChange = (selectedPage) => {
@@ -72,30 +73,13 @@ function TableComp(props) {
     onRowsSelect(updatedRows);
   };
 
-  // const getValueForKey = (key, obj) => {
-  //   if(key.split(".").length > 1){
-  //     const value =  obj[key.split(".")[0]] ?  obj[key.split(".")[0]][key.split(".")[1]] : "-";
-  //     return value;
-  //   }
-  //   if (obj.hasOwnProperty(key)) {
-  //     const value = obj[key];
-  //     return value;
-  //   } else {
-  //     return "-";
-  //   }
-  // };
-
   const getValueForKey = (key, obj) => {
-    const nestedKeys = key.split(".");
-    let value = obj;
-    for (const nestedKey of nestedKeys) {
-      if (value.hasOwnProperty(nestedKey)) {
-        value = value[nestedKey];
-      } else {
-       return value = "-";
-      }
+    if (obj.hasOwnProperty(key)) {
+      const value = obj[key];
+      return value;
+    } else {
+      return "-";
     }
-    return value;
   };
 
   return (
@@ -165,7 +149,7 @@ function TableComp(props) {
                           </span>
                         </td>
                       );
-                    }  else if (statusKey.includes("id")) {
+                    } else if (statusKey.includes("id")) {
                       return <td key={key}>{value}</td>;
                     } else if (
                       management &&
@@ -260,22 +244,23 @@ function TableComp(props) {
                           }}
                         />
                       )}
+                      {console.log(management,"mana")}
                       {ReadAction && (
                         <img
-                          src={ReadImg}
+                          src={management ? viewIcon : ReadImg}
                           alt="read"
                           style={{
                             color: "#B4B4B4",
                             cursor: "pointer",
                           }}
                           onClick={() => {
-                            localStorage.removeItem("editId");
-                            localStorage.setItem("editId", obj._id);
+                            localStorage.removeItem("viewId");
+                            localStorage.setItem("viewId", obj._id);
                             history.push(`${editRouteName}`);
                           }}
                         />
                       )}
-                      {DeleteAction && (
+                      {!management && DeleteAction && (
                         <img
                           onClick={() => handleOpenModal(obj._id)}
                           src={deleteIcon}

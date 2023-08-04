@@ -27,6 +27,9 @@ import calendarMt from "assets/images/CalendarIA.svg";
 import calenderD from "assets/images/calendarD.svg";
 import feeIA from "assets/images/feeIA.svg";
 import feeDark from "assets/images/feeDark.svg";
+import apActive from "assets/images/apActive.svg";
+import apInactive from "assets/images/apInactive.svg";
+
 
 // internal components
 import { reducers } from "../reducer";
@@ -342,8 +345,8 @@ export const navLink = [
   {
     to: "/admin/ap-management",
     label: "Ap Management",
-    iconName: Client_a,
-    inactiveIcon: clientFamily,
+    iconName: apActive,
+    inactiveIcon: apInactive,
     privilegesName: "apManagement",
   },
   {
