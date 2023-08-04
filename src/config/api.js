@@ -5,6 +5,7 @@ export const userUrl = `${baseURL}:2277/user/api/v1`;
 export const communicationUrl = `${baseURL}:2275/communication/v1`;
 export const cms = `${baseURL}:2274/cms/v1`;
 export const CalendarUrl = `${baseURL}:2275/communication/v1/admin`;
+export const lead = `${baseURL}:2276/finance/v1`
 
 //PRE PRODUCTION
 
@@ -92,4 +93,8 @@ export const endpoints = {
     CALENDAR_EVENT_DELETE: `${CalendarUrl}/schedule/delete`,
     CALENDAR_EVENT_UPDATE: `${CalendarUrl}/schedule/update`,
   },
+  lead:
+  {
+    LEAD_GET: `${lead}/leads/list`,
+  }
 };

@@ -45,7 +45,9 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
   const [subCategoryList, setSubCategoryList] = useState([]);
   const [categoryId, setCategoryId] = useState("");
   const [categoryMasterId, setCategoryMasterId] = useState("");
-  const [subCategoryId, setSubCategoryId] = useState("");
+  const [subCategoryId, setSubCategoryId] = useState(""); 
+  const [catId, setCatId] = useState("");
+  const [subCatId, setSubCatId] = useState("");
   const [modalVisible, setModalVisible] = useState({
     id: null,
     show: false,
@@ -95,9 +97,11 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
 
   const handlecategoryId = (option) => {
     let newCategory = categoryList.find((x) => x.name === option);
-    setCategoryId(newCategory?.categoryId);
+    setCategoryId(newCategory?._id);
     setCategoryMasterId(newCategory?._id);
+    listSubCategorys(newCategory?._id);
   };
+
   const handleSubcategoryId = (option) => {
     let newCategory = subCategoryList.find((x) => x.name === option);
     setSubCategoryId(newCategory?._id);
@@ -106,11 +110,10 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
   const listCategorys = async (page) => {
     try {
       let params = {
-        page: page,
         type: "knowledgeCenter",
       };
       let response = await getCategoryList(params);
-      if (response.status === 200 && response?.data?.data?.list.length > 0) { 
+      if (response.status === 200 && response?.data?.data?.list.length > 0) {
         let categoryList = [];
         categoryList = response.data?.data?.list.filter(
           (x) => x.name !== "FAQ"
@@ -127,8 +130,8 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
   const listSubCategorys = async (page) => {
     try {
       let params = {
-        page: page,
         type: "knowledgeCenter",
+        returnAll: true,
       };
       let response = await getSubCategoryList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
@@ -278,26 +281,31 @@ const KnowledgeCenterComp = ({ create, view, edit, remove }) => {
               onChange={(e) => handleSearchChange(e.target.value)}
             />
           </div>
-          <div className="cursor-pointer" style={{ width: "170px" }}>
+          <div className="cursor-pointer" style={{ minWidth: "170px" }}>
             <MultiSelect
               options={categoryList}
               placeholder="Filter by Category"
+              defaultValue={Category}
               onChange={(option) => {
                 setCategory(option);
                 handlecategoryId(option);
               }}
               id="category"
+              catId={catId}
+
               plusSymbol={false}
             />
           </div>
-          <div className="cursor-pointer" style={{ width: "200px" }}>
+          <div className="cursor-pointer" style={{ minWidth: "200px" }}>
             <MultiSelect
               subOptions={subCategoryList}
+              defaultValue={SubCategory}
               placeholder="Filter by Sub Category"
               onChange={(option) => {
                 setSubCategory(option);
                 handleSubcategoryId(option);
               }}
+              subCatId={subCatId}
               id="subCategory"
               plusSymbol={false}
             />

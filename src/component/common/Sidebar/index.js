@@ -50,8 +50,8 @@ function Sidebar({ classes, window, privilegesData }) {
     staffManagement,
     templateManagement,
     feeManagement,
-    scheduleManagement,
-    apManagement
+    leadManagement,
+    scheduleManagement
   } = privilegesData ?? {};
 
   const location = useLocation();
@@ -73,7 +73,8 @@ function Sidebar({ classes, window, privilegesData }) {
               if (!clientFamilyManagement?.view && to?.startsWith("/admin/clients-family")) return;
               if (!scheduleManagement?.view && to?.startsWith("/admin/calendar-management")) return;
               if (!feeManagement?.view && to?.startsWith("/admin/fee-management")) return;
-              if (!apManagement?.view && to?.startsWith("/admin/ap-management")) return;
+              if (!leadManagement?.view && to?.startsWith("/admin/lead-management")) return;
+
               return (
                 <>
                   <NavLink
@@ -110,23 +111,23 @@ function Sidebar({ classes, window, privilegesData }) {
                               )}
                             </span>
 
-                          <span
-                            className={
-                              location.pathname.startsWith(to)
-                                ? "activeBar"
-                                : "inActiveBar"
-                            }
-                          >
-                            {label}
-                          </span>
-                        </ListItemText>
-                      </div>
-                    </ListItem>
-                  </div>
-                </NavLink>
-              </>
-            );
-          })
+                            <span
+                              className={
+                                location.pathname.startsWith(to)
+                                  ? "activeBar"
+                                  : "inActiveBar"
+                              }
+                            >
+                              {label}
+                            </span>
+                          </ListItemText>
+                        </div>
+                      </ListItem>
+                    </div>
+                  </NavLink>
+                </>
+              );
+            })
         )}
       </List>
       {/* <hr className="mx-3 bg-white" /> */}

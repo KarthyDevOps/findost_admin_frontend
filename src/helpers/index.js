@@ -26,7 +26,10 @@ import Temp_a from "assets/images/Temp_a.svg";
 import calendarMt from "assets/images/CalendarIA.svg";
 import calenderD from "assets/images/calendarD.svg";
 import feeIA from "assets/images/feeIA.svg";
-import feeDark from "assets/images/feeDark.svg";
+import feeDark from "assets/images/FeeDark.svg";
+import LeadDark from "assets/images/leadDark.svg";
+import LeadDarkIa from "assets/images/leadinactive.svg";
+
 import apActive from "assets/images/apActive.svg";
 import apInactive from "assets/images/apInactive.svg";
 
@@ -336,6 +339,13 @@ export const navLink = [
     privilegesName: "feeManagement",
   },
   {
+    to: "/admin/lead-management",
+    label: "Lead Management",
+    iconName: LeadDark,
+    inactiveIcon: LeadDarkIa,
+    privilegesName: "leadManagement",
+  },
+  {
     to: "/admin/clients-family",
     label: "Client's Family",
     iconName: Client_a,
@@ -422,6 +432,8 @@ export const managementOptions = {
   siteSettingsManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   feeManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   scheduleManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+  leadManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+
   apManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
 };
 
