@@ -27,6 +27,7 @@ function TableComp(props) {
     handleOpenModal,
     currentPage,
     onRowsSelect,
+    management = false,
   } = props;
 
   const [selectedRows, setSelectedRows] = useState([]);
@@ -40,6 +41,8 @@ function TableComp(props) {
     closed: "#27AE60",
     failed: "#EB5757",
     success: "#27AE60",
+    PENDING : "#EB5757",
+    COMPLETED : "#27AE60",
   };
 
   const handlePageChange = (selectedPage) => {
@@ -69,6 +72,19 @@ function TableComp(props) {
     setSelectedRows(updatedRows);
     onRowsSelect(updatedRows);
   };
+
+  // const getValueForKey = (key, obj) => {
+  //   if(key.split(".").length > 1){
+  //     const value =  obj[key.split(".")[0]] ?  obj[key.split(".")[0]][key.split(".")[1]] : "-";
+  //     return value;
+  //   }
+  //   if (obj.hasOwnProperty(key)) {
+  //     const value = obj[key];
+  //     return value;
+  //   } else {
+  //     return "-";
+  //   }
+  // };
 
   const getValueForKey = (key, obj) => {
     const nestedKeys = key.split(".");
@@ -160,8 +176,23 @@ function TableComp(props) {
                     }
                     else if (statusKey.includes("id")) {
                       return <td key={key}>{value}</td>;
+                    } else if (
+                      management &&
+                      statusKey.includes("description")
+                    ) {
+                      return (
+                        <td key={key}>
+                          <a href={value} target="_blank">
+                            {value}
+                          </a>
+                        </td>
+                      );
                     } else if (statusKey.includes("type")) {
-                      return <td key={key}>{value.charAt(0).toUpperCase() + value.slice(1)}</td>;
+                      return (
+                        <td key={key}>
+                          {value.charAt(0).toUpperCase() + value.slice(1)}
+                        </td>
+                      );
                     } else if (statusKey.includes("producticons3")) {
                       return (
                         <td key={key}>
@@ -215,11 +246,7 @@ function TableComp(props) {
                       );
                     }
                   }
-                  return (
-                    <td key={key}>
-                      {value}
-                    </td>
-                  );
+                  return <td key={key}>{value}</td>;
                 })}
 
                 {(DeleteAction || ReadAction || EditAction) && (

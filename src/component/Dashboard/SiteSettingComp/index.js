@@ -20,6 +20,7 @@ import { Toast } from "service/toast";
 import { uploadImage } from "service/Auth";
 //helpers
 import { history } from "helpers";
+
 const SiteSettingComp = ({ create, view, edit, remove }) => {
   const { register, handleSubmit, errors, control, reset, setError } = useForm({
     mode: "onChange",
@@ -136,12 +137,12 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
       console.log("e :>> ", e);
     }
   };
-  
+
   const deleteFavLogo = (e) => {
     e.stopPropagation();
     setSiteFavLogo(null);
   };
-  
+
   const deleteLogo = (e) => {
     e.stopPropagation();
     setSiteLogo(null);
@@ -168,6 +169,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                       placeholder="Enter Site Name"
                       name="siteUrl"
                       errors={errors}
+                      disabled={view && !create && !edit && !remove}
                       register={register({
                         required: true,
                         pattern: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
@@ -192,6 +194,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                       placeholder="Enter Support Number"
                       errors={errors}
                       name="supportNumber"
+                      disabled={view && !create && !edit && !remove}
                       register={register({
                         required: true,
                         pattern: /^(\+\d{1,3}[- ]?)?\d{10}$/,
@@ -212,6 +215,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                       type={"text"}
                       errors={errors}
                       name="emailId"
+                      disabled={view && !create && !edit && !remove}
                       placeholder="Enter Support Email"
                       register={register({
                         required: true,
@@ -231,8 +235,9 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                     <label className="Product_description">Site Logo</label>
 
                     <Dropzone
-                      onDrop={handleDrop}
+                      onDrop={(e) => (!edit ? null : handleDrop(e))}
                       accept=".png, .jpeg, .jpg, "
+                      noClick={view && !create && !edit && !remove ? true : false}
                       maxSize={3072000}
                       errors={errors}
                       {...register("dropZoneLogoField", {
@@ -253,7 +258,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                                 <img
                                   src={SiteFavLogo}
                                   alt="SiteFavLogo"
-                                  className="preview_image"
+                                  className={view && !create && !edit && !remove ? "preview_image1" : "preview_image"}
                                 ></img>
                               </>
                             ) : (
@@ -283,12 +288,16 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                                   zIndex: 1000,
                                 }}
                                 // className={styles.removeOverlay}
-                                onClick={deleteFavLogo}
+                                onClick={() =>
+                                  view && !create && !edit && !remove ? null : deleteFavLogo()
+                                }
                               >
-                                <AiOutlineCloseCircle
-                                  size={24}
-                                  style={{ color: "red" }}
-                                />
+                                {view && !create && !edit && !remove ? null : (
+                                  <AiOutlineCloseCircle
+                                    size={24}
+                                    style={{ color: "red" }}
+                                  />
+                                )}
                               </span>
                             )}
                           </div>
@@ -311,6 +320,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                       accept=".png, .jpeg, .jpg, "
                       maxSize={3072000}
                       errors={errors}
+                      noClick={view && !create && !edit && !remove ? true : false}
                       {...register("dropZoneFavLogoField", {
                         required: SiteLogo ? false : true,
                       })}
@@ -329,7 +339,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                                 <img
                                   src={SiteLogo}
                                   alt="SiteFavLogo"
-                                  className="preview_image"
+                                  className={view && !create && !edit && !remove ? "preview_image1" : "preview_image"}
                                 ></img>
                               </>
                             ) : (
@@ -359,12 +369,16 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                                   zIndex: 1000,
                                 }}
                                 // className={styles.removeOverlay}
-                                onClick={deleteLogo}
+                                onClick={() =>
+                                  view && !create && !edit && !remove ? null : deleteLogo()
+                                }
                               >
-                                <AiOutlineCloseCircle
-                                  size={24}
-                                  style={{ color: "red" }}
-                                />
+                                {view && !create && !edit && !remove ? null : (
+                                  <AiOutlineCloseCircle
+                                    size={24}
+                                    style={{ color: "red" }}
+                                  />
+                                )}
                               </span>
                             )}
                           </div>
@@ -404,6 +418,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                                 onChange(content);
                               }}
                               name={"content"}
+                              readOnly={view && !create && !edit && !remove ? true : false}
                             />
                           );
                         }}
@@ -418,6 +433,8 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                         onClick={() => history.goBack()}
                         cancel
                         label="Cancel"
+                        disabled={view && !create && !edit && !remove}
+                        
                       >
                         {" "}
                       </NormalButton>
@@ -427,6 +444,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                         addProductbtn
                         label="Save"
                         onClick={handleSubmit(onSubmit)}
+                        disabled={view && !create && !edit && !remove}
                       >
                         {" "}
                       </NormalButton>

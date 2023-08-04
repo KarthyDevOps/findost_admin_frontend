@@ -350,6 +350,13 @@ export const navLink = [
     privilegesName: "clientFamilyManagement",
   },
   {
+    to: "/admin/ap-management",
+    label: "Ap Management",
+    iconName: Client_a,
+    inactiveIcon: clientFamily,
+    privilegesName: "apManagement",
+  },
+  {
     to: "/admin/site-settings",
     label: "Site Settings",
     iconName: Site_a,
@@ -424,6 +431,7 @@ export const managementOptions = {
   scheduleManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   leadManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
 
+  apManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
 };
 
 export const options = [

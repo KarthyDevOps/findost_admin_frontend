@@ -148,16 +148,18 @@ const ContentManagementComp = ({ create, view, edit, remove }) => {
               )}
             </div>
             <div className="col-2">
-              <NormalButton
-                loginButton1
-                label={"Add Content"}
-                onClick={() => {
-                  localStorage.removeItem("editId");
-                  history.push(
-                    "/admin/content-management/editcontent-management"
-                  );
-                }}
-              />
+              {create && (
+                <NormalButton
+                  loginButton1
+                  label={"Add Content"}
+                  onClick={() => {
+                    localStorage.removeItem("editId");
+                    history.push(
+                      "/admin/content-management/editcontent-management"
+                    );
+                  }}
+                />
+              )}
             </div>
           </div>
           {isLoading ? (

@@ -77,6 +77,8 @@ const MultiSelect = ({
       if (catId?.length > 0) {
         temp = temp?.find((opt) => catId === opt._id);
         handleCustomer(temp?.name);
+      }else{
+        handleCustomer("")
       }
       setOptions(propsOptions);
     }
@@ -88,6 +90,8 @@ const MultiSelect = ({
       if (subCatId?.length > 0) {
         sample = sample?.find((opt) => subCatId === opt._id);
         handleCustomerSub(sample?.name);
+      }else{
+        handleCustomerSub("")
       }
       setSubOptions(subPropsOptions);
     }

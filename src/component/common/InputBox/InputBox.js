@@ -27,6 +27,7 @@ const InputBox = (props) => {
         name={name}
         placeholder={placeholder}
         className={
+          disabled ? "inputBoxGrayed" :
           grayedBox
             ? "inputBoxGrayed"
             : Iconic

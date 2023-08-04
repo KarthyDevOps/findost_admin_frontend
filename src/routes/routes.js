@@ -188,6 +188,22 @@ const routers = [
         exact: true,
       },
       {
+        component: "ApManagement",
+        path: "/ap-management",
+        componentPath: "pages/Dashboard/ApManagement/ApManagement",
+        name: "ApManagement",
+        auth: false,
+        exact: true,
+      },
+      {
+        component: "ViewApManagement",
+        path: "/ap-management/view-ap-management",
+        componentPath: "pages/Dashboard/ApManagement/ViewApManagement",
+        name: "ViewApManagement",
+        auth: false,
+        exact: true,
+      },
+      {
         component: "AddFee",
         path: "/fee-management/add-fee",
         componentPath: "pages/Dashboard/FeeManagement/AddFee",

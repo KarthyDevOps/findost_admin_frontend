@@ -113,7 +113,6 @@ const AddFaqComp = ({ create, view, remove }) => {
             Toast({ type: "error", message: "FAQ Status is Required" });
             return;
           }
-          setModal(true);
           setLoading(true);
           let body = {
             title: data.title,
@@ -151,7 +150,6 @@ const AddFaqComp = ({ create, view, remove }) => {
             return;
           }
           setLoading(true);
-          setModal(true);
           let body = {
             title: data.title,
             answer: data.content,
@@ -193,7 +191,6 @@ const AddFaqComp = ({ create, view, remove }) => {
 
   const handlecategoryId = (option) => {
     let newCategory = categoryList.find((x) => x.name === option);
-    console.log('object :>> ', newCategory?._id);
     setCategoryId(newCategory?._id);
     setCategoryMasterId(newCategory?._id);
     listSubCategorys(newCategory?._id);
@@ -344,6 +341,7 @@ const AddFaqComp = ({ create, view, remove }) => {
                 </span>
               )}
             </div>
+            {console.log(subCatId,subCategory,"subbbb")}
             <div className="col-4 ">
               <label>FAQ Status</label>
               <CustomController
