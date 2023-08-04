@@ -1,0 +1,2 @@
+(this.webpackJsonpadmin=this.webpackJsonpadmin||[]).push([[111,146],{374:function(e,a,t){"use strict";t.r(a);var n=t(1),s=t.n(n);t(665);a.default=function(){return s.a.createElement("div",{className:"px-5 py-3"},s.a.createElement("p",{className:"staff_title m-0"},"Ap Management Details"),s.a.createElement("div",{className:"details-tab p-3 my-3"},s.a.createElement("p",{className:"details_title m-0"},"Personal Information"),s.a.createElement("div",{className:"row"})))}},665:function(e,a,t){}}]);
+//# sourceMappingURL=111.dd6be89a.chunk.js.map
