@@ -8,6 +8,7 @@ import ReadImg from "assets/images/ReadImg.svg";
 // services
 import ReactPaginate from "react-paginate";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
+import { Tooltip } from 'antd';
 import moment from "moment";
 // helpers
 import { history } from "helpers";
@@ -92,12 +93,11 @@ function TableComp(props) {
       if (value.hasOwnProperty(nestedKey)) {
         value = value[nestedKey];
       } else {
-       return value = "-";
+        return (value = "-");
       }
     }
     return value;
   };
-
   return (
     <div className="table-container">
       <table className="data-table">
@@ -165,7 +165,16 @@ function TableComp(props) {
                           </span>
                         </td>
                       );
-                    }  else if (statusKey.includes("id")) {
+                      // for id
+                    }
+                    else if (statusKey.includes("aditionalinfo")) {
+                      return (
+                        <Tooltip title={value} color={"#fff"} key={"#fff"}>
+                          <td key={key}>{value}</td>
+                        </Tooltip>
+                      );
+                    }
+                    else if (statusKey.includes("id")) {
                       return <td key={key}>{value}</td>;
                     } else if (
                       management &&

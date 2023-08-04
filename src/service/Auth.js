@@ -254,6 +254,7 @@ export const bulkDeleteSegment = async (body) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
 export const updateSegment = async (body, id) => {
   const request = await axios({
     method: "put",
@@ -272,7 +273,7 @@ export const updateRegisterFee = async (body, id) => {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
-    data: body, 
+    data: body,
   }).catch(axiosErrorHandler);
   return request;
 };

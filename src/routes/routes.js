@@ -95,8 +95,8 @@ const routers = [
         name: "AddProduct",
         auth: false,
         exact: true,
-      },  
-     
+      },
+
       {
         component: "FeedbackManagement",
         path: "/feedback-management",
@@ -114,6 +114,14 @@ const routers = [
         exact: true,
       },
       {
+        component: "LeadManagement",
+        path: "/lead-management",
+        componentPath: "pages/Dashboard/LeadManagement/LeadManagement",
+        name: "LeadManagement",
+        auth: false,
+        exact: true,
+      },
+      {
         component: "AnswerFeedback",
         path: "/feedBack-management/answer-feedback",
         componentPath: "pages/Dashboard/FeedbackManagement/AnswerFeedback",
@@ -121,7 +129,7 @@ const routers = [
         auth: false,
         exact: true,
       },
-     
+
       {
         component: "CreateNotification",
         path: "/notification-management/create-notification",
@@ -213,7 +221,7 @@ const routers = [
         exact: true,
       },
 
-   
+
       {
         component: "TemplateManagement",
         path: "/template-management",

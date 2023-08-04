@@ -46,6 +46,8 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
   const [categoryList, setCategoryList] = useState([]);
   const [subCategoryList, setSubCategoryList] = useState([]);
   const [categoryId, setCategoryId] = useState("");
+  const [catId, setCatId] = useState("");
+  const [subCatId, setSubCatId] = useState("");
   const [categoryMasterId, setCategoryMasterId] = useState("");
   const [subCategoryId, setSubCategoryId] = useState("");
   const [modalVisible, setModalVisible] = useState({
@@ -95,8 +97,9 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
 
   const handlecategoryId = (option) => {
     let newCategory = categoryList.find((x) => x.name === option);
-    setCategoryId(newCategory?.categoryId);
+    setCategoryId(newCategory?._id);
     setCategoryMasterId(newCategory?._id);
+    listSubCategorys(newCategory?._id);
   };
   const handleSubcategoryId = (option) => {
     let newCategory = subCategoryList.find((x) => x.name === option);
@@ -106,7 +109,6 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
   const listCategorys = async (page) => {
     try {
       let params = {
-        page: page,
         type: "Faq",
       };
       let response = await getCategoryList(params);
@@ -124,8 +126,8 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
   const listSubCategorys = async (page) => {
     try {
       let params = {
-        page: page,
         type: "Faq",
+        returnAll: true,
       };
       let response = await getSubCategoryList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
@@ -283,22 +285,27 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
             <MultiSelect
               options={categoryList}
               placeholder="Filter by Category"
+              defaultValue={Category}
               onChange={(option) => {
                 setCategory(option);
                 handlecategoryId(option);
               }}
               id="category"
+              catId={catId}
+
               plusSymbol={false}
             />
           </div>
           <div className="cursor-pointer" style={{ minWidth: "200px" }}>
             <MultiSelect
               subOptions={subCategoryList}
+              defaultValue={SubCategory}
               placeholder="Filter by Sub Category"
               onChange={(option) => {
                 setSubCategory(option);
                 handleSubcategoryId(option);
               }}
+              subCatId={subCatId}
               id="subCategory"
               plusSymbol={false}
             />
