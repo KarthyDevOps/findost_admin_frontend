@@ -97,8 +97,9 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
 
   const handlecategoryId = (option) => {
     let newCategory = categoryList.find((x) => x.name === option);
-    setCategoryId(newCategory?.categoryId);
+    setCategoryId(newCategory?._id);
     setCategoryMasterId(newCategory?._id);
+    listSubCategorys(newCategory?._id);
   };
   const handleSubcategoryId = (option) => {
     let newCategory = subCategoryList.find((x) => x.name === option);
@@ -108,7 +109,6 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
   const listCategorys = async (page) => {
     try {
       let params = {
-        page: page,
         type: "Faq",
       };
       let response = await getCategoryList(params);
@@ -126,7 +126,6 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
   const listSubCategorys = async (page) => {
     try {
       let params = {
-        page: page,
         type: "Faq",
         returnAll: true,
       };
@@ -300,8 +299,8 @@ const FaqManagementComp = ({ create, view, edit, remove }) => {
           <div className="cursor-pointer" style={{ minWidth: "200px" }}>
             <MultiSelect
               subOptions={subCategoryList}
-              placeholder="Filter by Sub Category"
               defaultValue={SubCategory}
+              placeholder="Filter by Sub Category"
               onChange={(option) => {
                 setSubCategory(option);
                 handleSubcategoryId(option);
