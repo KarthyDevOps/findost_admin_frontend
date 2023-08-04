@@ -30,6 +30,9 @@ import feeDark from "assets/images/FeeDark.svg";
 import LeadDark from "assets/images/leadDark.svg";
 import LeadDarkIa from "assets/images/leadinactive.svg";
 
+import apActive from "assets/images/apActive.svg";
+import apInactive from "assets/images/apInactive.svg";
+
 
 // internal components
 import { reducers } from "../reducer";
@@ -352,8 +355,8 @@ export const navLink = [
   {
     to: "/admin/ap-management",
     label: "Ap Management",
-    iconName: Client_a,
-    inactiveIcon: clientFamily,
+    iconName: apActive,
+    inactiveIcon: apInactive,
     privilegesName: "apManagement",
   },
   {

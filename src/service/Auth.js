@@ -301,3 +301,15 @@ export const getUserList = async (params) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
+export const getUser = async (params) => {
+  let request = await axios({
+    method: "get",
+    url: `${endpoints.auth.GET_USER}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params: params,
+  }).catch(axiosErrorHandler);
+  return request;
+};

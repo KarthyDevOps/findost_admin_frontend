@@ -29,26 +29,37 @@ const ApManagementComp = ({ apAccess }) => {
   });
 
   const includedKeys = [
+    // {
+    //   label: "User Id",
+    //   value: "authorizedPersonId",
+    // },
     {
-      label: "User Id",
-      value: "authorizedPersonId",
-    },
-    {
-      label: "Username",
+      label: "AP Name",
       value: "name",
+      width : "40%",
     },
     {
       label: "Email Id",
       value: "email",
+      width : "50%",
     },
     {
-      label: "Payment Status",
-      value: "paymentDetails.paymentStatus",
+      label: "Phone Number",
+      value: "mobileNumber",
+      width : "30%",
     },
     {
-      label: "Status",
-      value: "isActive",
+      label: "Occupation",
+      value: "role",
     },
+    // {
+    //   label: "Payment Status",
+    //   value: "paymentDetails.paymentStatus",
+    // },
+    // {
+    //   label: "Status",
+    //   value: "isActive",
+    // },
   ];
 
   const getApList = async (page) => {
@@ -220,6 +231,7 @@ const ApManagementComp = ({ apAccess }) => {
               handleOpenModal={handleOpenModal}
               onRowsSelect={handleBulk}
               editRouteName={"/admin/ap-management/view-ap-management"}
+              management={true}
             />
           </div>
         ) : (
