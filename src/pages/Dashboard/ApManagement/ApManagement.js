@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 const ApManagement = () => {
   // access for AP management
   const apAccess = useSelector(
-    (state) => state?.home?.privileges?.feeManagement
+    (state) => state?.home?.privileges?.apManagement
   );
   return (
     <div>

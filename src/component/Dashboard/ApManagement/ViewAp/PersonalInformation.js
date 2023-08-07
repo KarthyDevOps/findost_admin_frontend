@@ -6,11 +6,11 @@ const PersonalInformation = ({ data }) => {
       <div className="d-flex align-items-center mt-4">
         <div className="">
           <p>Father's Name</p>
-          <span>{data?.fatherName}</span>
+          <span>{data?.fatherName ? data?.fatherName : "-"}</span>
         </div>
         <div className="mx-3">
           <p>Mother's Name</p>
-          <span>{data?.motherName}</span>
+          <span>{data?.motherName ? data?.motherName : "-"}</span>
         </div>
         <div className="mx-3">
           <p>Name of the firm/ Trade member (Optional)</p>
@@ -47,12 +47,24 @@ const PersonalInformation = ({ data }) => {
               <p>Others</p>
             </div>
             <div className="mx-5 px-5">
-              <h4 className="mb-3">{data?.capitalMarketingExperience?.equities || "-"}</h4>
-              <h4 className="mb-3">{data?.capitalMarketingExperience?.debt || "-"}</h4>
-              <h4 className="mb-3">{data?.capitalMarketingExperience?.derivatives || "-"}</h4>
-              <h4 className="mb-3">{data?.capitalMarketingExperience?.ipo || "-"}</h4>
-              <h4 className="mb-3">{data?.capitalMarketingExperience?.mutualfunds || "-"}</h4>
-              <h4 className="mb-3">{data?.capitalMarketingExperience?.others || "-"}</h4>
+              <h4 className="mb-3">
+                {data?.capitalMarketingExperience?.equities || "-"}
+              </h4>
+              <h4 className="mb-3">
+                {data?.capitalMarketingExperience?.debt || "-"}
+              </h4>
+              <h4 className="mb-3">
+                {data?.capitalMarketingExperience?.derivatives || "-"}
+              </h4>
+              <h4 className="mb-3">
+                {data?.capitalMarketingExperience?.ipo || "-"}
+              </h4>
+              <h4 className="mb-3">
+                {data?.capitalMarketingExperience?.mutualfunds || "-"}
+              </h4>
+              <h4 className="mb-3">
+                {data?.capitalMarketingExperience?.others || "-"}
+              </h4>
             </div>
           </div>
         </div>

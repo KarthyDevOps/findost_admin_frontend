@@ -143,23 +143,31 @@ const Business = ({ data }) => {
             </div>
           </div>
           <h3 className="my-3">Segment Selection</h3>
-          <div className="d-flex align-items-center">
-            <div>
-              <p>NSE Cash</p>
-              <p>NSE Futures & Options</p>
-              <p>NSE Currency</p>
-              <p>Total</p>
+          {data?.business?.segmentSelection.length > 0 ? (
+            <div className="d-flex align-items-center">
+              <div>
+                {data?.business?.segmentSelection.map((x) => {
+                  return <p>{x?.segmentName}</p>;
+                })}
+
+                <p>Total</p>
+              </div>
+              <div className="mx-5 px-5">
+                {data?.business?.segmentSelection?.map((x) => {
+                  return <h4 className="mb-3">₹{x?.segmentCharge}</h4>;
+                })}
+
+                <h4 className="mb-3">
+                  ₹{data?.paymentDetails?.segmentTotalCharge}
+                </h4>
+              </div>
             </div>
-            <div className="mx-5 px-5">
-              <h4>₹{data?.capitalMarketingExperience?.equities || "-"}</h4>
-              <h4>₹{data?.capitalMarketingExperience?.debt || "-"}</h4>
-              <h4>₹{data?.capitalMarketingExperience?.derivatives || "-"}</h4>
-              <h4>₹{data?.capitalMarketingExperience?.ipo || "-"}</h4>
-            </div>
-          </div>
+          ) : (
+            "-"
+          )}
         </div>
         <div className="col-6">
-          <h3 className="my-3">Business Reference</h3>
+          <h3 className="">Business Reference</h3>
           <div className="d-flex align-items-center justify-content-between mt-4">
             <div className="">
               <p>Full Name</p>

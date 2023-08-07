@@ -1,15 +1,14 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
+// styles
 import "./style.scss";
-import { getUser } from "service/Auth";
-import { history } from "helpers";
-import { Avatar, Space } from "antd";
-import { UserOutlined } from "@ant-design/icons";
-import NormalButton from "component/common/NormalButton/NormalButton";
+// images
 import download from "assets/images/download.svg";
 import mp4 from "assets/images/mp4.svg";
 import jpg from "assets/images/jpg.svg";
 import pdf from "assets/images/pdf.svg";
 import Suffix from "assets/images/Suffix.svg";
+// internal component
+import NormalButton from "component/common/NormalButton/NormalButton";
 import PersonalInformation from "./PersonalInformation";
 import Address from "./Address";
 import Documents from "./Documents";
@@ -17,6 +16,12 @@ import Business from "./Business";
 import Bank from "./Bank";
 import Nomination from "./Nomination";
 import Payment from "./Payment";
+// services
+import { getUser } from "service/Auth";
+import { Avatar } from "antd";
+import { FaUser } from "react-icons/fa";
+// helpers
+import { history } from "helpers";
 
 const ViewApComp = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -31,6 +36,11 @@ const ViewApComp = () => {
   const handleTab = (tab) => {
     setActiveTab(tab);
     history.push(`view-ap-management?tab=${tab}`);
+  };
+
+  const handleViewClick = (url) => {
+    const fileUrl = url;
+    window.open(fileUrl, "_blank");
   };
 
   const getApList = async (id) => {
@@ -63,7 +73,7 @@ const ViewApComp = () => {
           <p className="staff_title m-0">Authorized Partner (AP) Management</p>
         </div>
         <div className="d-flex align-items-center justify-content-end col-6">
-          <div className=" col-3" >
+          <div className=" col-3">
             <NormalButton
               className="loginButton"
               // onClick={handleFormSubmit}
@@ -71,7 +81,7 @@ const ViewApComp = () => {
               isLoading={loading}
             />
           </div>
-          <div className=" col-3" >
+          <div className=" col-3">
             <NormalButton
               className="authButton1"
               label={"Deny"}
@@ -90,7 +100,7 @@ const ViewApComp = () => {
               <Avatar
                 style={{ width: "100%", height: "100%" }}
                 shape="square"
-              />
+              ></Avatar>
             </div>
             <div className="col-5">
               <h6>{data?.gender}</h6>
@@ -107,21 +117,34 @@ const ViewApComp = () => {
         <div className="col-5">
           <div className=" profile-card p-3">
             <h5>In-Person Verification (IPV)</h5>
-            <div className="d-flex flex-noWrap col-12 document-card p-3">
-              <div className="col-2">
-                <img src={mp4} alt="" />
+            {data?.inPersonVerificationS3?.urlS3 ? (
+              <div className="d-flex flex-noWrap col-12 document-card p-3">
+                <div className="col-2">
+                  <img src={mp4} alt="" />
+                </div>
+                <div className="col-6">
+                  <p>IPV recording with proof</p>
+                  <span>File size is 1 MB</span>
+                </div>
+                <div className="col-2">
+                  <a
+                    href="your-backend-file-link"
+                    download
+                    className="download-link"
+                  >
+                    <img src={download} alt="" />
+                  </a>
+                </div>
+                <div
+                  onClick={() => handleViewClick(data?.url)}
+                  className="col-2 cursor-pointer"
+                >
+                  <img src={Suffix} alt="" />
+                </div>
               </div>
-              <div className="col-6">
-                <p>IPV recording with proof</p>
-                <span>File size is 1 MB</span>
-              </div>
-              <div className="col-2">
-                <img src={download} alt="" />
-              </div>
-              <div className="col-2">
-                <img src={Suffix} alt="" />
-              </div>
-            </div>
+            ) : (
+              "-"
+            )}
           </div>
         </div>
       </div>
