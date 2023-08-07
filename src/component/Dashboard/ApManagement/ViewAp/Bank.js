@@ -1,6 +1,12 @@
 import React from "react";
 
 const Bank = ({ data, pdf, download, Suffix }) => {
+
+  const handleViewClick = (url) => {
+    const fileUrl = url;
+    window.open(fileUrl, "_blank");
+  };
+  
   return (
     <div className="personal-box p-4">
       <h3>Bank Details</h3>
@@ -42,9 +48,14 @@ const Bank = ({ data, pdf, download, Suffix }) => {
           <span>File size is 1 MB</span>
         </div>
         <div className="col-2">
-          <img src={download} alt="" />
+          <a href="your-backend-file-link" download className="download-link">
+            <img src={download} alt="" />
+          </a>
         </div>
-        <div className="col-2">
+        <div
+          onClick={() => handleViewClick(data?.url)}
+          className="col-2 cursor-pointer"
+        >
           <img src={Suffix} alt="" />
         </div>
       </div>

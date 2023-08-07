@@ -104,7 +104,7 @@ const AddStaff = ({ create, view, remove }) => {
             feeManagement: data.feeManagement,
             scheduleManagement: data.scheduleManagement,
             leadManagement: data.leadManagement,
-
+            apManagement: data.apManagement,
           },
         };
         if (staffDetails.status === "active") {
@@ -152,6 +152,7 @@ const AddStaff = ({ create, view, remove }) => {
             feeManagement: data.feeManagement,
             scheduleManagement: data.scheduleManagement,
             leadManagement: data.leadManagement,
+            apManagement: data.apManagement,
           },
         };
         if (staffDetails.status === "active") {
@@ -322,7 +323,7 @@ const AddStaff = ({ create, view, remove }) => {
                 register={register({
                   required: edit ? false : true,
                   minLength: {
-                    value:  8,
+                    value: 8,
                   },
                   maxLength: {
                     value: 16,
@@ -331,9 +332,12 @@ const AddStaff = ({ create, view, remove }) => {
                     value: /^(?=.*[A-Z])/,
                   },
                   validate: {
-                    lowercase: (value) => edit ? null : /^(?=.*[a-z])/.test(value),
-                    containsDigit: (value) => edit ? null : /^(?=.*[0-9])/.test(value),
-                    containsSpecial: (value) => edit ? null : /^(?=.*[!@#$%^&*])/.test(value),
+                    lowercase: (value) =>
+                      edit ? null : /^(?=.*[a-z])/.test(value),
+                    containsDigit: (value) =>
+                      edit ? null : /^(?=.*[0-9])/.test(value),
+                    containsSpecial: (value) =>
+                      edit ? null : /^(?=.*[!@#$%^&*])/.test(value),
                   },
                 })}
               />

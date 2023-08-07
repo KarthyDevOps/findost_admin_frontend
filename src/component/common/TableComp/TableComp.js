@@ -9,7 +9,7 @@ import viewIcon from "assets/images/viewIcon.svg";
 // services
 import ReactPaginate from "react-paginate";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
-import { Tooltip } from 'antd';
+import { Tooltip } from "antd";
 import moment from "moment";
 // helpers
 import { history } from "helpers";
@@ -28,6 +28,7 @@ function TableComp(props) {
     handleOpenModal,
     currentPage,
     onRowsSelect,
+    calmanagement = true,
     management = false,
   } = props;
 
@@ -153,18 +154,16 @@ function TableComp(props) {
                         </td>
                       );
                       // for id
-                    }
-                    else if (statusKey.includes("aditionalinfo")) {
+                    } else if (statusKey.includes("aditionalinfo")) {
                       return (
                         <Tooltip title={value} color={"#fff"} key={"#fff"}>
                           <td key={key}>{value}</td>
                         </Tooltip>
                       );
-                    }
-                    else if (statusKey.includes("id")) {
+                    } else if (statusKey.includes("id")) {
                       return <td key={key}>{value}</td>;
                     } else if (
-                      management &&
+                      calmanagement &&
                       statusKey.includes("description")
                     ) {
                       return (
@@ -256,7 +255,6 @@ function TableComp(props) {
                           }}
                         />
                       )}
-                      {console.log(management,"mana")}
                       {ReadAction && (
                         <img
                           src={management ? viewIcon : ReadImg}
@@ -290,6 +288,7 @@ function TableComp(props) {
             );
           })}
         </tbody>
+        {console.log(management, "mana")}
       </table>
       <div className="my-4">
         <ReactPaginate

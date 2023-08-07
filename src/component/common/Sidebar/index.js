@@ -51,7 +51,7 @@ function Sidebar({ classes, window, privilegesData }) {
     templateManagement,
     feeManagement,
     leadManagement,
-    scheduleManagement
+    scheduleManagement,apManagement
   } = privilegesData ?? {};
 
   const location = useLocation();
@@ -74,6 +74,8 @@ function Sidebar({ classes, window, privilegesData }) {
               if (!scheduleManagement?.view && to?.startsWith("/admin/calendar-management")) return;
               if (!feeManagement?.view && to?.startsWith("/admin/fee-management")) return;
               if (!leadManagement?.view && to?.startsWith("/admin/lead-management")) return;
+              if (!apManagement?.view && to?.startsWith("/admin/ap-management")) return;
+
 
               return (
                 <>
