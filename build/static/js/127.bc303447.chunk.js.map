@@ -1,1 +1,0 @@
-{"version":3,"sources":["component/Dashboard/ApManagement/ViewAp/Payment.js"],"names":["Payment"],"mappings":"kGAAA,2BAQeA,UANC,WACd,OACE,6BAAK","file":"static/js/127.bc303447.chunk.js","sourcesContent":["import React from 'react'\r\n\r\nconst Payment = () => {\r\n  return (\r\n    <div>Payment</div>\r\n  )\r\n}\r\n\r\nexport default Payment"],"sourceRoot":""}

@@ -1,2 +1,0 @@
-(this.webpackJsonpadmin=this.webpackJsonpadmin||[]).push([[127],{381:function(n,t,e){"use strict";e.r(t);var a=e(1),i=e.n(a);t.default=function(){return i.a.createElement("div",null,"Payment")}}}]);
-//# sourceMappingURL=127.bc303447.chunk.js.map
