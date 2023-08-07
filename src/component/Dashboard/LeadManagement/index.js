@@ -11,9 +11,7 @@ import Loader from "component/common/Loader";
 // services
 import { useForm } from "react-hook-form";
 import { getLead } from "service/leads";
-import {
-  getProductList,
-} from "../../../service/Cms";
+import { getProductList, } from "../../../service/Cms";
 // helpers
 import {
   debounceFunction,
