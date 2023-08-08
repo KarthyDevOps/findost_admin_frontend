@@ -1,21 +1,23 @@
 import React from "react";
+import printJS from "print-js";
+import axios from "axios";
 
 const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
-
   const handleViewClick = (url) => {
     console.log("url :>> ", url);
     window.open(url, "_blank");
   };
 
-  const saveFile = (e, url) => {
-    e.preventDefault();
-    var a = document.createElement("a");
-    a.href = url;
-    a.download = "file.pdf";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  };
+  const saveFile = async (url,fileName) => {
+    var data = new Blob([url],{type: "application/pdf"});
+    var csvURL = window.URL.createObjectURL(data);
+    const tempLink = document.createElement("a");
+    tempLink.href = csvURL;
+    tempLink.target = "_blank";
+    tempLink.setAttribute("download", `${fileName}.pdf`);
+    tempLink.click();
+
+};
 
   return (
     <div className="personal-box p-4">
@@ -33,10 +35,13 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
               </span>
             </div>
             <div
-              onClick={(e) =>
-                saveFile(e, data?.document?.professionalDocument?.urlS3)
+              onClick={() =>
+                saveFile(
+                  data?.document?.professionalDocument?.urlS3,
+                  data?.document?.professionalDocument?.fileName
+                )
               }
-              className="col-1 mr-2"
+              className="col-1 mr-2 cursor-pointer"
             >
               <img src={download} alt="" />
             </div>
@@ -55,20 +60,35 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
               <img src={pdf} alt="" />
             </div>
             <div className="col-7 p-0">
-              <p>IPV recording with proof</p>
-              <span>File size is 1 MB</span>
+              <p>{data?.document?.educationQualificationDocument?.fileName}</p>
+              <span>
+                File size is{" "}
+                {data?.document?.educationQualificationDocument?.fileSize}
+              </span>
             </div>
-            <div className="col-1 mr-2">
+            <div
+              // onClick={() =>
+              //   saveFile(
+              //     data?.document?.educationQualificationDocument?.urlS3,
+              //     data?.document?.educationQualificationDocument?.urlS3
+              //   )
+              // }
+              className="col-1 mr-2"
+            >
               <a
                 href={data?.document?.educationQualificationDocument?.urlS3}
                 download
                 className="download-link"
               >
-                <img src={download} alt="" />
+              <img src={download} alt="" />
               </a>
             </div>
             <div
-              onClick={() => handleViewClick(data?.document?.educationQualificationDocument?.urlS3)}
+              onClick={() =>
+                handleViewClick(
+                  data?.document?.educationQualificationDocument?.urlS3
+                )
+              }
               className="col-2 cursor-pointer"
             >
               <img src={Suffix} alt="" />
@@ -85,12 +105,14 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
               <img src={pdf} alt="" />
             </div>
             <div className="col-7 p-0">
-              <p>IPV recording with proof</p>
-              <span>File size is 1 MB</span>
+              <p>{data?.document?.proofOfNameChange?.fileName}</p>
+              <span>
+                File size is {data?.document?.proofOfNameChange?.fileSize}
+              </span>
             </div>
             <div className="col-1 mr-2">
               <a
-                href="your-backend-file-link"
+                href={data?.document?.proofOfNameChange?.urlS3}
                 download
                 className="download-link"
               >
@@ -98,7 +120,9 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
               </a>
             </div>
             <div
-              onClick={() => handleViewClick(data?.url)}
+              onClick={() =>
+                handleViewClick(data?.document?.proofOfNameChange?.urlS3)
+              }
               className="col-2 cursor-pointer"
             >
               <img src={Suffix} alt="" />
@@ -113,12 +137,14 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
               <img src={pdf} alt="" />
             </div>
             <div className="col-7 p-0">
-              <p>IPV recording with proof</p>
-              <span>File size is 1 MB</span>
+              <p>{data?.document?.residentialAddressProof?.fileName}</p>
+              <span>
+                File size is {data?.document?.residentialAddressProof?.fileSize}
+              </span>
             </div>
             <div className="col-1 mr-2">
               <a
-                href="your-backend-file-link"
+                href={data?.document?.residentialAddressProof?.urlS3}
                 download
                 className="download-link"
               >
@@ -126,7 +152,9 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
               </a>
             </div>
             <div
-              onClick={() => handleViewClick(data?.url)}
+              onClick={() =>
+                handleViewClick(data?.document?.residentialAddressProof?.urlS3)
+              }
               className="col-2 cursor-pointer"
             >
               <img src={Suffix} alt="" />
@@ -138,12 +166,14 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
               <img src={pdf} alt="" />
             </div>
             <div className="col-7 p-0">
-              <p>IPV recording with proof</p>
-              <span>File size is 1 MB</span>
+              <p>{data?.document?.officeAddressProof?.fileName}</p>
+              <span>
+                File size is {data?.document?.officeAddressProof?.fileSize}
+              </span>
             </div>
             <div className="col-1 mr-2">
               <a
-                href="your-backend-file-link"
+                href={data?.document?.officeAddressProof?.urlS3}
                 download
                 className="download-link"
               >
@@ -151,7 +181,9 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
               </a>
             </div>
             <div
-              onClick={() => handleViewClick(data?.url)}
+              onClick={() =>
+                handleViewClick(data?.document?.officeAddressProof?.urlS3)
+              }
               className="col-2 cursor-pointer"
             >
               <img src={Suffix} alt="" />

@@ -40,19 +40,19 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
     },
     {
       label: "Email Id",
-      value: "email",
+      value: "familyMember.email",
     },
     {
       label: "Date of Birth",
-      value: "dateOfBirth",
+      value: "familyMember.dateOfBirth",
     },
     {
       label: "Relative Name",
-      value: "relativeName",
+      value: "familyMember.relativeName",
     },
     {
       label: "Relationship",
-      value: "relationShip",
+      value: "familyMember.relationShip",
       width: "50%",
     },
   ];
