@@ -1,6 +1,4 @@
 import React from "react";
-import printJS from "print-js";
-import axios from "axios";
 
 const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
   const handleViewClick = (url) => {
