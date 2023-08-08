@@ -69,6 +69,7 @@ const ViewApComp = () => {
       let response = await ApproveUser(body, viewId);
       if (response.status === 200) {
         setloading(false);
+        getApList(viewId);
       }
     } catch (e) {
       console.log("e :>> ", e);
@@ -84,6 +85,7 @@ const ViewApComp = () => {
       let response = await ApproveUser(body, viewId);
       if (response.status === 200) {
         setload(false);
+        getApList(viewId);
       }
     } catch (e) {
       console.log("e :>> ", e);
@@ -110,7 +112,7 @@ const ViewApComp = () => {
   return (
     <div className="px-5 py-3">
       <div className="row align-items-center justify-content-between">
-        <div className="col-7 d-flex align-items-center">
+        <div className="col-6 d-flex align-items-center p-0">
           <i className="pr-3">
             <BsArrowLeft
               size={28}
@@ -118,10 +120,9 @@ const ViewApComp = () => {
               style={{ cursor: "pointer" }}
             />
           </i>
-
-          <p className="staff_title m-0">Authorized Partner (AP) Management</p>
+          <p className="staff_title m-0">Authorized Partner Management</p>
         </div>
-        <div className="d-flex align-items-center justify-content-end col-5">
+        <div className="d-flex align-items-center justify-content-end col-6">
           <div className=" col-3">
             <NormalButton
               className="loginButton"
@@ -155,6 +156,13 @@ const ViewApComp = () => {
               <h6>{data?.gender}</h6>
               <p>{data?.name}</p>
               <span>{data?.role}</span>
+              <h6
+                style={{
+                  color: data?.isAdminUpdated ? "green" : "red",
+                }}
+              >
+                {data?.isAdminUpdated ? "Active" : "InActive"}
+              </h6>
             </div>
             <div className="col-4">
               <h6>{data?.nationality}</h6>

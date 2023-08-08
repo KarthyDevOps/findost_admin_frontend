@@ -61,7 +61,7 @@ export class NormalButton extends Component {
             <span className="btn-loader  ">
               {" "}
               <>
-                <Oval color="#ffffff" height={20} width={20} />
+                <Oval color="#ffffff" height={20} width={"100%"} />
               </>
               <>
                 <span className="m-3">Loading</span>{" "}
