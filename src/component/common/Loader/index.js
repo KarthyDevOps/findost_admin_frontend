@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Loader = ({ loading, className }) => {
+ export const Loader = ({ loading, className }) => {
   return (
     <div className={className}>
       <ClipLoader

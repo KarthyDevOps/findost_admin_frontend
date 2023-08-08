@@ -313,3 +313,15 @@ export const getUser = async (params) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
+export const ApproveUser = async (body, id) => {
+  const request = await axios({
+    method: "put",
+    url: `${endpoints.auth.APPROVE_USER}?id=${id}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body,
+  }).catch(axiosErrorHandler);
+  return request;
+};
