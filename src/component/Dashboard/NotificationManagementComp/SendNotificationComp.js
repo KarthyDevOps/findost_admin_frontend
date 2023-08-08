@@ -46,7 +46,8 @@ const SendNotificationComp = () => {
       };
       let response = await getUserList(params);
       if (response.status === 200) {
-        let usersArray = response?.data?.data.map((user) => ({
+        let usersArray = [];
+        usersArray = response?.data?.data.map((user) => ({
           label: user.name,
           value: user._id,
         }));
@@ -204,8 +205,8 @@ const SendNotificationComp = () => {
                 name={"users"}
                 control={control}
                 error={errors?.users}
-                defaultValue={""}
-                rules={{ required:selectedUsers.length > 0 ? false :  true }}
+                // defaultValue={}
+                rules={{ required: selectedUsers.length > 0 ? false : true }}
                 messages={{ required: "Select Users is Required" }}
                 render={({ onChange, ...fields }) => {
                   return (
@@ -216,18 +217,18 @@ const SendNotificationComp = () => {
                       name="users"
                       value={selectedUsers.map((x) => x.value)}
                       handleChange={(e) => {
-                        onChange(e);
+                        onChange(e?.target?.value);
                         setSelectedUsers(e?.target?.value);
                       }}
                       isSearchable={true}
                       isMulti={true}
                       isClearable={false}
+                      notification={true}
                     />
                   );
                 }}
               />
             </div>
-            {console.log(selectedUsers, "sele")}
             <div className="col-1"></div>
           </div>
           <div className="my-3">

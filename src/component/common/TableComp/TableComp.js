@@ -28,7 +28,7 @@ function TableComp(props) {
     handleOpenModal,
     currentPage,
     onRowsSelect,
-    calmanagement = true,
+    calmanagement = false,
     management = false,
   } = props;
 
@@ -85,6 +85,7 @@ function TableComp(props) {
         return (value = "-");
       }
     }
+    return value;
   };
   return (
     <div className="table-container">

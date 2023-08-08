@@ -374,7 +374,7 @@ const AddFaqComp = ({ create, view, remove }) => {
             </div>
           </div>
           <div className="col-12 p-0">
-            <label>FAQ Status</label>
+            <label>FAQ Answer Content</label>
             <CustomController
               name={"content"}
               control={control}

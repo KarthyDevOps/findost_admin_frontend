@@ -44,16 +44,16 @@ const Bank = ({ data, pdf, download, Suffix }) => {
           <img src={pdf} alt="" />
         </div>
         <div className="col-6">
-          <p>IPV recording with proof</p>
-          <span>File size is 1 MB</span>
+          <p>{data?.bankDetails?.uploadChequeLeaflet?.fileName}</p>
+          <span>File size is {data?.bankDetails?.uploadChequeLeaflet?.fileSize}</span>
         </div>
         <div className="col-2">
-          <a href="your-backend-file-link" download className="download-link">
+          <a href={data?.bankDetails?.uploadChequeLeaflet?.urlS3} download className="download-link">
             <img src={download} alt="" />
           </a>
         </div>
         <div
-          onClick={() => handleViewClick(data?.url)}
+          onClick={() => handleViewClick(data?.bankDetails?.uploadChequeLeaflet?.urlS3)}
           className="col-2 cursor-pointer"
         >
           <img src={Suffix} alt="" />

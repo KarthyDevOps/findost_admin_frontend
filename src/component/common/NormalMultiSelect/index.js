@@ -66,6 +66,7 @@ class NormalMultiSelect extends Component {
       grayed = false,
       borderRadius = false,
       filterOption,
+      notification = false,
     } = this.props;
 
     const DropdownIndicator = (props) => {
@@ -132,6 +133,7 @@ class NormalMultiSelect extends Component {
         className={className}
         classNamePrefix="Select"
         isDisabled={disabled}
+        notification={notification}
         isClearable={isClearable}
         isSearchable={isSearchable}
         name={name}
@@ -150,9 +152,13 @@ class NormalMultiSelect extends Component {
         //     : null
         // }
         value={
-          Array.isArray(value) && value?.length > 0
-            ? options?.filter((data) => value?.includes(data?.value))
-            : options?.find((data) => data?.value === value)
+          !notification
+            ? Array.isArray(value) && value?.length > 0
+              ? options?.filter((data) => value?.includes(data?.value))
+              : options?.find((data) => data?.value === value)
+            : Array.isArray(value) &&
+              value?.length > 0 &&
+              options?.filter((data) => value?.includes(data?.value))
         }
         components={{ DropdownIndicator }}
       />
@@ -161,3 +167,4 @@ class NormalMultiSelect extends Component {
 }
 
 export default NormalMultiSelect;
+

@@ -7,6 +7,7 @@ import mp4 from "assets/images/mp4.svg";
 import jpg from "assets/images/jpg.svg";
 import pdf from "assets/images/pdf.svg";
 import Suffix from "assets/images/Suffix.svg";
+import profileIcon from "assets/images/profileIcon.svg";
 // internal component
 import NormalButton from "component/common/NormalButton/NormalButton";
 import PersonalInformation from "./PersonalInformation";
@@ -59,6 +60,16 @@ const ViewApComp = () => {
     }
   };
 
+  const saveFile = async (url, fileName) => {
+    var data = new Blob([url]);
+    var csvURL = window.URL.createObjectURL(data);
+    const tempLink = document.createElement("a");
+    tempLink.href = csvURL;
+    tempLink.target = "_blank";
+    tempLink.setAttribute("download", `${fileName}.mp4`);
+    tempLink.click();
+  };
+
   useEffect(() => {
     handleTab(tabValue);
     if (viewId) {
@@ -95,12 +106,9 @@ const ViewApComp = () => {
           <div className="d-flex flex-noWrap col-12 profile-card p-3">
             <div
               style={{ width: "80px", height: "150px" }}
-              className="col-3 image-profile"
+              className="col-3 image-profile mr-2"
             >
-              <Avatar
-                style={{ width: "100%", height: "100%" }}
-                shape="square"
-              ></Avatar>
+              <img src={profileIcon} alt="" />
             </div>
             <div className="col-5">
               <h6>{data?.gender}</h6>
@@ -117,26 +125,38 @@ const ViewApComp = () => {
         <div className="col-5">
           <div className=" profile-card p-3">
             <h5>In-Person Verification (IPV)</h5>
-            {data?.inPersonVerificationS3?.urlS3 ? (
+            {data ? (
               <div className="d-flex flex-noWrap col-12 document-card p-3">
                 <div className="col-2">
                   <img src={mp4} alt="" />
                 </div>
                 <div className="col-6">
-                  <p>IPV recording with proof</p>
-                  <span>File size is 1 MB</span>
-                </div>
-                <div className="col-2">
-                  <a
-                    href="your-backend-file-link"
-                    download
-                    className="download-link"
-                  >
-                    <img src={download} alt="" />
-                  </a>
+                  <p>{data?.inPersonVerification?.fileName}</p>
+                  <span>
+                    File size is {data?.inPersonVerification?.fileSize}
+                  </span>
                 </div>
                 <div
-                  onClick={() => handleViewClick(data?.url)}
+                  onClick={() =>
+                    saveFile(
+                      data?.inPersonVerification?.urlS3,
+                      data?.inPersonVerification?.fileName
+                    )
+                  }
+                  className="col-2"
+                >
+                  {/* <a
+                    href={data?.inPersonVerification?.urlS3}
+                    download
+                    className="download-link"
+                  > */}
+                  <img src={download} alt="" />
+                  {/* </a> */}
+                </div>
+                <div
+                  onClick={() =>
+                    handleViewClick(data?.inPersonVerification?.urlS3)
+                  }
                   className="col-2 cursor-pointer"
                 >
                   <img src={Suffix} alt="" />
