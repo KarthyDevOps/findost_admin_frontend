@@ -18,9 +18,8 @@ import Bank from "./Bank";
 import Nomination from "./Nomination";
 import Payment from "./Payment";
 // services
-import { getUser } from "service/Auth";
-import { Avatar } from "antd";
-import { FaUser } from "react-icons/fa";
+import { getUser, ApproveUser } from "service/Auth";
+import { BsArrowLeft } from "react-icons/bs";
 // helpers
 import { history } from "helpers";
 
@@ -28,6 +27,7 @@ const ViewApComp = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [data, setData] = useState([]);
   const [loading, setloading] = useState(false);
+  const [load, setload] = useState(false);
   const viewId = localStorage.getItem("viewId");
 
   var url = new URL(document.URL);
@@ -60,6 +60,36 @@ const ViewApComp = () => {
     }
   };
 
+  const handleApprove = async (status) => {
+    try {
+      setloading(true);
+      const body = {
+        isAdminUpdated: status,
+      };
+      let response = await ApproveUser(body, viewId);
+      if (response.status === 200) {
+        setloading(false);
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
+  };
+
+  const handleDeny = async (status) => {
+    try {
+      setload(true);
+      const body = {
+        isAdminUpdated: status,
+      };
+      let response = await ApproveUser(body, viewId);
+      if (response.status === 200) {
+        setload(false);
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
+  };
+
   const saveFile = async (url, fileName) => {
     var data = new Blob([url]);
     var csvURL = window.URL.createObjectURL(data);
@@ -80,14 +110,24 @@ const ViewApComp = () => {
   return (
     <div className="px-5 py-3">
       <div className="row align-items-center justify-content-between">
-        <div className="col-6">
+        <div className="col-7 d-flex align-items-center">
+          <i className="pr-3">
+            <BsArrowLeft
+              size={28}
+              onClick={() => history.push("/admin/ap-management")}
+              style={{ cursor: "pointer" }}
+            />
+          </i>
+
           <p className="staff_title m-0">Authorized Partner (AP) Management</p>
         </div>
-        <div className="d-flex align-items-center justify-content-end col-6">
+        <div className="d-flex align-items-center justify-content-end col-5">
           <div className=" col-3">
             <NormalButton
               className="loginButton"
-              // onClick={handleFormSubmit}
+              onClick={() => {
+                handleApprove(true);
+              }}
               label={"Approve"}
               isLoading={loading}
             />
@@ -96,7 +136,8 @@ const ViewApComp = () => {
             <NormalButton
               className="authButton1"
               label={"Deny"}
-              onClick={() => history.push("/admin/ap-management")}
+              onClick={() => handleDeny(false)}
+              isLoading={load}
             />
           </div>
         </div>
