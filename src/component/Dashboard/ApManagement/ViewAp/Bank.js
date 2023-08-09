@@ -48,7 +48,7 @@ const Bank = ({ data, pdf, download, Suffix }) => {
           <span>File size is {data?.bankDetails?.uploadChequeLeaflet?.fileSize}</span>
         </div>
         <div className="col-2">
-          <a href={data?.bankDetails?.uploadChequeLeaflet?.urlS3} download className="download-link">
+          <a href={data?.bankDetails?.uploadChequeLeaflet?.urlS3} download={data?.bankDetails?.uploadChequeLeaflet?.urlS3} target="_blank" className="download-link">
             <img src={download} alt="" />
           </a>
         </div>

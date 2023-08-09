@@ -6,8 +6,8 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
     window.open(url, "_blank");
   };
 
-  const saveFile = async (url,fileName) => {
-    var data = new Blob([url],{type: "application/pdf"});
+  const saveFile = async (url, fileName) => {
+    var data = new Blob([url], { type: "application/pdf" });
     var csvURL = window.URL.createObjectURL(data);
     const tempLink = document.createElement("a");
     tempLink.href = csvURL;
@@ -15,7 +15,7 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
     tempLink.setAttribute("download", `${fileName}.pdf`);
     tempLink.click();
 
-};
+  };
 
   return (
     <div className="personal-box p-4">
@@ -75,10 +75,11 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
             >
               <a
                 href={data?.document?.educationQualificationDocument?.urlS3}
-                download
+                download={data?.document?.educationQualificationDocument?.urlS3}
+                target="_blank"
                 className="download-link"
               >
-              <img src={download} alt="" />
+                <img src={download} alt="" />
               </a>
             </div>
             <div
@@ -111,7 +112,8 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
             <div className="col-1 mr-2">
               <a
                 href={data?.document?.proofOfNameChange?.urlS3}
-                download
+                download={data?.document?.proofOfNameChange?.urlS3}
+                target="_blank"
                 className="download-link"
               >
                 <img src={download} alt="" />
@@ -143,7 +145,8 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
             <div className="col-1 mr-2">
               <a
                 href={data?.document?.residentialAddressProof?.urlS3}
-                download
+                download={data?.document?.residentialAddressProof?.urlS3}
+                target="_blank"
                 className="download-link"
               >
                 <img src={download} alt="" />
@@ -172,7 +175,8 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
             <div className="col-1 mr-2">
               <a
                 href={data?.document?.officeAddressProof?.urlS3}
-                download
+                download={data?.document?.officeAddressProof?.urlS3}
+                target="_blank"
                 className="download-link"
               >
                 <img src={download} alt="" />

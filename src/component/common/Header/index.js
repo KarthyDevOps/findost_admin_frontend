@@ -61,7 +61,7 @@ const Header = () => {
               <Dropdown.Menu id="drop">
                 <Dropdown.Item>
                   <p className="m-0">
-                    {staffName.charAt(0).toUpperCase() + staffName.slice(1)}
+                    {staffName?.charAt?.(0).toUpperCase() + staffName?.slice?.(1)}
                   </p>
                   <small className="m-0">{staffEmail}</small>
                 </Dropdown.Item>
