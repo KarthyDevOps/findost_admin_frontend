@@ -151,8 +151,10 @@ const EditClientsFamilyComp = ({ edit, view }) => {
                   required: true,
                   pattern: /^(?!\s*$).+/,
                 })}
+                disabled
               />
               <FormErrorMessage
+
                 error={errors.clientName}
                 messages={{
                   required: "Client Name is Required",
