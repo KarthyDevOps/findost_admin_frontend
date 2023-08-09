@@ -33,27 +33,28 @@ const EditClientsFamilyComp = ({ edit, view }) => {
   const [modal, setModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [ClientDetails, setClientDetails] = useState({ relationShip: "" });
-  const options = [
-    {
-      label: "Software Enginerr",
-      value: "Software enginerr",
-    },
-    {
-      label: "Enginerr",
-      value: "enginerr",
-    },
-    {
-      label: "Software",
-      value: "Software ",
-    },
-  ];
+  const RelationshipOption =
+    [
+      { label: "Paternal Grand Father", value: "PATERNAL_GRAND_FATHER" },
+      { label: "Paternal Grand Mother", value: "PATERNAL_GRAND_MOTHER" },
+      { label: "Maternal Grand Father", value: "MATERNAL_GRAND_FATHER" },
+      { label: "Maternal Grand Mother", value: "MATERNAL_GRAND_MOTHER" },
+      { label: "Father", value: "FATHER" },
+      { label: "Mother", value: "MOTHER" },
+      { label: "Husband", value: "HUSBAND" },
+      { label: "Wife", value: "WIFE" },
+      { label: "Brother", value: "BROTHER" },
+      { label: "Sister", value: "SISTER" },
+      { label: "Son", value: "SON" },
+      { label: "Daughter", value: "DAUGHTER" },
+    ]
 
-  const id = localStorage.getItem("editId");
+  const id = localStorage.getItem("clientId");
 
   useEffect(() => {
     setValue(
       "relationShip",
-      options.find((option) => option.value === ClientDetails.relationShip)
+      RelationshipOption.find((option) => option.value === ClientDetails.relationShip)
     );
   }, [ClientDetails, setValue]);
 
@@ -67,12 +68,12 @@ const EditClientsFamilyComp = ({ edit, view }) => {
         console.log("datadateOfBirth", data);
         reset({
           clientName: data?.clientName,
-          email: data?.email,
-          relativeName: data?.relativeName,
-          dateOfBirth: new Date(data?.dateOfBirth),
+          email: data?.familyMember?.email,
+          relativeName: data?.familyMember?.relativeName,
+          dateOfBirth: new Date(data?.familyMember?.dateOfBirth),
         });
         setClientDetails({
-          relationShip: data.relationShip,
+          relationShip: data?.familyMember?.relationShip,
         });
       } else {
         Toast({ type: "error", message: response.data.message });
@@ -88,16 +89,23 @@ const EditClientsFamilyComp = ({ edit, view }) => {
     }
   }, []);
 
+
+
   const onSubmit = async (data) => {
     setModal(true);
     try {
+
+
       setLoading(true);
       let body = {
-        clientName: data?.clientName,
-        email: data?.email,
-        relativeName: data?.relativeName,
-        dateOfBirth: data?.dateOfBirth,
-        relationShip: ClientDetails.relationShip,
+        familyMember: {
+
+          relativeName: data?.relativeName,
+          dateOfBirth: data?.dateOfBirth,
+          clientName: data?.clientName,
+          relationShip: ClientDetails.relationShip,
+          email: data?.email,
+        }
       };
       let response = await updateClient(body, id);
       if (response.status === 200) {
@@ -229,7 +237,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
                 name={"relationShip"}
                 control={control}
                 error={errors.relationShip}
-                value={options.find(
+                value={RelationshipOption.find(
                   (option) => option.value === getValues("relationShip")
                 )}
                 rules={{ required: true }}
@@ -241,7 +249,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
                       name="relationShip"
                       error={errors.relationShip}
                       placeholder="Select RelationShip"
-                      options={options}
+                      options={RelationshipOption}
                       onChange={(option) => {
                         setClientDetails((prevState) => ({
                           ...prevState,

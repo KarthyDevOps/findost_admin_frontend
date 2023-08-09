@@ -22,8 +22,8 @@ export const endpoints = {
     LIST_CLIENT: `${userUrl}/clientFamily/list`,
     ADD_CLIENT: `${userUrl}/clientFamily/addProfile`,
     DELETE_CLIENT: `${userUrl}/clientFamily/delete`,
-    GET_CLIENT: `${userUrl}/clientFamily/getProfile`,
-    UPDATE_CLIENT: `${userUrl}/clientFamily/updateProfile`,
+    GET_CLIENT: `${userUrl}/admin/clientFamily/getProfile`,
+    UPDATE_CLIENT: `${userUrl}/admin/clientFamily/updateProfile`,
     IMAGE_UPLOAD: `${userUrl}/upload/image`,
     ADD_SEGMENT: `${userUrl}/segment/addSegment`,
     LIST_SEGMENT: `${userUrl}/segment/list`,
@@ -33,7 +33,7 @@ export const endpoints = {
     GET_REGISTER_FEE: `${userUrl}/registerSetting/get`,
     UPDATE_REGISTER_FEE: `${userUrl}/registerSetting/update`,
     NOTIFICATION_USER_LIST: `${userUrl}/authorizedPerson/list`,
-    GET_USER : `${userUrl}/authorizedPerson/getProfileById`,
+    GET_USER: `${userUrl}/authorizedPerson/getProfileById`,
   },
 
   cms: {

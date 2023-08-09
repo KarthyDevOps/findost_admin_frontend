@@ -30,6 +30,7 @@ function TableComp(props) {
     onRowsSelect,
     calmanagement = false,
     management = false,
+    client = false,
   } = props;
 
   const [selectedRows, setSelectedRows] = useState([]);
@@ -235,7 +236,6 @@ function TableComp(props) {
                   }
                   return <td key={key}>{value}</td>;
                 })}
-
                 {(DeleteAction || ReadAction || EditAction) && (
                   <td>
                     <span className="actions">
@@ -250,6 +250,7 @@ function TableComp(props) {
                           onClick={() => {
                             localStorage.removeItem("editId");
                             localStorage.setItem("editId", obj._id);
+                            { client && localStorage.setItem("clientId", obj.familyMember._id); }
                             localStorage.removeItem("editPage");
                             localStorage.setItem("editPage", currentPage);
                             history.push(`${editRouteName}`);
