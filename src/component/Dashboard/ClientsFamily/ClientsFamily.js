@@ -196,6 +196,7 @@ const ClientsFamily = ({ create, view, edit, remove }) => {
               onPageChange={handlePageChange}
               setCurrentPage={setCurrentPage}
               editRouteName={"/admin/clients-family/edit-client"}
+              client={true}
             />
           </div>
         ) : (
