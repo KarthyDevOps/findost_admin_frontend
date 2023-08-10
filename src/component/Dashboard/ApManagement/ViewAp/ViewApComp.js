@@ -120,7 +120,7 @@ const ViewApComp = () => {
               style={{ cursor: "pointer" }}
             />
           </i>
-          <p className="staff_title m-0">Authorized Partner Management</p>
+          <p className="staff_title m-0">AP Management</p>
         </div>
         {/* <div className="d-flex align-items-center justify-content-end col-6">
           <div className=" col-3">

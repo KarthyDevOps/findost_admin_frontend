@@ -89,7 +89,7 @@ const ApManagementComp = ({ apAccess }) => {
   return (
     <>
       <div className="staff_table px-5 py-3">
-        <p className="staff_title m-0">Ap Management</p>
+        <p className="staff_title m-0">AP Management</p>
         <div className="flex align-items-center justify-content-between">
           <div className="flex align-items-center" style={{ gap: "1em" }}>
             <div
