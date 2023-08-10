@@ -27,16 +27,16 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
               <img src={jpg} alt="" />
             </div>
             <div className="col-7 p-0">
-              <p>{data?.document?.professionalDocument?.fileName}</p>
+              <p>{data?.document?.professionalDocument?.documentPath?.fileName}</p>
               <span>
-                File size is {data?.document?.professionalDocument?.fileSize}
+                File size is {data?.document?.professionalDocument?.documentPath?.fileSize}
               </span>
             </div>
             <div
               onClick={() =>
                 saveFile(
-                  data?.document?.professionalDocument?.urlS3,
-                  data?.document?.professionalDocument?.fileName
+                  data?.document?.professionalDocument?.documentPath?.urlS3,
+                  data?.document?.professionalDocument?.documentPath?.fileName
                 )
               }
               className="col-1 mr-2 cursor-pointer"
@@ -45,7 +45,7 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
             </div>
             <div
               onClick={() =>
-                handleViewClick(data?.document?.professionalDocument?.urlS3)
+                handleViewClick(data?.document?.professionalDocument?.documentPath?.urlS3)
               }
               className="col-2 cursor-pointer"
             >
@@ -58,10 +58,10 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
               <img src={pdf} alt="" />
             </div>
             <div className="col-7 p-0">
-              <p>{data?.document?.educationQualificationDocument?.fileName}</p>
+              <p>{data?.document?.educationQualificationDocument?.documentPath?.fileName}</p>
               <span>
                 File size is{" "}
-                {data?.document?.educationQualificationDocument?.fileSize}
+                {data?.document?.educationQualificationDocument?.documentPath?.fileSize}
               </span>
             </div>
             <div
@@ -74,8 +74,8 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
               className="col-1 mr-2"
             >
               <a
-                href={data?.document?.educationQualificationDocument?.urlS3}
-                download={data?.document?.educationQualificationDocument?.urlS3}
+                href={data?.document?.educationQualificationDocument?.documentPath?.urlS3}
+                download={data?.document?.educationQualificationDocument?.documentPath?.urlS3}
                 target="_blank"
                 className="download-link"
               >
@@ -85,7 +85,7 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
             <div
               onClick={() =>
                 handleViewClick(
-                  data?.document?.educationQualificationDocument?.urlS3
+                  data?.document?.educationQualificationDocument?.documentPath?.urlS3
                 )
               }
               className="col-2 cursor-pointer"
@@ -104,15 +104,15 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
               <img src={pdf} alt="" />
             </div>
             <div className="col-7 p-0">
-              <p>{data?.document?.proofOfNameChange?.fileName}</p>
+              <p>{data?.document?.proofOfNameChange?.documentPath?.fileName}</p>
               <span>
-                File size is {data?.document?.proofOfNameChange?.fileSize}
+                File size is {data?.document?.proofOfNameChange?.documentPath?.fileSize}
               </span>
             </div>
             <div className="col-1 mr-2">
               <a
-                href={data?.document?.proofOfNameChange?.urlS3}
-                download={data?.document?.proofOfNameChange?.urlS3}
+                href={data?.document?.proofOfNameChange?.documentPath?.urlS3}
+                download={data?.document?.proofOfNameChange?.documentPath?.urlS3}
                 target="_blank"
                 className="download-link"
               >
@@ -121,7 +121,7 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
             </div>
             <div
               onClick={() =>
-                handleViewClick(data?.document?.proofOfNameChange?.urlS3)
+                handleViewClick(data?.document?.proofOfNameChange?.documentPath?.urlS3)
               }
               className="col-2 cursor-pointer"
             >
@@ -137,15 +137,15 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
               <img src={pdf} alt="" />
             </div>
             <div className="col-7 p-0">
-              <p>{data?.document?.residentialAddressProof?.fileName}</p>
+              <p>{data?.document?.residentialAddressProof?.documentPath?.fileName}</p>
               <span>
-                File size is {data?.document?.residentialAddressProof?.fileSize}
+                File size is {data?.document?.residentialAddressProof?.documentPath?.fileSize}
               </span>
             </div>
             <div className="col-1 mr-2">
               <a
-                href={data?.document?.residentialAddressProof?.urlS3}
-                download={data?.document?.residentialAddressProof?.urlS3}
+                href={data?.document?.residentialAddressProof?.documentPath?.urlS3}
+                download={data?.document?.residentialAddressProof?.documentPath?.urlS3}
                 target="_blank"
                 className="download-link"
               >
@@ -154,7 +154,7 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
             </div>
             <div
               onClick={() =>
-                handleViewClick(data?.document?.residentialAddressProof?.urlS3)
+                handleViewClick(data?.document?.residentialAddressProof?.documentPath?.urlS3)
               }
               className="col-2 cursor-pointer"
             >
@@ -167,15 +167,15 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
               <img src={pdf} alt="" />
             </div>
             <div className="col-7 p-0">
-              <p>{data?.document?.officeAddressProof?.fileName}</p>
+              <p>{data?.document?.officeAddressProof?.documentPath?.fileName}</p>
               <span>
-                File size is {data?.document?.officeAddressProof?.fileSize}
+                File size is {data?.document?.officeAddressProof?.documentPath?.fileSize}
               </span>
             </div>
             <div className="col-1 mr-2">
               <a
-                href={data?.document?.officeAddressProof?.urlS3}
-                download={data?.document?.officeAddressProof?.urlS3}
+                href={data?.document?.officeAddressProof?.documentPath?.urlS3}
+                download={data?.document?.officeAddressProof?.documentPath?.urlS3}
                 target="_blank"
                 className="download-link"
               >
@@ -184,7 +184,7 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
             </div>
             <div
               onClick={() =>
-                handleViewClick(data?.document?.officeAddressProof?.urlS3)
+                handleViewClick(data?.document?.officeAddressProof?.documentPath?.urlS3)
               }
               className="col-2 cursor-pointer"
             >
