@@ -26,7 +26,7 @@ import Temp_a from "assets/images/Temp_a.svg";
 import calendarMt from "assets/images/CalendarIA.svg";
 import calenderD from "assets/images/calendarD.svg";
 import feeIA from "assets/images/feeIA.svg";
-import feeDark from "assets/images/FeeDark.svg";
+import feeDark from "assets/images/feeDark.svg";
 import LeadDark from "assets/images/leadDark.svg";
 import LeadDarkIa from "assets/images/leadinactive.svg";
 import apActive from "assets/images/apActive.svg";
