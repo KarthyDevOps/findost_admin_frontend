@@ -60,37 +60,37 @@ const ViewApComp = () => {
     }
   };
 
-  const handleApprove = async (status) => {
-    try {
-      setloading(true);
-      const body = {
-        isAdminUpdated: status,
-      };
-      let response = await ApproveUser(body, viewId);
-      if (response.status === 200) {
-        setloading(false);
-        getApList(viewId);
-      }
-    } catch (e) {
-      console.log("e :>> ", e);
-    }
-  };
+  // const handleApprove = async (status) => {
+  //   try {
+  //     setloading(true);
+  //     const body = {
+  //       isAdminUpdated: status,
+  //     };
+  //     let response = await ApproveUser(body, viewId);
+  //     if (response.status === 200) {
+  //       setloading(false);
+  //       getApList(viewId);
+  //     }
+  //   } catch (e) {
+  //     console.log("e :>> ", e);
+  //   }
+  // };
 
-  const handleDeny = async (status) => {
-    try {
-      setload(true);
-      const body = {
-        isAdminUpdated: status,
-      };
-      let response = await ApproveUser(body, viewId);
-      if (response.status === 200) {
-        setload(false);
-        getApList(viewId);
-      }
-    } catch (e) {
-      console.log("e :>> ", e);
-    }
-  };
+  // const handleDeny = async (status) => {
+  //   try {
+  //     setload(true);
+  //     const body = {
+  //       isAdminUpdated: status,
+  //     };
+  //     let response = await ApproveUser(body, viewId);
+  //     if (response.status === 200) {
+  //       setload(false);
+  //       getApList(viewId);
+  //     }
+  //   } catch (e) {
+  //     console.log("e :>> ", e);
+  //   }
+  // };
 
   const saveFile = async (url, fileName) => {
     var data = new Blob([url]);
@@ -122,7 +122,7 @@ const ViewApComp = () => {
           </i>
           <p className="staff_title m-0">Authorized Partner Management</p>
         </div>
-        <div className="d-flex align-items-center justify-content-end col-6">
+        {/* <div className="d-flex align-items-center justify-content-end col-6">
           <div className=" col-3">
             <NormalButton
               className="loginButton"
@@ -141,7 +141,7 @@ const ViewApComp = () => {
               isLoading={load}
             />
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="d-flex mt-5">
         <div className="col-7 p-0">
@@ -156,13 +156,13 @@ const ViewApComp = () => {
               <h6>{data?.gender}</h6>
               <p>{data?.name}</p>
               <span>{data?.role}</span>
-              <h6
+              {/* <h6
                 style={{
                   color: data?.isAdminUpdated ? "green" : "red",
                 }}
               >
                 {data?.isAdminUpdated ? "Active" : "InActive"}
-              </h6>
+              </h6> */}
             </div>
             <div className="col-4">
               <h6>{data?.nationality}</h6>
