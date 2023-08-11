@@ -194,6 +194,19 @@ export const uploadImage = (formData) => {
   return request;
 };
 
+export const downloadImage = (body) => {
+  console.log('body :>> ', body);
+  let request = axios({
+    method: "post",
+    url: endpoints.auth.IMAGE_DOWNLOAD,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: body,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
 export const getSegmentList = async (params) => {
   let request = await axios({
     method: "get",

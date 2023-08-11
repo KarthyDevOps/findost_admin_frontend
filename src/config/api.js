@@ -25,6 +25,7 @@ export const endpoints = {
     GET_CLIENT: `${userUrl}/admin/clientFamily/getProfile`,
     UPDATE_CLIENT: `${userUrl}/admin/clientFamily/updateProfile`,
     IMAGE_UPLOAD: `${userUrl}/upload/image`,
+    IMAGE_DOWNLOAD: `${userUrl}/image/getBlob`,
     ADD_SEGMENT: `${userUrl}/segment/addSegment`,
     LIST_SEGMENT: `${userUrl}/segment/list`,
     GET_SEGMENT: `${userUrl}/segment/getSegment`,
