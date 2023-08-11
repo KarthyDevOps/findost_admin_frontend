@@ -353,7 +353,7 @@ export const navLink = [
   },
   {
     to: "/admin/ap-management",
-    label: "Ap Management",
+    label: "AP Management",
     iconName: apActive,
     inactiveIcon: apInactive,
     privilegesName: "apManagement",

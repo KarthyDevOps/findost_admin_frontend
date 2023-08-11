@@ -120,7 +120,7 @@ const ViewApComp = () => {
               style={{ cursor: "pointer" }}
             />
           </i>
-          <p className="staff_title m-0">Authorized Partner Management</p>
+          <p className="staff_title m-0">AP Management</p>
         </div>
         {/* <div className="d-flex align-items-center justify-content-end col-6">
           <div className=" col-3">
@@ -145,12 +145,9 @@ const ViewApComp = () => {
       </div>
       <div className="d-flex mt-5">
         <div className="col-7 p-0">
-          <div className="d-flex flex-noWrap col-12 profile-card p-3">
-            <div
-              style={{ width: "80px", height: "150px" }}
-              className="col-3 image-profile mr-2"
-            >
-              <img src={profileIcon} alt="" />
+          <div className="d-flex flex-noWrap align-items-stretch col-12 profile-card p-3">
+            <div className="col-3 image-profile mr-2">
+              <img src={profileIcon} alt="" style={{ width: "100%" }} />
             </div>
             <div className="col-5">
               <h6>{data?.gender}</h6>
