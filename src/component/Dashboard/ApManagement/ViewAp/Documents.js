@@ -1,28 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { downloadImage } from "service/Auth";
 
 const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
+  const [string, setString] = useState("");
+
   const handleViewClick = (url) => {
     window.open(url, "_blank");
   };
 
   const saveFile = async (url, fileName) => {
-    const body = {
-      key: "images/Screenshot8png1689161751773",
-    };
-    const response = await downloadImage(body);
-    if (response.status === 200) {
-      const downloadFile = document.createElement("a");
-      document.body.appendChild(downloadFile);
-      var urlBlob = new Blob([response?.data?.data], {
-        type: "application/octet-stream",
-      });
-      const url = window.URL.createObjectURL(urlBlob);
-      downloadFile.href = url;
-      downloadFile.download = `${fileName}.png`;
-      downloadFile.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(downloadFile);
+    try {
+      const body = {
+        key: url,
+      };
+      const response = await downloadImage(body);
+      if (response.status === 200) {
+        let data = response?.data?.Body;
+        var a = document.createElement("a");
+        a.href = "data:application/octet-stream;base64," + data;
+        a.download = `${fileName}.${response?.data?.contentType.split("/")[1]}`;
+        a.click();
+      } else {
+        console.error("Failed to fetch PDF data.");
+      }
+    } catch (error) {
+      console.error("Error while fetching PDF:", error);
     }
   };
 
@@ -87,28 +89,17 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
               </span>
             </div>
             <div
-              // onClick={() =>
-              //   saveFile(
-              //     data?.document?.educationQualificationDocument?.urlS3,
-              //     data?.document?.educationQualificationDocument?.urlS3
-              //   )
-              // }
-              className="col-1 mr-2"
+              onClick={() =>
+                saveFile(
+                  data?.document?.educationQualificationDocument?.documentPath
+                    ?.url,
+                  data?.document?.educationQualificationDocument?.documentPath
+                    ?.fileName
+                )
+              }
+              className="col-1 mr-2 cursor-pointer"
             >
-              <a
-                href={
-                  data?.document?.educationQualificationDocument?.documentPath
-                    ?.urlS3
-                }
-                download={
-                  data?.document?.educationQualificationDocument?.documentPath
-                    ?.urlS3
-                }
-                target="_blank"
-                className="download-link"
-              >
-                <img src={download} alt="" />
-              </a>
+              <img src={download} alt="" />
             </div>
             <div
               onClick={() =>
@@ -139,17 +130,16 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
                 {data?.document?.proofOfNameChange?.documentPath?.fileSize}
               </span>
             </div>
-            <div className="col-1 mr-2">
-              <a
-                href={data?.document?.proofOfNameChange?.documentPath?.urlS3}
-                download={
-                  data?.document?.proofOfNameChange?.documentPath?.urlS3
-                }
-                target="_blank"
-                className="download-link"
-              >
-                <img src={download} alt="" />
-              </a>
+            <div
+              onClick={() =>
+                saveFile(
+                  data?.document?.proofOfNameChange?.documentPath?.url,
+                  data?.document?.proofOfNameChange?.documentPath?.fileName
+                )
+              }
+              className="col-1 mr-2 cursor-pointer"
+            >
+              <img src={download} alt="" />
             </div>
             <div
               onClick={() =>
@@ -185,19 +175,17 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
                 }
               </span>
             </div>
-            <div className="col-1 mr-2">
-              <a
-                href={
-                  data?.document?.residentialAddressProof?.documentPath?.urlS3
-                }
-                download={
-                  data?.document?.residentialAddressProof?.documentPath?.urlS3
-                }
-                target="_blank"
-                className="download-link"
-              >
-                <img src={download} alt="" />
-              </a>
+            <div
+              onClick={() =>
+                saveFile(
+                  data?.document?.residentialAddressProof?.documentPath?.url,
+                  data?.document?.residentialAddressProof?.documentPath
+                    ?.fileName
+                )
+              }
+              className="col-1 mr-2 cursor-pointer"
+            >
+              <img src={download} alt="" />
             </div>
             <div
               onClick={() =>
@@ -224,17 +212,16 @@ const Documents = ({ data, mp4, download, Suffix, pdf, jpg }) => {
                 {data?.document?.officeAddressProof?.documentPath?.fileSize}
               </span>
             </div>
-            <div className="col-1 mr-2">
-              <a
-                href={data?.document?.officeAddressProof?.documentPath?.urlS3}
-                download={
-                  data?.document?.officeAddressProof?.documentPath?.urlS3
-                }
-                target="_blank"
-                className="download-link"
-              >
-                <img src={download} alt="" />
-              </a>
+            <div
+              onClick={() =>
+                saveFile(
+                  data?.document?.officeAddressProof?.documentPath?.url,
+                  data?.document?.officeAddressProof?.documentPath?.fileName
+                )
+              }
+              className="col-1 mr-2 cursor-pointer"
+            >
+              <img src={download} alt="" />
             </div>
             <div
               onClick={() =>

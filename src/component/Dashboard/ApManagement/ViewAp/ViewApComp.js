@@ -20,6 +20,7 @@ import Payment from "./Payment";
 // services
 import { getUser, ApproveUser } from "service/Auth";
 import { BsArrowLeft } from "react-icons/bs";
+import { downloadImage } from "service/Auth";
 // helpers
 import { history } from "helpers";
 
@@ -93,13 +94,23 @@ const ViewApComp = () => {
   // };
 
   const saveFile = async (url, fileName) => {
-    var data = new Blob([url]);
-    var csvURL = window.URL.createObjectURL(data);
-    const tempLink = document.createElement("a");
-    tempLink.href = csvURL;
-    tempLink.target = "_blank";
-    tempLink.setAttribute("download", `${fileName}.mp4`);
-    tempLink.click();
+    try {
+      const body = {
+        key: url,
+      };
+      const response = await downloadImage(body);
+      if (response.status === 200) {
+        let data = response?.data?.Body;
+        var a = document.createElement("a");
+        a.href = "data:application/octet-stream;base64," + data;
+        a.download = `${fileName}.${response?.data?.contentType.split("/")[1]}`;
+        a.click();
+      } else {
+        console.error("Failed to fetch PDF data.");
+      }
+    } catch (error) {
+      console.error("Error while fetching PDF:", error);
+    }
   };
 
   useEffect(() => {
@@ -185,19 +196,13 @@ const ViewApComp = () => {
                 <div
                   onClick={() =>
                     saveFile(
-                      data?.inPersonVerification?.urlS3,
+                      data?.inPersonVerification?.url,
                       data?.inPersonVerification?.fileName
                     )
                   }
-                  className="col-2"
+                  className="col-2 cursor-pointer"
                 >
-                  {/* <a
-                    href={data?.inPersonVerification?.urlS3}
-                    download
-                    className="download-link"
-                  > */}
                   <img src={download} alt="" />
-                  {/* </a> */}
                 </div>
                 <div
                   onClick={() =>

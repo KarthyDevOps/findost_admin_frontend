@@ -492,7 +492,7 @@ const AddCalendarComp = ({ calendarAccess }) => {
               )}
             </div>
             <div className="my-4 col-4">
-            <label>Agenta</label>
+            <label>Agenda</label>
             <div className="col-12 content_box p-0">
               <TextBox
                 cols={5}
@@ -507,7 +507,7 @@ const AddCalendarComp = ({ calendarAccess }) => {
               <FormErrorMessage
                 error={errors.agenta}
                 messages={{
-                  required: "Agenta is Required",
+                  required: "Agenda is Required",
                   pattern: "Initially Space Not Allowed",
                 }}
               />

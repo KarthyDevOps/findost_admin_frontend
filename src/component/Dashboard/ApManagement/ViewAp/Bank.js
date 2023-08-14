@@ -1,12 +1,32 @@
 import React from "react";
+import { downloadImage } from "service/Auth";
 
 const Bank = ({ data, pdf, download, Suffix }) => {
-
   const handleViewClick = (url) => {
     const fileUrl = url;
     window.open(fileUrl, "_blank");
   };
-  
+
+  const saveFile = async (url, fileName) => {
+    try {
+      const body = {
+        key: url,
+      };
+      const response = await downloadImage(body);
+      if (response.status === 200) {
+        let data = response?.data?.Body;
+        var a = document.createElement("a");
+        a.href = "data:application/octet-stream;base64," + data;
+        a.download = `${fileName}.${response?.data?.contentType.split("/")[1]}`;
+        a.click();
+      } else {
+        console.error("Failed to fetch PDF data.");
+      }
+    } catch (error) {
+      console.error("Error while fetching PDF:", error);
+    }
+  };
+
   return (
     <div className="personal-box p-4">
       <h3>Bank Details</h3>
@@ -45,15 +65,25 @@ const Bank = ({ data, pdf, download, Suffix }) => {
         </div>
         <div className="col-6">
           <p>{data?.bankDetails?.uploadChequeLeaflet?.fileName}</p>
-          <span>File size is {data?.bankDetails?.uploadChequeLeaflet?.fileSize}</span>
-        </div>
-        <div className="col-2">
-          <a href={data?.bankDetails?.uploadChequeLeaflet?.urlS3} download={data?.bankDetails?.uploadChequeLeaflet?.urlS3} target="_blank" className="download-link">
-            <img src={download} alt="" />
-          </a>
+          <span>
+            File size is {data?.bankDetails?.uploadChequeLeaflet?.fileSize}
+          </span>
         </div>
         <div
-          onClick={() => handleViewClick(data?.bankDetails?.uploadChequeLeaflet?.urlS3)}
+          onClick={() =>
+            saveFile(
+              data?.bankDetails?.uploadChequeLeaflet?.url,
+              data?.bankDetails?.uploadChequeLeaflet?.fileName
+            )
+          }
+          className="col-2 cursor-pointer"
+        >
+          <img src={download} alt="" />
+        </div>
+        <div
+          onClick={() =>
+            handleViewClick(data?.bankDetails?.uploadChequeLeaflet?.urlS3)
+          }
           className="col-2 cursor-pointer"
         >
           <img src={Suffix} alt="" />
