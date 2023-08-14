@@ -14,10 +14,22 @@ import { logout } from "service/utilities";
 import { Toast } from "service/toast";
 import { decodeJWT } from "service/helpers";
 import { history } from "helpers";
+import { Button, Drawer } from 'antd';
+import NotificationBar from "../NotificationBar/NotificationBar";
+
 
 const Header = () => {
   const [data, setData] = useState({});
   const location = useLocation();
+  const [open, setOpen] = useState(false);
+
+  const showDrawer = () => {
+    setOpen(true);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
 
   const getAdminData = async () => {
     const adminData = decodeJWT(localStorage.getItem("token"));
@@ -49,14 +61,21 @@ const Header = () => {
 
           <div>
             <Dropdown className="custom-dropdown mt-1 d-flex align-items-center gap-3">
-              <div className="mr-3">
-                {/* <img src={bell} width={45} alt="" /> */}
+              {/* <div className="mr-3 cursor-pointer">
+                <img src={bell} width={45} alt="" onClick={showDrawer} />
               </div>
+              <Drawer title="Notification" placement="right" onClose={onClose} open={open}>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+              </Drawer> */}
+              <NotificationBar />
               <Dropdown.Toggle id="dropdown-basic">
                 <img src={userImg} width={45} alt="" />
                 {/* <span onClick={() => setisdropToggle(!isdropToggle)}>
                 {isdropToggle ? "down" : "up"}
               </span> */}
+
               </Dropdown.Toggle>
               <Dropdown.Menu id="drop">
                 <Dropdown.Item>

@@ -65,12 +65,12 @@ const EditClientsFamilyComp = ({ edit, view }) => {
       let response = await getClient(params);
       if (response.status === 200) {
         const data = response?.data?.data?.data;
-        console.log("datadateOfBirth", data);
         reset({
           clientName: data?.clientName,
           email: data?.familyMember?.email,
           relativeName: data?.familyMember?.relativeName,
           dateOfBirth: new Date(data?.familyMember?.dateOfBirth),
+          mobileNumber: data?.familyMember?.mobileNumber,
         });
         setClientDetails({
           relationShip: data?.familyMember?.relationShip,
@@ -105,6 +105,8 @@ const EditClientsFamilyComp = ({ edit, view }) => {
           clientName: data?.clientName,
           relationShip: ClientDetails.relationShip,
           email: data?.email,
+          mobileNumber: data?.mobileNumber,
+
         }
       };
       let response = await updateClient(body, id);
@@ -261,6 +263,28 @@ const EditClientsFamilyComp = ({ edit, view }) => {
                       }}
                     />
                   );
+                }}
+              />
+            </div>
+            <div className="col-md-4 my-3">
+              <label>MobileNumber</label>
+              <InputBox
+                className="add_staff"
+                type={"number"}
+                placeholder="Enter MobileNumber"
+                name="mobileNumber"
+                errors={errors}
+                register={register({
+                  required: true,
+                  pattern: /^(?:\+1[-. ]?)?\(?\d{3}\)?[-. ]?\d{3}[-. ]?\d{4}$/
+                  ,
+                })}
+              />
+              <FormErrorMessage
+                error={errors.mobileNumber}
+                messages={{
+                  required: "MobileNumber is Required",
+                  pattern: "Invalid MobileNumber",
                 }}
               />
             </div>
