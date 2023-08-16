@@ -78,14 +78,13 @@ const NotificationBar = () => {
       </div>
       <Drawer title="Notification" placement="right" onClose={onClose} open={open}>
         <div className="sideBar">
-
           {notificationData?.length > 0 ? (
             <div className="content_box">
               {unReadMessages.filter((a) => Boolean(!a?.isRead)).map((data, index) => (
                 <div className="bg-white border-bottom" key={index} >
                   <div className="d-flex justify-content-between p-3 rounded gap-1">
                     <div className="font_bar">
-                      <div className="title"><p>{data.title}</p></div>
+                      <div className="notificaion_title"><p style={{ margin: 0 }}>{data.title}</p></div>
                       <div className="order_text" dangerouslySetInnerHTML={{ __html: data?.description }}>
                       </div>
                       <div className="isRead" onClick={() => handleMarkAsRead({ id: data?._id })}>Mark as read</div>
@@ -96,9 +95,9 @@ const NotificationBar = () => {
               {readMessages.filter((a) => Boolean(a?.isRead)).map((data, index) => (
                 <div className="border-bottom" key={index} style={{ background: "#eee" }} >
                   <div className="d-flex justify-content-between p-3 rounded gap-1">
-                    <div className={styles.font_bar}>
-                      <div className="title"><p>{data.title}</p></div>
-                      <div className={styles.order_text} dangerouslySetInnerHTML={{ __html: data?.description }}>
+                    <div className="font_bar">
+                      <div className="notificaion_title"><p style={{ margin: 0 }}>{data.title}</p></div>
+                      <div className="order_text" dangerouslySetInnerHTML={{ __html: data?.description }}>
                       </div>
                     </div>
                   </div>
@@ -106,7 +105,7 @@ const NotificationBar = () => {
               ))}
             </div>
           ) : (
-            <p className={styles.noData}>No Notifications</p>
+            <p className="noData">No Notifications</p>
           )
           }
         </div>

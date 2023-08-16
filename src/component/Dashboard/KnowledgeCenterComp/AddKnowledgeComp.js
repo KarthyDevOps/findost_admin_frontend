@@ -150,7 +150,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
         setNewDoc(data?.documentPath);
         setImageKey(data?.thumbnail);
         setImageURL(data?.thumbnailS3);
-        setForms(data?.courseDetails);
+        setForms(data?.courseDetails.length > 0 ? data?.courseDetails : forms)
         setDocFileName(data?.fileOriginalName);
         setKnowledgeDetails({
           category: data.category,
@@ -616,6 +616,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
         </div>
       )}
       <form>
+        {console.log("ddsd", course)}
         {!course ? (
           <div className="knowledge_body p-5">
             <div className="row">
@@ -994,7 +995,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
               register={register}
             />
           </>
-        )}
+        )}{console.log("hdhfj", forms)}
         {category === "Courses" && !course ? (
           <div className="d-flex align-items-center justify-content-end  p-0 pt-4">
             <div className="col-md-2 pl-4 pr-0">

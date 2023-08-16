@@ -93,7 +93,7 @@ const CourseComp = ({
         <>
           <div className="course-form p-5 mt-5">
             <div key={mainIndex}>
-              <div className="row align-items-center mb-5">
+              <div className="row align-items-end mb-5">
                 <div className="col-9">
                   <label>Title</label>
                   <InputBox
@@ -293,7 +293,7 @@ const CourseComp = ({
             </div>
             <div
               onClick={() => handleRemoveTitle(mainIndex)}
-              className="cource-form-overlay cursor-pointer"
+              className="cource-form-overlay cursor-pointer "
             >
               <img src={closeIcon} alt="Close" />
             </div>

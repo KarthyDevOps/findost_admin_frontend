@@ -21,6 +21,8 @@ import Payment from "./Payment";
 import { getUser, ApproveUser } from "service/Auth";
 import { BsArrowLeft } from "react-icons/bs";
 import { downloadImage } from "service/Auth";
+import { Oval } from "react-loader-spinner";
+
 // helpers
 import { history } from "helpers";
 
@@ -95,6 +97,7 @@ const ViewApComp = () => {
 
   const saveFile = async (url, fileName) => {
     try {
+      setloading(true)
       const body = {
         key: url,
       };
@@ -105,11 +108,14 @@ const ViewApComp = () => {
         a.href = "data:application/octet-stream;base64," + data;
         a.download = `${fileName}.${response?.data?.contentType.split("/")[1]}`;
         a.click();
+        setloading(false)
       } else {
         console.error("Failed to fetch PDF data.");
+        setloading(false)
       }
     } catch (error) {
       console.error("Error while fetching PDF:", error);
+      setloading(false)
     }
   };
 
@@ -182,36 +188,53 @@ const ViewApComp = () => {
         <div className="col-5">
           <div className=" profile-card p-3">
             <h5>In-Person Verification (IPV)</h5>
-            {data ? (
+            {data?.inPersonVerification?.urlS3 != null? (
               <div className="d-flex flex-noWrap col-12 document-card p-3">
-                <div className="col-2">
-                  <img src={mp4} alt="" />
-                </div>
-                <div className="col-6">
-                  <p>{data?.inPersonVerification?.fileName}</p>
-                  <span>
-                    File size is {data?.inPersonVerification?.fileSize}
-                  </span>
-                </div>
-                <div
-                  onClick={() =>
-                    saveFile(
-                      data?.inPersonVerification?.url,
-                      data?.inPersonVerification?.fileName
-                    )
-                  }
-                  className="col-2 cursor-pointer"
-                >
-                  <img src={download} alt="" />
-                </div>
-                <div
-                  onClick={() =>
-                    handleViewClick(data?.inPersonVerification?.urlS3)
-                  }
-                  className="col-2 cursor-pointer"
-                >
-                  <img src={Suffix} alt="" />
-                </div>
+                {!loading ?
+                  <>
+                    <div className="col-2">
+                      <img src={mp4} alt="" />
+                    </div>
+                    <div className="col-6">
+                      <p>{data?.inPersonVerification?.fileName}</p>
+                      <span>
+                        File size is {data?.inPersonVerification?.fileSize}
+                      </span>
+                    </div>
+                    <div className="d-flex justify-content-end col-5">
+
+                      <div
+                        onClick={() =>
+                          saveFile(
+                            data?.inPersonVerification?.url,
+                            data?.inPersonVerification?.fileName
+                          )
+                        }
+                        className="mx-2 cursor-pointer"
+                      >
+                        <img src={download} alt="" />
+                      </div>
+                      <div
+                        onClick={() =>
+                          handleViewClick(data?.inPersonVerification?.urlS3)
+                        }
+                        className="mx-3 cursor-pointer"
+                      >
+                        <img src={Suffix} alt="" />
+                      </div>
+                    </div>
+                  </> :
+                  <div className="col-8 d-flex align-items-center ">
+
+                    <Oval color="#ffffff" height={20} width={"100%"} />
+                    <p className="fs-3  mx-4">
+                      Loading... </p>
+                  </div>
+
+                }
+
+
+
               </div>
             ) : (
               "-"
@@ -305,6 +328,8 @@ const ViewApComp = () => {
           <Address data={data} />
         ) : activeTab === 2 ? (
           <Documents
+            loading={loading}
+            setloading={setloading}
             data={data}
             mp4={mp4}
             Suffix={Suffix}
@@ -316,6 +341,8 @@ const ViewApComp = () => {
           <Business data={data} />
         ) : activeTab === 4 ? (
           <Bank
+            loading={loading}
+            setloading={setloading}
             data={data}
             mp4={mp4}
             Suffix={Suffix}

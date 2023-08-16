@@ -113,7 +113,6 @@ const ApManagementComp = ({ apAccess }) => {
           </div>
           <div className="flex align-items-center" style={{ gap: "1em" }}></div>
         </div>
-        {console.log(apAccess?.view)}
         {isLoading ? (
           <Loader
             loading={isLoading}
