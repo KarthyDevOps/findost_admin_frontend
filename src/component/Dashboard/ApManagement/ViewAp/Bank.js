@@ -1,8 +1,10 @@
 import React from "react";
+import { useState } from "react";
 import { Oval } from "react-loader-spinner";
 import { downloadImage } from "service/Auth";
 
-const Bank = ({ data, pdf, download, Suffix, loading, setloading }) => {
+const Bank = ({ data, pdf, download, Suffix }) => {
+  const [loading, setloading] = useState(false)
   const handleViewClick = (url) => {
     const fileUrl = url;
     window.open(fileUrl, "_blank");
