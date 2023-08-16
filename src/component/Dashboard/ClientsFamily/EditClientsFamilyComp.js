@@ -92,10 +92,7 @@ const EditClientsFamilyComp = ({ edit, view }) => {
 
 
   const onSubmit = async (data) => {
-    setModal(true);
     try {
-
-
       setLoading(true);
       let body = {
         familyMember: {
