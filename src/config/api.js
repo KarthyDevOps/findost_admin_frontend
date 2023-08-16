@@ -94,6 +94,10 @@ export const endpoints = {
     CALENDAR_EVENT_GET: `${CalendarUrl}/schedule/get`,
     CALENDAR_EVENT_DELETE: `${CalendarUrl}/schedule/delete`,
     CALENDAR_EVENT_UPDATE: `${CalendarUrl}/schedule/update`,
+    NOTIFICATION_GET_LIST: `${CalendarUrl}-notification-management/list`,
+    NOTIFICATION_UPDATE_LIST: `${CalendarUrl}-notification-management/update`,
+
+
   },
   lead:
   {

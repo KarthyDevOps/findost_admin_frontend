@@ -111,7 +111,6 @@ export const addClient = async (data) => {
 };
 
 export const getClient = async (params) => {
-  console.log("params", params);
   const request = await axios({
     method: "get",
     url: endpoints.auth.GET_CLIENT,
