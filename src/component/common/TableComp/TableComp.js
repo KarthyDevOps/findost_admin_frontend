@@ -76,6 +76,7 @@ function TableComp(props) {
     onRowsSelect(updatedRows);
   };
 
+
   const getValueForKey = (key, obj) => {
     const nestedKeys = key.split(".");
     let value = obj;
@@ -86,8 +87,17 @@ function TableComp(props) {
         return (value = "-");
       }
     }
-    return value;
+    if (
+      nestedKeys.includes("familyMember") &&
+      typeof value === "string" &&
+      moment(value, "YYYY-MM-DDTHH:mm:ss.SSSZ", true).isValid()
+    ) {
+      return moment(value).format("MMM DD YYYY");
+    } else {
+      return value;
+    }
   };
+
   return (
     <div className="table-container">
       <table className="data-table">

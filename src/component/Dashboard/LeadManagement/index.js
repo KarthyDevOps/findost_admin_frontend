@@ -40,7 +40,7 @@ const LeadManagementComp = ({ leadAccess }) => {
       width: "30%",
     },
     {
-      label: "product ",
+      label: "Product ",
       value: "productName",
       width: "30%",
     },
@@ -50,7 +50,7 @@ const LeadManagementComp = ({ leadAccess }) => {
       width: "30%",
     },
     {
-      label: "mobile No",
+      label: "Mobile No",
       value: "clientDetails.clientPhoneNumber",
       width: "40%",
     },
@@ -106,9 +106,7 @@ const LeadManagementComp = ({ leadAccess }) => {
     try {
       setIsLoading(true);
       let params = {
-        page: page,
-        limit: 10,
-        search: search,
+
       };
       let response = await getProductList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
@@ -127,6 +125,10 @@ const LeadManagementComp = ({ leadAccess }) => {
     } finally {
       setIsLoading(false);
     }
+  };
+  const handlePageChange = (page) => {
+    setCurrentPage(page.selected);
+    fetchClientList(page);
   };
 
   useEffect(() => {
@@ -155,7 +157,7 @@ const LeadManagementComp = ({ leadAccess }) => {
                 onChange={(e) => handleSearchChange(e.target.value)}
               />
             </div>
-            <div className="col-2">
+            <div className="col-3">
               <CustomController
                 name={"filter"}
                 control={control}
@@ -192,7 +194,7 @@ const LeadManagementComp = ({ leadAccess }) => {
               // DeleteAction={remove}
               includedKeys={includedKeys}
               pageCount={pageCount}
-              // onPageChange={handlePageChange}
+              onPageChange={handlePageChange}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
               editRouteName={"/admin/lead-management/viewlead-management"}
