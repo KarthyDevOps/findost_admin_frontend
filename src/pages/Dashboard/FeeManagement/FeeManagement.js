@@ -1,17 +1,30 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 // Internal Component
 import FeeManagementComp from "component/Dashboard/FeeManagementComp/FeeManagementComp";
+// Helpers
+import { checkAndReturnViewableComponent, history } from "helpers";
+import { getadminPrivileges } from "helpers/privileges";
 
-const FeeManagement = () => {
-  // access for Fee management
-  const feeAccess = useSelector(
-    (state) => state?.home?.privileges?.feeManagement
-  );
+const FeeManagement = ({ privilegesData = {} }) => {
+  const dispatch = useDispatch();
+  const { feeManagement = {} } = privilegesData || {};
+
+  useEffect(() => {
+    getadminPrivileges(dispatch);
+  }, []);
+
+  useEffect(() => {
+    const redirectTo = checkAndReturnViewableComponent(
+      privilegesData,
+      feeManagement
+    );
+    if (redirectTo) return history.push(redirectTo?.to);
+  }, [privilegesData]);
 
   return (
     <div>
-      <FeeManagementComp feeAccess={feeAccess} />
+      <FeeManagementComp feeAccess={feeManagement} />
     </div>
   );
 };

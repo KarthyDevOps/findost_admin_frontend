@@ -66,6 +66,30 @@ const initialState = {
       "view": false,
       "edit": false,
       "remove": false
+    },
+    "feeManagement": {
+      "create": false,
+      "view": false,
+      "edit": false,
+      "remove": false
+    },
+    "calenderManagement": {
+      "create": false,
+      "view": false,
+      "edit": false,
+      "remove": false
+    },
+    "apManagement": {
+      "create": false,
+      "view": false,
+      "edit": false,
+      "remove": false
+    },
+    "leadManagement": {
+      "create": false,
+      "view": false,
+      "edit": false,
+      "remove": false
     }
   }
 };
