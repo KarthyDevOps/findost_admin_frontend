@@ -1,0 +1,1 @@
+{"version":3,"sources":["assets/images/deleteIcon.svg"],"names":["module","exports"],"mappings":"qFAAAA,EAAOC,QAAU,IAA0B","file":"static/js/224.27eb33e9.chunk.js","sourcesContent":["module.exports = __webpack_public_path__ + \"static/media/deleteIcon.b8b189cc.svg\";"],"sourceRoot":""}
