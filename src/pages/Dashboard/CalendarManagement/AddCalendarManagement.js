@@ -9,7 +9,7 @@ import { getadminPrivileges } from "helpers/privileges";
 const AddCalendarManagement = ({ privilegesData = {} }) => {
   const dispatch = useDispatch();
 
-  const { calenderManagement = {} } = privilegesData || {};
+  const { scheduleManagement = {} } = privilegesData || {};
 
   useEffect(() => {
     getadminPrivileges(dispatch);
@@ -18,7 +18,7 @@ const AddCalendarManagement = ({ privilegesData = {} }) => {
   useEffect(() => {
     const redirectTo = checkAndReturnViewableComponent(
       privilegesData,
-      calenderManagement
+      scheduleManagement
     );
     if (redirectTo) return history.push(redirectTo?.to);
   }, [privilegesData]);
@@ -29,7 +29,7 @@ const AddCalendarManagement = ({ privilegesData = {} }) => {
   // );
   return (
     <div>
-      <AddCalendarComp calendarAccess={calenderManagement} />
+      <AddCalendarComp calendarAccess={scheduleManagement} />
     </div>
   );
 };
