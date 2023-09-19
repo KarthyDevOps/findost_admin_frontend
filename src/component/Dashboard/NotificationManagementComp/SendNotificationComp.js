@@ -263,7 +263,7 @@ const SendNotificationComp = () => {
                 isNotification
                 register={register({
                   required: true,
-                  pattern: InitialSpaceNotAllowed,
+                  // pattern: InitialSpaceNotAllowed,
                 })}
               />
               <FormErrorMessage
