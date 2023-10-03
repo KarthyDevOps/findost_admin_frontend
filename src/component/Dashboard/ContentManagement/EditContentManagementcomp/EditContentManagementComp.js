@@ -92,12 +92,11 @@ const EditContentManagementComp = ({ create, view, remove }) => {
     console.log("data", data);
     if (edit) {
       try {
-        setloading(true);
-
         if (quill.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
           Toast({ type: "error", message: "Page Content is Required" });
           return;
         }
+        setloading(true);
         let body = {
           title: data.title,
           description: data.content,
