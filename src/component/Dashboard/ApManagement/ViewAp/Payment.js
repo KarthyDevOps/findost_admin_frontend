@@ -34,8 +34,8 @@ const Payment = ({ data }) => {
         <div className="mx-3">
           <p>Total Charges</p>
           <span>
-            {data?.paymentDetails?.segmentTotalCharge
-              ? "₹" + data?.paymentDetails?.segmentTotalCharge
+            {data?.paymentDetails?.totalAmount
+              ? "₹ " + data?.paymentDetails?.totalAmount
               : "-"}
           </span>
         </div>

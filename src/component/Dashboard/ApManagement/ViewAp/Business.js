@@ -154,11 +154,11 @@ const Business = ({ data }) => {
               </div>
               <div className="mx-5 px-5">
                 {data?.business?.segmentSelection?.map((x) => {
-                  return <h4 className="mb-3">₹{x?.segmentCharge}</h4>;
+                  return <h4 className="mb-3">₹ {x?.segmentCharge}</h4>;
                 })}
 
                 <h4 className="mb-3">
-                  ₹{data?.paymentDetails?.segmentTotalCharge}
+                  ₹ {data?.paymentDetails?.segmentTotalCharge}
                 </h4>
               </div>
             </div>
