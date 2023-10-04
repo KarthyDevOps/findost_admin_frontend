@@ -99,7 +99,7 @@ const ApManagementComp = ({ apAccess }) => {
               <InputBox
                 className="login_input"
                 type={"text"}
-                placeholder="Search by Id, Username, Email"
+                placeholder="Search by Username, Email"
                 errors={errors}
                 name="search"
                 Iconic
