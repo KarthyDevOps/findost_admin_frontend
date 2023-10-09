@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import {
   addNotificationHistory,
   getNotificationHistory,
+  getNotificationTemplateList,
   updateNotificationHistory,
 } from "service/Communication";
 import { getUserList } from "service/Auth";
@@ -26,16 +27,24 @@ import { InitialSpaceNotAllowed, history, options } from "helpers";
 import InputBox from "component/common/InputBox/InputBox";
 
 const SendNotificationComp = () => {
-  const { register, handleSubmit, errors, reset, control, getValues } = useForm(
-    {
-      mode: "onChange",
-    }
-  );
+  const {
+    register,
+    handleSubmit,
+    errors,
+    reset,
+    control,
+    getValues,
+    setValue,
+  } = useForm({
+    mode: "onChange",
+  });
   const [edit, setEdit] = useState(false);
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [modal, setModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [titleData, setTitleData] = useState([]);
+  const [descriptionData, setDescriptionData] = useState([]);
 
   const id = localStorage.getItem("editId");
 
@@ -55,6 +64,44 @@ const SendNotificationComp = () => {
       }
     } catch (e) {
       console.log("e :>> ", e);
+    }
+  };
+
+  const getTemplateList = async (page) => {
+    try {
+      let params = {
+        // page: 1,
+        // limit: 10,
+        // search: search,
+        returnAll: true,
+      };
+      let response = await getNotificationTemplateList(params);
+      if (response.status === 200 && response?.data?.data?.list.length > 0) {
+        let updateArr = [];
+        updateArr = response?.data?.data?.list;
+        let titleList = updateArr?.map((x) => ({
+          value: x?.title,
+          label: x?.title,
+        }));
+        setTitleData(titleList);
+        setDescriptionData(response?.data?.data?.list);
+      } else {
+        setTitleData([]);
+      }
+    } catch (err) {
+      console.log("err :>> ", err);
+    }
+  };
+
+  const setContent = (title) => {
+    let notiTitle = title;
+    let desObj = descriptionData?.find((x) => x?.title === notiTitle);
+    if (desObj && desObj.description) {
+      const strippedDescription = desObj.description.replace(
+        /<\/?[^>]+(>|$)/g,
+        ""
+      );
+      setValue("content", strippedDescription);
     }
   };
 
@@ -83,6 +130,7 @@ const SendNotificationComp = () => {
   };
 
   const onSubmit = async (data) => {
+    console.log('data', data)
     if (!edit) {
       try {
         if (selectedUsers.length === 0) {
@@ -92,7 +140,7 @@ const SendNotificationComp = () => {
         setLoading(true);
         const body = {
           title: data.title,
-          description: data.content,
+          description: getValues("content"),
           authorizedPersonId: selectedUsers.map((x) => x.value),
         };
         let response = await addNotificationHistory(body);
@@ -101,7 +149,7 @@ const SendNotificationComp = () => {
           setTimeout(() => {
             setModal(false);
             reset({ title: "", content: "", users: [] });
-            history.push("/admin/notification-management?tab=1");
+            history.push("/admin/notification-management?tab=2");
           }, 2000);
           setLoading(false);
         } else {
@@ -113,6 +161,7 @@ const SendNotificationComp = () => {
         console.log("e :>> ", e);
       }
     } else {
+      
       try {
         if (selectedUsers.length === 0) {
           Toast({ type: "error", message: "Please select a Users" });
@@ -121,7 +170,7 @@ const SendNotificationComp = () => {
         setLoading(true);
         const body = {
           title: data.title,
-          description: data.content,
+          description: getValues("content"),
           authorizedPersonId: selectedUsers.map((x) => x.value),
         };
         let response = await updateNotificationHistory(body, id);
@@ -130,7 +179,7 @@ const SendNotificationComp = () => {
           setTimeout(() => {
             setModal(false);
             reset({ title: "", content: "", users: [] });
-            history.push("/admin/notification-management?tab=1");
+            history.push("/admin/notification-management?tab=2");
           }, 2000);
           setLoading(false);
         } else {
@@ -150,6 +199,7 @@ const SendNotificationComp = () => {
 
   useEffect(() => {
     ListUsers();
+    getTemplateList();
     if (id) {
       setEdit(true);
       getHistoryDetails();
@@ -179,7 +229,34 @@ const SendNotificationComp = () => {
           <div className="row">
             <div className="col-md-5 my-3">
               <label>Notification Title</label>
-              <InputBox
+              <CustomController
+                name={"title"}
+                control={control}
+                error={errors?.title}
+                defaultValue={getValues("title")}
+                rules={{ required: true }}
+                messages={{
+                  required: "Notification Title is Required",
+                }}
+                render={({ onChange, ...fields }) => {
+                  return (
+                    <NormalMultiSelect
+                      {...fields}
+                      key={getValues("title")}
+                      placeholder={"Select Notification Title"}
+                      options={titleData}
+                      name="title"
+                      value={getValues("title")}
+                      handleChange={(e, { value, label } = {}) => {
+                        onChange(value);
+                        setValue("title", value);
+                        setContent(value);
+                      }}
+                    />
+                  );
+                }}
+              />
+              {/* <InputBox
                 className="add_staff"
                 type={"text"}
                 placeholder="Enter Notification Title"
@@ -196,7 +273,7 @@ const SendNotificationComp = () => {
                   required: "Notification Title is Required",
                   pattern: "Please Enter a Valid Title",
                 }}
-              />
+              /> */}
             </div>
 
             <div className="col-md-6 my-3">
@@ -261,11 +338,14 @@ const SendNotificationComp = () => {
                 error={errors}
                 name="content"
                 isNotification
+                value={getValues("content")}
+                disabled={getValues("content")}
                 register={register({
                   required: true,
                   // pattern: InitialSpaceNotAllowed,
                 })}
               />
+              {console.log('getValues("content")', getValues("content"))}
               <FormErrorMessage
                 error={errors.content}
                 messages={{

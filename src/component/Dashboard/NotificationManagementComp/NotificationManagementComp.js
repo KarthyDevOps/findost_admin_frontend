@@ -80,11 +80,11 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
       label: "Date and Time",
       value: "createdAt",
     },
-    {
-      label: "Notification Title",
-      value: "title",
-      width: "50%",
-    },
+    // {
+    //   label: "Notification Title",
+    //   value: "title",
+    //   width: "50%",
+    // },
     {
       label: "Notification Content",
       value: "description",
@@ -264,13 +264,15 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
 
   useEffect(() => {
     handleTab(tabValue);
-    if (tabValue === 1) {
+    if (tabValue === 2) {
       if (localStorage.getItem("editPage")) {
         getHistoryList(localStorage.getItem("editPage"));
         localStorage.removeItem("editPage");
       } else {
         getHistoryList(1);
       }
+    } else if (tabValue === 1) {
+      getHistoryList(1);
     } else {
       if (localStorage.getItem("editPage")) {
         getTemplateList(localStorage.getItem("editPage"));
@@ -307,6 +309,18 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
           }}
         >
           Notification History
+        </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div
+          className={
+            activeTab === 2 ? "Tab_design_active" : "Tab_design_inActive"
+          }
+          onClick={() => {
+            handleTab(2);
+            setCurrentPage(1);
+          }}
+        >
+          Send Notification
         </div>
       </div>
       {activeTab === 0 ? (
@@ -348,6 +362,47 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
                 />
               </div>
             )}
+          </div>
+        </>
+      ) : activeTab === 1 ? (
+        <>
+          <div className="row p-0 align-items-center">
+            <div className="col-md-3 my-3">
+              <InputBox
+                className="login_input Notification_input"
+                type={"text"}
+                placeholder="Search by Id"
+                name="search"
+                Iconic
+                Search
+                value={search}
+                onChange={(e) => handleSearchChange(e.target.value)}
+              />
+            </div>
+            <div className="col-md-5"></div>
+            <div className="col-md-2">
+              {/* {bulkDelete && remove && (
+                <NormalButton
+                  className="authButton1"
+                  label={"Delete"}
+                  onClick={handleOpenModal}
+                />
+              )} */}
+            </div>
+            {/* {create && (
+              <div className="col-md-2 m-0">
+                <NormalButton
+                  loginButton1
+                  label={"Send Notification"}
+                  onClick={() => {
+                    localStorage.removeItem("editId");
+                    history.push(
+                      "/admin/notification-management/send-notification"
+                    );
+                  }}
+                />
+              </div>
+            )} */}
           </div>
         </>
       ) : (
@@ -431,6 +486,35 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
           {activeTab === 1 && historydata && historydata.length > 0 ? (
             <TableComp
               data={historydata}
+              // EditAction={edit}
+              // DeleteAction={remove}
+              includedKeys={historyKeys}
+              pageCount={pageCount}
+              onPageChange={handlePageChange}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              // editRouteName="/admin/notification-management/send-notification"
+              handleOpenModal={handleOpenModal}
+              // onRowsSelect={handleBulk}
+            />
+          ) : (
+            activeTab === 1 && (
+              <div className="">
+                <EmptyTable
+                  EditAction={edit}
+                  DeleteAction={remove}
+                  includedKeys={historyKeys}
+                />
+                <span className="d-flex align-items-center justify-content-center mt-5 pt-5">
+                  No Data Available
+                </span>
+              </div>
+            )
+          )}
+
+          {activeTab === 2 && historydata && historydata.length > 0 ? (
+            <TableComp
+              data={historydata}
               EditAction={edit}
               DeleteAction={remove}
               includedKeys={historyKeys}
@@ -443,7 +527,7 @@ const NotificationManagementComp = ({ create, view, edit, remove }) => {
               onRowsSelect={handleBulk}
             />
           ) : (
-            activeTab === 1 && (
+            activeTab === 2 && (
               <div className="">
                 <EmptyTable
                   EditAction={edit}

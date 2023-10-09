@@ -288,10 +288,10 @@ export const bulkDeleteFaq = async (body) => {
   return request;
 };
 
-export const updateSiteSetting = async (body, id) => {
+export const updateSiteSetting = async (body) => {
   const request = await axios({
     method: "put",
-    url: `${endpoints.cms.UPDATE_SITE_SETTING}?Id=${id}`,
+    url: `${endpoints.cms.UPDATE_SITE_SETTING}`,
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },

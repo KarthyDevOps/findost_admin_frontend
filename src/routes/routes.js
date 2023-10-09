@@ -35,6 +35,14 @@ const routers = [
         auth: false,
         exact: true,
       },
+      {
+        component: "Disclaimer",
+        path: "/disclaimer",
+        componentPath: "pages/Auth/Disclaimer",
+        name: "Disclaimer",
+        auth: false,
+        exact: true,
+      },
     ],
   },
   {
