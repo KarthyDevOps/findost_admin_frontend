@@ -37,6 +37,7 @@ const LoginComp = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [emailId, setemailId] = useState("");
   const [password, setpassword] = useState("");
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const dispatch = useDispatch();
 
   const onSubmit = async (inputs) => {
@@ -52,11 +53,14 @@ const LoginComp = () => {
         Toast({ type: "success", message: response.data.message });
         reset({ emailId: "", password: "" });
         history.push("/admin/dashboard");
+        setFormSubmitted(false);
       } else {
         Toast({ type: "error", message: response.data.message });
+        setFormSubmitted(false);
       }
     } catch (e) {
       console.log("e :>> ", e);
+      setFormSubmitted(false);
     }
   };
   return (
@@ -108,7 +112,7 @@ const LoginComp = () => {
                     className="login_input"
                     placeholder="Password"
                     Iconic
-                    errors={errors}
+                    errors={formSubmitted ? errors : {}}
                     type={isShowPassword ? "text" : "password"}
                     name="password"
                     onChange={setpassword}
@@ -125,26 +129,37 @@ const LoginComp = () => {
                       },
                       validate: {
                         lowercase: (value) =>
-                          /^(?=.*[a-z])/.test(value) || "Password must contain at least one lowercase letter",
+                          /^(?=.*[a-z])/.test(value) ||
+                          "Password must contain at least one lowercase letter",
                         containsDigit: (value) =>
-                          /^(?=.*[0-9])/.test(value) || "Password must contain at least one numeric digit",
+                          /^(?=.*[0-9])/.test(value) ||
+                          "Password must contain at least one numeric digit",
                         containsSpecial: (value) =>
-                          /^(?=.*[!@#$%^&*])/.test(value) || "Password must contain at least one special character",
+                          /^(?=.*[!@#$%^&*])/.test(value) ||
+                          "Password must contain at least one special character",
                       },
                     })}
                   />
-                  <FormErrorMessage
-                    error={errors.password}
-                    messages={{
-                      required: "Password is Required",
-                      minLength: "Password must contain at least 8 letters",
-                      maxLength: "Password should contain at most 16 characters",
-                      pattern: "Password must contain at least one uppercase letter",
-                      lowercase: "Password must contain at least one lowercase letter",
-                      containsDigit: "Password must contain at least one Numeric",
-                      containsSpecial: "Password must contain at least one special character",
-                    }}
-                  />
+                  {formSubmitted && (
+                    <FormErrorMessage
+                      error={errors.password}
+                      messages={{
+                        required: "Password is Required",
+                        minLength: "Password must contain at least 8 letters",
+                        maxLength:
+                          "Password should contain at most 16 characters",
+                        pattern:
+                          "Password must contain at least one uppercase letter",
+                        lowercase:
+                          "Password must contain at least one lowercase letter",
+                        containsDigit:
+                          "Password must contain at least one Numeric",
+                        containsSpecial:
+                          "Password must contain at least one special character",
+                      }}
+                    />
+                  )}
+
                   <span className="eyeIcons">
                     <img src={password_icon} alt="icon"></img>
                   </span>
@@ -182,7 +197,10 @@ const LoginComp = () => {
                     </Link>
                   )}
 
-                  <div className="login_btn  mt-3">
+                  <div
+                    onClick={() => setFormSubmitted(true)}
+                    className="login_btn  mt-3"
+                  >
                     <NormalButton
                       loginButton1
                       label="Login"
@@ -215,6 +233,11 @@ const LoginComp = () => {
                     >
                       <img src={facebook_logo} alt="facebook-logo" />
                     </a>
+                  </div>
+                  <div className="d-flex justify-content-center mt-3">
+                    <Link to="/auth/disclaimer">
+                      <span className="disclaimer">Disclaimer</span>
+                    </Link>
                   </div>
                 </div>
               </div>

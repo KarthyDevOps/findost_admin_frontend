@@ -41,6 +41,7 @@ const AddStaff = ({ create, view, remove }) => {
     status: "",
     permissions: {},
   });
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const id = localStorage.getItem("editId");
 
@@ -128,6 +129,7 @@ const AddStaff = ({ create, view, remove }) => {
         }
       } catch (e) {
         console.log(e);
+        setFormSubmitted(false);
       }
     } else {
       try {
@@ -176,6 +178,7 @@ const AddStaff = ({ create, view, remove }) => {
         }
       } catch (e) {
         console.log(e);
+        setFormSubmitted(false);
       }
     }
   };
@@ -317,7 +320,7 @@ const AddStaff = ({ create, view, remove }) => {
                 type={"text"}
                 placeholder="Enter Password"
                 name="password"
-                errors={errors}
+                errors={formSubmitted ? errors : {}}
                 // disabled={edit}
                 defaultValue={staffDetails.password}
                 register={register({
@@ -341,22 +344,23 @@ const AddStaff = ({ create, view, remove }) => {
                   },
                 })}
               />
-
-              <FormErrorMessage
-                error={errors.password}
-                messages={{
-                  required: "Password is Required",
-                  minLength: "Password must contain at least 8 letters",
-                  maxLength: "Password should contain at most 16 characters",
-                  pattern:
-                    "Password must contain at least one uppercase letter",
-                  lowercase:
-                    "Password must contain at least one lowercase letter",
-                  containsDigit: "Password must contain at least one Numeric",
-                  containsSpecial:
-                    "Password must contain at least one special character",
-                }}
-              />
+              {formSubmitted && (
+                <FormErrorMessage
+                  error={errors.password}
+                  messages={{
+                    required: "Password is Required",
+                    minLength: "Password must contain at least 8 letters",
+                    maxLength: "Password should contain at most 16 characters",
+                    pattern:
+                      "Password must contain at least one uppercase letter",
+                    lowercase:
+                      "Password must contain at least one lowercase letter",
+                    containsDigit: "Password must contain at least one Numeric",
+                    containsSpecial:
+                      "Password must contain at least one special character",
+                  }}
+                />
+              )}
             </div>
             <div className="col-md-4 my-3">
               <label>Role</label>
@@ -478,7 +482,7 @@ const AddStaff = ({ create, view, remove }) => {
                 onClick={() => history.push("/admin/staff-management")}
               />
             </div>
-            <div className="col-md-2">
+            <div onClick={() => setFormSubmitted(true)} className="col-md-2">
               <NormalButton
                 className="loginButton"
                 label={edit ? "Update" : "Add Staff"}

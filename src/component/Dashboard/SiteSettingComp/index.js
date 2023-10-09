@@ -20,6 +20,7 @@ import { Toast } from "service/toast";
 import { uploadImage } from "service/Auth";
 //helpers
 import { history } from "helpers";
+import TextBox from "component/common/TextBox/TextBox";
 
 const SiteSettingComp = ({ create, view, edit, remove }) => {
   const { register, handleSubmit, errors, control, reset, setError } = useForm({
@@ -34,13 +35,14 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoad, setIsLoad] = useState(false);
   const id = localStorage.getItem("editId");
+  console.log('id', id)
 
   const getSiteDetails = async () => {
     try {
       const params = {
         id: id,
       };
-      let response = await getSiteSetting(params);
+      let response = await getSiteSetting();
       if (response.status === 200) {
         const data = response?.data.data;
         if (data.length > 0) {
@@ -53,6 +55,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
           emailId: data?.supportEmail,
           supportNumber: data?.supportNumber,
           content: data?.copyrightsText,
+          address : data?.address
         });
         setSiteFavLogo(data?.siteFavIconS3);
         setSiteFavLogoUrl(data?.siteFavIcon);
@@ -81,8 +84,9 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
         siteUrl: data.siteUrl,
         siteFavIcon: SiteFavLogoUrl,
         sitelogo: SiteLogoUrl,
+        address : data?.address
       };
-      let response = await updateSiteSetting(body, id);
+      let response = await updateSiteSetting(body);
       if (response.status === 200) {
         setModal(true);
         setTimeout(() => {
@@ -231,13 +235,38 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                     />
                   </div>
 
+                  <div className="mt-4 col-4">
+                    <label className="Product_description">Address</label>
+                    <div className="col-12 content_box p-0">
+                      <TextBox
+                        cols={5}
+                        error={errors}
+                        name="address"
+                        isNotification={false}
+                        register={register({
+                          required: false,
+                          // pattern: /^(?!\s*$).+/,
+                        })}
+                      />
+                      <FormErrorMessage
+                        error={errors.address}
+                        messages={{
+                          required: "Address is Required",
+                          // pattern: "Initially Space Not Allowed",
+                        }}
+                      />
+                    </div>
+                  </div>
+
                   <div className="col-4 mt-4">
                     <label className="Product_description">Site Logo</label>
 
                     <Dropzone
                       onDrop={(e) => (!edit ? null : handleDrop(e))}
                       accept=".png, .jpeg, .jpg, "
-                      noClick={view && !create && !edit && !remove ? true : false}
+                      noClick={
+                        view && !create && !edit && !remove ? true : false
+                      }
                       maxSize={3072000}
                       errors={errors}
                       {...register("dropZoneLogoField", {
@@ -258,7 +287,11 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                                 <img
                                   src={SiteFavLogo}
                                   alt="SiteFavLogo"
-                                  className={view && !create && !edit && !remove ? "preview_image1" : "preview_image"}
+                                  className={
+                                    view && !create && !edit && !remove
+                                      ? "preview_image1"
+                                      : "preview_image"
+                                  }
                                 ></img>
                               </>
                             ) : (
@@ -289,7 +322,9 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                                 }}
                                 // className={styles.removeOverlay}
                                 onClick={() =>
-                                  view && !create && !edit && !remove ? null : deleteFavLogo()
+                                  view && !create && !edit && !remove
+                                    ? null
+                                    : deleteFavLogo()
                                 }
                               >
                                 {view && !create && !edit && !remove ? null : (
@@ -320,7 +355,9 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                       accept=".png, .jpeg, .jpg, "
                       maxSize={3072000}
                       errors={errors}
-                      noClick={view && !create && !edit && !remove ? true : false}
+                      noClick={
+                        view && !create && !edit && !remove ? true : false
+                      }
                       {...register("dropZoneFavLogoField", {
                         required: SiteLogo ? false : true,
                       })}
@@ -339,7 +376,11 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                                 <img
                                   src={SiteLogo}
                                   alt="SiteFavLogo"
-                                  className={view && !create && !edit && !remove ? "preview_image1" : "preview_image"}
+                                  className={
+                                    view && !create && !edit && !remove
+                                      ? "preview_image1"
+                                      : "preview_image"
+                                  }
                                 ></img>
                               </>
                             ) : (
@@ -370,7 +411,9 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                                 }}
                                 // className={styles.removeOverlay}
                                 onClick={() =>
-                                  view && !create && !edit && !remove ? null : deleteLogo()
+                                  view && !create && !edit && !remove
+                                    ? null
+                                    : deleteLogo()
                                 }
                               >
                                 {view && !create && !edit && !remove ? null : (
@@ -418,7 +461,11 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                                 onChange(content);
                               }}
                               name={"content"}
-                              readOnly={view && !create && !edit && !remove ? true : false}
+                              readOnly={
+                                view && !create && !edit && !remove
+                                  ? true
+                                  : false
+                              }
                             />
                           );
                         }}
@@ -434,7 +481,6 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                         cancel
                         label="Cancel"
                         disabled={view && !create && !edit && !remove}
-                        
                       >
                         {" "}
                       </NormalButton>

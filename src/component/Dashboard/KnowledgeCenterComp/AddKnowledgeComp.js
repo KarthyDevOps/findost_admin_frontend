@@ -791,7 +791,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                     accept=".pdf,xl,.xlsx,.doc"
                     maxSize={3072000}
                     errors={errors}
-                    {...register("dropZoneField", {
+                    {...register("dropZoneFieldUpload", {
                       required: newDoc ? false : true,
                     })}
                   >
@@ -857,7 +857,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                   </Dropzone>
                   {!newDoc && (
                     <FormErrorMessage
-                      error={errors.dropZoneField}
+                      error={errors.dropZoneFieldUpload}
                       messages={{
                         required: "Document is Required",
                       }}
@@ -876,7 +876,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                     maxSize={3072000}
                     errors={errors}
                     {...register("dropZoneField", {
-                      required: NewImage || ImageURL ? false : true,
+                      required: NewImage || ImageURL ? false : false,
                     })}
                   >
                     {({ getRootProps, getInputProps }) => (

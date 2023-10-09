@@ -10,7 +10,7 @@ const TextBox = ({
   error = "",
   messages,
   errors,
-  isNotification = false,
+  isNotification = false,disabled,value
 }) => {
   return (
     <>
@@ -22,6 +22,8 @@ const TextBox = ({
         placeholder={placeholder}
         className={isNotification ? "piscriptionTextBox" : "textBoxStyle"}
         autoComplete={"off"}
+        disabled={disabled}
+        value={value}
       ></textarea>
       <span className="text-danger fs-13">
         {error?.type && messages?.[error.type]}
