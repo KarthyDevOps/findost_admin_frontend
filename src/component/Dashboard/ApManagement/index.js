@@ -12,6 +12,7 @@ import { BsSearch } from "react-icons/bs";
 import { useForm } from "react-hook-form";
 // helpers
 import { debounceFunction } from "helpers";
+import NormalButton from "component/common/NormalButton/NormalButton";
 
 const ApManagementComp = ({ apAccess }) => {
   const { errors, control } = useForm({
@@ -46,10 +47,35 @@ const ApManagementComp = ({ apAccess }) => {
     },
   ];
 
+  const downloadApList = async () => {
+    try {
+      let params = {
+        isExport: true,
+      };
+      let response = await getUserList(params);
+
+      if (response.status === 200) {
+        console.log("response", response?.data);
+        const downloadFile = document.createElement("a");
+        document.body.appendChild(downloadFile);
+        const blob = new Blob([response.data], {
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+        const url = window.URL.createObjectURL(blob);
+        downloadFile.href = url;
+        downloadFile.download = "AP list.xlsx";
+        downloadFile.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(downloadFile);
+      }
+    } catch (e) {
+      console.error("Error downloading file", e);
+    }
+  };
+
   const getApList = async (page) => {
     try {
       setIsLoading(true);
-
       let params = {
         page: page ? page : 1,
         limit: 10,
@@ -91,7 +117,10 @@ const ApManagementComp = ({ apAccess }) => {
       <div className="staff_table px-5 py-3">
         <p className="staff_title m-0">AP Management</p>
         <div className="flex align-items-center justify-content-between">
-          <div className="flex align-items-center" style={{ gap: "1em" }}>
+          <div
+            className="d-flex align-items-center justify-content-between"
+            style={{ gap: "1em" }}
+          >
             <div
               className="pl-0 my-3 staff_Search cursor-pointer"
               style={{ width: "300px" }}
@@ -111,7 +140,26 @@ const ApManagementComp = ({ apAccess }) => {
               </i>
             </div>
           </div>
-          <div className="flex align-items-center" style={{ gap: "1em" }}></div>
+          <div
+            className="flex align-items-center justify-content-end"
+            style={{ gap: "1em" }}
+          >
+            <NormalButton
+              className="loginButton"
+              onClick={() => {
+                downloadApList();
+              }}
+              label={"Download AP List"}
+            />
+          </div>
+
+          {/* <a
+            href="https://findoc-development.s3.ap-south-1.amazonaws.com/images/inovicepdf1697530460698?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARS5OYL26JGKUYGRR%2F20231017%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20231017T081506Z&X-Amz-Expires=86400&X-Amz-Signature=e11aa6f96ebbd0d1cb2e94897baf5fb8839d38242c65f9595d6f4015107f2295&X-Amz-SignedHeaders=host"
+            // download="sample.PDF"
+            target="_blank"
+          >
+            click me
+          </a> */}
         </div>
         {isLoading ? (
           <Loader

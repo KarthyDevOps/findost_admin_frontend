@@ -90,6 +90,7 @@ const AddFaqComp = ({ create, view, remove }) => {
         reset({
           title: data?.title,
           content: data?.answer,
+          order : data?.order
         });
         setQuill(data?.answer);
         setCatId(data?.category);
@@ -119,6 +120,7 @@ const AddFaqComp = ({ create, view, remove }) => {
             answer: data.content,
             subCategory: subCategoryId,
             category: categoryMasterId,
+            order : data?.order
           };
           if (FAQDetails.status === "active") {
             body.isActive = true;
@@ -155,6 +157,7 @@ const AddFaqComp = ({ create, view, remove }) => {
             answer: data.content,
             category: categoryMasterId,
             subCategory: subCategoryId,
+            order : data?.order
           };
           if (FAQDetails.status === "active") {
             body.isActive = true;
@@ -274,7 +277,7 @@ const AddFaqComp = ({ create, view, remove }) => {
         </div>
         <div className="Add_faq p-5">
           <div className="row">
-            <div className="col-11 ">
+            <div className="col-6 ">
               <label>FAQ Title</label>
               <InputBox
                 className="add_staff"
@@ -292,6 +295,27 @@ const AddFaqComp = ({ create, view, remove }) => {
                 messages={{
                   required: "Title is Required",
                   pattern: "Title is Invalid",
+                }}
+              />
+            </div>
+            <div className="col-6 ">
+              <label>Order</label>
+              <InputBox
+                className="add_staff"
+                type={"number"}
+                placeholder="Enter Order"
+                name="order"
+                errors={errors}
+                register={register({
+                  required: true,
+                  // pattern: /^(?!\s*$).+/,
+                })}
+              />
+              <FormErrorMessage
+                error={errors.order}
+                messages={{
+                  required: "Order is Required",
+                  pattern: "Order is Invalid",
                 }}
               />
             </div>
