@@ -143,14 +143,14 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
         });
         setTitle(data?.title);
         setCourseType(data?.courseType);
-        setUrlLink(data?.contentUrlLink)
+        setUrlLink(data?.contentUrlLink);
         setCatId(data?.category);
         setSubCatId(data?.subCategory);
         setQuill(data?.description);
         setNewDoc(data?.documentPath);
         setImageKey(data?.thumbnail);
         setImageURL(data?.thumbnailS3);
-        setForms(data?.courseDetails.length > 0 ? data?.courseDetails : forms)
+        setForms(data?.courseDetails.length > 0 ? data?.courseDetails : forms);
         setDocFileName(data?.fileOriginalName);
         setKnowledgeDetails({
           category: data.category,
@@ -593,6 +593,8 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
   const deleteImage = (e) => {
     e.stopPropagation();
     setImageURL(null);
+    setNewImage(null);
+    setImageKey(null);
   };
 
   // Redirect to document
@@ -600,7 +602,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
     e.stopPropagation();
     history.push("#");
   };
-
+  console.log(category);
   return (
     <div className="px-5 py-3 Add_knowledge">
       {!course && (
@@ -867,16 +869,19 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
               )}
               {category != "URLs" && (
                 <div className="col-4 mt-3 mb-4">
-                  <label className="Product_description">
-                    Image Thumbnail
-                  </label>
+                  <label className="Product_description">Image Thumbnail</label>
                   <Dropzone
                     onDrop={handleDropImage}
                     accept=".jpg,.png"
                     maxSize={3072000}
                     errors={errors}
                     {...register("dropZoneField", {
-                      required: NewImage || ImageURL ? false : false,
+                      required:
+                        NewImage || ImageURL
+                          ? false
+                          : category == "Blogs" || category == "Courses"
+                          ? true
+                          : false,
                     })}
                   >
                     {({ getRootProps, getInputProps }) => (
@@ -952,35 +957,35 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
             {(category == "Videos" ||
               category == "Courses" ||
               category == "Blogs") && (
-                <div>
-                  <label>Description</label>
-                  <CustomController
-                    name={"content"}
-                    control={control}
-                    error={errors.content}
-                    rules={{ required: true }}
-                    messages={{
-                      required: "Description is Required",
-                    }}
-                    render={({ onChange, ...field }) => {
-                      return (
-                        <TextEditor
-                          {...field}
-                          name={"content"}
-                          onChange={(content) => {
-                            onChange(content);
-                            setQuill(content);
-                            setCourseForm((prevData) => ({
-                              ...prevData,
-                              description: content,
-                            }));
-                          }}
-                        />
-                      );
-                    }}
-                  />
-                </div>
-              )}
+              <div>
+                <label>Description</label>
+                <CustomController
+                  name={"content"}
+                  control={control}
+                  error={errors.content}
+                  rules={{ required: true }}
+                  messages={{
+                    required: "Description is Required",
+                  }}
+                  render={({ onChange, ...field }) => {
+                    return (
+                      <TextEditor
+                        {...field}
+                        name={"content"}
+                        onChange={(content) => {
+                          onChange(content);
+                          setQuill(content);
+                          setCourseForm((prevData) => ({
+                            ...prevData,
+                            description: content,
+                          }));
+                        }}
+                      />
+                    );
+                  }}
+                />
+              </div>
+            )}
           </div>
         ) : (
           <>
@@ -995,7 +1000,8 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
               register={register}
             />
           </>
-        )}{console.log("hdhfj", forms)}
+        )}
+        {console.log("hdhfj", forms)}
         {category === "Courses" && !course ? (
           <div className="d-flex align-items-center justify-content-end  p-0 pt-4">
             <div className="col-md-2 pl-4 pr-0">
