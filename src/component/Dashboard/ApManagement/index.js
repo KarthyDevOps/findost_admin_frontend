@@ -7,7 +7,7 @@ import EmptyTable from "component/common/TableComp/EmptyTable";
 import TableComp from "component/common/TableComp/TableComp";
 import Loader from "component/common/Loader";
 // services
-import { getUserList } from "service/Auth";
+import { downloadUserList, getUserList } from "service/Auth";
 import { BsSearch } from "react-icons/bs";
 import { useForm } from "react-hook-form";
 // helpers
@@ -50,16 +50,16 @@ const ApManagementComp = ({ apAccess }) => {
   const downloadApList = async () => {
     try {
       let params = {
-        isExport: true,
+         isExport : true,
       };
-      let response = await getUserList(params);
+      let response = await downloadUserList(params);
 
       if (response.status === 200) {
-        console.log("response", response?.data);
+        console.log("response", response);
         const downloadFile = document.createElement("a");
         document.body.appendChild(downloadFile);
         const blob = new Blob([response.data], {
-          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;",
         });
         const url = window.URL.createObjectURL(blob);
         downloadFile.href = url;
