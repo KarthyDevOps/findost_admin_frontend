@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Modal } from "antd";
 import InputBox from "component/common/InputBox/InputBox";
 import FormErrorMessage from "component/common/ErrorMessage";
@@ -13,46 +13,120 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { uploadImage } from "service/Auth";
 import Loader from "component/common/Loader";
 import { history } from "helpers";
+import { Toast } from "service/toast";
+import { addProductDetails, updateProductDetails } from "service/Cms";
+import { useForm } from "react-hook-form";
+import moment from "moment";
 
 const ProductPopup = ({
   successMsg,
   modalOpen,
   onCancel,
-  errors,
-  register,
-  control,
-  getValues,
-  setValue,
   productType,
-  handleSubmit,
+  setIcon,
+  icon,
+  newIcon,
+  setNewIcon,
+  aboutUs,
+  setAboutUs,
+  keyFeature,
+  setKeyFeature,
+  otherBenefit,
+  setOtherBenefit,
+  policyDoc,
+  setPolicyDoc,
+  policyNotCover,
+  setPolicyNotCover,
+  description,
+  setDescription,
+  editPopup,
+  productData,
+  setEditPopup,
+  getDetails,
 }) => {
-  const [icon, setIcon] = useState("");
-  const [newIcon, setNewIcon] = useState("");
+  const {
+    register,
+    handleSubmit,
+    errors,
+    reset,
+    control,
+    getValues,
+    setValue,
+  } = useForm({
+    mode: "onChange",
+  });
+  const [image, setImage] = useState("");
+  const [newImage, setNewImage] = useState("");
+  const [brochure, setBrochure] = useState("");
+  const [brochureImage, setBrochureImage] = useState("");
+  const [brochureLoad, setBrochureLoad] = useState(false);
   const [loading, setLoading] = useState(false);
   const [load, setLoad] = useState(false);
-  console.log("productType", productType);
-  const handleDrop = async (droppedimage) => {
+  const [reference, setReference] = useState([{ title: "", video: "" }]);
+
+  const insuranceType = [
+    { label: "Term Insurance", value: "Term Insurance" },
+    { label: "Whole Life Insurance", value: "Whole Life Insurance" },
+    { label: "Money Back Policy", value: "Money Back Policy" },
+    { label: "Annuity Plans", value: "Annuity Plans" },
+    {
+      label: "Unit Linked Life Insurance",
+      value: "Unit Linked Life Insurance",
+    },
+    { label: "Endownment Policy", value: "Endownment Policy" },
+    { label: "Child Plans", value: "Child Plans" },
+  ];
+
+  const status = [
+    { label: "Ongoing", value: "Ongoing" },
+    { label: "Upcoming", value: "Upcoming" },
+  ];
+
+  const loans = [
+    { label: "Business Loan", value: "Business Loan" },
+    { label: "Vehicle Loan", value: "Vehicle Loan" },
+    { label: "Education Loan", value: "Education Loan" },
+    { label: "Gold Loan", value: "Gold Loan" },
+    { label: "Housing Loan", value: "Housing Loan" },
+  ];
+
+  const fixedIncome = [
+    { label: "Retirement Plans", value: "Retirement Plans" },
+    { label: "Bonds", value: "Bonds" },
+    { label: "PPF", value: "PPF" },
+    { label: "Fixed Deposit", value: "Fixed Deposit" },
+    { label: "G-sec", value: "G-sec" },
+  ];
+
+  const insurance = [
+    { label: "Life Insurance", value: "Life insurance" },
+    { label: "Health Insurance", value: "Health Insurance" },
+    { label: "Commercial Insurance", value: "Commercial Insurance" },
+    { label: "Home Insurance", value: "Home Insurance" },
+    { label: "Vehicle Insurance", value: "Vehicle Insurance'" },
+  ];
+
+  const addReference = () => {
+    setReference([...reference, { title: "", video: "" }]);
+  };
+
+  const removeReference = (index) => {
+    const updatedReference = reference.filter((_, i) => i !== index);
+    setReference(updatedReference);
+  };
+
+  const handleDropImage = async (droppedimage) => {
     try {
-      if (productType === "sovereign gold bonds") {
-        setLoading(true);
-      } else {
-        setLoad(true);
-      }
+      setLoad(true);
       let body = new FormData();
       for (let index = 0; index < droppedimage.length; index++) {
         const file = droppedimage[index];
         body.append("data", file);
         let response = await uploadImage(body);
         if (response.status == 200) {
-          if (productType === "sovereign gold bonds") {
-            setNewIcon(response?.data?.data?.data?.key);
-            setIcon(response?.data?.data?.data?.s3URL);
-            setLoading(false);
-          } else {
-            // setNewProductImg(response?.data?.data?.data?.key);
-            // setProductIcon(response?.data?.data?.data?.s3URL);
-            // setIsLoading(false);
-          }
+          setNewImage(response?.data?.data?.data?.key);
+          setImage(response?.data?.data?.data?.s3URL);
+          setLoad(false);
         }
       }
     } catch (e) {
@@ -60,18 +134,297 @@ const ProductPopup = ({
     }
   };
 
-  const cancelImg = (e) => {
-    e.stopPropagation();
-    if (productType === "sovereign gold bonds") {
-      setIcon(null);
-    } else {
-      // setProductIcon(null);
+  const handleDropBrochure = async (droppedimage) => {
+    try {
+      setBrochureLoad(true);
+      let body = new FormData();
+      for (let index = 0; index < droppedimage.length; index++) {
+        const file = droppedimage[index];
+        body.append("data", file);
+        let response = await uploadImage(body);
+        if (response.status == 200) {
+          setBrochureImage(response?.data?.data?.data?.key);
+          setBrochure(response?.data?.data?.data?.s3URL);
+          setBrochureLoad(false);
+        }
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
     }
   };
 
-  const onsubmit = async (data) => {
-    console.log("data", data);
+  const handleDrop = async (droppedimage) => {
+    try {
+      setLoading(true);
+      let body = new FormData();
+      for (let index = 0; index < droppedimage.length; index++) {
+        const file = droppedimage[index];
+        body.append("data", file);
+        let response = await uploadImage(body);
+        if (response.status == 200) {
+          setNewIcon(response?.data?.data?.data?.key);
+          setIcon(response?.data?.data?.data?.s3URL);
+          setLoading(false);
+        }
+      }
+    } catch (e) {
+      console.log("e :>> ", e);
+    }
   };
+
+  const cancelIcon = (e) => {
+    e.stopPropagation();
+    setIcon(null);
+  };
+  const cancelImage = (e) => {
+    e.stopPropagation();
+    setImage(null);
+  };
+  const cancelBrochure = (e) => {
+    e.stopPropagation();
+    setBrochure(null);
+  };
+
+  const OnDetailsSubmit = async (data) => {
+    // validation for text editor
+    if (productType === "insurance") {
+      if (aboutUs.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+        Toast({ type: "error", message: "About Us is Required" });
+        return;
+      }
+      if (keyFeature.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+        Toast({ type: "error", message: "key Feature is Required" });
+        return;
+      }
+      if (otherBenefit.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+        Toast({ type: "error", message: "Other Benefit is Required" });
+        return;
+      }
+      if (policyDoc.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+        Toast({ type: "error", message: "policy Doc is Required" });
+        return;
+      }
+      if (policyNotCover.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+        Toast({ type: "error", message: "policy Do Not Cover is Required" });
+        return;
+      }
+    } else if (
+      productType === "loan" ||
+      productType === "portfolioManagementSystem" ||
+      productType === " portfolioAnalyserAndOptimizer" ||
+      productType === "AlgoTradingPlatform" ||
+      productType === "fixedIncome"
+    ) {
+      if (description.replace(/(\<\w*\/?\w*>)/g, "").trim() == "") {
+        Toast({ type: "error", message: "Description is Required" });
+        return;
+      }
+    } else {
+    }
+
+    try {
+      let body;
+      if (productType === "sovereign gold bonds") {
+        body = {
+          schemeName: data?.schemeName,
+          icon: newIcon ? newIcon : icon,
+          productType: "goldBond",
+          subscriptionFrom: moment(data?.subscriptionFrom)
+            .startOf("day")
+            .format("YYYY-MM-DD HH:mm:ss"),
+          subscriptionTo: moment(data?.subscriptionTo)
+            .startOf("day")
+            .format("YYYY-MM-DD HH:mm:ss"),
+          status: data?.status,
+          price: data?.price,
+          maxLimit: data?.maxLimit,
+          dateOfIssue: moment(data?.dateOfIssue)
+            .startOf("day")
+            .format("YYYY-MM-DD HH:mm:ss"),
+        };
+      } else if (productType === "insurance") {
+        body = {
+          schemeName: data?.schemeName,
+          icon: newIcon ? newIcon : icon,
+          productType: productType,
+          planType: data?.planType,
+          companyName: data?.companyName,
+          insuranceType: data?.insuranceType,
+          insurancePlan: data?.insurancePlan,
+          lifeCover: data?.lifeCover,
+          claimSettle: data?.claimsSettle,
+          coverUpto: moment(data?.coverUpto)
+            .startOf("day")
+            .format("YYYY-MM-DD HH:mm:ss"),
+          aboutUs: aboutUs,
+          keyFuture: keyFeature,
+          otherBenefits: otherBenefit,
+          policyDoesNotCover: policyNotCover,
+          policyDoc: policyDoc,
+        };
+      } else if (productType === "fixedIncome" || productType === "loan") {
+        body = {
+          schemeName: data?.schemeName,
+          icon: newIcon ? newIcon : icon,
+          productType: productType,
+          planType: data?.planType,
+          rateOfInterest: data?.rateOfInterest,
+          description: description,
+          reference: reference,
+          brochure: brochureImage ? brochureImage : brochure,
+        };
+      } else if (productType === "portfolioManagementSystem") {
+        body = {
+          schemeName: data?.schemeName,
+          icon: newIcon ? newIcon : icon,
+          productType: productType,
+          description: description,
+          image: newImage ? newImage : image,
+          brochure: brochureImage ? brochureImage : brochure,
+        };
+      } else if (productType === " portfolioAnalyserAndOptimizer") {
+        body = {
+          schemeName: data?.schemeName,
+          icon: newIcon ? newIcon : icon,
+          productType: "portfolioAnalyserAndOptimizer",
+          description: description,
+          reference: reference,
+          image: newImage ? newImage : image,
+          brochure: brochureImage ? brochureImage : brochure,
+        };
+      } else if (productType === "AlgoTradingPlatform") {
+        body = {
+          schemeName: data?.schemeName,
+          icon: newIcon ? newIcon : icon,
+          productType: productType,
+          description: description,
+          reference: reference,
+          image: newImage ? newImage : image,
+          brochure: brochureImage ? brochureImage : brochure,
+        };
+      }
+      console.log("body", body);
+      if (editPopup) {
+        const response = await updateProductDetails(productData?._id, body);
+        if (response.status === 200) {
+          Toast({ type: "success", message: response.data.message });
+          resetValues();
+          setEditPopup(false);
+          onCancel();
+          if (productType === "sovereign gold bonds") {
+            getDetails(1, "goldBond");
+          } else if (productType === " portfolioAnalyserAndOptimizer") {
+            getDetails(1, "portfolioAnalyserAndOptimizer");
+          } else {
+            getDetails(1, productType);
+          }
+        } else {
+          Toast({ type: "error", message: response.data.message });
+        }
+      } else {
+        const response = await addProductDetails(body);
+        if (response.status === 200) {
+          Toast({ type: "success", message: response.data.message });
+          resetValues();
+          onCancel();
+          if (productType === "sovereign gold bonds") {
+            getDetails(1, "goldBond");
+          } else if (productType === " portfolioAnalyserAndOptimizer") {
+            getDetails(1, "portfolioAnalyserAndOptimizer");
+          } else {
+            getDetails(1, productType);
+          }
+        } else {
+          Toast({ type: "error", message: response.data.message });
+        }
+      }
+    } catch (e) {
+      console.log("e", e);
+    }
+  };
+
+  const resetValues = () => {
+    reset({
+      schemeName: "",
+      icon: "",
+      planType: "",
+      companyName: "",
+      insuranceType: "",
+      insurancePlan: "",
+      lifeCover: "",
+      coverUpto: "",
+      claimsSettle: "",
+      aboutUs: "",
+      keyFeature: "",
+      otherBenefits: "",
+      policyNotCover: "",
+      policyDoc: "",
+      status: "",
+      price: "",
+      maxLimit: "",
+      dateOfIssue: "",
+      subscriptionFrom: "",
+      subscriptionTo: "",
+      description: "",
+      rateOfInterest: "",
+    });
+    setIcon(null);
+    setImage(null);
+    setBrochure(null);
+    reference.length = 0;
+  };
+
+  const setProductValues = () => {
+    let data = productData;
+    reset({
+      schemeName: data?.schemeName,
+      icon: data?.icon,
+      planType: data?.planType,
+      companyName: data?.companyName,
+      insuranceType: data?.insuranceType,
+      insurancePlan: data?.insurancePlan,
+      lifeCover: data?.lifeCover,
+      coverUpto: new Date(
+        moment(data?.coverUpto, "YYYY-MM-DD HH:mm:ss").toDate()
+      ),
+      claimsSettle: data?.claimSettle,
+      aboutUs: data?.aboutUs,
+      keyFeature: data?.keyFuture,
+      otherBenefits: data?.otherBenefits,
+      policyNotCover: data?.policyDoesNotCover,
+      policyDoc: data?.policyDoc,
+      description: data?.description,
+      subscriptionFrom: new Date(
+        moment(data?.subscriptionFrom, "YYYY-MM-DD HH:mm:ss").toDate()
+      ),
+      subscriptionTo: new Date(
+        moment(data?.subscriptionTo, "YYYY-MM-DD HH:mm:ss").toDate()
+      ),
+      status: data?.status,
+      price: data?.price,
+      maxLimit: data?.maxLimit,
+      rateOfInterest: data?.rateOfInterest,
+      dateOfIssue: new Date(
+        moment(data?.dateOfIssue, "YYYY-MM-DD HH:mm:ss").toDate()
+      ),
+    });
+    setIcon(data?.iconS3);
+    setBrochure(data?.brochureS3);
+    setImage(data?.imageS3);
+    setAboutUs(data?.aboutUs);
+    setKeyFeature(data?.keyFuture);
+    setOtherBenefit(data?.otherBenefits);
+    setPolicyDoc(data?.policyDoc);
+    setPolicyNotCover(data?.policyDoesNotCover);
+    setDescription(data?.description);
+    setReference(data?.reference);
+  };
+
+  useEffect(() => {
+    if (editPopup) {
+      setProductValues();
+    }
+  }, [editPopup]);
 
   return (
     <Modal
@@ -87,11 +440,18 @@ const ProductPopup = ({
           <div className="d-flex align-items-center justify-content-between">
             <p className="title_product"> Add Product Details</p>
             <div className="d-flex justify-content-end">
-              <div onClick={onCancel} className="remove-overlay cursor-pointer">
+              <div
+                onClick={() => {
+                  resetValues();
+                  onCancel();
+                }}
+                className="remove-overlay cursor-pointer"
+              >
                 <img src={closeIcon} alt="Close" />
               </div>
             </div>
           </div>
+          {console.log("errors", errors)}
           <div className="row">
             <div className="col-3">
               <label className="Product_description"> Scheme Name</label>
@@ -118,7 +478,7 @@ const ProductPopup = ({
               <label className="Product_description">Icon</label>
               <Dropzone
                 onDrop={handleDrop}
-                accept=".png, .jpeg, .jpg, "
+                accept=".png, .jpeg, .jpg, .mp4"
                 maxSize={3072000}
                 errors={errors}
                 {...register("Icon", {
@@ -127,7 +487,7 @@ const ProductPopup = ({
               >
                 {({ getRootProps, getInputProps }) => (
                   <div {...getRootProps({ className: "dropzone" })}>
-                    <div className=" border border-secondary-subtle   ">
+                    <div className="">
                       <input {...getInputProps()} multiple={false} />
                       {icon ? (
                         <>
@@ -163,7 +523,7 @@ const ProductPopup = ({
                               cursor: "pointer",
                               zIndex: 1000,
                             }}
-                            onClick={cancelImg}
+                            onClick={cancelIcon}
                           >
                             <AiOutlineCloseCircle
                               size={24}
@@ -185,7 +545,158 @@ const ProductPopup = ({
                 />
               )}
             </div>
-
+            {(productType === "portfolioManagementSystem" ||
+              productType === " portfolioAnalyserAndOptimizer" ||
+              productType === "AlgoTradingPlatform") && (
+              <div className="col-3">
+                <label className="Product_description">Image</label>
+                <Dropzone
+                  onDrop={handleDropImage}
+                  accept=".png, .jpeg, .jpg"
+                  maxSize={3072000}
+                  errors={errors}
+                  {...register("Image", {
+                    required: newImage || image ? false : true,
+                  })}
+                >
+                  {({ getRootProps, getInputProps }) => (
+                    <div {...getRootProps({ className: "dropzone" })}>
+                      <div className="">
+                        <input {...getInputProps()} multiple={false} />
+                        {image ? (
+                          <>
+                            <img
+                              src={image}
+                              alt="image__"
+                              className="preview_image"
+                            ></img>
+                          </>
+                        ) : (
+                          <>
+                            <div className="drag_btn">
+                              <NormalButton
+                                onClick={(e) => e.preventDefault()}
+                                label="Browse"
+                                className="browse-button"
+                              />
+                            </div>
+                          </>
+                        )}
+                        {load ? (
+                          <Loader
+                            loading={load}
+                            className="d-flex align-items-center justify-content-center"
+                          />
+                        ) : (
+                          image && (
+                            <span
+                              style={{
+                                position: "absolute",
+                                top: "10px",
+                                right: "10px",
+                                cursor: "pointer",
+                                zIndex: 1000,
+                              }}
+                              onClick={cancelImage}
+                            >
+                              <AiOutlineCloseCircle
+                                size={24}
+                                style={{ color: "red" }}
+                              />
+                            </span>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </Dropzone>
+                {!newImage && (
+                  <FormErrorMessage
+                    error={errors.Image}
+                    messages={{
+                      required: "Image is Required",
+                    }}
+                  />
+                )}
+              </div>
+            )}
+            {(productType === "portfolioManagementSystem" ||
+              productType === " portfolioAnalyserAndOptimizer" ||
+              productType === "AlgoTradingPlatform" ||
+              productType === "loan" ||
+              productType === "fixedIncome") && (
+              <div className="col-3">
+                <label className="Product_description">Share Brochure</label>
+                <Dropzone
+                  onDrop={handleDropBrochure}
+                  accept=".png, .jpeg, .jpg"
+                  maxSize={3072000}
+                  errors={errors}
+                  {...register("brochure", {
+                    required: brochureImage || brochure ? false : true,
+                  })}
+                >
+                  {({ getRootProps, getInputProps }) => (
+                    <div {...getRootProps({ className: "dropzone" })}>
+                      <div className="">
+                        <input {...getInputProps()} multiple={false} />
+                        {brochure ? (
+                          <>
+                            <img
+                              src={brochure}
+                              alt="image__"
+                              className="preview_image"
+                            ></img>
+                          </>
+                        ) : (
+                          <>
+                            <div className="drag_btn">
+                              <NormalButton
+                                onClick={(e) => e.preventDefault()}
+                                label="Browse"
+                                className="browse-button"
+                              />
+                            </div>
+                          </>
+                        )}
+                        {brochureLoad ? (
+                          <Loader
+                            loading={brochureLoad}
+                            className="d-flex align-items-center justify-content-center"
+                          />
+                        ) : (
+                          brochure && (
+                            <span
+                              style={{
+                                position: "absolute",
+                                top: "10px",
+                                right: "10px",
+                                cursor: "pointer",
+                                zIndex: 1000,
+                              }}
+                              onClick={cancelBrochure}
+                            >
+                              <AiOutlineCloseCircle
+                                size={24}
+                                style={{ color: "red" }}
+                              />
+                            </span>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </Dropzone>
+                {!brochureImage && (
+                  <FormErrorMessage
+                    error={errors.brochure}
+                    messages={{
+                      required: "Share Brochure is Required",
+                    }}
+                  />
+                )}
+              </div>
+            )}
             {productType === "sovereign gold bonds" && (
               <>
                 <div className="col-md-3">
@@ -194,20 +705,19 @@ const ProductPopup = ({
                     <CustomController
                       name={"subscriptionFrom"}
                       control={control}
-                      error={errors.date}
+                      error={errors.subscriptionFrom}
                       defaultValue={getValues("subscriptionFrom")}
                       rules={{ required: true }}
                       messages={{
                         required: "Subscription From is Required",
                       }}
-                      render={({ onChange, value, ...field }) => {
+                      render={({ onChange, ...field }) => {
                         return (
                           <CommonDatePicker
                             clientDatePicker
                             name="subscriptionFrom"
                             {...field}
                             id="date"
-                            value={getValues("subscriptionFrom")}
                             onChange={(date) => {
                               onChange(date);
                               setValue("subscriptionFrom", date);
@@ -226,20 +736,19 @@ const ProductPopup = ({
                     <CustomController
                       name={"subscriptionTo"}
                       control={control}
-                      error={errors.date}
+                      error={errors.subscriptionTo}
                       defaultValue={getValues("subscriptionTo")}
                       rules={{ required: true }}
                       messages={{
                         required: "Subscription To is Required",
                       }}
-                      render={({ onChange, value, ...field }) => {
+                      render={({ onChange, ...field }) => {
                         return (
                           <CommonDatePicker
                             clientDatePicker
-                            name="date"
+                            name="subscriptionTo"
                             {...field}
                             id="date"
-                            value={getValues("subscriptionTo")}
                             onChange={(date) => {
                               onChange(date);
                               setValue("subscriptionTo", date);
@@ -266,16 +775,19 @@ const ProductPopup = ({
                         <NormalMultiSelect
                           {...fields}
                           placeholder={"Select Status"}
-                          //   options={options}
+                          options={status}
                           name="status"
+                          key={getValues("status")}
                           handleChange={(e, { value } = {}) => {
                             onChange(value);
+                            setValue("status", value);
                           }}
                         />
                       );
                     }}
                   />
                 </div>
+                {console.log('getValues("status")', getValues("status"))}
                 <div className="col-3">
                   <label className="Product_description">Price</label>
                   <InputBox
@@ -330,14 +842,13 @@ const ProductPopup = ({
                       messages={{
                         required: "Date Of Issue is Required",
                       }}
-                      render={({ onChange, value, ...field }) => {
+                      render={({ onChange, ...field }) => {
                         return (
                           <CommonDatePicker
                             clientDatePicker
                             name="date"
                             {...field}
                             id="date"
-                            value={getValues("dateOfIssue")}
                             onChange={(date) => {
                               onChange(date);
                               setValue("dateOfIssue", date);
@@ -352,6 +863,7 @@ const ProductPopup = ({
                 </div>
               </>
             )}
+
             {(productType === "insurance" ||
               productType === "fixedIncome" ||
               productType === "loan") && (
@@ -370,15 +882,50 @@ const ProductPopup = ({
                         <NormalMultiSelect
                           {...fields}
                           placeholder={"Select Plan Type"}
-                          // options={options}
+                          options={
+                            productType === "insurance"
+                              ? insurance
+                              : productType === "fixedIncome"
+                              ? fixedIncome
+                              : loans
+                          }
                           name="planType"
-                          value={getValues("planType")}
+                          key={getValues("planType")}
+                          // value={getValues("planType")}
                           handleChange={(e, { value } = {}) => {
                             onChange(value);
                             setValue("planType", value);
                           }}
                         />
                       );
+                    }}
+                  />
+                </div>
+              </>
+            )}
+            {console.log('getValues("planType")', getValues("planType"))}
+            {(productType === "fixedIncome" || productType === "loan") && (
+              <>
+                <div className="col-3">
+                  <label className="Product_description">
+                    Rate Of Interest
+                  </label>
+                  <InputBox
+                    className="login_input"
+                    type={"number"}
+                    placeholder="Enter Rate Of Interest"
+                    name="rateOfInterest"
+                    errors={errors}
+                    register={register({
+                      required: true,
+                      pattern: /^(?!\s*$).+/,
+                    })}
+                  />
+                  <FormErrorMessage
+                    error={errors.rateOfInterest}
+                    messages={{
+                      required: "Rate Of Interest is Required",
+                      pattern: "Please Enter a Valid Rate Of Interest",
                     }}
                   />
                 </div>
@@ -421,9 +968,10 @@ const ProductPopup = ({
                         <NormalMultiSelect
                           {...fields}
                           placeholder={"Select Insurance Type"}
-                          // options={options}
+                          options={insuranceType}
                           name="insuranceType"
-                          value={getValues("insuranceType")}
+                          key={getValues("insuranceType")}
+                          // value={getValues("insuranceType")}
                           handleChange={(e, { value } = {}) => {
                             onChange(value);
                             setValue("insuranceType", value);
@@ -447,9 +995,10 @@ const ProductPopup = ({
                         <NormalMultiSelect
                           {...fields}
                           placeholder={"Select Insurance Plan"}
-                          // options={options}
+                          options={insurance}
                           name="insurancePlan"
-                          value={getValues("insurancePlan")}
+                          key={getValues("insurancePlan")}
+                          // value={getValues("insurancePlan")}
                           handleChange={(e, { value } = {}) => {
                             onChange(value);
                             setValue("insurancePlan", value);
@@ -513,14 +1062,13 @@ const ProductPopup = ({
                       messages={{
                         required: "Cover Upto is Required",
                       }}
-                      render={({ onChange, value, ...field }) => {
+                      render={({ onChange, ...field }) => {
                         return (
                           <CommonDatePicker
                             clientDatePicker
                             name="date"
                             {...field}
                             id="date"
-                            value={getValues("coverUpto")}
                             onChange={(date) => {
                               onChange(date);
                               setValue("coverUpto", date);
@@ -555,10 +1103,10 @@ const ProductPopup = ({
                         return (
                           <TextEditor
                             {...field}
-                            value={getValues("aboutUs")}
                             onChange={(content) => {
                               onChange(content);
                               setValue("aboutUs", content);
+                              setAboutUs(content);
                             }}
                             name={"aboutUs"}
                             isProduct={true}
@@ -585,10 +1133,10 @@ const ProductPopup = ({
                         return (
                           <TextEditor
                             {...field}
-                            value={getValues("keyFeature")}
                             onChange={(content) => {
                               onChange(content);
                               setValue("keyFeature", content);
+                              setKeyFeature(content);
                             }}
                             name={"keyFeature"}
                             isProduct={true}
@@ -615,10 +1163,10 @@ const ProductPopup = ({
                         return (
                           <TextEditor
                             {...field}
-                            value={getValues("otherBenefits")}
                             onChange={(content) => {
                               onChange(content);
                               setValue("otherBenefits", content);
+                              setOtherBenefit(content);
                             }}
                             name={"otherBenefits"}
                             isProduct={true}
@@ -645,10 +1193,10 @@ const ProductPopup = ({
                         return (
                           <TextEditor
                             {...field}
-                            value={getValues("policyDoc")}
                             onChange={(content) => {
                               onChange(content);
                               setValue("policyDoc", content);
+                              setPolicyDoc(content);
                             }}
                             name={"policyDoc"}
                             isProduct={true}
@@ -677,10 +1225,10 @@ const ProductPopup = ({
                         return (
                           <TextEditor
                             {...field}
-                            value={getValues("policyNotCover")}
                             onChange={(content) => {
                               onChange(content);
                               setValue("policyNotCover", content);
+                              setPolicyNotCover(content);
                             }}
                             name={"policyNotCover"}
                             isProduct={true}
@@ -693,11 +1241,130 @@ const ProductPopup = ({
                 </div>
               </>
             )}
+            {(productType === "fixedIncome" ||
+              productType === "loan" ||
+              productType === " portfolioAnalyserAndOptimizer" ||
+              productType === "AlgoTradingPlatform") && (
+              <>
+                <div className="d-flex justify-content-between my-4">
+                  <p className="title_product">Reference</p>
+                  <NormalButton
+                    className="loginButton"
+                    label={"Add Reference"}
+                    onClick={addReference}
+                  />
+                </div>
+                {reference?.map((item, index) => {
+                  return (
+                    <div className="row align-items-center reference-box">
+                      <div className="col-6">
+                        <label className="Product_description">Title</label>
+                        <InputBox
+                          className="login_input"
+                          type={"text"}
+                          placeholder="Enter Price"
+                          name={`reference[${index}].title`}
+                          errors={errors}
+                          value={item?.title}
+                          onChange={(e) => {
+                            const updatedReference = [...reference];
+                            updatedReference[index].title = e.target.value;
+                            setReference(updatedReference);
+                          }}
+                          register={register({
+                            required: true,
+                          })}
+                        />
+                        <FormErrorMessage
+                          error={errors?.reference?.[index]?.title}
+                          messages={{
+                            required: "Title is Required",
+                          }}
+                        />
+                      </div>
+                      <div className="col-6">
+                        <label className="Product_description">Video</label>
+                        <InputBox
+                          className="login_input"
+                          type={"text"}
+                          placeholder="Enter Video"
+                          name={`reference[${index}].video`}
+                          errors={errors}
+                          value={item?.video}
+                          onChange={(e) => {
+                            const updatedReference = [...reference];
+                            updatedReference[index].video = e.target.value;
+                            setReference(updatedReference);
+                          }}
+                          register={register({
+                            required: true,
+                          })}
+                        />
+                        <FormErrorMessage
+                          error={errors?.reference?.[index]?.video}
+                          messages={{
+                            required: "Video is Required",
+                          }}
+                        />
+                      </div>
+                      <div className="d-flex justify-content-end">
+                        <div
+                          onClick={() => removeReference(index)}
+                          className="remove-icon cursor-pointer"
+                        >
+                          <img src={closeIcon} alt="Close" />
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </>
+            )}
+            {(productType === "loan" ||
+              productType === "portfolioManagementSystem" ||
+              productType === " portfolioAnalyserAndOptimizer" ||
+              productType === "AlgoTradingPlatform" ||
+              productType === "fixedIncome") && (
+              <div className="">
+                <label className="Product_description">Description</label>
+                <div className="text_editor_popup">
+                  <CustomController
+                    name={"description"}
+                    control={control}
+                    defaultValue={getValues("description")}
+                    error={errors.description}
+                    rules={{ required: true }}
+                    messages={{
+                      required: "Description is Required",
+                    }}
+                    render={({ onChange, ...field }) => {
+                      return (
+                        <TextEditor
+                          {...field}
+                          onChange={(content) => {
+                            onChange(content);
+                            setValue("description", content);
+                            setDescription(content);
+                          }}
+                          name={"description"}
+                          isProduct={true}
+                          className="editorProduct"
+                        />
+                      );
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+            {console.log("first", getValues("description"))}
           </div>
-          <div className="d-flex justify-content-end my-5 py-5 gap-3">
+          <div className="d-flex justify-content-end my-5 pt-5 gap-3">
             <div className="col-2">
               <NormalButton
-                onClick={() => history.push("/admin/product-management")}
+                onClick={() => {
+                  onCancel();
+                  resetValues();
+                }}
                 cancel
                 label="Cancel"
               />{" "}
@@ -706,8 +1373,8 @@ const ProductPopup = ({
               <NormalButton
                 className="loginButton"
                 label={"Submit"}
-                onClick={handleSubmit(onsubmit)}
-                isLoading={loading}
+                onClick={handleSubmit(OnDetailsSubmit)}
+                // isLoading={loading}
               />
             </div>
           </div>

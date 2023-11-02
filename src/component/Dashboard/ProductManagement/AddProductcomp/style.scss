@@ -61,8 +61,8 @@
   height: 45px;
   padding-left: 15px;
   padding-right: 15px;
-  background: #fbfbfb;
-  border: 0.884956px dashed #d9d9d9;
+  background: #ffffff;
+  border: 0.884956px solid #d9d9d9;
   border-radius: 10px;
 }
 .benefit-box {
@@ -73,6 +73,24 @@
   background-color: #f3f3f3;
   position: relative;
 }
+.reference-box {
+  margin: auto;
+  border: 1px solid lightgray;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f3f3f3;
+  position: relative;
+  margin-bottom: 20px;
+  .remove-icon {
+    position: absolute;
+    top: 20px;
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
 .remove-overlay {
   position: absolute;
   top: 20px;
@@ -202,6 +220,7 @@
   line-height: 19px;
   color: #52575c;
   min-width: 200px;
+  height: auto;
 }
 
 .ant-table-tbody {
@@ -214,4 +233,68 @@
 .ant-modal-content {
   background: #ffffff;
   border-radius: 20px !important;
+}
+.actions {
+  cursor: pointer;
+  img:hover {
+    filter: invert(1);
+  }
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.pagination-previous,
+.pagination-next {
+  background: #ffffff;
+  border: 1.21333px solid #cacccf;
+  box-shadow: 0px 2.42667px 4.85333px rgba(216, 216, 216, 0.52);
+  border-radius: 9.70667px;
+  padding: 5px 10px;
+}
+
+.active_page {
+  background: #292929;
+  border: 1.21333px solid #e1e1e1;
+  border-radius: 9.70667px;
+  padding: 5px 10px;
+  color: #ffffff;
+  font-family: "Helvetica";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16.9867px;
+  line-height: 19px;
+}
+
+.pagination-item {
+  padding: 5px 10px;
+  margin: 5px;
+  font-family: "Helvetica";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16.9867px;
+  line-height: 19px;
+}
+
+.ant-table-content::-webkit-scrollbar {
+  width: 8px;
+  height: 5px;
+  /* width of the entire scrollbar */
+}
+
+.ant-table-content::-webkit-scrollbar-track {
+  background: #ffffff;
+  /* color of the tracking area */
+}
+
+.ant-table-content::-webkit-scrollbar-thumb {
+  background-color: #ffffff;
+  /* color of the scroll thumb */
+  border-radius: 20px;
+  /* roundness of the scroll thumb */
+  border: 3px solid #e1e1e1;
+  /* creates padding around scroll thumb */
 }

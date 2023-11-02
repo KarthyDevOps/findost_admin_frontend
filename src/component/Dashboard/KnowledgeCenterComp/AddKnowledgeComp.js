@@ -788,7 +788,7 @@ const AddKnowledgeComp = ({ create, view, remove }) => {
                   <label className="Product_description">Upload Document</label>
                   <Dropzone
                     onDrop={handleDrop}
-                    accept=".pdf,xl,.xlsx,.doc"
+                    accept=".pdf"
                     maxSize={3072000}
                     errors={errors}
                     {...register("dropZoneFieldUpload", {

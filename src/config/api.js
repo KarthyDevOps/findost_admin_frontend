@@ -41,6 +41,13 @@ export const endpoints = {
   cms: {
     LIST_PRODUCTS: `${cms}/product-management/list`,
     ADD_PRODUCT: `${cms}/product-management/create`,
+
+    ADD_PRODUCT_DETAILS: `${cms}/productCms/create`,
+    UPDATE_PRODUCT_DETAILS: `${cms}/productCms/update`,
+    GET_PRODUCT_DETAILS: `${cms}/productCms/get`,
+    LIST_PRODUCT_DETAILS: `${cms}/productCms/list`,
+    DELETE_PRODUCT_DETAILS: `${cms}/productCms/delete`,
+
     DELETE_CONTENT: `${cms}/content-management/delete`,
     LIST_CONTENT: `${cms}/content-management/list`,
     GET_CONTENT: `${cms}/content-management/get`,

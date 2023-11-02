@@ -22,6 +22,7 @@ const ProductManagement = ({ privilegesData = {} }) => {
   return (
     <div>
       <ProductManagementComp {...productManagement} />
+       
     </div>
   )
 }
