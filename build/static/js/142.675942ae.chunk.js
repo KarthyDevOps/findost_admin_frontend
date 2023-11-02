@@ -1,2 +1,0 @@
-(this.webpackJsonpadmin=this.webpackJsonpadmin||[]).push([[142],{494:function(n,t,e){"use strict";e.r(t),e.d(t,"getToken",(function(){return o}));var o=function(){return localStorage.getItem("token")}}}]);
-//# sourceMappingURL=142.675942ae.chunk.js.map

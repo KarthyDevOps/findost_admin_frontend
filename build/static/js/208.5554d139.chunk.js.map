@@ -1,1 +1,0 @@
-{"version":3,"sources":["assets/fonts/helvetica/helvetica-rounded-bold-5871d05ead8de.otf"],"names":["module","exports"],"mappings":"qFAAAA,EAAOC,QAAU,IAA0B","file":"static/js/208.5554d139.chunk.js","sourcesContent":["module.exports = __webpack_public_path__ + \"static/media/helvetica-rounded-bold-5871d05ead8de.042c8121.otf\";"],"sourceRoot":""}
