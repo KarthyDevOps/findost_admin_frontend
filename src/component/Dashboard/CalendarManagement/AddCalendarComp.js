@@ -77,6 +77,8 @@ const AddCalendarComp = ({ calendarAccess }) => {
     }
   };
 
+  console.log('startTime', startTime)
+
   const onSubmit = async (data) => {
     console.log('data :>> ', data);
     // Time Validation
@@ -122,7 +124,7 @@ const AddCalendarComp = ({ calendarAccess }) => {
         setLoading(true);
         let body = {
           summary: data.eventName,
-          date: moment(date).format("YYYY-MM-DD"),
+            
           startTime: startTime,
           endTime: endTime,
           imageUrl: imageUrl,

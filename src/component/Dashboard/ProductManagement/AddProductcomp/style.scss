@@ -23,8 +23,8 @@
     line-height: 20px;
     /* identical to box height, or 125% */
 
-    display: flex;
-    align-items: center;
+    // display: flex;
+    // align-items: center;
 
     color: #000000;
     // padding-left: 12px;
@@ -33,32 +33,71 @@
 }
 .boder_box {
   background-color: #fff;
-  // height: 1004px;
   padding: 20px;
-  // width: 1512px;
-  // left: 354px;
-  // top: 214px;
   border-radius: 12px;
+  width: 100%;
+}
+.benefit-area {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 100%;
 }
 .end_date {
   display: flex;
   align-items: end;
 }
-
+.date_of_birth {
+  width: 100% !important;
+  .react-datepicker-wrapper {
+    width: 100%;
+  }
+}
 ////ImageUpload style
 .dropzone {
   box-sizing: border-box;
   position: relative;
   width: 100%;
-  height: 192.92px;
-  // left: 404px;
-  // top: 408px;
-  // padding-top: -10px;
+  height: 45px;
   padding-left: 15px;
   padding-right: 15px;
-  background: #fbfbfb;
-  border: 0.884956px dashed #d9d9d9;
-  border-radius: 3.53982px;
+  background: #ffffff;
+  border: 0.884956px solid #d9d9d9;
+  border-radius: 10px;
+}
+.benefit-box {
+  margin: auto;
+  border: 1px solid lightgray;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f3f3f3;
+  position: relative;
+}
+.reference-box {
+  margin: auto;
+  border: 1px solid lightgray;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f3f3f3;
+  position: relative;
+  margin-bottom: 20px;
+  .remove-icon {
+    position: absolute;
+    top: 20px;
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+.remove-overlay {
+  position: absolute;
+  top: 20px;
+  img {
+    width: 20px;
+    height: 20px;
+  }
 }
 .cloud_icon {
   display: flex;
@@ -90,25 +129,172 @@
 }
 
 .drag_btn {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: absolute;
-  top: 60%;
-  bottom: 0%;
-  left: 0%;
-  right: 0%;
+  top: 0%;
+  right: 0;
+  height: 45px !important;
+  .browse-button {
+    font-family: "Helvetica";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    width: 173px;
+    height: 45px !important;
+    color: #ffffff;
+    background: #292929;
+    border-radius: 8px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .preview_image {
   position: absolute;
   top: 0%;
   object-fit: contain;
-  z-index: 100;
+  // z-index: 100;
   bottom: 0%;
   left: 0%;
   right: 0%;
   width: 100%;
   height: 100%;
+}
+.table-box {
+  max-width: 70rem;
+}
+.ant-table-content::-webkit-scrollbar {
+  // display: none;
+}
+
+.ant-table-container table > thead > tr:first-child th:first-child {
+  border-left-style: solid rgba(216, 220, 230, 0.52);
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.ant-table-container table > thead > tr:first-child th:last-child {
+  border-right-style: solid rgba(216, 220, 230, 0.52);
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.ant-table-container table > thead > tr:first-child td:first-child {
+  border-left-style: solid rgba(216, 220, 230, 0.52);
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.ant-table-container table > thead > tr:first-child td:last-child {
+  border-right-style: solid rgba(216, 220, 230, 0.52);
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.ant-table-thead > tr > th {
+  text-align: center;
+  white-space: nowrap;
+  font-family: "Helvetica";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  color: #ffffff;
+  background-color: #000000;
+  min-width: 200px;
+}
+
+.ant-table-tbody > tr > td {
+  text-align: center !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: "Helvetica";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #52575c;
+  min-width: 200px;
+  height: auto;
+}
+
+.ant-table-tbody {
+  background: #fff;
+  box-shadow: 0px 2.42667px 4.85333px rgba(216, 220, 230, 0.52);
+  border-radius: 8px !important;
+  height: 56px;
+}
+
+.ant-modal-content {
+  background: #ffffff;
+  border-radius: 20px !important;
+}
+.actions {
+  cursor: pointer;
+  img:hover {
+    filter: invert(1);
+  }
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.pagination-previous,
+.pagination-next {
+  background: #ffffff;
+  border: 1.21333px solid #cacccf;
+  box-shadow: 0px 2.42667px 4.85333px rgba(216, 216, 216, 0.52);
+  border-radius: 9.70667px;
+  padding: 5px 10px;
+}
+
+.active_page {
+  background: #292929;
+  border: 1.21333px solid #e1e1e1;
+  border-radius: 9.70667px;
+  padding: 5px 10px;
+  color: #ffffff;
+  font-family: "Helvetica";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16.9867px;
+  line-height: 19px;
+}
+
+.pagination-item {
+  padding: 5px 10px;
+  margin: 5px;
+  font-family: "Helvetica";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16.9867px;
+  line-height: 19px;
+}
+
+.ant-table-content::-webkit-scrollbar {
+  width: 8px;
+  height: 5px;
+  /* width of the entire scrollbar */
+}
+
+.ant-table-content::-webkit-scrollbar-track {
+  background: #ffffff;
+  /* color of the tracking area */
+}
+
+.ant-table-content::-webkit-scrollbar-thumb {
+  background-color: #ffffff;
+  /* color of the scroll thumb */
+  border-radius: 20px;
+  /* roundness of the scroll thumb */
+  border: 3px solid #e1e1e1;
+  /* creates padding around scroll thumb */
 }

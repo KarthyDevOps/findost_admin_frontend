@@ -194,7 +194,7 @@ export const uploadImage = (formData) => {
 };
 
 export const downloadImage = (body) => {
-  console.log('body :>> ', body);
+  console.log("body :>> ", body);
   let request = axios({
     method: "post",
     url: endpoints.auth.IMAGE_DOWNLOAD,
@@ -309,6 +309,20 @@ export const getUserList = async (params) => {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
+    params: params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const downloadUserList = async (params) => {
+  let request = await axios({
+    method: "get",
+    url: `${endpoints.auth.NOTIFICATION_USER_LIST}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      Accept: "blob",
+    },
+    responseType: "arraybuffer",
     params: params,
   }).catch(axiosErrorHandler);
   return request;

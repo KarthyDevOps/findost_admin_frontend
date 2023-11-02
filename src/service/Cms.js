@@ -27,6 +27,66 @@ export const addProduct = async (data) => {
   return request;
 };
 
+export const addProductDetails = async (data) => {
+  const request = await axios({
+    method: "post",
+    url: endpoints.cms.ADD_PRODUCT_DETAILS,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: data,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const updateProductDetails = async (params, data) => {
+  const request = await axios({
+    method: "put",
+    url: `${endpoints.cms.UPDATE_PRODUCT_DETAILS}?id=${params}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    data: data,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const editProductDetails = async (params) => {
+  const request = await axios({
+    method: "get",
+    url: endpoints.cms.GET_PRODUCT_DETAILS,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const listProductDetails = async (params) => {
+  const request = await axios({
+    method: "get",
+    url: endpoints.cms.LIST_PRODUCT_DETAILS,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const deleteProductDetails = async (params) => {
+  const request = await axios({
+    method: "delete",
+    url: endpoints.cms.DELETE_PRODUCT_DETAILS,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
 export const getProduct = async (params) => {
   const request = await axios({
     method: "get",
@@ -502,5 +562,3 @@ export const addSubCategory = async (data) => {
   }).catch(axiosErrorHandler);
   return request;
 };
-
-
