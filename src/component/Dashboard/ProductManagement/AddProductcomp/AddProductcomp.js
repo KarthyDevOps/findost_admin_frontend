@@ -10,6 +10,7 @@ import cloudIcon from "../../../../assets/images/uploadcloud.svg";
 import closeIcon from "assets/images/closeIcon.png";
 import editIcon from "assets/images/editIcon.svg";
 import deleteIcon from "assets/images/deleteIcon.svg";
+import pdfImage from "assets/images/pdfImage.jpg"
 //internal components
 import InputBox from "component/common/InputBox/InputBox";
 import Loader from "component/common/Loader";
@@ -31,7 +32,7 @@ import {
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
 import { uploadImage } from "service/Auth";
 import { Toast } from "service/toast";
-import { Table } from "antd";
+import { Table, Tooltip } from "antd";
 //helpers
 import { history } from "helpers";
 import ReactPaginate from "react-paginate";
@@ -86,6 +87,13 @@ const AddProductcomp = ({ create, view, remove }) => {
 
   const removeBenefit = (index) => {
     const updatedBenefits = benefits.filter((_, i) => i !== index);
+    setBenefits(updatedBenefits);
+  };
+
+  const cancelBenefitIcon = (index) => (e) => {
+    e.stopPropagation();
+    const updatedBenefits = [...benefits];
+    updatedBenefits[index].benefitIcon = "";
     setBenefits(updatedBenefits);
   };
 
@@ -333,9 +341,8 @@ const AddProductcomp = ({ create, view, remove }) => {
       key: "icon",
       fixed: "left",
       render: (text, record) => (
-        <div style={{ width: "30px", height: "30px" }}>
-          {console.log("record", record)}
-          <img src={record?.iconS3} alt="Icon" className="icon" />
+        <div className="table-icon">
+          <img src={record?.iconS3} alt="Icon" />
         </div>
       ),
     },
@@ -412,9 +419,8 @@ const AddProductcomp = ({ create, view, remove }) => {
       key: "icon",
       fixed: "left",
       render: (text, record) => (
-        <div style={{ width: "30px", height: "30px" }}>
-          {console.log("record", record)}
-          <img src={record?.iconS3} alt="Icon" className="icon" />
+        <div className="table-icon">
+          <img src={record?.iconS3} alt="Icon" />
         </div>
       ),
     },
@@ -468,7 +474,12 @@ const AddProductcomp = ({ create, view, remove }) => {
           const textOnlyValue = record?.aboutUs.replace(/<[^>]+>/g, "");
           return (
             <>
-              <span>{textOnlyValue}</span>
+              <Tooltip
+                title={textOnlyValue}
+                overlayStyle={{ maxWidth: "400px" }}
+              >
+                <span>{textOnlyValue?.slice(0, 20) + "..."}</span>
+              </Tooltip>
             </>
           );
         } else {
@@ -488,7 +499,12 @@ const AddProductcomp = ({ create, view, remove }) => {
           const textOnlyValue = record?.keyFuture.replace(/<[^>]+>/g, "");
           return (
             <>
-              <span>{textOnlyValue}</span>
+              <Tooltip
+                title={textOnlyValue}
+                overlayStyle={{ maxWidth: "400px" }}
+              >
+                <span>{textOnlyValue?.slice(0, 20) + "..."}</span>
+              </Tooltip>
             </>
           );
         } else {
@@ -508,7 +524,12 @@ const AddProductcomp = ({ create, view, remove }) => {
           const textOnlyValue = record?.otherBenefits.replace(/<[^>]+>/g, "");
           return (
             <>
-              <span>{textOnlyValue}</span>
+              <Tooltip
+                title={textOnlyValue}
+                overlayStyle={{ maxWidth: "400px" }}
+              >
+                <span>{textOnlyValue?.slice(0, 20) + "..."}</span>
+              </Tooltip>
             </>
           );
         } else {
@@ -531,7 +552,12 @@ const AddProductcomp = ({ create, view, remove }) => {
           );
           return (
             <>
-              <span>{textOnlyValue}</span>
+              <Tooltip
+                title={textOnlyValue}
+                overlayStyle={{ maxWidth: "400px" }}
+              >
+                <span>{textOnlyValue?.slice(0, 20) + "..."}</span>
+              </Tooltip>
             </>
           );
         } else {
@@ -551,7 +577,12 @@ const AddProductcomp = ({ create, view, remove }) => {
           const textOnlyValue = record?.policyDoc.replace(/<[^>]+>/g, "");
           return (
             <>
-              <span>{textOnlyValue}</span>
+              <Tooltip
+                title={textOnlyValue}
+                overlayStyle={{ maxWidth: "400px" }}
+              >
+                <span>{textOnlyValue?.slice(0, 20) + "..."}</span>
+              </Tooltip>
             </>
           );
         } else {
@@ -593,9 +624,8 @@ const AddProductcomp = ({ create, view, remove }) => {
       key: "icon",
       fixed: "left",
       render: (text, record) => (
-        <div style={{ width: "30px", height: "30px" }}>
-          {console.log("record", record)}
-          <img src={record?.iconS3} alt="Icon" className="icon" />
+        <div className="table-icon">
+          <img src={record?.iconS3} alt="Icon" />
         </div>
       ),
     },
@@ -606,9 +636,8 @@ const AddProductcomp = ({ create, view, remove }) => {
       key: "brochure",
       fixed: "left",
       render: (text, record) => (
-        <div style={{ width: "30px", height: "30px" }}>
-          {console.log("record", record)}
-          <img src={record?.brochureS3} alt="Icon" className="icon" />
+        <div className="table-icon">
+          <img src={pdfImage} alt="Icon" />
         </div>
       ),
     },
@@ -634,7 +663,12 @@ const AddProductcomp = ({ create, view, remove }) => {
           const textOnlyValue = record?.description.replace(/<[^>]+>/g, "");
           return (
             <>
-              <span>{textOnlyValue}</span>
+              <Tooltip
+                title={textOnlyValue}
+                overlayStyle={{ maxWidth: "400px" }}
+              >
+                <span>{textOnlyValue?.slice(0, 20) + "..."}</span>
+              </Tooltip>
             </>
           );
         } else {
@@ -704,7 +738,7 @@ const AddProductcomp = ({ create, view, remove }) => {
       key: "icon",
       fixed: "left",
       render: (text, record) => (
-        <div style={{ width: "30px", height: "30px" }}>
+        <div className="table-icon">
           <img src={record?.iconS3} alt="Icon" className="icon" />
         </div>
       ),
@@ -716,9 +750,8 @@ const AddProductcomp = ({ create, view, remove }) => {
       key: "brochure",
       fixed: "left",
       render: (text, record) => (
-        <div style={{ width: "30px", height: "30px" }}>
-          {console.log("record", record)}
-          <img src={record?.brochureS3} alt="Icon" className="icon" />
+        <div className="table-icon">
+          <img src={pdfImage} alt="Icon" className="icon" />
         </div>
       ),
     },
@@ -734,7 +767,12 @@ const AddProductcomp = ({ create, view, remove }) => {
           const textOnlyValue = record?.description.replace(/<[^>]+>/g, "");
           return (
             <>
-              <span>{textOnlyValue}</span>
+              <Tooltip
+                title={textOnlyValue}
+                overlayStyle={{ maxWidth: "400px" }}
+              >
+                <span>{textOnlyValue?.slice(0, 20) + "..."}</span>
+              </Tooltip>
             </>
           );
         } else {
@@ -747,8 +785,8 @@ const AddProductcomp = ({ create, view, remove }) => {
       dataIndex: "image",
       key: "image",
       render: (text, record) => (
-        <div style={{ width: "30px", height: "30px" }}>
-          <img src={record?.imagesS3} alt="Icon" className="icon" />
+        <div className="table-icon">
+          <img src={record?.imageS3} alt="Icon" className="icon" />
         </div>
       ),
     },
@@ -785,7 +823,7 @@ const AddProductcomp = ({ create, view, remove }) => {
       key: "icon",
       fixed: "left",
       render: (text, record) => (
-        <div style={{ width: "30px", height: "30px" }}>
+        <div className="table-icon">
           <img src={record?.iconS3} alt="Icon" className="icon" />
         </div>
       ),
@@ -797,9 +835,8 @@ const AddProductcomp = ({ create, view, remove }) => {
       key: "brochure",
       fixed: "left",
       render: (text, record) => (
-        <div style={{ width: "30px", height: "30px" }}>
-          {console.log("record", record)}
-          <img src={record?.brochureS3} alt="Icon" className="icon" />
+        <div className="table-icon">
+          <img src={pdfImage} alt="Icon" className="icon" />
         </div>
       ),
     },
@@ -815,7 +852,12 @@ const AddProductcomp = ({ create, view, remove }) => {
           const textOnlyValue = record?.description.replace(/<[^>]+>/g, "");
           return (
             <>
-              <span>{textOnlyValue}</span>
+              <Tooltip
+                title={textOnlyValue}
+                overlayStyle={{ maxWidth: "400px" }}
+              >
+                <span>{textOnlyValue?.slice(0, 20) + "..."}</span>
+              </Tooltip>
             </>
           );
         } else {
@@ -856,8 +898,8 @@ const AddProductcomp = ({ create, view, remove }) => {
       dataIndex: "image",
       key: "image",
       render: (text, record) => (
-        <div style={{ width: "30px", height: "30px" }}>
-          <img src={record?.imagesS3} alt="Icon" className="icon" />
+        <div  className="table-icon">
+          <img src={record?.imageS3} alt="Icon" className="icon" />
         </div>
       ),
     },
@@ -1028,7 +1070,7 @@ const AddProductcomp = ({ create, view, remove }) => {
                   <Dropzone
                     onDrop={handleDrop}
                     accept=".png, .jpeg, .jpg, "
-                    maxSize={3072000}
+                    maxSize={4194304}
                     errors={errors}
                     {...register("dropZoneField", {
                       required: newProductImg || ProductIcon ? false : true,
@@ -1193,7 +1235,7 @@ const AddProductcomp = ({ create, view, remove }) => {
                         <InputBox
                           className="login_input"
                           type={"text"}
-                          placeholder="Enter Product Name"
+                          placeholder="Enter  Benefit content"
                           name={`benefits[${index}].name`}
                           errors={errors}
                           value={item?.name}
@@ -1266,7 +1308,7 @@ const AddProductcomp = ({ create, view, remove }) => {
                                         cursor: "pointer",
                                         zIndex: 1000,
                                       }}
-                                      onClick={cancelImg}
+                                      onClick={cancelBenefitIcon(index)}
                                     >
                                       <AiOutlineCloseCircle
                                         size={24}
