@@ -221,6 +221,7 @@
   color: #52575c;
   min-width: 200px;
   height: auto;
+  padding: 5px 10px;
 }
 
 .ant-table-tbody {
@@ -297,4 +298,24 @@
   /* roundness of the scroll thumb */
   border: 3px solid #e1e1e1;
   /* creates padding around scroll thumb */
+}
+
+.table-icon {
+  width: 152px;
+  height: 80px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+.ant-tooltip-inner {
+  color: #fff !important;
+  background-color: #000;
+}
+
+.ant-tooltip-placement-bottom .ant-tooltip-arrow, .ant-tooltip-placement-bottomLeft .ant-tooltip-arrow, .ant-tooltip-placement-bottomRight .ant-tooltip-arrow {
+  border-bottom-color: #000;
 }

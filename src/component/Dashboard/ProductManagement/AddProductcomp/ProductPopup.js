@@ -629,7 +629,7 @@ const ProductPopup = ({
                 <label className="Product_description">Share Brochure</label>
                 <Dropzone
                   onDrop={handleDropBrochure}
-                  accept=".png, .jpeg, .jpg"
+                  accept=".png, .jpeg, .jpg, .doc, .pdf"
                   maxSize={3072000}
                   errors={errors}
                   {...register("brochure", {
@@ -723,7 +723,7 @@ const ProductPopup = ({
                               setValue("subscriptionFrom", date);
                             }}
                             placeholder="Select Subscription From"
-                            minDate={new Date()}
+                            // minDate={new Date()}
                           />
                         );
                       }}
@@ -754,7 +754,7 @@ const ProductPopup = ({
                               setValue("subscriptionTo", date);
                             }}
                             placeholder="Select Subscription To"
-                            minDate={new Date()}
+                            // minDate={new Date()}
                           />
                         );
                       }}
@@ -831,7 +831,7 @@ const ProductPopup = ({
                   />
                 </div>
                 <div className="col-md-3">
-                  <label>Date Of Issue</label>
+                  <label className="Product_description">Date of Issue</label>
                   <div className="date_of_birth">
                     <CustomController
                       name={"dateOfIssue"}
@@ -853,7 +853,7 @@ const ProductPopup = ({
                               onChange(date);
                               setValue("dateOfIssue", date);
                             }}
-                            placeholder="Select Date Of Issue"
+                            placeholder="Select Date of Issue"
                             minDate={new Date()}
                           />
                         );
@@ -908,12 +908,12 @@ const ProductPopup = ({
               <>
                 <div className="col-3">
                   <label className="Product_description">
-                    Rate Of Interest
+                    Rate of Interest
                   </label>
                   <InputBox
                     className="login_input"
                     type={"number"}
-                    placeholder="Enter Rate Of Interest"
+                    placeholder="Enter Rate of Interest"
                     name="rateOfInterest"
                     errors={errors}
                     register={register({
@@ -1262,7 +1262,7 @@ const ProductPopup = ({
                         <InputBox
                           className="login_input"
                           type={"text"}
-                          placeholder="Enter Price"
+                          placeholder="Enter Title"
                           name={`reference[${index}].title`}
                           errors={errors}
                           value={item?.title}

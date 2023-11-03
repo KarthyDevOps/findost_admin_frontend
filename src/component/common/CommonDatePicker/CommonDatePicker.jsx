@@ -34,6 +34,7 @@ const CommonDatePicker = ({
         showTimeSelectOnly={showTimeSelectOnly}
         timeFormat="HH:mm"
         timeIntervals={15}
+        autoComplete='off'
       />
       <span className={styles.icon} onClick={handleIconClick}>
         <AiOutlineCalendar size={25} />
