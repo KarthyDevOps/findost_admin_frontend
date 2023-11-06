@@ -14,3 +14,14 @@ export const getLead = async (params) => {
     return request;
 };
 
+export const getDashboardDetails = async () => {
+    const request = await axios({
+        method: "post",
+        url: endpoints.lead.DASHBOARD_DETAILS,
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+    }).catch(axiosErrorHandler);
+    return request;
+};
+

@@ -36,6 +36,9 @@ export const endpoints = {
     NOTIFICATION_USER_LIST: `${userUrl}/authorizedPerson/list`,
     GET_USER: `${userUrl}/authorizedPerson/getProfileById`,
     APPROVE_USER: `${userUrl}/authorizedPerson/updateProfile`,
+    LOGIN_COUNT : `${userUrl}/admin/loginCount`,
+    LOGIN_ACTIVITY_REPORT_WEEK : `${userUrl}/admin/loginActivityReport?type=WEEK`,
+    LOGIN_ACTIVITY_REPORT_MONTH : `${userUrl}/admin/loginActivityReport?type=MONTH`,
   },
 
   cms: {
@@ -109,5 +112,6 @@ export const endpoints = {
   lead:
   {
     LEAD_GET: `${lead}/leads/list`,
+    DASHBOARD_DETAILS : `${lead}/korp/dashboardApStatusCount`,
   }
 };
