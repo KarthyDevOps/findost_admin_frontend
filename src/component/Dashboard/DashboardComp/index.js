@@ -2,118 +2,57 @@ import React, { useState, useEffect } from "react";
 import "./style.scss";
 import Chart from "react-apexcharts";
 import { Progress } from "antd";
+import { loginCount, monthlyReort, weeklyReort } from "service/Auth";
+import { getDashboardDetails } from "service/leads";
+import { Switch } from "antd";
 
 const DashboardComp = () => {
-  const sectionData = [
-    {
-      name: "Lorem ipsam",
-      value: "563 k",
-    },
-    {
-      name: "Lorem ipsam",
-      value: "563 k",
-    },
-    {
-      name: "Active AP",
-      value: "83.2 k",
-    },
-    {
-      name: "Product Lead Count",
-      value: "94.6 k",
-    },
-    {
-      name: "Lorem ipsam",
-      value: "563 k",
-    },
-  ];
-  const barSeries = [
-    {
-      name: "Desktops",
-      data: [10, 41, 35, 51, 49, 62, 69, 91, 148],
-    },
-    {
-      name: "Desktops",
-      data: [21, 11, 45, 11, 69, 22, 59, 21, 48],
-    },
-    {
-      name: "Desktops",
-      data: [41, 61, 65, 21, 89, 12, 19, 91, 18],
-    },
-  ];
+  const [apData, setApData] = useState({
+    apCount: "",
+    completed: "",
+    inprogress: "",
+    rejected: "",
+  });
+
+  const [weeklyData, setWeeklyData] = useState([]);
+  const [monthlyData, setMonthlyData] = useState([]);
+  const [xaxis, setXaxis] = useState([]);
+  const [xaxisMonth, setXaxisMonth] = useState([]);
+  const [selectedOption, setSelectedOption] = useState("weekly");
+
+  const handleToggle = (checked) => {
+    setSelectedOption(checked ? "monthly" : "weekly");
+  };
+
+  const barSeries = monthlyData.map((x) => ({
+    name: "Count",
+    data: x,
+  }));
+
   const barOptions = {
     chart: {
-      height: 350,
       type: "line",
+      animations: {
+        enabled: false,
+        easing: "linear",
+        animateGradually: {
+          enabled: true,
+          delay: 150,
+        },
+      },
       zoom: {
         enabled: false,
       },
-      toolbar: {
-        show: false,
-      },
-    },
-
-    dataLabels: {
-      enabled: false,
+      stacked: false,
     },
     stroke: {
+      width: 2,
       curve: "straight",
     },
-    title: {
-      align: "left",
-    },
-    grid: {
-      row: {
-        colors: ["#f3f3f3", "transparent"],
-        opacity: 0.5,
-      },
-    },
     xaxis: {
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-      ],
-    },
-    tooltip: {
-      enabled: false,
+      categories: xaxisMonth.map((x) => x),
     },
   };
-
-  const columnSeries = [
-    {
-      name: "Graph name 1",
-      data: [20, 0, 0, 0, 0, 0],
-
-    },
-    
-    {
-      name: "Graph name 2",
-      data: [0, 11, 0, 0, 0, 0],
-    },
-    {
-      name: "Graph name 3",
-      data: [0, 0, 56, 0, 0, 0],
-    },
-    {
-      name: "Graph name 4",
-      data: [0, 0, 0, 70, 0, 0],
-    },
-    {
-      name: "Graph name 4",
-      data: [0, 0, 0, 0, 20, 0],
-    },
-    {
-      name: "Graph name 5",
-      data: [0, 0, 0, 0, 0, 15],
-    },
-    // Add more series as needed
-  ];
 
   const columnOptions = {
     chart: {
@@ -122,17 +61,16 @@ const DashboardComp = () => {
       toolbar: {
         show: false,
       },
-     
     },
     plotOptions: {
       bar: {
         horizontal: false,
-        columnWidth: "80%", // Adjust the value here to set the desired width of each bar
+        columnWidth: "40%",
         endingShape: "square",
         distributed: false,
-        barHeight: "100%", // Adjust the value here to set the desired height of each bar
+        barHeight: "100%",
         dataLabels: {
-          position: "top", // Adjust the position of data labels as needed
+          position: "top",
         },
       },
     },
@@ -143,7 +81,7 @@ const DashboardComp = () => {
       enabled: false,
     },
     xaxis: {
-      categories: [""],
+      categories: xaxis.map((x) => x),
     },
     fill: {
       opacity: 1,
@@ -152,16 +90,8 @@ const DashboardComp = () => {
       enabled: false,
     },
   };
-  
-  
 
-  const filteredColumnSeries = columnSeries.map((series) => ({
-    name: series.name,
-    data: series.data.filter((value) => value !== 0),
-  }));
-
-  const pieSeries = [44, 55, 13, 43];
-  const donutSeries = [44, 55, 41, 17];
+  const pieSeries = [apData?.completed, apData?.inprogress, apData?.rejected];
 
   const pieOptions = {
     chart: {
@@ -171,117 +101,165 @@ const DashboardComp = () => {
     legend: {
       position: "bottom",
     },
-    labels: ["Team A", "Team B", "Team C", "Team D"],
+    labels: ["Completed AP", "Inprogress AP", "Rejected AP"],
     dataLabels: {
-      enabled: false,
+      enabled: true,
     },
     tooltip: {
       enabled: false,
     },
     stroke: {
       show: false,
+    },
+    noData: {
+      text: "No Data ",
+      align: "center",
+      verticalAlign: "middle",
+      offsetX: 0,
+      offsetY: 0,
+      style: {
+        color: undefined,
+        fontSize: "14px",
+        fontFamily: undefined,
+      },
     },
   };
 
-  const donutOptions = {
-    chart: {
-      type: "donut",
-    },
-    labels: ["Team A", "Team B", "Team C", "Team D"],
-    dataLabels: {
-      enabled: false,
-    },
-    legend: {
-      position: "bottom",
-    },
-    tooltip: {
-      enabled: false,
-    },
-    stroke: {
-      show: false,
-    },
+  const getLoginCount = async () => {
+    const response = await loginCount();
+    if (response.status === 200) {
+      let data = response?.data?.data;
+      setApData((pre) => ({
+        ...pre,
+        apCount: data,
+      }));
+    }
   };
+
+  const getDashboard = async () => {
+    try {
+      const response = await getDashboardDetails();
+      if (response.status === 200) {
+        let data = response?.data?.data;
+        setApData((pre) => ({
+          ...pre,
+          completed: data?.completedApCount,
+          inprogress: data?.inProgressApCount,
+          rejected: data?.rejectedApCount,
+        }));
+      }
+    } catch (e) {
+      console.log("e", e);
+    }
+  };
+
+  const getLoginReport = async () => {
+    try {
+      const response = await weeklyReort();
+      const response1 = await monthlyReort();
+      if (response.status === 200 && response1.status === 200) {
+        let data = response?.data?.data;
+        let data1 = response1?.data?.data;
+        setWeeklyData(data?.y_axis?.map((x) => x?.data));
+        setXaxis(data?.x_axis);
+        setMonthlyData(data1?.y_axis?.map((x) => x?.data));
+        setXaxisMonth(data1?.x_axis);
+      }
+    } catch (e) {
+      console.log("e", e);
+    }
+  };
+
+  useEffect(() => {
+    getLoginCount();
+    getDashboard();
+    getLoginReport();
+  }, []);
+
+  const filteredColumnSeries = weeklyData.map((series) => ({
+    name: "Count",
+    data: series.map((value) => value),
+  }));
 
   return (
     <div className="DashBoard px-5 py-3">
       <p>Dashboard</p>
       <div className="d-flex align-items-center flex-wrap justify-content-between gap-3">
-        {sectionData.map((data) => {
-          return (
-            <div className="DashBoard_section section_scroll p-4 m-0">
-              <p>{data.value}</p>
-              <span>{data.name}</span>
-            </div>
-          );
-        })}
-      </div>
-      <div className="d-flex flex-wrap align-items-center my-4">
-        <div className="chart_background2 mr-2">
-          <span>Lorem ipsem</span>
-          <Chart
-            // options={{
-            //   ...columnOptions,
-
-            // }}
-            options={columnOptions}
-            series={filteredColumnSeries}
-            type="bar"
-            height={350}
-          />
-
-        
+        <div className="DashBoard_section section_scroll p-4 m-0">
+          <p>Completed AP</p>
+          <span>{apData?.completed}</span>
         </div>
+        <div className="DashBoard_section section_scroll p-4 m-0">
+          <p>Inprogress AP</p>
+          <span>{apData?.inprogress}</span>
+        </div>
+        <div className="DashBoard_section section_scroll p-4 m-0">
+          <p>Rejected AP</p>
+          <span>{apData?.rejected}</span>
+        </div>
+        <div className="DashBoard_section section_scroll p-4 m-0">
+          <p>Number of Login Done By Today</p>
+          <span>{apData?.apCount}</span>
+        </div>
+      </div>
+
+      <div className="my-4">
         <div className="chart_background">
-          <span>Lorem ipsemmm</span>
-          <Chart
-            options={{
-              ...barOptions,
-              stroke: {
-                width: 1,
-              },
-            }}
-            series={barSeries}
-            type="line"
-            height={350}
-          />
+          <span className="px-2">AP Status</span>
+          {apData?.completed !== 0 &&
+          apData?.inprogress !== 0 &&
+          apData?.rejected !== 0 ? (
+            <>
+              <Chart
+                options={pieOptions}
+                series={pieSeries}
+                type="pie"
+                height={250}
+              />
+            </>
+          ) : (
+            <div className="d-flex justify-content-center">
+              No Data Available
+            </div>
+          )}
         </div>
       </div>
-      <div className="d-flex align-items-center justify-content-between gap-3 my-4">
-        <div className="chart_background1">
-          <span>Lorem ipsem</span>
-          <Progress percent={30} showInfo={false} />
-          <div className="progress_details">
-            <p>Graph Name 1</p>
-            <span>150</span>
+      <div className="my-4">
+        <div className="chart_background">
+          <div className="d-flex justify-content-between align-items-center toggle-area px-2">
+            <span>
+              {selectedOption === "monthly"
+                ? "Monthly Login Report"
+                : "Weekly Login Report"}
+            </span>
+            <Switch
+              checkedChildren="Monthly"
+              unCheckedChildren="Weekly"
+              checked={selectedOption === "monthly"}
+              onChange={handleToggle}
+              style={{ backgroundColor: "#e47718" }}
+              size={"default"}
+            />
           </div>
-          <Progress percent={60} showInfo={false} />
-          <div className="progress_details">
-            <p>Graph Name 1</p>
-            <span>150</span>
-          </div>
-          <Progress percent={75} showInfo={false} />
-          <div className="progress_details">
-            <p>Graph Name 1</p>
-            <span>150</span>
-          </div>
-        </div>
-        <div className="chart_background1">
-          <span>Lorem ipsem</span>
-          <Chart
-            options={pieOptions}
-            series={pieSeries}
-            type="pie"
-            height={250}
-          />
-        </div>
-        <div className="chart_background1">
-          <span>Lorem ipsem</span>
-          <Chart
-            options={donutOptions}
-            series={donutSeries}
-            type="donut"
-            height={250}
-          />
+          {selectedOption === "monthly" ? (
+            <>
+              <Chart
+                options={barOptions}
+                series={barSeries}
+                type="line"
+                height={350}
+              />
+            </>
+          ) : (
+            <>
+              <Chart
+                options={columnOptions}
+                series={filteredColumnSeries}
+                type="bar"
+                height={350}
+              />
+            </>
+          )}
         </div>
       </div>
     </div>

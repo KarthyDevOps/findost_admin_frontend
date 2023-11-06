@@ -351,3 +351,39 @@ export const ApproveUser = async (body, id) => {
   }).catch(axiosErrorHandler);
   return request;
 };
+
+export const loginCount = async (params) => {
+  let request = await axios({
+    method: "get",
+    url: `${endpoints.auth.LOGIN_COUNT}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params: params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const weeklyReort = async (params) => {
+  let request = await axios({
+    method: "get",
+    url: `${endpoints.auth.LOGIN_ACTIVITY_REPORT_WEEK}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params: params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
+export const monthlyReort = async (params) => {
+  let request = await axios({
+    method: "get",
+    url: `${endpoints.auth.LOGIN_ACTIVITY_REPORT_MONTH}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params: params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
