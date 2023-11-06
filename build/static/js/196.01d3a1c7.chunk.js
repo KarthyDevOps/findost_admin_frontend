@@ -1,2 +1,0 @@
-(this.webpackJsonpadmin=this.webpackJsonpadmin||[]).push([[196],{761:function(_,e,s){_.exports={radio:"style_radio__3mLDi",stroked:"style_stroked__8MLgn",active:"style_active__1j_dj",circleLable:"style_circleLable__qL8oy",btn:"style_btn__16ZDw","fs-1":"style_fs-1__Qrjdc"}}}]);
-//# sourceMappingURL=196.01d3a1c7.chunk.js.map
