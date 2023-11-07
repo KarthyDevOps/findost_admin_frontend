@@ -130,6 +130,7 @@ const FeeManagementComp = ({ feeAccess }) => {
             pageCount={pageCount}
             setPageCount={setPageCount}
             feeAccess={feeAccess}
+            setCurrentPage={setCurrentPage}
           />
         </>
       ) : (
