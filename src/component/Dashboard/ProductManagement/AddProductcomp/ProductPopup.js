@@ -99,7 +99,7 @@ const ProductPopup = ({
   ];
 
   const insurance = [
-    { label: "Life Insurance", value: "Life insurance" },
+    { label: "Life Insurance", value: "Life Insurance" },
     { label: "Health Insurance", value: "Health Insurance" },
     { label: "Commercial Insurance", value: "Commercial Insurance" },
     { label: "Home Insurance", value: "Home Insurance" },

@@ -206,22 +206,22 @@ const DashboardComp = () => {
       <div className="my-4">
         <div className="chart_background">
           <span className="px-2">AP Status</span>
-          {apData?.completed !== 0 &&
+          {/* {apData?.completed !== 0 &&
           apData?.inprogress !== 0 &&
           apData?.rejected !== 0 ? (
-            <>
+            <> */}
               <Chart
                 options={pieOptions}
                 series={pieSeries}
                 type="pie"
                 height={250}
               />
-            </>
+            {/* </>
           ) : (
             <div className="d-flex justify-content-center">
               No Data Available
             </div>
-          )}
+          )} */}
         </div>
       </div>
       <div className="my-4">

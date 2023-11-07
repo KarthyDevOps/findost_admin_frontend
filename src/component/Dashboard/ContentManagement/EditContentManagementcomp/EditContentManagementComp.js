@@ -118,6 +118,7 @@ const EditContentManagementComp = ({ create, view, remove }) => {
           }, 2000);
         } else {
           Toast({ type: "error", message: response.data.message });
+          setloading(false);
         }
       } catch (e) {
         console.log(e, "eee");
@@ -150,6 +151,7 @@ const EditContentManagementComp = ({ create, view, remove }) => {
           }, 2000);
         } else {
           Toast({ type: "error", message: response.data.message });
+          setloading(false);
         }
       } catch (e) {
         console.log(e, "eee");
