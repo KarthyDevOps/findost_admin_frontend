@@ -55,6 +55,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
           emailId: data?.supportEmail,
           supportNumber: data?.supportNumber,
           content: data?.copyrightsText,
+          terms : data?.tac,
           address : data?.address
         });
         setSiteFavLogo(data?.siteFavIconS3);
@@ -79,6 +80,7 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
     try {
       let body = {
         copyrightsText: data.content,
+        tac : data?.terms,
         supportEmail: data.emailId,
         supportNumber: data.supportNumber,
         siteUrl: data.siteUrl,
@@ -461,6 +463,41 @@ const SiteSettingComp = ({ create, view, edit, remove }) => {
                                 onChange(content);
                               }}
                               name={"content"}
+                              readOnly={
+                                view && !create && !edit && !remove
+                                  ? true
+                                  : false
+                              }
+                            />
+                          );
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="row gx-5 mt-3">
+                  <div className="col">
+                    <label className="Product_description ms-3">
+                      Terms And Conditions
+                    </label>
+                    <div className="text_editor">
+                      <CustomController
+                        name={"terms"}
+                        control={control}
+                        error={errors.terms}
+                        rules={{ required: true }}
+                        messages={{
+                          required: "Terms And Conditions is Required",
+                        }}
+                        render={({ onChange, ...field }) => {
+                          return (
+                            <TextEditor
+                              {...field}
+                              placeholder="Enter Answer Here"
+                              onChange={(content) => {
+                                onChange(content);
+                              }}
+                              name={"terms"}
                               readOnly={
                                 view && !create && !edit && !remove
                                   ? true
