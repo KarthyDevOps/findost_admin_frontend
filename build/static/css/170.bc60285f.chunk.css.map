@@ -1,0 +1,1 @@
+{"version":3,"sources":["style.scss"],"names":[],"mappings":"AAAA,WACI,uBAAwB,CACxB,iBAAkB,CAClB,eAAgB,CAChB,cAAe,CACf,mBAAoB,CACpB,UAAc","file":"170.bc60285f.chunk.css","sourcesContent":[".ipo_title{\r\n    font-family: \"Helvetica\";\r\n    font-style: normal;\r\n    font-weight: 700;\r\n    font-size: 32px;\r\n    line-height: 125.99%;\r\n    color: #000000;\r\n}"]}
