@@ -31,6 +31,7 @@ function TableComp(props) {
     calmanagement = false,
     management = false,
     client = false,
+    isPagination
   } = props;
 
   const [selectedRows, setSelectedRows] = useState([]);
@@ -75,7 +76,6 @@ function TableComp(props) {
     setSelectedRows(updatedRows);
     onRowsSelect(updatedRows);
   };
-
 
   const getValueForKey = (key, obj) => {
     const nestedKeys = key.split(".");
@@ -260,9 +260,15 @@ function TableComp(props) {
                           onClick={() => {
                             localStorage.removeItem("editId");
                             localStorage.setItem("editId", obj._id);
-                            { client && localStorage.setItem("clientId", obj.familyMember._id); }
+                            {
+                              client &&
+                                localStorage.setItem(
+                                  "clientId",
+                                  obj.familyMember._id
+                                );
+                            }
                             localStorage.removeItem("editPage");
-                            localStorage.setItem("editPage", currentPage);
+                            localStorage.setItem("editPage", currentPage ? currentPage : 1);
                             history.push(`${editRouteName}`);
                           }}
                         />
@@ -302,21 +308,25 @@ function TableComp(props) {
         </tbody>
         {console.log(management, "mana")}
       </table>
-      <div className="my-4">
-        <ReactPaginate
-          previousLabel={<FaCaretLeft />}
-          nextLabel={<FaCaretRight />}
-          pageCount={pageCount}
-          onPageChange={handlePageChange}
-          forcePage={currentPage - 1}
-          containerClassName={"pagination"}
-          previousClassName={"pagination-previous"}
-          nextClassName={"pagination-next"}
-          pageClassName={"pagination-item"}
-          breakClassName={"pagination-item"}
-          activeClassName={"active_page"}
-        />
-      </div>
+      {isPagination ? (
+        <></>
+      ) : (
+        <div className="my-4">
+          <ReactPaginate
+            previousLabel={<FaCaretLeft />}
+            nextLabel={<FaCaretRight />}
+            pageCount={pageCount}
+            onPageChange={handlePageChange}
+            forcePage={currentPage - 1}
+            containerClassName={"pagination"}
+            previousClassName={"pagination-previous"}
+            nextClassName={"pagination-next"}
+            pageClassName={"pagination-item"}
+            breakClassName={"pagination-item"}
+            activeClassName={"active_page"}
+          />
+        </div>
+      )}
     </div>
   );
 }

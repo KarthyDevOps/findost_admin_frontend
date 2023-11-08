@@ -164,6 +164,14 @@ const routers = [
         exact: true,
       },
       {
+        component: "IpoManagement",
+        path: "/ipo-management",
+        componentPath: "pages/Dashboard/IpoManagement/IpoManagement",
+        name: "IpoManagement",
+        auth: false,
+        exact: true,
+      },
+      {
         component: "EditContentManagement",
         path: "/content-management/editContent-management",
         componentPath: "pages/Dashboard/ContentManagement/EditContentManagement",

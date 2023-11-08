@@ -295,11 +295,18 @@ export const navLink = [
     privilegesName: "notificationManagement",
   },
   {
+    to: "/admin/ipo-management",
+    label: "IPO Management",
+    iconName: Content_a,
+    inactiveIcon: contentMt,
+    privilegesName: "contentManagement",
+  },
+  {
     to: "/admin/content-management",
     label: "Content Management",
     iconName: Content_a,
     inactiveIcon: contentMt,
-    privilegesName: "contentManagement",
+    privilegesName: "ipoManagement",
   },
   {
     to: "/admin/calendar-management",
@@ -422,6 +429,7 @@ export const managementOptions = {
   // feedbackManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   notificationManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   contentManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
+  ipoManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   templateManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   faqManagement: ["VIEW", "EDIT", "ADD", "DELETE"],
   knowledgeCenterManagement: ["VIEW", "EDIT", "ADD", "DELETE"],

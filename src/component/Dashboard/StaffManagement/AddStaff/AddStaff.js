@@ -106,6 +106,7 @@ const AddStaff = ({ create, view, remove }) => {
             scheduleManagement: data.scheduleManagement,
             leadManagement: data.leadManagement,
             apManagement: data.apManagement,
+            ipoManagement : data.ipoManagement
           },
         };
         if (staffDetails.status === "active") {
@@ -155,6 +156,7 @@ const AddStaff = ({ create, view, remove }) => {
             scheduleManagement: data.scheduleManagement,
             leadManagement: data.leadManagement,
             apManagement: data.apManagement,
+            ipoManagement : data.ipoManagement
           },
         };
         if (staffDetails.status === "active") {

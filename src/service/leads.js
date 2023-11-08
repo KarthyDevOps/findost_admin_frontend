@@ -14,6 +14,18 @@ export const getLead = async (params) => {
     return request;
 };
 
+export const getIpoList = async (params) => {
+    const request = await axios({
+        method: "get",
+        url: endpoints.lead.IPO_LIST,
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        params,
+    }).catch(axiosErrorHandler);
+    return request;
+};
+
 export const getDashboardDetails = async () => {
     const request = await axios({
         method: "post",
