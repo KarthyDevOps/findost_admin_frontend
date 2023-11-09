@@ -31,6 +31,7 @@ function TableComp(props) {
     calmanagement = false,
     management = false,
     client = false,
+    isIpo,
     isPagination
   } = props;
 
@@ -266,6 +267,9 @@ function TableComp(props) {
                                   "clientId",
                                   obj.familyMember._id
                                 );
+                            }
+                            {
+                              isIpo && localStorage.setItem("ipoId", obj.isin);
                             }
                             localStorage.removeItem("editPage");
                             localStorage.setItem("editPage", currentPage ? currentPage : 1);

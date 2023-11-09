@@ -227,7 +227,7 @@ const ProductPopup = ({
       if (productType === "sovereign gold bonds") {
         body = {
           schemeName: data?.schemeName,
-          icon: newIcon ? newIcon : icon,
+          icon: newIcon,
           productType: "goldBond",
           subscriptionFrom: moment(data?.subscriptionFrom)
             .startOf("day")
@@ -245,7 +245,7 @@ const ProductPopup = ({
       } else if (productType === "insurance") {
         body = {
           schemeName: data?.schemeName,
-          icon: newIcon ? newIcon : icon,
+          icon: newIcon,
           productType: productType,
           planType: data?.planType,
           companyName: data?.companyName,
@@ -265,42 +265,42 @@ const ProductPopup = ({
       } else if (productType === "fixedIncome" || productType === "loan") {
         body = {
           schemeName: data?.schemeName,
-          icon: newIcon ? newIcon : icon,
+          icon: newIcon,
           productType: productType,
           planType: data?.planType,
           rateOfInterest: data?.rateOfInterest,
           description: description,
           reference: reference,
-          brochure: brochureImage ? brochureImage : brochure,
+          brochure: brochureImage,
         };
       } else if (productType === "portfolioManagementSystem") {
         body = {
           schemeName: data?.schemeName,
-          icon: newIcon ? newIcon : icon,
-          productType: productType,
+          icon: newIcon,
+          productType: "pms",
           description: description,
-          image: newImage ? newImage : image,
-          brochure: brochureImage ? brochureImage : brochure,
+          image: newImage,
+          brochure: brochureImage,
         };
       } else if (productType === " portfolioAnalyserAndOptimizer") {
         body = {
           schemeName: data?.schemeName,
-          icon: newIcon ? newIcon : icon,
-          productType: "portfolioAnalyserAndOptimizer",
+          icon: newIcon,
+          productType: "portfolio",
           description: description,
           reference: reference,
-          image: newImage ? newImage : image,
-          brochure: brochureImage ? brochureImage : brochure,
+          image: newImage,
+          brochure: brochureImage,
         };
       } else if (productType === "AlgoTradingPlatform") {
         body = {
           schemeName: data?.schemeName,
-          icon: newIcon ? newIcon : icon,
-          productType: productType,
+          icon: newIcon,
+          productType: "algoTrading",
           description: description,
           reference: reference,
-          image: newImage ? newImage : image,
-          brochure: brochureImage ? brochureImage : brochure,
+          image: newImage,
+          brochure: brochureImage,
         };
       }
       console.log("body", body);
@@ -314,7 +314,11 @@ const ProductPopup = ({
           if (productType === "sovereign gold bonds") {
             getDetails(1, "goldBond");
           } else if (productType === " portfolioAnalyserAndOptimizer") {
-            getDetails(1, "portfolioAnalyserAndOptimizer");
+            getDetails(1, "portfolio");
+          } else if (productType === "AlgoTradingPlatform") {
+            getDetails(1, "algoTrading");
+          } else if (productType === "portfolioManagementSystem") {
+            getDetails(1, "pms");
           } else {
             getDetails(1, productType);
           }
@@ -330,7 +334,11 @@ const ProductPopup = ({
           if (productType === "sovereign gold bonds") {
             getDetails(1, "goldBond");
           } else if (productType === " portfolioAnalyserAndOptimizer") {
-            getDetails(1, "portfolioAnalyserAndOptimizer");
+            getDetails(1, "portfolio");
+          } else if (productType === "AlgoTradingPlatform") {
+            getDetails(1, "algoTrading");
+          } else if (productType === "portfolioManagementSystem") {
+            getDetails(1, "pms");
           } else {
             getDetails(1, productType);
           }
@@ -409,8 +417,11 @@ const ProductPopup = ({
       ),
     });
     setIcon(data?.iconS3);
+    setNewIcon(data?.icon);
     setBrochure(data?.brochureS3);
+    setBrochureImage(data?.brochure);
     setImage(data?.imageS3);
+    setNewImage(data?.image);
     setAboutUs(data?.aboutUs);
     setKeyFeature(data?.keyFuture);
     setOtherBenefit(data?.otherBenefits);
@@ -482,7 +493,7 @@ const ProductPopup = ({
                 maxSize={3072000}
                 errors={errors}
                 {...register("Icon", {
-                  required: newIcon || icon ? false : true,
+                  required: newIcon && icon ? false : true,
                 })}
               >
                 {({ getRootProps, getInputProps }) => (
@@ -536,7 +547,7 @@ const ProductPopup = ({
                   </div>
                 )}
               </Dropzone>
-              {!newIcon && (
+              {(!newIcon || !icon) && (
                 <FormErrorMessage
                   error={errors.Icon}
                   messages={{
@@ -556,7 +567,7 @@ const ProductPopup = ({
                   maxSize={3072000}
                   errors={errors}
                   {...register("Image", {
-                    required: newImage || image ? false : true,
+                    required: newImage && image ? false : true,
                   })}
                 >
                   {({ getRootProps, getInputProps }) => (
@@ -610,7 +621,7 @@ const ProductPopup = ({
                     </div>
                   )}
                 </Dropzone>
-                {!newImage && (
+                {(!newImage || !image)&& (
                   <FormErrorMessage
                     error={errors.Image}
                     messages={{
@@ -633,7 +644,7 @@ const ProductPopup = ({
                   maxSize={3072000}
                   errors={errors}
                   {...register("brochure", {
-                    required: brochureImage || brochure ? false : true,
+                    required: brochureImage && brochure ? false : true,
                   })}
                 >
                   {({ getRootProps, getInputProps }) => (
@@ -687,7 +698,7 @@ const ProductPopup = ({
                     </div>
                   )}
                 </Dropzone>
-                {!brochureImage && (
+                {(!brochureImage || !brochure) && (
                   <FormErrorMessage
                     error={errors.brochure}
                     messages={{

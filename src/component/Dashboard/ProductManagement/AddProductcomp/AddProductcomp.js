@@ -10,7 +10,7 @@ import cloudIcon from "../../../../assets/images/uploadcloud.svg";
 import closeIcon from "assets/images/closeIcon.png";
 import editIcon from "assets/images/editIcon.svg";
 import deleteIcon from "assets/images/deleteIcon.svg";
-import pdfImage from "assets/images/pdfImage.jpg"
+import pdfImage from "assets/images/pdfImage.jpg";
 //internal components
 import InputBox from "component/common/InputBox/InputBox";
 import Loader from "component/common/Loader";
@@ -65,7 +65,9 @@ const AddProductcomp = ({ create, view, remove }) => {
   const [pageCount, setPageCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [productType, setProductType] = useState("");
-  const [benefits, setBenefits] = useState([{ benefitIcon: "", name: "" }]);
+  const [benefits, setBenefits] = useState([
+    { benefitIcon: "", name: "", benefitKey: "" },
+  ]);
   const [isLoadList, setIsLoadList] = useState(benefits.map(() => false));
   const [columnData, setColumnData] = useState([]);
   const [tableData, setTableData] = useState([]);
@@ -82,7 +84,7 @@ const AddProductcomp = ({ create, view, remove }) => {
   });
 
   const addBenefit = () => {
-    setBenefits([...benefits, { name: "", benefitIcon: "" }]);
+    setBenefits([...benefits, { name: "", benefitIcon: "", benefitKey: "" }]);
   };
 
   const removeBenefit = (index) => {
@@ -94,6 +96,7 @@ const AddProductcomp = ({ create, view, remove }) => {
     e.stopPropagation();
     const updatedBenefits = [...benefits];
     updatedBenefits[index].benefitIcon = "";
+    updatedBenefits[index].benefitKey = "";
     setBenefits(updatedBenefits);
   };
 
@@ -114,6 +117,8 @@ const AddProductcomp = ({ create, view, remove }) => {
           const updatedBenefits = [...benefits];
           updatedBenefits[benefitIndex].benefitIcon =
             response?.data?.data?.data?.s3URL;
+          updatedBenefits[benefitIndex].benefitKey =
+            response?.data?.data?.data?.key;
           setBenefits(updatedBenefits);
           setIsLoadList((prevIsLoadList) => {
             const updatedIsLoadList = [...prevIsLoadList];
@@ -224,14 +229,20 @@ const AddProductcomp = ({ create, view, remove }) => {
           productType: data?.productType,
         });
         setProductIcon(data?.productIconS3);
+        setNewProductImg(data?.productIcon);
         setProductImage(data?.imagesS3);
+        setNewProductImage(data?.images);
         setBenefits(data?.benefits);
         setProductType(data?.productType);
         TableData(data?.productType);
         if (data?.productType === "sovereign gold bonds") {
           getDetails(1, "goldBond");
         } else if (data?.productType === " portfolioAnalyserAndOptimizer") {
-          getDetails(1, "portfolioAnalyserAndOptimizer");
+          getDetails(1, "portfolio");
+        } else if (data?.productType === "AlgoTradingPlatform") {
+          getDetails(1, "algoTrading");
+        } else if (data?.productType === "portfolioManagementSystem") {
+          getDetails(1, "pms");
         } else {
           getDetails(1, data?.productType);
         }
@@ -243,6 +254,7 @@ const AddProductcomp = ({ create, view, remove }) => {
     }
   };
 
+  console.log('newroductImage', newProductImage)
   const onsubmit = async (data) => {
     try {
       setLoading(true);
@@ -251,15 +263,15 @@ const AddProductcomp = ({ create, view, remove }) => {
         body = {
           productName: data?.productName,
           productType: productType,
-          productIcon: newProductImg ? newProductImg : ProductIcon,
-          images: newProductImage ? newProductImage : productImage,
+          productIcon: newProductImg,
+          images: newProductImage,
           benefits: benefits,
         };
       } else {
         body = {
           productName: data?.productName,
           productType: productType,
-          productIcon: newProductImg ? newProductImg : ProductIcon,
+          productIcon: newProductImg,
         };
       }
 
@@ -898,7 +910,7 @@ const AddProductcomp = ({ create, view, remove }) => {
       dataIndex: "image",
       key: "image",
       render: (text, record) => (
-        <div  className="table-icon">
+        <div className="table-icon">
           <img src={record?.imageS3} alt="Icon" className="icon" />
         </div>
       ),
@@ -958,7 +970,11 @@ const AddProductcomp = ({ create, view, remove }) => {
           if (productType === "sovereign gold bonds") {
             getDetails(1, "goldBond");
           } else if (productType === " portfolioAnalyserAndOptimizer") {
-            getDetails(1, "portfolioAnalyserAndOptimizer");
+            getDetails(1, "portfolio");
+          } else if (productType === "AlgoTradingPlatform") {
+            getDetails(1, "algoTrading");
+          } else if (productType === "portfolioManagementSystem") {
+            getDetails(1, "pms");
           } else {
             getDetails(1, productType);
           }
@@ -1073,7 +1089,7 @@ const AddProductcomp = ({ create, view, remove }) => {
                     maxSize={4194304}
                     errors={errors}
                     {...register("dropZoneField", {
-                      required: newProductImg || ProductIcon ? false : true,
+                      required: newProductImg && ProductIcon ? false : true,
                     })}
                   >
                     {({ getRootProps, getInputProps }) => (
@@ -1127,7 +1143,7 @@ const AddProductcomp = ({ create, view, remove }) => {
                       </div>
                     )}
                   </Dropzone>
-                  {!newProductImg && (
+                  {(!newProductImg  || !ProductIcon) && (
                     <FormErrorMessage
                       error={errors.dropZoneField}
                       messages={{
@@ -1146,7 +1162,7 @@ const AddProductcomp = ({ create, view, remove }) => {
                       errors={errors}
                       {...register("productImage", {
                         required:
-                          newProductImage || productImage ? false : true,
+                          newProductImage && productImage ? false : true,
                       })}
                     >
                       {({ getRootProps, getInputProps }) => (
@@ -1199,7 +1215,7 @@ const AddProductcomp = ({ create, view, remove }) => {
                         </div>
                       )}
                     </Dropzone>
-                    {!newProductImage && (
+                    {(!newProductImage || !productImage) && (
                       <FormErrorMessage
                         error={errors.productImage}
                         messages={{

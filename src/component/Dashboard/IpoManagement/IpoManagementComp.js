@@ -53,6 +53,8 @@ const IpoManagementComp = ({ipoManagement }) => {
               EditAction={ipoManagement?.edit}
               includedKeys={includedKeys}
               isPagination={true}
+              editRouteName={"/admin/ipo-management/edit-ipo"}
+              isIpo={true}
             />
           ) : (
             <div className="">

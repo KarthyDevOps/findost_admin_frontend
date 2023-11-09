@@ -114,5 +114,6 @@ export const endpoints = {
     LEAD_GET: `${lead}/leads/list`,
     DASHBOARD_DETAILS : `${lead}/korp/dashboardApStatusCount`,
     IPO_LIST : `${lead}/ipo/master`,
+    IPO_UPDATE : `${lead}/ipo/cmsIpoUpdate`
   }
 };

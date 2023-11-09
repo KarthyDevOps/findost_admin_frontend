@@ -31,6 +31,8 @@ import LeadDark from "assets/images/leadDark.svg";
 import LeadDarkIa from "assets/images/leadinactive.svg";
 import apActive from "assets/images/apActive.svg";
 import apInactive from "assets/images/apInactive.svg";
+import ipo from "assets/images/ipoActive.svg";
+import ipo1 from "assets/images/ipo.svg";
 
 // internal components
 import { reducers } from "../reducer";
@@ -297,8 +299,8 @@ export const navLink = [
   {
     to: "/admin/ipo-management",
     label: "IPO Management",
-    iconName: Content_a,
-    inactiveIcon: contentMt,
+    iconName: ipo,
+    inactiveIcon: ipo1, 
     privilegesName: "contentManagement",
   },
   {

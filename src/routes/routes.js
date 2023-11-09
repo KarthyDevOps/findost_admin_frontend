@@ -172,6 +172,14 @@ const routers = [
         exact: true,
       },
       {
+        component: "EditIpoManagement",
+        path: "/ipo-management/edit-ipo",
+        componentPath: "pages/Dashboard/IpoManagement/EditIpoManagement",
+        name: "EditIpoManagement",
+        auth: false,
+        exact: true,
+      },
+      {
         component: "EditContentManagement",
         path: "/content-management/editContent-management",
         componentPath: "pages/Dashboard/ContentManagement/EditContentManagement",
