@@ -408,12 +408,12 @@ export const updateKnowledge = async (body, id) => {
   return request;
 };
 
-export const getKnowledge = async (params) => {
+export const getKnowledge = async (params,token) => {
   const request = await axios({
     method: "get",
     url: `${endpoints.cms.GET_KNOWLEDGE}`,
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      Authorization: token ? `Bearer ${token}` :  `Bearer ${localStorage.getItem("token")}`,
     },
     params,
   }).catch(axiosErrorHandler);

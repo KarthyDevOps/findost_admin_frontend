@@ -43,6 +43,14 @@ const routers = [
         auth: false,
         exact: true,
       },
+      {
+        component: "Blogs",
+        path: "/blogs",
+        componentPath: "pages/Auth/Blogs",
+        name: "Blogs",
+        auth: false,
+        exact: true,
+      },
     ],
   },
   {

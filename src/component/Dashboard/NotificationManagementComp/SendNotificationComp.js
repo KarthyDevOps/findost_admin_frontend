@@ -56,9 +56,9 @@ const SendNotificationComp = () => {
       let response = await getUserList(params);
       if (response.status === 200) {
         let usersArray = [];
-        usersArray = response?.data?.data.map((user) => ({
-          label: user.name,
-          value: user._id,
+        usersArray = response?.data?.data?.list.map((user) => ({
+          label: user?.accountName,
+          value: user?._id,
         }));
         setUsers(usersArray);
       }
@@ -66,6 +66,8 @@ const SendNotificationComp = () => {
       console.log("e :>> ", e);
     }
   };
+
+
 
   const getTemplateList = async (page) => {
     try {
@@ -305,6 +307,7 @@ const SendNotificationComp = () => {
                   );
                 }}
               />
+              {console.log('users', users)}
             </div>
             <div className="col-1"></div>
           </div>

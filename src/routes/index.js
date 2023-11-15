@@ -29,7 +29,11 @@ class RoutesClass extends Component {
 
   fetchInitialData = async () => {
     const { adminPrivileges } = this.props;
-    history?.location?.pathname !== "/auth/resetpassword" && await adminPrivileges();
+    // history?.location?.pathname !== "/auth/resetpassword" && await adminPrivileges();
+    const { pathname } = history?.location || {};
+    if (pathname !== "/auth/resetpassword" && pathname !== "/auth/blogs") {
+      await adminPrivileges();
+    }
     this.setState({ ...this.state, loading: false });
   }
 

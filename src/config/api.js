@@ -33,7 +33,7 @@ export const endpoints = {
     DELETE_SEGMENT: `${userUrl}/segment/deleteSegment`,
     GET_REGISTER_FEE: `${userUrl}/registerSetting/get`,
     UPDATE_REGISTER_FEE: `${userUrl}/registerSetting/update`,
-    NOTIFICATION_USER_LIST: `${userUrl}/authorizedPerson/list`,
+    NOTIFICATION_USER_LIST: `${userUrl}/BOUSERS/list`,
     GET_USER: `${userUrl}/authorizedPerson/getProfileById`,
     APPROVE_USER: `${userUrl}/authorizedPerson/updateProfile`,
     LOGIN_COUNT : `${userUrl}/admin/loginCount`,
