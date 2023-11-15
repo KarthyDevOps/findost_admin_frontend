@@ -1,1 +1,0 @@
-{"version":3,"sources":["assets/images/viewIcon.svg"],"names":["module","exports"],"mappings":"qFAAAA,EAAOC,QAAU,IAA0B","file":"static/js/247.560ed975.chunk.js","sourcesContent":["module.exports = __webpack_public_path__ + \"static/media/viewIcon.02c0b4b2.svg\";"],"sourceRoot":""}
