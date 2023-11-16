@@ -1077,10 +1077,6 @@ const AddProductcomp = ({ create, view, remove }) => {
                     }}
                   />
                 </div>
-                {console.log(
-                  'getValues("productType")',
-                  getValues("productType")
-                )}
                 <div className="col-6 mt-3">
                   <label className="Product_description">Product Icon</label>
                   <Dropzone
@@ -1093,7 +1089,7 @@ const AddProductcomp = ({ create, view, remove }) => {
                     })}
                   >
                     {({ getRootProps, getInputProps }) => (
-                      <div {...getRootProps({ className: "dropzone" })}>
+                      <div {...getRootProps({ className: "dropzoneProduct" })}>
                         <div className="   ">
                           <input {...getInputProps()} multiple={false} />
                           {ProductIcon ? (
@@ -1106,7 +1102,7 @@ const AddProductcomp = ({ create, view, remove }) => {
                             </>
                           ) : (
                             <>
-                              <div className=" drag_btn ">
+                              <div className="drag_btn_product">
                                 <NormalButton
                                   onClick={(e) => e.preventDefault()}
                                   className="browse-button"
@@ -1166,7 +1162,7 @@ const AddProductcomp = ({ create, view, remove }) => {
                       })}
                     >
                       {({ getRootProps, getInputProps }) => (
-                        <div {...getRootProps({ className: "dropzone" })}>
+                        <div {...getRootProps({ className: "dropzoneProduct" })}>
                           <div className="   ">
                             <input {...getInputProps()} multiple={false} />
                             {productImage ? (
@@ -1179,7 +1175,7 @@ const AddProductcomp = ({ create, view, remove }) => {
                               </>
                             ) : (
                               <>
-                                <div className=" drag_btn ">
+                                <div className="drag_btn_product">
                                   <NormalButton
                                     onClick={(e) => e.preventDefault()}
                                     className="browse-button"
@@ -1287,7 +1283,7 @@ const AddProductcomp = ({ create, view, remove }) => {
                           })}
                         >
                           {({ getRootProps, getInputProps }) => (
-                            <div {...getRootProps({ className: "dropzone" })}>
+                            <div {...getRootProps({ className: "dropzoneProduct" })}>
                               <div className="">
                                 <input {...getInputProps()} multiple={false} />
                                 {benefits[index].benefitIcon ? (
@@ -1300,7 +1296,7 @@ const AddProductcomp = ({ create, view, remove }) => {
                                   </>
                                 ) : (
                                   <>
-                                    <div className="drag_btn">
+                                    <div className="drag_btn_product">
                                       <NormalButton
                                         onClick={(e) => e.preventDefault()}
                                         className="browse-button"

@@ -269,7 +269,7 @@ function TableComp(props) {
                                 );
                             }
                             {
-                              isIpo && localStorage.setItem("ipoId", obj.isin);
+                              isIpo && localStorage.setItem("ipoId", JSON.stringify(obj));
                             }
                             localStorage.removeItem("editPage");
                             localStorage.setItem("editPage", currentPage ? currentPage : 1);

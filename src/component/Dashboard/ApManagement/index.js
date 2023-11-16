@@ -7,7 +7,7 @@ import EmptyTable from "component/common/TableComp/EmptyTable";
 import TableComp from "component/common/TableComp/TableComp";
 import Loader from "component/common/Loader";
 // services
-import { downloadUserList, getUserList } from "service/Auth";
+import { downloadUserList, getApList, getUserList } from "service/Auth";
 import { BsSearch } from "react-icons/bs";
 import { useForm } from "react-hook-form";
 // helpers
@@ -73,7 +73,7 @@ const ApManagementComp = ({ apAccess }) => {
     }
   };
 
-  const getApList = async (page) => {
+  const getApListApi = async (page) => {
     try {
       setIsLoading(true);
       let params = {
@@ -81,7 +81,7 @@ const ApManagementComp = ({ apAccess }) => {
         limit: 10,
         search: search,
       };
-      let response = await getUserList(params);
+      let response = await getApList(params);
       if (response.status === 200 && response?.data?.data?.list.length > 0) {
         setData(response?.data?.data?.list);
         setPageCount(response?.data?.data?.pageMeta?.pageCount);
@@ -105,11 +105,11 @@ const ApManagementComp = ({ apAccess }) => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    getApList(page);
+    getApListApi(page);
   };
 
   useEffect(() => {
-    getApList(1);
+    getApListApi(1);
   }, [search]);
 
   return (

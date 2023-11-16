@@ -39,7 +39,7 @@ const EditIpoManagementComp = () => {
   const [ipoDoc, setIpoDoc] = useState("");
   const [ipoDocument, setIpoDocument] = useState("");
   const [modal, setModal] = useState(false);
-  const ipoId = localStorage.getItem("ipoId");
+  const ipoId = JSON.parse(localStorage.getItem("ipoId"));
   console.log("ipoId", ipoId);
 
   const handleDrop = async (droppedimage) => {
@@ -70,7 +70,7 @@ const EditIpoManagementComp = () => {
     try {
       setLoading(true);
       const body = {
-        ipoisinNumber: ipoId,
+        ipoisinNumber: ipoId?.isin,
         ipoDoc: ipoDocument,
         allotmnetDate: moment(data?.allotmentDate)
           .startOf("day")
@@ -99,7 +99,28 @@ const EditIpoManagementComp = () => {
     }
   };
 
-  useEffect(() => {}, []);
+  const getIpoDetails = async () => {
+    let data = ipoId;
+    console.log("dataIPO", data);
+    reset({
+      refundInitiation: new Date(
+        moment(data?.refundInitiation, "YYYY-MM-DD HH:mm:ss").toDate()
+      ),
+      allotmentDate: new Date(
+        moment(data?.allotmnetDate, "YYYY-MM-DD HH:mm:ss").toDate()
+      ),
+      listOnExchange: new Date(
+        moment(data?.listingOnExchange, "YYYY-MM-DD HH:mm:ss").toDate()
+      ),
+    });
+    setIpoDoc(data?.ipoDocS3);
+  };
+
+  useEffect(() => {
+    if (ipoId) {
+      getIpoDetails();
+    }
+  }, []);
 
   return (
     <div className="ipo px-5 py-3">
@@ -227,9 +248,9 @@ const EditIpoManagementComp = () => {
                       <>
                         <img
                           src={ipoDoc}
-                          alt="ProductIcon"
+                          alt="Ipo Document"
                           className="preview_image"
-                        ></img>
+                        ></img> 
                       </>
                     ) : (
                       <>

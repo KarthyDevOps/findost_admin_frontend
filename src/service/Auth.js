@@ -314,6 +314,18 @@ export const getUserList = async (params) => {
   return request;
 };
 
+export const getApList = async (params) => {
+  let request = await axios({
+    method: "get",
+    url: `${endpoints.auth.AP_LIST}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    params: params,
+  }).catch(axiosErrorHandler);
+  return request;
+};
+
 export const downloadUserList = async (params) => {
   let request = await axios({
     method: "get",

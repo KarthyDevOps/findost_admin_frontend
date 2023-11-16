@@ -34,6 +34,7 @@ export const endpoints = {
     GET_REGISTER_FEE: `${userUrl}/registerSetting/get`,
     UPDATE_REGISTER_FEE: `${userUrl}/registerSetting/update`,
     NOTIFICATION_USER_LIST: `${userUrl}/BOUSERS/list`,
+    AP_LIST: `${userUrl}/authorizedPerson/list`,
     GET_USER: `${userUrl}/authorizedPerson/getProfileById`,
     APPROVE_USER: `${userUrl}/authorizedPerson/updateProfile`,
     LOGIN_COUNT : `${userUrl}/admin/loginCount`,

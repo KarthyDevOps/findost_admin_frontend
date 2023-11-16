@@ -63,6 +63,7 @@ const ProductPopup = ({
   const [loading, setLoading] = useState(false);
   const [load, setLoad] = useState(false);
   const [reference, setReference] = useState([{ title: "", video: "" }]);
+  const [brochureFileType, setBrochureFileType] = useState("");
 
   const insuranceType = [
     { label: "Term Insurance", value: "Term Insurance" },
@@ -141,6 +142,8 @@ const ProductPopup = ({
       for (let index = 0; index < droppedimage.length; index++) {
         const file = droppedimage[index];
         body.append("data", file);
+        let fileType = file?.name.split(".")
+        setBrochureFileType(fileType[1])
         let response = await uploadImage(body);
         if (response.status == 200) {
           setBrochureImage(response?.data?.data?.data?.key);
@@ -272,6 +275,7 @@ const ProductPopup = ({
           description: description,
           reference: reference,
           brochure: brochureImage,
+          brochureFileType: brochureFileType,
         };
       } else if (productType === "portfolioManagementSystem") {
         body = {
@@ -281,6 +285,7 @@ const ProductPopup = ({
           description: description,
           image: newImage,
           brochure: brochureImage,
+          brochureFileType: brochureFileType,
         };
       } else if (productType === " portfolioAnalyserAndOptimizer") {
         body = {
@@ -291,6 +296,7 @@ const ProductPopup = ({
           reference: reference,
           image: newImage,
           brochure: brochureImage,
+          brochureFileType: brochureFileType,
         };
       } else if (productType === "AlgoTradingPlatform") {
         body = {
@@ -301,6 +307,7 @@ const ProductPopup = ({
           reference: reference,
           image: newImage,
           brochure: brochureImage,
+          brochureFileType: brochureFileType,
         };
       }
       console.log("body", body);
@@ -497,7 +504,7 @@ const ProductPopup = ({
                 })}
               >
                 {({ getRootProps, getInputProps }) => (
-                  <div {...getRootProps({ className: "dropzone" })}>
+                  <div {...getRootProps({ className: "dropzoneProduct" })}>
                     <div className="">
                       <input {...getInputProps()} multiple={false} />
                       {icon ? (
@@ -510,7 +517,7 @@ const ProductPopup = ({
                         </>
                       ) : (
                         <>
-                          <div className="drag_btn">
+                          <div className="drag_btn_product">
                             <NormalButton
                               onClick={(e) => e.preventDefault()}
                               label="Browse"
@@ -571,7 +578,7 @@ const ProductPopup = ({
                   })}
                 >
                   {({ getRootProps, getInputProps }) => (
-                    <div {...getRootProps({ className: "dropzone" })}>
+                    <div {...getRootProps({ className: "dropzoneProduct" })}>
                       <div className="">
                         <input {...getInputProps()} multiple={false} />
                         {image ? (
@@ -584,7 +591,7 @@ const ProductPopup = ({
                           </>
                         ) : (
                           <>
-                            <div className="drag_btn">
+                            <div className="drag_btn_product">
                               <NormalButton
                                 onClick={(e) => e.preventDefault()}
                                 label="Browse"
@@ -621,7 +628,7 @@ const ProductPopup = ({
                     </div>
                   )}
                 </Dropzone>
-                {(!newImage || !image)&& (
+                {(!newImage || !image) && (
                   <FormErrorMessage
                     error={errors.Image}
                     messages={{
@@ -648,7 +655,7 @@ const ProductPopup = ({
                   })}
                 >
                   {({ getRootProps, getInputProps }) => (
-                    <div {...getRootProps({ className: "dropzone" })}>
+                    <div {...getRootProps({ className: "dropzoneProduct" })}>
                       <div className="">
                         <input {...getInputProps()} multiple={false} />
                         {brochure ? (
@@ -661,7 +668,7 @@ const ProductPopup = ({
                           </>
                         ) : (
                           <>
-                            <div className="drag_btn">
+                            <div className="drag_btn_product">
                               <NormalButton
                                 onClick={(e) => e.preventDefault()}
                                 label="Browse"

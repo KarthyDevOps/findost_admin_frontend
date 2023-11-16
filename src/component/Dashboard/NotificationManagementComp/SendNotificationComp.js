@@ -58,7 +58,7 @@ const SendNotificationComp = () => {
         let usersArray = [];
         usersArray = response?.data?.data?.list.map((user) => ({
           label: user?.accountName,
-          value: user?._id,
+          value: user?.BOUserId,
         }));
         setUsers(usersArray);
       }
