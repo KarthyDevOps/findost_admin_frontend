@@ -3,6 +3,7 @@ import { Button, Modal } from "antd";
 import InputBox from "component/common/InputBox/InputBox";
 import FormErrorMessage from "component/common/ErrorMessage";
 import closeIcon from "assets/images/closeIcon.png";
+import pdfImage from "assets/images/pdfImage.jpg";
 import NormalButton from "component/common/NormalButton/NormalButton";
 import CustomController from "component/common/Controller";
 import NormalMultiSelect from "component/common/NormalMultiSelect";
@@ -104,7 +105,7 @@ const ProductPopup = ({
     { label: "Health Insurance", value: "Health Insurance" },
     { label: "Commercial Insurance", value: "Commercial Insurance" },
     { label: "Home Insurance", value: "Home Insurance" },
-    { label: "Vehicle Insurance", value: "Vehicle Insurance'" },
+    { label: "Vehicle Insurance", value: "Vehicle Insurance" },
   ];
 
   const addReference = () => {
@@ -508,13 +509,13 @@ const ProductPopup = ({
                     <div className="">
                       <input {...getInputProps()} multiple={false} />
                       {icon ? (
-                        <>
+                        <div className="d-flex justify-content-center">
                           <img
                             src={icon}
                             alt="Icon"
                             className="preview_image"
                           ></img>
-                        </>
+                        </div>
                       ) : (
                         <>
                           <div className="drag_btn_product">
@@ -582,13 +583,13 @@ const ProductPopup = ({
                       <div className="">
                         <input {...getInputProps()} multiple={false} />
                         {image ? (
-                          <>
+                           <div className="d-flex justify-content-center">
                             <img
                               src={image}
                               alt="image__"
                               className="preview_image"
                             ></img>
-                          </>
+                          </div>
                         ) : (
                           <>
                             <div className="drag_btn_product">
@@ -659,13 +660,13 @@ const ProductPopup = ({
                       <div className="">
                         <input {...getInputProps()} multiple={false} />
                         {brochure ? (
-                          <>
+                          <div className="d-flex justify-content-center">
                             <img
-                              src={brochure}
+                              src={pdfImage}
                               alt="image__"
                               className="preview_image"
                             ></img>
-                          </>
+                          </div>
                         ) : (
                           <>
                             <div className="drag_btn_product">

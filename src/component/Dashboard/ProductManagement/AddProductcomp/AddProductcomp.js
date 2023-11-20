@@ -254,7 +254,7 @@ const AddProductcomp = ({ create, view, remove }) => {
     }
   };
 
-  console.log('newroductImage', newProductImage)
+  console.log("newroductImage", newProductImage);
   const onsubmit = async (data) => {
     try {
       setLoading(true);
@@ -1093,13 +1093,13 @@ const AddProductcomp = ({ create, view, remove }) => {
                         <div className="   ">
                           <input {...getInputProps()} multiple={false} />
                           {ProductIcon ? (
-                            <>
+                            <div className="d-flex justify-content-center">
                               <img
                                 src={ProductIcon}
                                 alt="ProductIcon"
                                 className="preview_image"
                               ></img>
-                            </>
+                            </div>
                           ) : (
                             <>
                               <div className="drag_btn_product">
@@ -1139,7 +1139,7 @@ const AddProductcomp = ({ create, view, remove }) => {
                       </div>
                     )}
                   </Dropzone>
-                  {(!newProductImg  || !ProductIcon) && (
+                  {(!newProductImg || !ProductIcon) && (
                     <FormErrorMessage
                       error={errors.dropZoneField}
                       messages={{
@@ -1162,17 +1162,19 @@ const AddProductcomp = ({ create, view, remove }) => {
                       })}
                     >
                       {({ getRootProps, getInputProps }) => (
-                        <div {...getRootProps({ className: "dropzoneProduct" })}>
+                        <div
+                          {...getRootProps({ className: "dropzoneProduct" })}
+                        >
                           <div className="   ">
                             <input {...getInputProps()} multiple={false} />
                             {productImage ? (
-                              <>
+                              <div className="d-flex justify-content-center">
                                 <img
                                   src={productImage}
                                   alt="ProductIcon"
                                   className="preview_image"
                                 ></img>
-                              </>
+                              </div>
                             ) : (
                               <>
                                 <div className="drag_btn_product">
@@ -1283,17 +1285,21 @@ const AddProductcomp = ({ create, view, remove }) => {
                           })}
                         >
                           {({ getRootProps, getInputProps }) => (
-                            <div {...getRootProps({ className: "dropzoneProduct" })}>
+                            <div
+                              {...getRootProps({
+                                className: "dropzoneProduct",
+                              })}
+                            >
                               <div className="">
                                 <input {...getInputProps()} multiple={false} />
                                 {benefits[index].benefitIcon ? (
-                                  <>
+                                  <div className="d-flex justify-content-center">
                                     <img
                                       src={benefits[index].benefitIcon}
                                       alt=""
                                       className="preview_image"
                                     />
-                                  </>
+                                  </div>
                                 ) : (
                                   <>
                                     <div className="drag_btn_product">
