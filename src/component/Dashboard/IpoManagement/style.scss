@@ -97,3 +97,42 @@
     width: 100%;
   }
 }
+
+.title_product {
+  font-family: Helvetica;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.title_countt {
+  font-family: Helvetica;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+
+
+.benefit-box {
+  margin: auto;
+  border: 1px solid lightgray;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f3f3f3;
+  position: relative;
+}
+
+.remove-overlay {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  img {
+    width: 20px;
+    height: 20px;
+  }
+}

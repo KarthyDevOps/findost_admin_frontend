@@ -21,6 +21,7 @@ import moment from "moment";
 import { Toast } from "service/toast";
 import { updateIpo } from "service/leads";
 import SuccessModal from "component/common/DeleteModal/SuccessModal";
+import InputBox from "component/common/InputBox/InputBox";
 
 const EditIpoManagementComp = () => {
   const {
@@ -40,6 +41,27 @@ const EditIpoManagementComp = () => {
   const [ipoDocument, setIpoDocument] = useState("");
   const [modal, setModal] = useState(false);
   const ipoId = JSON.parse(localStorage.getItem("ipoId"));
+  const [inputFields, setInputFields] = useState([{ from: "", to: "" }]);
+
+  const handleAddFields = () => {
+    setInputFields([...inputFields, { from: "", to: "" }]);
+  };
+
+  const handleInputChange = (index, fieldName, value) => {
+    setInputFields((prevInputFields) => {
+      const newInputFields = [...prevInputFields];
+      newInputFields[index][fieldName] = value;
+      return newInputFields;
+    });
+  };
+
+  const handleRemoveFields = (index) => {
+    setInputFields((prevInputFields) => {
+      const newInputFields = [...prevInputFields];
+      newInputFields.splice(index, 1);
+      return newInputFields;
+    });
+  };
   console.log("ipoId", ipoId);
 
   const handleDrop = async (droppedimage) => {
@@ -70,7 +92,7 @@ const EditIpoManagementComp = () => {
     try {
       setLoading(true);
       const body = {
-        ipoisinNumber: ipoId?.isin,
+        ipoisinNumber: ipoId?.ipoisinNumber,
         ipoDoc: ipoDocument,
         allotmnetDate: moment(data?.allotmentDate)
           .startOf("day")
@@ -81,6 +103,7 @@ const EditIpoManagementComp = () => {
         listingOnExchange: moment(data?.listOnExchange)
           .startOf("day")
           .format("YYYY-MM-DD HH:mm:ss"),
+        applicationNo: inputFields,
       };
       const response = await updateIpo(body);
       if (response.status === 200) {
@@ -92,6 +115,7 @@ const EditIpoManagementComp = () => {
         }, 2000);
       } else {
         Toast({ type: "error", message: response.data.message });
+        setLoading(false);
       }
     } catch (e) {
       setLoading(false);
@@ -103,17 +127,23 @@ const EditIpoManagementComp = () => {
     let data = ipoId;
     console.log("dataIPO", data);
     reset({
-      refundInitiation: new Date(
-        moment(data?.refundInitiation, "YYYY-MM-DD HH:mm:ss").toDate()
-      ),
-      allotmentDate: new Date(
-        moment(data?.allotmnetDate, "YYYY-MM-DD HH:mm:ss").toDate()
-      ),
-      listOnExchange: new Date(
-        moment(data?.listingOnExchange, "YYYY-MM-DD HH:mm:ss").toDate()
-      ),
+      refundInitiation:
+        data?.refundInitiation &&
+        new Date(
+          moment(data?.refundInitiation, "YYYY-MM-DD HH:mm:ss").toDate()
+        ),
+      allotmentDate:
+        data?.allotmnetDate &&
+        new Date(moment(data?.allotmnetDate, "YYYY-MM-DD HH:mm:ss").toDate()),
+      listOnExchange:
+        data?.listingOnExchange &&
+        new Date(
+          moment(data?.listingOnExchange, "YYYY-MM-DD HH:mm:ss").toDate()
+        ),
     });
     setIpoDoc(data?.ipoDocS3);
+    setIpoDocument(data?.ipoDoc);
+    setInputFields(data?.applicationNo);
   };
 
   useEffect(() => {
@@ -250,7 +280,7 @@ const EditIpoManagementComp = () => {
                           src={ipoDoc}
                           alt="Ipo Document"
                           className="preview_image"
-                        ></img> 
+                        ></img>
                       </>
                     ) : (
                       <>
@@ -305,6 +335,90 @@ const EditIpoManagementComp = () => {
                 }}
               />
             )}
+          </div>
+        </div>
+        <div className=" my-5">
+          <div className="d-flex justify-content-between mb-4">
+            <div className="d-flex justify-content-start align-items-center gap-3">
+              <p className="title_product pr-3">Application Number</p>
+              <p className="title_countt">
+                - Balance Count:{" "}
+                <span>
+                  {ipoId?.balanceApplicationNoCount
+                    ? ipoId?.balanceApplicationNoCount
+                    : "0"}
+                </span>
+              </p>
+            </div>
+            <div className="col-2">
+              <NormalButton
+                className="loginButton"
+                label={"Add"}
+                onClick={handleAddFields}
+              />
+            </div>
+          </div>
+          <div className="">
+            {inputFields?.map((item, index) => (
+              <div className="row benefit-box my-2" key={index}>
+                <div className="col-6">
+                  <label className="Product_description">From</label>
+                  <InputBox
+                    className="login_input"
+                    type={"number"}
+                    placeholder="Enter From"
+                    name={`applications[${index}].from`}
+                    errors={errors}
+                    value={item?.from}
+                    onChange={(e) =>
+                      handleInputChange(index, "from", e.target.value)
+                    }
+                    register={register({
+                      required: true,
+                    })}
+                  />
+                  <FormErrorMessage
+                    error={errors?.applications?.[index]?.from}
+                    messages={{
+                      required: "From is Required",
+                    }}
+                  />
+                </div>
+                <div className="col-6">
+                  <label className="Product_description">To</label>
+                  <InputBox
+                    className="login_input"
+                    type={"number"}
+                    placeholder="Enter To"
+                    name={`applications[${index}].to`}
+                    errors={errors}
+                    value={item?.to}
+                    onChange={(e) =>
+                      handleInputChange(index, "to", e.target.value)
+                    }
+                    register={register({
+                      required: true,
+                      validate: value => Number(value) > Number(item?.from),
+                    })}
+                  />
+                  <FormErrorMessage
+                    error={errors?.applications?.[index]?.to}
+                    messages={{
+                      required: "To is Required",
+                      validate: "To must be greater than From",
+                    }}
+                  />
+                </div>
+                <div className="d-flex justify-content-end">
+                  <div
+                    onClick={() => handleRemoveFields(index)}
+                    className="remove-overlay cursor-pointer"
+                  >
+                    <img src={closeIcon} alt="Close" />
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
         <div className="d-flex justify-content-end mt-4 mb-2 gap-3">
