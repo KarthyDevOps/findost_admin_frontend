@@ -117,7 +117,11 @@ const EditContentManagementComp = ({ create, view, remove }) => {
             history.push("/admin/content-management");
           }, 2000);
         } else {
-          Toast({ type: "error", message: response.data.message });
+          if (response?.status === 413) {
+            Toast({ type: "error", message: "Request Entity Too Large" });
+          } else {
+            Toast({ type: "error", message: response.data.message });
+          }
           setloading(false);
         }
       } catch (e) {
