@@ -4,6 +4,8 @@ import "./style.scss";
 // images
 import cloudIcon from "../../../assets/images/uploadcloud.svg";
 import closeIcon from "assets/images/closeIcon.png";
+import xlsx from "assets/images/xlsx.png";
+import pdfImage from "assets/images/pdfImage.jpg";
 // internal components
 import FormErrorMessage from "component/common/ErrorMessage";
 import NormalButton from "component/common/NormalButton/NormalButton";
@@ -39,6 +41,7 @@ const EditIpoManagementComp = () => {
   const [loading, setLoading] = useState(false);
   const [ipoDoc, setIpoDoc] = useState("");
   const [ipoDocument, setIpoDocument] = useState("");
+  const [docType, setDocType] = useState("");
   const [modal, setModal] = useState(false);
   const ipoId = JSON.parse(localStorage.getItem("ipoId"));
   const [inputFields, setInputFields] = useState([{ from: "", to: "" }]);
@@ -71,6 +74,8 @@ const EditIpoManagementComp = () => {
       for (let index = 0; index < droppedimage.length; index++) {
         const file = droppedimage[index];
         body.append("data", file);
+        let fileType = file?.name.split(".");
+        setDocType(fileType[1]);
         let response = await uploadImage(body);
         if (response.status == 200) {
           setIpoDocument(response?.data?.data?.data?.key);
@@ -83,6 +88,8 @@ const EditIpoManagementComp = () => {
     }
   };
 
+  console.log("docType", docType);
+
   const cancelDoc = (e) => {
     e.stopPropagation();
     setIpoDoc(null);
@@ -94,6 +101,7 @@ const EditIpoManagementComp = () => {
       const body = {
         ipoisinNumber: ipoId?.ipoisinNumber,
         ipoDoc: ipoDocument,
+        ipoDocType: docType,
         allotmnetDate: moment(data?.allotmentDate)
           .startOf("day")
           .format("YYYY-MM-DD HH:mm:ss"),
@@ -142,6 +150,7 @@ const EditIpoManagementComp = () => {
         ),
     });
     setIpoDoc(data?.ipoDocS3);
+    setDocType(data?.ipoDocType);
     setIpoDocument(data?.ipoDoc);
     setInputFields(data?.applicationNo);
   };
@@ -274,10 +283,18 @@ const EditIpoManagementComp = () => {
                 <div {...getRootProps({ className: "dropzone" })}>
                   <div className="   ">
                     <input {...getInputProps()} multiple={false} />
-                    {ipoDoc ? (
+                    {ipoDoc && docType === "xlsx" ? (
                       <>
                         <img
-                          src={ipoDoc}
+                          src={xlsx}
+                          alt="Ipo Document"
+                          className="preview_image"
+                        ></img>
+                      </>
+                    ) : ipoDoc && docType === "pdf" ? (
+                      <>
+                        <img
+                          src={pdfImage}
                           alt="Ipo Document"
                           className="preview_image"
                         ></img>
@@ -373,17 +390,32 @@ const EditIpoManagementComp = () => {
                     onChange={(e) =>
                       handleInputChange(index, "from", e.target.value)
                     }
+                    // register={register({
+                    //   required: true,
+                    // })}
                     register={register({
                       required: true,
+                      validate: {
+                        notInRange: (value) =>
+                          inputFields
+                            .filter((_, i) => i !== index)
+                            .every((field) => {
+                              const from = Number(field.from);
+                              const to = Number(field.to);
+                              return value < from || value > to;
+                            }),
+                      },
                     })}
                   />
                   <FormErrorMessage
                     error={errors?.applications?.[index]?.from}
                     messages={{
                       required: "From is Required",
+                      notInRange : "Application Number Already Used"
                     }}
                   />
                 </div>
+                {console.log('errors', errors)}
                 <div className="col-6">
                   <label className="Product_description">To</label>
                   <InputBox
@@ -398,7 +430,7 @@ const EditIpoManagementComp = () => {
                     }
                     register={register({
                       required: true,
-                      validate: value => Number(value) > Number(item?.from),
+                      validate: (value) => Number(value) > Number(item?.from),
                     })}
                   />
                   <FormErrorMessage
