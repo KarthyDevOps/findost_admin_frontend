@@ -84,7 +84,7 @@ const AddProductcomp = ({ create, view, remove }) => {
   });
 
   const addBenefit = () => {
-    setBenefits([...benefits, { name: "", benefitIcon: "", benefitKey: "" }]);
+    setBenefits([...benefits, { name: "", benefitIconS3: "", benefitKey: "" }]);
   };
 
   const removeBenefit = (index) => {
@@ -95,7 +95,7 @@ const AddProductcomp = ({ create, view, remove }) => {
   const cancelBenefitIcon = (index) => (e) => {
     e.stopPropagation();
     const updatedBenefits = [...benefits];
-    updatedBenefits[index].benefitIcon = "";
+    updatedBenefits[index].benefitIconS3 = "";
     updatedBenefits[index].benefitKey = "";
     setBenefits(updatedBenefits);
   };
@@ -115,7 +115,7 @@ const AddProductcomp = ({ create, view, remove }) => {
         let response = await uploadImage(body);
         if (response.status === 200) {
           const updatedBenefits = [...benefits];
-          updatedBenefits[benefitIndex].benefitIcon =
+          updatedBenefits[benefitIndex].benefitIconS3 =
             response?.data?.data?.data?.s3URL;
           updatedBenefits[benefitIndex].benefitKey =
             response?.data?.data?.data?.key;
@@ -254,9 +254,21 @@ const AddProductcomp = ({ create, view, remove }) => {
     }
   };
 
-  console.log("newroductImage", newProductImage);
+  console.log('benefits', benefits)
+
   const onsubmit = async (data) => {
-    try {
+
+    function removeProperties(arr, ...propsToRemove) {
+      return arr.map(obj => {
+          propsToRemove.forEach(prop => delete obj[prop]);
+          return obj;
+      });
+  }
+  const newArray = removeProperties(benefits, "benefitIcon", "benefitIconS3");
+
+  console.log('newArray', newArray)
+
+      try {
       setLoading(true);
       let body;
       if (productType === "sovereign gold bonds") {
@@ -265,7 +277,7 @@ const AddProductcomp = ({ create, view, remove }) => {
           productType: productType,
           productIcon: newProductImg,
           images: newProductImage,
-          benefits: benefits,
+          benefits: newArray,
         };
       } else {
         body = {
@@ -274,7 +286,6 @@ const AddProductcomp = ({ create, view, remove }) => {
           productIcon: newProductImg,
         };
       }
-
       let response = await updateProduct(body, id);
       if (response.status === 200) {
         setModal(true);
@@ -1278,8 +1289,8 @@ const AddProductcomp = ({ create, view, remove }) => {
                           accept=".png, .jpeg, .jpg, "
                           maxSize={3072000}
                           errors={errors}
-                          {...register(`benefits[${index}].benefitIcon`, {
-                            required: benefits[index].benefitIcon
+                          {...register(`benefits[${index}].benefitKey`, {
+                            required: benefits[index].benefitKey
                               ? false
                               : true,
                           })}
@@ -1292,10 +1303,10 @@ const AddProductcomp = ({ create, view, remove }) => {
                             >
                               <div className="">
                                 <input {...getInputProps()} multiple={false} />
-                                {benefits[index].benefitIcon ? (
+                                {benefits[index].benefitIconS3 ? (
                                   <div className="d-flex justify-content-center">
                                     <img
-                                      src={benefits[index].benefitIcon}
+                                      src={benefits[index].benefitIconS3}
                                       alt=""
                                       className="preview_image"
                                     />
@@ -1317,7 +1328,7 @@ const AddProductcomp = ({ create, view, remove }) => {
                                     className="d-flex align-items-center justify-content-center"
                                   />
                                 ) : (
-                                  benefits[index].benefitIcon && (
+                                  benefits[index].benefitIconS3 && (
                                     <span
                                       style={{
                                         position: "absolute",
@@ -1339,14 +1350,15 @@ const AddProductcomp = ({ create, view, remove }) => {
                             </div>
                           )}
                         </Dropzone>
-                        {!benefits[index].benefitIcon && (
+                        {!benefits[index].benefitKey && (
                           <FormErrorMessage
-                            error={errors?.benefits?.[index]?.benefitIcon}
+                            error={errors?.benefits?.[index]?.benefitKey}
                             messages={{
                               required: "Benefit icon is Required",
                             }}
                           />
                         )}
+                        {console.log('benefits[index].benefitKey', benefits[index].benefitKey)}
                       </div>
                       <div className="d-flex justify-content-end">
                         <div

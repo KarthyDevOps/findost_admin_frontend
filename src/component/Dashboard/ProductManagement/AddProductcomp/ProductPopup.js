@@ -65,6 +65,7 @@ const ProductPopup = ({
   const [load, setLoad] = useState(false);
   const [reference, setReference] = useState([{ title: "", video: "" }]);
   const [brochureFileType, setBrochureFileType] = useState("");
+  const [insurancePlan, setInsurancePlan] = useState("");
 
   const insuranceType = [
     { label: "Term Insurance", value: "Term Insurance" },
@@ -143,8 +144,8 @@ const ProductPopup = ({
       for (let index = 0; index < droppedimage.length; index++) {
         const file = droppedimage[index];
         body.append("data", file);
-        let fileType = file?.name.split(".")
-        setBrochureFileType(fileType[1])
+        let fileType = file?.name.split(".");
+        setBrochureFileType(fileType[1]);
         let response = await uploadImage(body);
         if (response.status == 200) {
           setBrochureImage(response?.data?.data?.data?.key);
@@ -254,7 +255,7 @@ const ProductPopup = ({
           planType: data?.planType,
           companyName: data?.companyName,
           insuranceType: data?.insuranceType,
-          insurancePlan: data?.insurancePlan,
+          insurancePlan: insurancePlan,
           lifeCover: data?.lifeCover,
           claimSettle: data?.claimsSettle,
           coverUpto: moment(data?.coverUpto)
@@ -424,6 +425,7 @@ const ProductPopup = ({
         moment(data?.dateOfIssue, "YYYY-MM-DD HH:mm:ss").toDate()
       ),
     });
+    setInsurancePlan(data?.planType);
     setIcon(data?.iconS3);
     setNewIcon(data?.icon);
     setBrochure(data?.brochureS3);
@@ -583,7 +585,7 @@ const ProductPopup = ({
                       <div className="">
                         <input {...getInputProps()} multiple={false} />
                         {image ? (
-                           <div className="d-flex justify-content-center">
+                          <div className="d-flex justify-content-center">
                             <img
                               src={image}
                               alt="image__"
@@ -914,6 +916,10 @@ const ProductPopup = ({
                           handleChange={(e, { value } = {}) => {
                             onChange(value);
                             setValue("planType", value);
+                            if (productType === "insurance") {
+                              setInsurancePlan(value);
+                              setValue("insurancePlan", value);
+                            }
                           }}
                         />
                       );
@@ -922,7 +928,6 @@ const ProductPopup = ({
                 </div>
               </>
             )}
-            {console.log('getValues("planType")', getValues("planType"))}
             {(productType === "fixedIncome" || productType === "loan") && (
               <>
                 <div className="col-3">
@@ -1002,7 +1007,27 @@ const ProductPopup = ({
                 </div>
                 <div class="col-3" style={{ zIndex: 100 }}>
                   <label className="Product_description">Insurance Plan</label>
-                  <CustomController
+                  <InputBox
+                    className="login_input"
+                    type={"text"}
+                    placeholder="Insurance Plan"
+                    name="insurancePlan"
+                    errors={errors}
+                    value={getValues("insurancePlan")}
+                    disabled={true}
+                    register={register({
+                      required: true,
+                      pattern: /^(?!\s*$).+/,
+                    })}
+                  />
+                  <FormErrorMessage
+                    error={errors.insurancePlan}
+                    messages={{
+                      required: "Insurance Plan is Required",
+                      pattern: "Please Enter a Valid Insurance Plan",
+                    }}
+                  />
+                  {/* <CustomController
                     name={"insurancePlan"}
                     control={control}
                     error={errors?.insurancePlan}
@@ -1025,7 +1050,7 @@ const ProductPopup = ({
                         />
                       );
                     }}
-                  />
+                  /> */}
                 </div>
                 <div className="col-3">
                   <label className="Product_description">Life Cover</label>
