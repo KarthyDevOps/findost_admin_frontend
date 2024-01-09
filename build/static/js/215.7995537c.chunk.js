@@ -1,2 +1,0 @@
-(this.webpackJsonpadmin=this.webpackJsonpadmin||[]).push([[215],{797:function(a,e,s){a.exports=s.p+"static/media/helvetica-compressed-5871d14b6903a.bec59aa5.otf"}}]);
-//# sourceMappingURL=215.7995537c.chunk.js.map
