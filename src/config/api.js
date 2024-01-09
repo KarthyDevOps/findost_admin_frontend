@@ -1,13 +1,20 @@
 // DEVELOPMENT
 
-export const baseURL = "http://doodlebluelive.com";
+// export const baseURL = "http://doodlebluelive.com";
+// export const userUrl = `${baseURL}:2277/user/api/v1`;
+// export const communicationUrl = `${baseURL}:2275/communication/v1`;
+// export const cms = `${baseURL}:2274/cms/v1`;
+// export const CalendarUrl = `${baseURL}:2275/communication/v1/admin`;
+// export const lead = `${baseURL}:2276/finance/v1`
+
+//PRE PRODUCTION
+
+export const baseURL = "http://preprod-findost-1423761427.ap-south-1.elb.amazonaws.com";
 export const userUrl = `${baseURL}:2277/user/api/v1`;
 export const communicationUrl = `${baseURL}:2275/communication/v1`;
 export const cms = `${baseURL}:2274/cms/v1`;
 export const CalendarUrl = `${baseURL}:2275/communication/v1/admin`;
 export const lead = `${baseURL}:2276/finance/v1`
-
-//PRE PRODUCTION
 
 export const endpoints = {
   auth: {
