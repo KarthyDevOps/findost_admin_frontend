@@ -1,2 +1,0 @@
-(this.webpackJsonpadmin=this.webpackJsonpadmin||[]).push([[49],{176:function(t,e,n){"use strict";n.r(e),n.d(e,"useClickOutSide",(function(){return s}));var c=n(0);const s=(t,e)=>{Object(c.useEffect)(()=>(n("addEventListener"),()=>{n("removeEventListener")}),[]);const n=t=>{["touchstart","mousedown"].forEach(e=>{document[t](e,s)})},s=n=>{const{target:c}=n;t.current&&!t.current.contains(c)&&e()}}}}]);
-//# sourceMappingURL=49.29d42100.chunk.js.map

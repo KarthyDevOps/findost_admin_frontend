@@ -1,2 +1,0 @@
-(this.webpackJsonpadmin=this.webpackJsonpadmin||[]).push([[147],{504:function(t,a,n){"use strict";n.r(a),n.d(a,"getNotificationList",(function(){return i}));var e=n(15),o=n.n(e),r=(n(30),n(14)),c=n(17);const i=async t=>await o()({method:"get",url:"".concat(r.endpoints.calendar.NOTIFICATION_GET_LIST),headers:{Authorization:"Bearer ".concat(localStorage.getItem("token"))},params:t}).catch(c.axiosErrorHandler)}}]);
-//# sourceMappingURL=147.dafa2094.chunk.js.map
