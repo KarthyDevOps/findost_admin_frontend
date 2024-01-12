@@ -185,7 +185,7 @@ const DashboardComp = () => {
     <div className="DashBoard px-5 py-3">
       <p>Dashboard</p>
       <div className="d-flex align-items-center flex-wrap justify-content-between gap-3">
-        <div className="DashBoard_section section_scroll p-4 m-0">
+        {/* <div className="DashBoard_section section_scroll p-4 m-0">
           <p>Completed AP</p>
           <span>{apData?.completed}</span>
         </div>
@@ -196,14 +196,14 @@ const DashboardComp = () => {
         <div className="DashBoard_section section_scroll p-4 m-0">
           <p>Rejected AP</p>
           <span>{apData?.rejected}</span>
-        </div>
+        </div> */}
         <div className="DashBoard_section section_scroll p-4 m-0">
           <p>Number of Login Done By Today</p>
           <span>{apData?.apCount}</span>
         </div>
       </div>
 
-      <div className="my-4">
+      {/* <div className="my-4">
         <div className="chart_background">
           <span className="px-2">AP Status</span>
           {apData?.completed !== 0 &&
@@ -225,7 +225,7 @@ const DashboardComp = () => {
             </>
           )}
         </div>
-      </div>
+      </div> */}
       <div className="my-4">
         <div className="chart_background">
           <div className="d-flex justify-content-between align-items-center toggle-area px-2">
