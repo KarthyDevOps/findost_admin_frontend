@@ -55,7 +55,6 @@ const ApManagementComp = ({ apAccess }) => {
       let response = await downloadUserList(params);
 
       if (response.status === 200) {
-        console.log("response", response);
         const downloadFile = document.createElement("a");
         document.body.appendChild(downloadFile);
         const blob = new Blob([response.data], {
