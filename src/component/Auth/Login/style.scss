@@ -249,3 +249,12 @@ form {
   left: 0%;
   right: 0%;
 }
+
+@media screen and (min-width : 768px) and (max-width: 1000px) {
+  .bg_slide {
+    img {
+      width: 370px;
+      height: auto;
+    }
+  }
+}

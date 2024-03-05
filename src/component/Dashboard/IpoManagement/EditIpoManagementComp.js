@@ -193,13 +193,13 @@ const EditIpoManagementComp = () => {
                       clientDatePicker
                       name="refundInitiation"
                       {...field}
-                      id="date"
+                      id="refundInitiation"
                       onChange={(date) => {
                         onChange(date);
                         setValue("refundInitiation", date);
                       }}
                       placeholder="Refund Initiation"
-                      minDate={new Date()}
+                      // minDate={new Date()}
                     />
                   );
                 }}
@@ -224,13 +224,13 @@ const EditIpoManagementComp = () => {
                       clientDatePicker
                       name="allotmentDate"
                       {...field}
-                      id="date"
+                      id="allotmentDate"
                       onChange={(date) => {
                         onChange(date);
                         setValue("allotmentDate", date);
                       }}
                       placeholder="Allotment Date"
-                      minDate={new Date()}
+                      // minDate={new Date()}
                     />
                   );
                 }}
@@ -255,13 +255,13 @@ const EditIpoManagementComp = () => {
                       clientDatePicker
                       name="listOnExchange"
                       {...field}
-                      id="date"
+                      id="listOnExchange"
                       onChange={(date) => {
                         onChange(date);
                         setValue("listOnExchange", date);
                       }}
                       placeholder="Listing on Exchange"
-                      minDate={new Date()}
+                      // minDate={new Date()}
                     />
                   );
                 }}

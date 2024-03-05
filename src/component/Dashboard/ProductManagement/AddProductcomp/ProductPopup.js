@@ -738,7 +738,7 @@ const ProductPopup = ({
                             clientDatePicker
                             name="subscriptionFrom"
                             {...field}
-                            id="date"
+                            id="subscriptionFrom"
                             onChange={(date) => {
                               onChange(date);
                               setValue("subscriptionFrom", date);
@@ -769,7 +769,7 @@ const ProductPopup = ({
                             clientDatePicker
                             name="subscriptionTo"
                             {...field}
-                            id="date"
+                            id="subscriptionTo"
                             onChange={(date) => {
                               onChange(date);
                               setValue("subscriptionTo", date);
@@ -869,7 +869,7 @@ const ProductPopup = ({
                             clientDatePicker
                             name="date"
                             {...field}
-                            id="date"
+                            id="dateOfIssue"
                             onChange={(date) => {
                               onChange(date);
                               setValue("dateOfIssue", date);

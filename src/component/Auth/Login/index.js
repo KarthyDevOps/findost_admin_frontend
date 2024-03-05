@@ -68,7 +68,7 @@ const LoginComp = () => {
       <div className="login_page">
         <div className="container-fluid">
           <div className="row ">
-            <div className=" login_filed col-lg-5 ">
+            <div className=" login_filed col-lg-5 col-md-6">
               <div className="row page  mt-3">
                 <div className="login_logo col-lg-12 ">
                   <img
@@ -243,7 +243,7 @@ const LoginComp = () => {
               </div>
             </div>
 
-            <div className="login_frame   col-lg-7">
+            <div className="login_frame   col-lg-7 col-md-6">
               <div className="clip"></div>
               <div className="bg_slide">
                 <img
