@@ -66,6 +66,7 @@ const NotificationBar = () => {
   useEffect(() => {
     getAllNotification(dispatch)
   }, [])
+
   return (
     <>
       <div className="mr-3 cursor-pointer">
@@ -80,7 +81,7 @@ const NotificationBar = () => {
         <div className="sideBar">
           {notificationData?.length > 0 ? (
             <div className="content_box">
-              {unReadMessages.filter((a) => Boolean(!a?.isRead)).map((data, index) => (
+              {unReads.filter((a) => Boolean(!a?.isRead)).map((data, index) => (
                 <div className="bg-white border-bottom" key={index} >
                   <div className="d-flex justify-content-between p-3 rounded gap-1">
                     <div className="font_bar">
