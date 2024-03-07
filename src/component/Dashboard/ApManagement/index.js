@@ -27,6 +27,11 @@ const ApManagementComp = ({ apAccess }) => {
 
   const includedKeys = [
     {
+      label: "Application Number",
+      value: "authorizedPersonId",
+      width: "50%",
+    },
+    {
       label: "AP Name",
       value: "name",
       width: "40%",
@@ -122,12 +127,12 @@ const ApManagementComp = ({ apAccess }) => {
           >
             <div
               className="pl-0 my-3 staff_Search cursor-pointer"
-              style={{ width: "300px" }}
+              style={{ width: "380px" }}
             >
               <InputBox
                 className="login_input"
                 type={"text"}
-                placeholder="Search by AP Name, Email"
+                placeholder="Search by Application Number, AP Name, Email"
                 errors={errors}
                 name="search"
                 Iconic

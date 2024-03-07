@@ -167,9 +167,9 @@ const ViewApComp = () => {
               <img src={profileIcon} alt="" style={{ width: "100%" }} />
             </div>
             <div className="col-5">
-              <h6>{data?.gender}</h6>
-              <p>{data?.name}</p>
-              <span>{data?.role}</span>
+              <h6>{data?.gender || "-"}</h6>
+              <p>{data?.name || "-"}</p>
+              <span>{data?.role || "-"}</span>
               {/* <h6
                 style={{
                   color: data?.isAdminUpdated ? "green" : "red",
@@ -179,9 +179,9 @@ const ViewApComp = () => {
               </h6> */}
             </div>
             <div className="col-4">
-              <h6>{data?.nationality}</h6>
-              <h6>{data?.mobileNumber}</h6>
-              <h6>{data?.email}</h6>
+              <h6>{data?.nationality || "-"}</h6>
+              <h6>{data?.mobileNumber || "-"}</h6>
+              <h6>{data?.email || "-"}</h6>
             </div>
           </div>
         </div>

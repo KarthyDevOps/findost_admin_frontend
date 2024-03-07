@@ -329,7 +329,7 @@ export const getApList = async (params) => {
 export const downloadUserList = async (params) => {
   let request = await axios({
     method: "get",
-    url: `${endpoints.auth.NOTIFICATION_USER_LIST}`,
+    url: `${endpoints.auth.AP_LIST}`,
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
       Accept: "blob",
