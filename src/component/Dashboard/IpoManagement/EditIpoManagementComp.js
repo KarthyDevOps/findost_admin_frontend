@@ -112,6 +112,7 @@ const EditIpoManagementComp = () => {
           .startOf("day")
           .format("YYYY-MM-DD HH:mm:ss"),
         applicationNo: inputFields,
+        discountValue:getValues("discount")
       };
       const response = await updateIpo(body);
       if (response.status === 200) {
@@ -148,6 +149,7 @@ const EditIpoManagementComp = () => {
         new Date(
           moment(data?.listingOnExchange, "YYYY-MM-DD HH:mm:ss").toDate()
         ),
+        discount : data?.discountValue
     });
     setIpoDoc(data?.ipoDocS3);
     setDocType(data?.ipoDocType);
@@ -183,7 +185,7 @@ const EditIpoManagementComp = () => {
                 control={control}
                 error={errors.refundInitiation}
                 defaultValue={getValues("refundInitiation")}
-                rules={{ required: true }}
+                rules={{ required: false }}
                 messages={{
                   required: "Refund Initiation is Required",
                 }}
@@ -214,7 +216,7 @@ const EditIpoManagementComp = () => {
                 control={control}
                 error={errors.allotmentDate}
                 defaultValue={getValues("allotmentDate")}
-                rules={{ required: true }}
+                rules={{ required: false }}
                 messages={{
                   required: "Allotment Date is Required",
                 }}
@@ -245,7 +247,7 @@ const EditIpoManagementComp = () => {
                 control={control}
                 error={errors.listOnExchange}
                 defaultValue={getValues("listOnExchange")}
-                rules={{ required: true }}
+                rules={{ required: false }}
                 messages={{
                   required: "Listing on Exchange is Required",
                 }}
@@ -276,7 +278,7 @@ const EditIpoManagementComp = () => {
               maxSize={4194304}
               errors={errors}
               {...register("dropZoneField", {
-                required: ipoDoc ? false : true,
+                required: ipoDoc ? false : false,
               })}
             >
               {({ getRootProps, getInputProps }) => (
@@ -353,6 +355,31 @@ const EditIpoManagementComp = () => {
               />
             )}
           </div>
+          <div className="col-4 mt-3">
+                <label>Discount</label>
+                <InputBox
+                  className="add_staff"
+                  type={"number"}
+                  placeholder="Enter Title"
+                  name="discount"
+                  errors={errors}
+                  value={getValues("discount")}
+                  onChange={(e) => {
+                    setValue("discount", e.target.value);
+                  }}
+                  register={register({
+                    required: false,
+                    pattern: /^(?!\s*$).+/,
+                  })}
+                />
+                <FormErrorMessage
+                  error={errors.discount}
+                  messages={{
+                    required: "Discount is Required",
+                    pattern: "Discount is Invalid",
+                  }}
+                />
+              </div>
         </div>
         <div className=" my-5">
           <div className="d-flex justify-content-between mb-4">
