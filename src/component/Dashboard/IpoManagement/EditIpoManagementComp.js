@@ -360,7 +360,7 @@ const EditIpoManagementComp = () => {
                 <InputBox
                   className="add_staff"
                   type={"number"}
-                  placeholder="Enter Title"
+                  placeholder="Enter Discount"
                   name="discount"
                   errors={errors}
                   value={getValues("discount")}
