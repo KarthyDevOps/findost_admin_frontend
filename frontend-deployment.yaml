@@ -1,0 +1,25 @@
+#Deployment Yaml for Findoc-admin
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: findoc-admin
+spec:
+  selector:
+    matchLabels:
+      app: findoc-admin
+  template:
+    metadata:
+      labels:
+        app: findoc-admin
+    spec:
+      containers:
+      - name: findoc-admin
+        image: 471112580006.dkr.ecr.ap-south-1.amazonaws.com/findost_admin_frontend
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+
