@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: findoc-admin
-        image: 471112580006.dkr.ecr.ap-south-1.amazonaws.com/findost_admin_frontend:1
+        image: 471112580006.dkr.ecr.ap-south-1.amazonaws.com/findost_admin_frontend
         resources:
           limits:
             memory: "128Mi"
