@@ -2,9 +2,9 @@ name: Findoc Admin CI
 
 on:
   push:
-    branches: [pre-production]
+    branches: [stage-code]
   pull_request:
-    branches: [pre-production]
+    branches: [stage-code]
 
 env:
   IMAGE_NAME: findost-admin
